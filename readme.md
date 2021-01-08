@@ -26,6 +26,6 @@ https://github.com/ARCHIVE-code21
 
 ### < Control >
 salgu1998@gmail.com
-https://github.com/salgu1998 a
+https://github.com/salgu1998
 
 
