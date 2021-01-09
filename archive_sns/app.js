@@ -8,8 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var signupRouter = require('./routes/signUp');
 var signInRouter = require('./routes/signIn');
-var showFeedRouter = require('./routes/showFeed');
-var createFeedRouter = require('./routes/createFeed');
+var FeedRouter = require('./routes/Feed');
 
 
 
@@ -31,8 +30,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/signUp', signupRouter);
 app.use('/signIn', signInRouter);
-app.use('/showFeed', showFeedRouter);
-app.use('/createFeed', createFeedRouter);
+app.use('/Feed', FeedRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
