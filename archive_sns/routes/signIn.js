@@ -16,8 +16,7 @@ router.post('/signIn_Process', function(req, res) {
     signInInfo = req.body;
     // Account(userInfo.userID, userInfo.userPW);
     // res.redirect('/');
-    aa = `id : ${signInInfo.userID} pw : ${signInInfo.userPW}`
-    res.send(aa);
+    res.send(signInInfo);
   });
 
 module.exports = router;

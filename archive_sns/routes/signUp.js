@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-router.get('/', function(req, res) {
+router.get('/', function(req, res) {  //확인용 폼
   var signform = `
     <form action="/signUp/signUp_process" method="post">
       <p><input type="text" name="userID" placeholder="ID"></p>
@@ -18,8 +18,7 @@ router.post('/signUp_process', function(req, res) {
   userInfo = req.body;
   // Account(userInfo.userID, userInfo.userPW, userInfo.userName, userInfo.userEmail);
   // res.redirect('/');
-  aaa = ' id : ' + userInfo.userID + ' pw : ' + userInfo.userPW + ' name : ' + userInfo.userName + ' email : ' + userInfo.userEmail;
-  res.send(aaa);
+  res.send(userInfo);
 });
 
 module.exports = router;
