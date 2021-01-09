@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var account = require('../services/accountService');
 
 router.get('/show', function(req, res) {
     Feed = feed_show();
@@ -25,14 +26,15 @@ router.get('/create', function(req, res) {    //확인용 폼
 
 router.post('/create/createFeed_Process', function(req, res) {
     feedInfo = req.body;
-    if(feedInfo.userID == "" || feedInfo.userName == "" || feedInfo.title == "" || feedInfo.content == "" ||
-    feedInfo.time == "" || feedInfo.file_name == "" || feedInfo.file_type == "" || feedInfo.file_copied == ""){
-      res.send("error!");
+    var accountResult = account.feedAccount(feedInfo);
+    if(accountResult){
+      res.send('error!');
     }
-    // feed_create(feedInfo.userID, feedInfo.userName, feedInfo.title, feedInfo.content,
-    //  feedInfo.time, feedInfo.file_name, feedInfo.file_type, feedInfo.file_copied);
-    // res.redirect('/');
-    res.send(feedInfo);
+    else{
+      feed_create(feedInfo.userID, feedInfo.userName, feedInfo.title, feedInfo.content,
+        feedInfo.time, feedInfo.file_name, feedInfo.file_type, feedInfo.file_copied);
+      res.redirect('/');
+    }
 });
 
 router.get('/update', function(req, res) {    //확인용 폼
@@ -53,22 +55,22 @@ router.get('/update', function(req, res) {    //확인용 폼
 });
 
 router.post('/update/update_Process', function(req, res) {
-    feedInfo = req.body;
-    if(feedInfo.userID == "" || feedInfo.userName == "" || feedInfo.title == "" || feedInfo.content == "" ||
-    feedInfo.time == "" || feedInfo.file_name == "" || feedInfo.file_type == "" || feedInfo.file_copied == ""){
-      res.send("error!");
-    }
-    // feed_update(feedInfo.userID, feedInfo.userName, feedInfo.title, feedInfo.content, feedInfo.time, 
-    // feedInfo.file_name, feedInfo.file_type, feedInfo.file_copied);
-    // res.redirect('/');
-    res.send(feedInfo);
+  feedInfo = req.body;
+  var accountresult = account.feedAccount(feedInfo);
+  if(accountresult){
+    res.send('error!');
+  }
+  else{
+    feed_update(feedInfo.userID, feedInfo.userName, feedInfo.title, feedInfo.content,
+      feedInfo.time, feedInfo.file_name, feedInfo.file_type, feedInfo.file_copied);
+    res.redirect('/');
+  }
 });
 
 router.post('/delete', function(req, res) {
     feedInfo = req.body;
-    // feed_delete(feedInfo.number);
-    // res.redirect('/');
-    res.send(feedInfo);
+    feed_delete(feedInfo.number);
+    res.redirect('/');
 });
 
 module.exports = router;

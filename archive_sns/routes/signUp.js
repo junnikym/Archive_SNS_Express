@@ -1,11 +1,13 @@
 var express = require('express');
 var router = express.Router();
+var account = require('../services/accountService');
 
 router.get('/', function(req, res) {  //확인용 폼
   var signform = `
     <form action="/signUp/signUp_process" method="post">
       <p><input type="text" name="userID" placeholder="ID"></p>
       <p><input type="password" name="userPW" placeholder="Password"></p>
+      <p><input type="password" name="userPW2" placeholder="Password"></p>
       <p><input type="text" name="userName" placeholder="이름"></p>
       <p><input type="text" name="userEmail" placeholder="이메일"></p>
       <p><input type="submit"></p>
@@ -16,9 +18,13 @@ router.get('/', function(req, res) {  //확인용 폼
 
 router.post('/signUp_process', function(req, res) {
   userInfo = req.body;
-  // Account(userInfo.userID, userInfo.userPW, userInfo.userName, userInfo.userEmail);
-  // res.redirect('/');
-  res.send(userInfo);
+  var accountResult = account.usersignUp(userInfo);
+  if(accountResult){
+    res.send("error !");
+  }else{
+    user_signUp(userInfo.userID, userInfo.userPW, userInfo.userName, userInfo.userEmail);
+    res.redirect('/');
+  }
 });
 
 module.exports = router;
