@@ -25,7 +25,12 @@ router.get('/create', function(req, res) {    //확인용 폼
 
 router.post('/create/createFeed_Process', function(req, res) {
     feedInfo = req.body;
-    // feed_create(feedInfo.userID, feedInfo.userName, feedInfo.title, feedInfo.content, feedInfo.time, feedInfo.file_name, feedInfo.file_type, feedInfo.file_copied);
+    if(feedInfo.userID == "" || feedInfo.userName == "" || feedInfo.title == "" || feedInfo.content == "" ||
+    feedInfo.time == "" || feedInfo.file_name == "" || feedInfo.file_type == "" || feedInfo.file_copied == ""){
+      res.send("error!");
+    }
+    // feed_create(feedInfo.userID, feedInfo.userName, feedInfo.title, feedInfo.content,
+    //  feedInfo.time, feedInfo.file_name, feedInfo.file_type, feedInfo.file_copied);
     // res.redirect('/');
     res.send(feedInfo);
 });
@@ -49,7 +54,12 @@ router.get('/update', function(req, res) {    //확인용 폼
 
 router.post('/update/update_Process', function(req, res) {
     feedInfo = req.body;
-    // feed_update(feedInfo.userID, feedInfo.userName, feedInfo.title, feedInfo.content, feedInfo.time, feedInfo.file_name, feedInfo.file_type, feedInfo.file_copied);
+    if(feedInfo.userID == "" || feedInfo.userName == "" || feedInfo.title == "" || feedInfo.content == "" ||
+    feedInfo.time == "" || feedInfo.file_name == "" || feedInfo.file_type == "" || feedInfo.file_copied == ""){
+      res.send("error!");
+    }
+    // feed_update(feedInfo.userID, feedInfo.userName, feedInfo.title, feedInfo.content, feedInfo.time, 
+    // feedInfo.file_name, feedInfo.file_type, feedInfo.file_copied);
     // res.redirect('/');
     res.send(feedInfo);
 });
