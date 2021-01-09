@@ -1,12 +1,17 @@
 var express = require('express');
 var router = express.Router();
-var mysql = require('mysql');
+const fs = require('fs'); //파일 읽게 해주는 모듈
 
-var db = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
-  database : 'nodeexam'
+const data = fs.readFileSync('./database.json');
+const conf = JSON.parse(data); //해당환경설정 데이터를 파싱해서 가져옴
+const mysql = require('mysql');
+
+const db = mysql.createConnection({
+    host: conf.host,
+    user: conf.user,
+    password: conf.passord,
+    port: conf.port,
+    database: conf.database
 });
 
 db.connect();
