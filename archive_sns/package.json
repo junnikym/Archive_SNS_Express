@@ -4,7 +4,7 @@
    "private": true,
    "scripts": {
       "prestart": "tsc",
-      "start": "nodemon --exec ts-node build/www.js" 
+      "start": "nodemon --exec ts-node build/www.js"
    },
    "dependencies": {
       "class-validator": "^0.12.2",
@@ -20,7 +20,7 @@
       "reflect-metadata": "^0.1.10",
       "request": "^2.88.2",
       "typedi": "^0.8.0",
-      "typeorm": "0.2.29"
+      "typeorm": "^0.2.29"
    },
    "devDependencies": {
       "@types/node": "^8.10.66",

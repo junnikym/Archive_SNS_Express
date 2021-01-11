@@ -19,10 +19,11 @@ router.get('/', function(req, res) {  //확인용 폼
 router.post('/signUp_process', function(req, res) {
   userInfo = req.body;
   var accountResult = account.usersignUp(userInfo);
+  
   if(accountResult){
     res.send("error !");
-  }else{
-    user_signUp(userInfo.userID, userInfo.userPW, userInfo.userName, userInfo.userEmail);
+  }
+  else{
     res.redirect('/');
   }
 });

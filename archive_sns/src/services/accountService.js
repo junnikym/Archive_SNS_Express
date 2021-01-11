@@ -1,4 +1,3 @@
-
 module.exports = {
     feedAccount:(feedInfo) => {
         if(feedInfo.userID == "" || feedInfo.userName == "" || feedInfo.title == "" || feedInfo.content == "" || 
@@ -8,17 +7,14 @@ module.exports = {
         }
         return 0;
     },
+
     usersignUp:(userInfo) => {
-        if(userInfo.userID == "" || userInfo.userPW == "" || userInfo.userPW2 == "" || userInfo.userName == "" || userInfo.userEmail == ""){
-            if(userInfo.userPW.value != userInfo.userPW2.value)
-            {
-                return 1;
-            }
-            else return 1;
+        // Check paasword confirm
+        if(userInfo.userPW.value != userInfo.userPW2.value) {
+            return error("different passward and password confirm");
         }
-        else
-        {
-            return 0;
-        }
+
+        return true;
+        // return CreateAccount(userInfo.userID, userInfo.userPW, userInfo.userName, userInfo.userEmail);
     }
 }
