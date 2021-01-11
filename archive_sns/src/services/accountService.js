@@ -1,15 +1,24 @@
+/**
+ * 유효성 검사
+ */
+
 module.exports = {
-    feedAccount:(feedInfo) => {
-        if(feedInfo.userID == "" || feedInfo.userName == "" || feedInfo.title == "" || feedInfo.content == "" || 
-        feedInfo.time == "" || feedInfo.file_name == "" || feedInfo.file_type == "" || feedInfo.file_copied == "")
+    /**
+     * 피드 작성 유효성 검사
+     */
+    feedAccount:(feedInfo) => {     
+        if(feedInfo.pageNum > 0)
         {
-            return 1;
+            return false;
         }
-        return 0;
+        return true;
     },
 
+    /**
+     * 회원가입 유효성 검사
+     */
     usersignUp:(userInfo) => {
-        // Check paasword confirm
+        // Check password confirm
         if(userInfo.userPW.value != userInfo.userPW2.value) {
             return error("different passward and password confirm");
         }

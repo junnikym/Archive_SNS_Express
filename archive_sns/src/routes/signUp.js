@@ -1,6 +1,10 @@
+/**
+ * 회원가입 관련 라우트
+ */
+
 var express = require('express');
 var router = express.Router();
-var account = require('../services/accountService');
+var account = require('../services/accountService'); //account 유효성 검사
 
 router.get('/', function(req, res) {  //확인용 폼
   var signform = `

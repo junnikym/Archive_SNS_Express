@@ -1,3 +1,7 @@
+/**
+ * 로그인 관련 라우트
+ */
+
 var express = require('express');
 var router = express.Router();
 

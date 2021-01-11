@@ -1,8 +1,12 @@
+/**
+ *  피드 관련 라우트
+ */
+
 var express = require('express');
 var router = express.Router();
 var account = require('../services/accountService');
 
-router.get('/show', function(req, res) {
+router.get('/show', function(req, res) {  //피드 보여주는 라우트
     Feed = feed_show();
     res.send(Feed);
 });
@@ -24,7 +28,7 @@ router.get('/create', function(req, res) {    //확인용 폼
     res.send(signform);
 });
 
-router.post('/create/createFeed_Process', function(req, res) {
+router.post('/create/createFeed_Process', function(req, res) { //피드 작성 라우트
     feedInfo = req.body;
     var accountResult = account.feedAccount(feedInfo);
     if(accountResult){
@@ -54,20 +58,20 @@ router.get('/update', function(req, res) {    //확인용 폼
     res.send(signform);
 });
 
-router.post('/update/update_Process', function(req, res) {
+router.post('/update/update_Process', function(req, res) {  //피드 수정 라우트
   feedInfo = req.body;
   var accountresult = account.feedAccount(feedInfo);
   if(accountresult){
     res.send('error!');
   }
   else{
-    feed_update(feedInfo.userID, feedInfo.userName, feedInfo.title, feedInfo.content,
+    feed_update(feedInfo.pageNum, feedInfo.title, feedInfo.content,
       feedInfo.time, feedInfo.file_name, feedInfo.file_type, feedInfo.file_copied);
     res.redirect('/');
   }
 });
 
-router.post('/delete', function(req, res) {
+router.post('/delete', function(req, res) { //피드 삭제 라우트
     feedInfo = req.body;
     feed_delete(feedInfo.number);
     res.redirect('/');

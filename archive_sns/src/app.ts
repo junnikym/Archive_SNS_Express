@@ -9,6 +9,8 @@ var usersRouter = require(__dirname+'/../src/routes/users');
 var signupRouter = require(__dirname+'/../src/routes/signUp');
 var signInRouter = require(__dirname+'/../src/routes/signIn');
 var FeedRouter = require(__dirname+'/../src/routes/Feed');
+var profileRouter = require(__dirname+'/../src/routes/profile');
+
 
 export class App {
   public app: express.Application;
@@ -49,6 +51,8 @@ export class App {
       this.app.use('/signUp', signupRouter);
       this.app.use('/signIn', signInRouter);
       this.app.use('/Feed', FeedRouter);
+      this.app.use('/profile', profileRouter);
+
     }
     catch (error) {
       console.log("error : ", error);
