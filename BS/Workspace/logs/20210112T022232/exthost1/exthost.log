@@ -1,0 +1,155 @@
+[2021-01-12 02:22:33.559] [exthost] [info] extension host started
+[2021-01-12 02:22:33.582] [exthost] [info] ExtensionService#_doActivateExtension vscode.microsoft-authentication {"startup":false,"extensionId":{"value":"vscode.microsoft-authentication","_lower":"vscode.microsoft-authentication"},"activationEvent":"onAuthenticationRequest:microsoft"}
+[2021-01-12 02:22:33.582] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/microsoft-authentication/dist/extension.js
+[2021-01-12 02:22:33.596] [exthost] [info] ExtensionService#_doActivateExtension vscode.debug-auto-launch {"startup":true,"extensionId":{"value":"vscode.debug-auto-launch","_lower":"vscode.debug-auto-launch"},"activationEvent":"*"}
+[2021-01-12 02:22:33.596] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/debug-auto-launch/dist/extension
+[2021-01-12 02:22:33.599] [exthost] [info] ExtensionService#_doActivateExtension vscode.emmet {"startup":true,"extensionId":{"value":"vscode.emmet","_lower":"vscode.emmet"},"activationEvent":"*"}
+[2021-01-12 02:22:33.599] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/emmet/dist/node/emmetNodeMain
+[2021-01-12 02:22:33.632] [exthost] [info] ExtensionService#_doActivateExtension vscode.git {"startup":true,"extensionId":{"value":"vscode.github","_lower":"vscode.github"},"activationEvent":"*"}
+[2021-01-12 02:22:33.632] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/git/dist/main
+[2021-01-12 02:22:33.667] [exthost] [info] ExtensionService#_doActivateExtension vscode.merge-conflict {"startup":true,"extensionId":{"value":"vscode.merge-conflict","_lower":"vscode.merge-conflict"},"activationEvent":"*"}
+[2021-01-12 02:22:33.667] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/merge-conflict/dist/mergeConflictMain
+[2021-01-12 02:22:33.669] [exthost] [info] ExtensionService#_doActivateExtension vscode.search-result {"startup":true,"extensionId":{"value":"vscode.search-result","_lower":"vscode.search-result"},"activationEvent":"*"}
+[2021-01-12 02:22:33.669] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/search-result/dist/extension.js
+[2021-01-12 02:22:33.709] [exthost] [info] ExtensionService#_doActivateExtension vscode.github {"startup":true,"extensionId":{"value":"vscode.github","_lower":"vscode.github"},"activationEvent":"*"}
+[2021-01-12 02:22:33.709] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/github/dist/extension.js
+[2021-01-12 02:22:33.732] [exthost] [info] eager extensions activated
+[2021-01-12 02:22:33.733] [exthost] [info] ExtensionService#_doActivateExtension ms-vscode.js-debug {"startup":false,"extensionId":{"value":"ms-vscode.js-debug","_lower":"ms-vscode.js-debug"},"activationEvent":"onCommand:extension.js-debug.clearAutoAttachVariables"}
+[2021-01-12 02:22:33.733] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/ms-vscode.js-debug/src/extension.js
+[2021-01-12 02:22:33.857] [exthost] [info] ExtensionService#_doActivateExtension vscode.github-authentication {"startup":false,"extensionId":{"value":"vscode.github-authentication","_lower":"vscode.github-authentication"},"activationEvent":"onAuthenticationRequest:github"}
+[2021-01-12 02:22:33.857] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/github-authentication/dist/extension.js
+[2021-01-12 02:22:48.820] [exthost] [info] extension host started
+[2021-01-12 02:22:48.837] [exthost] [info] ExtensionService#_doActivateExtension vscode.microsoft-authentication {"startup":false,"extensionId":{"value":"vscode.microsoft-authentication","_lower":"vscode.microsoft-authentication"},"activationEvent":"onAuthenticationRequest:microsoft"}
+[2021-01-12 02:22:48.837] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/microsoft-authentication/dist/extension.js
+[2021-01-12 02:22:48.844] [exthost] [info] ExtensionService#_doActivateExtension vscode.debug-auto-launch {"startup":true,"extensionId":{"value":"vscode.debug-auto-launch","_lower":"vscode.debug-auto-launch"},"activationEvent":"*"}
+[2021-01-12 02:22:48.844] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/debug-auto-launch/dist/extension
+[2021-01-12 02:22:48.846] [exthost] [info] ExtensionService#_doActivateExtension vscode.emmet {"startup":true,"extensionId":{"value":"vscode.emmet","_lower":"vscode.emmet"},"activationEvent":"*"}
+[2021-01-12 02:22:48.846] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/emmet/dist/node/emmetNodeMain
+[2021-01-12 02:22:48.857] [exthost] [info] ExtensionService#_doActivateExtension vscode.git {"startup":true,"extensionId":{"value":"vscode.github","_lower":"vscode.github"},"activationEvent":"*"}
+[2021-01-12 02:22:48.857] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/git/dist/main
+[2021-01-12 02:22:48.871] [exthost] [info] ExtensionService#_doActivateExtension vscode.merge-conflict {"startup":true,"extensionId":{"value":"vscode.merge-conflict","_lower":"vscode.merge-conflict"},"activationEvent":"*"}
+[2021-01-12 02:22:48.871] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/merge-conflict/dist/mergeConflictMain
+[2021-01-12 02:22:48.872] [exthost] [info] ExtensionService#_doActivateExtension vscode.search-result {"startup":true,"extensionId":{"value":"vscode.search-result","_lower":"vscode.search-result"},"activationEvent":"*"}
+[2021-01-12 02:22:48.872] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/search-result/dist/extension.js
+[2021-01-12 02:22:48.873] [exthost] [info] ExtensionService#_doActivateExtension vscode.npm {"startup":true,"extensionId":{"value":"vscode.npm","_lower":"vscode.npm"},"activationEvent":"workspaceContains:package.json"}
+[2021-01-12 02:22:48.873] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/npm/dist/npmMain
+[2021-01-12 02:22:48.934] [exthost] [info] ExtensionService#_doActivateExtension vscode.github {"startup":true,"extensionId":{"value":"vscode.github","_lower":"vscode.github"},"activationEvent":"*"}
+[2021-01-12 02:22:48.934] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/github/dist/extension.js
+[2021-01-12 02:22:48.965] [exthost] [info] ExtensionService#_doActivateExtension ms-vscode.js-debug {"startup":false,"extensionId":{"value":"ms-vscode.js-debug","_lower":"ms-vscode.js-debug"},"activationEvent":"onCommand:extension.js-debug.clearAutoAttachVariables"}
+[2021-01-12 02:22:48.965] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/ms-vscode.js-debug/src/extension.js
+[2021-01-12 02:22:49.012] [exthost] [info] eager extensions activated
+[2021-01-12 02:22:49.142] [exthost] [info] ExtensionService#_doActivateExtension vscode.github-authentication {"startup":false,"extensionId":{"value":"vscode.github-authentication","_lower":"vscode.github-authentication"},"activationEvent":"onAuthenticationRequest:github"}
+[2021-01-12 02:22:49.142] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/github-authentication/dist/extension.js
+[2021-01-12 02:22:59.038] [exthost] [info] ExtensionService#_doActivateExtension vscode.typescript-language-features {"startup":false,"extensionId":{"value":"vscode.typescript-language-features","_lower":"vscode.typescript-language-features"},"activationEvent":"onLanguage:javascript"}
+[2021-01-12 02:22:59.038] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/typescript-language-features/dist/extension
+[2021-01-12 02:23:08.383] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 252
+[2021-01-12 02:24:30.181] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 254
+[2021-01-12 02:24:52.970] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 254
+[2021-01-12 02:28:45.011] [exthost] [info] ExtensionService#_doActivateExtension vscode.css-language-features {"startup":false,"extensionId":{"value":"vscode.css-language-features","_lower":"vscode.css-language-features"},"activationEvent":"onLanguage:css"}
+[2021-01-12 02:28:45.011] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/css-language-features/client/dist/node/cssClientMain
+[2021-01-12 02:28:55.055] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 254
+[2021-01-12 02:29:00.124] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 255
+[2021-01-12 02:29:17.386] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 255
+[2021-01-12 02:29:22.447] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 255
+[2021-01-12 02:29:44.354] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 259
+[2021-01-12 02:29:49.420] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 263
+[2021-01-12 02:29:57.789] [exthost] [info] ExtensionService#_doActivateExtension vscode.extension-editing {"startup":false,"extensionId":{"value":"vscode.extension-editing","_lower":"vscode.extension-editing"},"activationEvent":"onLanguage:typescript"}
+[2021-01-12 02:29:57.789] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/extension-editing/dist/extensionEditingMain
+[2021-01-12 02:31:03.802] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 287
+[2021-01-12 02:31:48.250] [exthost] [info] ExtensionService#_doActivateExtension vscode.debug-server-ready {"startup":false,"extensionId":{"value":"vscode.debug-server-ready","_lower":"vscode.debug-server-ready"},"activationEvent":"onDebugResolve"}
+[2021-01-12 02:31:48.250] [exthost] [info] ExtensionService#loadCommonJSModule file:///snap/code/52/usr/share/code/resources/app/extensions/debug-server-ready/dist/extension
+[2021-01-12 02:31:59.525] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 310
+[2021-01-12 02:35:19.054] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 337
+[2021-01-12 02:36:17.183] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 337
+[2021-01-12 02:36:22.266] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 337
+[2021-01-12 02:36:49.598] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 337
+[2021-01-12 02:36:54.701] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 337
+[2021-01-12 02:37:05.784] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 337
+[2021-01-12 02:37:10.891] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 337
+[2021-01-12 02:37:12.809] [exthost] [error] [vscode.typescript-language-features] provider FAILED
+[2021-01-12 02:37:12.810] [exthost] [error] Error: <semantic> TypeScript Server Error (4.1.2)
+Debug Failure. False expression.
+Error: Debug Failure. False expression.
+    at /snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:128621:34
+    at Object.forEach (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:188:30)
+    at getSymbolKindOfConstructorPropertyMethodAccessorFunctionOrVar (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:128615:48)
+    at Object.getSymbolKind (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:128545:26)
+    at createCompletionEntry (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:118152:40)
+    at getCompletionEntriesFromSymbols (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:118199:29)
+    at completionInfoFromData (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:118023:35)
+    at Object.getCompletionsAtPosition (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:117981:28)
+    at Proxy.getCompletionsAtPosition (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:146718:35)
+    at IOSession.Session.getCompletions (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:157642:64)
+    at Session.handlers.ts.Map.ts.getEntries._a.<computed> (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:156526:61)
+    at /snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:158276:88
+    at IOSession.Session.executeWithRequestId (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:158267:28)
+    at IOSession.Session.executeCommand (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:158276:33)
+    at IOSession.Session.onMessage (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:158300:35)
+    at Interface.<anonymous> (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:160510:27)
+    at Interface.emit (events.js:223:5)
+    at Interface._onLine (readline.js:315:10)
+    at Interface._normalWrite (readline.js:460:12)
+    at Socket.ondata (readline.js:172:10)
+    at Socket.emit (events.js:223:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at Pipe.onStreamRead (internal/stream_base_commons.js:181:23)
+	at Function.create (/snap/code/52/usr/share/code/resources/app/extensions/typescript-language-features/dist/extension.js:1:76778)
+	at dispatchResponse (/snap/code/52/usr/share/code/resources/app/extensions/typescript-language-features/dist/extension.js:1:70653)
+	at dispatchMessage (/snap/code/52/usr/share/code/resources/app/extensions/typescript-language-features/dist/extension.js:1:69512)
+	at /snap/code/52/usr/share/code/resources/app/extensions/typescript-language-features/dist/extension.js:1:69022
+	at l.fire (/snap/code/52/usr/share/code/resources/app/out/vs/workbench/services/extensions/node/extensionHostProcess.js:46:801)
+	at g.onLengthData (/snap/code/52/usr/share/code/resources/app/extensions/typescript-language-features/dist/extension.js:45:60018)
+	at Socket.<anonymous> (/snap/code/52/usr/share/code/resources/app/extensions/typescript-language-features/dist/extension.js:45:59666)
+	at Socket.emit (events.js:223:5)
+	at addChunk (_stream_readable.js:309:12)
+	at readableAddChunk (_stream_readable.js:290:11)
+	at Socket.Readable.push (_stream_readable.js:224:10)
+	at Pipe.onStreamRead (internal/stream_base_commons.js:181:23)
+[2021-01-12 02:38:26.508] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 337
+[2021-01-12 02:40:00.604] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 337
+[2021-01-12 02:40:05.687] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 337
+[2021-01-12 02:40:23.408] [exthost] [error] [vscode.typescript-language-features] provider FAILED
+[2021-01-12 02:40:23.408] [exthost] [error] Error: <semantic> TypeScript Server Error (4.1.2)
+Debug Failure. False expression.
+Error: Debug Failure. False expression.
+    at /snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:128621:34
+    at Object.forEach (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:188:30)
+    at getSymbolKindOfConstructorPropertyMethodAccessorFunctionOrVar (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:128615:48)
+    at Object.getSymbolKind (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:128545:26)
+    at createCompletionEntry (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:118152:40)
+    at getCompletionEntriesFromSymbols (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:118199:29)
+    at completionInfoFromData (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:118023:35)
+    at Object.getCompletionsAtPosition (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:117981:28)
+    at Proxy.getCompletionsAtPosition (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:146718:35)
+    at IOSession.Session.getCompletions (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:157642:64)
+    at Session.handlers.ts.Map.ts.getEntries._a.<computed> (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:156526:61)
+    at /snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:158276:88
+    at IOSession.Session.executeWithRequestId (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:158267:28)
+    at IOSession.Session.executeCommand (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:158276:33)
+    at IOSession.Session.onMessage (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:158300:35)
+    at Interface.<anonymous> (/snap/code/52/usr/share/code/resources/app/extensions/node_modules/typescript/lib/tsserver.js:160510:27)
+    at Interface.emit (events.js:223:5)
+    at Interface._onLine (readline.js:315:10)
+    at Interface._normalWrite (readline.js:460:12)
+    at Socket.ondata (readline.js:172:10)
+    at Socket.emit (events.js:223:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at Pipe.onStreamRead (internal/stream_base_commons.js:181:23)
+	at Function.create (/snap/code/52/usr/share/code/resources/app/extensions/typescript-language-features/dist/extension.js:1:76778)
+	at dispatchResponse (/snap/code/52/usr/share/code/resources/app/extensions/typescript-language-features/dist/extension.js:1:70653)
+	at dispatchMessage (/snap/code/52/usr/share/code/resources/app/extensions/typescript-language-features/dist/extension.js:1:69512)
+	at /snap/code/52/usr/share/code/resources/app/extensions/typescript-language-features/dist/extension.js:1:69022
+	at l.fire (/snap/code/52/usr/share/code/resources/app/out/vs/workbench/services/extensions/node/extensionHostProcess.js:46:801)
+	at g.onLengthData (/snap/code/52/usr/share/code/resources/app/extensions/typescript-language-features/dist/extension.js:45:60018)
+	at Socket.<anonymous> (/snap/code/52/usr/share/code/resources/app/extensions/typescript-language-features/dist/extension.js:45:59666)
+	at Socket.emit (events.js:223:5)
+	at addChunk (_stream_readable.js:309:12)
+	at readableAddChunk (_stream_readable.js:290:11)
+	at Socket.Readable.push (_stream_readable.js:224:10)
+	at Pipe.onStreamRead (internal/stream_base_commons.js:181:23)
+[2021-01-12 02:40:52.792] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 337
+[2021-01-12 02:43:04.369] [exthost] [warning] [Decorations] CAPPING events from decorations provider vscode.git 337
