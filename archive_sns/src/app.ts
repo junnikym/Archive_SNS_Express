@@ -1,6 +1,5 @@
 import * as bodyParser from "body-parser";
 import express, { Request, Response } from "express";
-import { appendFile } from "fs";
 import { db_conn } from "./db_connection";
 // const app = express()
 //@TODO : Have to modify routers url -> the way to delete __dirname
@@ -62,12 +61,20 @@ export class App {
       //@TODO : Integrate Routers
       this.app.use(bodyParser.urlencoded({extended: false}));
       this.app.use('/', indexRouter);
-      this.app.use('/users', usersRouter);
-      this.app.use('/signUp', signupRouter);
-      this.app.use('/signIn', signInRouter);
+      this.app.use('/signup', signupRouter);
+      this.app.use('/signin', signInRouter);
       this.app.use('/Feed', FeedRouter);
       this.app.use('/profile', profileRouter);
       this.app.use('/comment', commentRouter);
+
+      this.app.use(function(req, res, next) {      //페이지 주소 찾을수 없음
+        res.status(404).send('cant find!!');
+      })
+      
+      this.app.use(function(err, req, res, next) { //서버에 문제가 있을 경우
+        console.error(err.stack)
+        res.status(500).send('Something broke!!');
+      })
     }
     catch (error) {
       console.log("error : ", error);

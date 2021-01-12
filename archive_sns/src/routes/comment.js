@@ -19,7 +19,7 @@ router.get('/', function(req, res) {
 /**
  * 댓글 작성
  */
-router.post('/create', function(req, res) {
+router.POST('/', function(req, res) {
     var commentInfo = req.body;
     
     comment_Create(commentInfo.feedNum, commentInfo.commentNum, commentInfo.userID, commentInfo.content, commentInfo.time);
@@ -29,7 +29,7 @@ router.post('/create', function(req, res) {
 /**
  * 댓글 수정
  */
-router.post('/update', function(req, res) {
+router.PUT('/:commentpk', function(req, res) {
     var commentInfo = req.body;
     
     comment_Update(commentInfo.pk, commentInfo.userID, commentInfo.content, commentInfo.time);
@@ -39,7 +39,7 @@ router.post('/update', function(req, res) {
 /**
  * 댓글 삭제
  */
-router.post('/delete', function(req, res) {
+router.DELETE('/:commentpk', function(req, res) {
     var commentInfo = req.body;
     
     comment_Delete(commentInfo.pk);

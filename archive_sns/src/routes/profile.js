@@ -8,7 +8,7 @@ var router = express.Router();
 /**
  * 프로필 확인
  */
-router.get('/', function(req, res) {
+router.GET('/', function(req, res) {
     userInfo = req.body;
     profile = user_Profile(userInfo.userID);
     res.send(profile);
@@ -17,7 +17,7 @@ router.get('/', function(req, res) {
 /**
  * 프로필 업데이트
  */
-router.post('/update', function(req, res) {
+router.PUT('/:usernum', function(req, res) {
     userInfo = req.body;
     
     new_userProfile = feed_update(userInfo.userID, userInfo.status, userInfo.userimage);
