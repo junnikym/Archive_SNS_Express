@@ -18,6 +18,7 @@ export class App {
 
     //@TODO : Integrate Routers
     this.app.use(bodyParser.urlencoded({extended: false}));
+    
     this.app.use('/', indexRouter);
     this.app.use('/users', usersRouter);
     this.app.use('/signup', signupRouter);

@@ -17,7 +17,7 @@ export async function db_conn(): Promise<void> {
 			synchronize: env.database.synchronize,
 			logging: env.database.logging,
 			entities: [
-				"src/Models/Entities/*{.ts,.js}"
+				__dirname + "/Models/Entities/*{.ts,.js}"
 			]
 		};
 

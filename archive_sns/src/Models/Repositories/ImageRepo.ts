@@ -9,4 +9,4 @@ import { Image, ProfileImage } from '../Entities/Image';
 export class ImageRepo extends Repository<Image> {}
 
 @EntityRepository(ProfileImage)
-export class ProfileImageRepo extends Repository<Image> {}
+export class ProfileImageRepo extends Repository<ProfileImage> {}
