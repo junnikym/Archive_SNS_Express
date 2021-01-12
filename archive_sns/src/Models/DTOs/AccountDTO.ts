@@ -1,18 +1,14 @@
 import { IsNotEmpty, Length, IsEmail } from "class-validator";
 import { Account } from "../Entities/Account";
 
-export class CreateAccount {
+export class CreateAccountDTO {
 
 	/**
 	 * DAO for Create Account
 	 */
 
 	@IsNotEmpty()
-	@Length(4, 64)
-	id: string;
-
-	@IsNotEmpty()
-	@Length(8, 64)
+	@Length(1, 64)
 	public password: string;
 
 	@IsNotEmpty()
@@ -25,7 +21,7 @@ export class CreateAccount {
 	public name: string;
 
 	public toEntity(): Account {
-		const { id, password, email, name } = this;
+		const { password, email, name } = this;
 
 		const newAccount = new Account();
 		newAccount.name = name;

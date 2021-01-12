@@ -17,19 +17,13 @@ export async function db_conn(): Promise<void> {
 			synchronize: env.database.synchronize,
 			logging: env.database.logging,
 			entities: [
-				"./Models/Entities/*{.ts,.js}"
-			],
+				"src/Models/Entities/*{.ts,.js}"
+			]
 		};
 
 		useContainer(Container);
-		await createConnection(connectionOpts);
+		const connection = await createConnection(connectionOpts);
 	} catch (error) {
-		console.log("host : ", env.database.host);
-		console.log("port : ", env.database.port);
-		console.log("usename : ", env.database.usename);
-		console.log("password : ", env.database.password);
-		console.log("name : ", env.database.name);
-
 		throw error;
 	}
 }

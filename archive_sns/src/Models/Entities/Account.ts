@@ -2,8 +2,8 @@ import {
 	Entity,
 	PrimaryGeneratedColumn,
 	Column,
-
-	EntityRepository, Repository 
+	OneToOne,
+	JoinColumn,
 } from "typeorm";
 import { IsNotEmpty } from "class-validator";
 
@@ -18,11 +18,7 @@ export class Account {
 	pk: string;
 
 	@IsNotEmpty()
-	@Column({ name: "id", length: 64 })
-	id: string;
-
-	@IsNotEmpty()
-	@Column({ select: false })
+	@Column({ name: "password", select: false })
 	password: string;
 
 	@IsNotEmpty()
@@ -30,10 +26,7 @@ export class Account {
 	name: string;
 
 	@IsNotEmpty()
-	@Column({ length: 64 })
+	@Column({ name: "email", length: 64 })
 	email: string;
-
 }
 
-@EntityRepository(Account)
-export class UserRepository extends Repository<Account> { }
