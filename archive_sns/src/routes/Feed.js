@@ -1,7 +1,6 @@
 /**
  *  피드 관련 라우트
  */
-
 var express = require('express');
 var router = express.Router();
 var account = require('../services/accountService');
@@ -39,17 +38,16 @@ router.get('/create', function(req, res) {
  */
 router.post('/create/Process', function(req, res) {
     var feedInfo = req.body;
-    console.log(feedInfo.userID);
-    res.send('asd');
-    // var accountResult = account.feedAccount(feedInfo);
-    // if(accountResult){
-    //   res.send('error!');
-    // }
-    // else{
-    //   feed_create(feedInfo.userID, feedInfo.userName, feedInfo.title, feedInfo.content,
-    //     feedInfo.time, feedInfo.file_name, feedInfo.file_type, feedInfo.file_copied);
-    //   res.redirect('/');
-    // }
+
+    var accountResult = account.feedAccount(feedInfo);
+    if(accountResult){
+      res.send('error!');
+    }
+    else{
+      feed_create(feedInfo.userID, feedInfo.userName, feedInfo.title, feedInfo.content,
+        feedInfo.time, feedInfo.file_name, feedInfo.file_type, feedInfo.file_copied);
+      res.redirect('/');
+    }
 });
 
 /**
@@ -76,27 +74,25 @@ router.get('/update', function(req, res) {
  * 피드 업데이트
  */
 router.post('/update/Process', function(req, res) { 
-  feedInfo = req.body;
-  console.log(feedInfo);
-  res.send(feedInfo);
-  // var accountresult = account.feedAccount(feedInfo);
-  // if(accountresult){
-  //   res.send('error!');
-  // }
-  // else{
-  //   feed_update(feedInfo.feedNum, feedInfo.title, feedInfo.content,
-  //     feedInfo.time, feedInfo.file_name, feedInfo.file_type, feedInfo.file_copied);
-  //   res.redirect('/');
-  // }
+  var feedInfo = req.body;
+  var accountresult = account.feedAccount(feedInfo);
+  if(accountresult){
+    res.send('error!');
+  }
+  else{
+    feed_update(feedInfo.feedNum, feedInfo.title, feedInfo.content,
+      feedInfo.time, feedInfo.file_name, feedInfo.file_type, feedInfo.file_copied);
+    res.redirect('/');
+  }
 });
 
 /*
  * 피드 삭제 
  */
 router.get('/delete', function(req, res) {
-    feedInfo = req.body;
-    feed_delete(feedInfo.feednum);
-    res.redirect('/');
+  feedInfo = req.body;
+  feed_delete(feedInfo.feednum);
+  res.redirect('/');
 });
 
 module.exports = router;

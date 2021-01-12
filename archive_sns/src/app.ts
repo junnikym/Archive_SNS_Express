@@ -1,8 +1,8 @@
+import * as bodyParser from "body-parser";
 import express, { Request, Response } from "express";
 import { appendFile } from "fs";
-
 import { db_conn } from "./db_connection";
-
+// const app = express()
 //@TODO : Have to modify routers url -> the way to delete __dirname
 
 var indexRouter = require(__dirname+'/../src/routes/index');
@@ -11,10 +11,10 @@ var signupRouter = require(__dirname+'/../src/routes/signUp');
 var signInRouter = require(__dirname+'/../src/routes/signIn');
 var FeedRouter = require(__dirname+'/../src/routes/Feed');
 var profileRouter = require(__dirname+'/../src/routes/profile');
-
+var commentRouter = require(__dirname+'/../src/routes/comment');
 
 // var bodyParser = require('body-parser');
-// this.app.use(bodyParser.urlencoded({extended: false}));
+// app.use(bodyParser.urlencoded({extended: false}));
 
 // npm install --save helmet  보안
 // var helmet = require('helmet');
@@ -60,14 +60,14 @@ export class App {
       });
 
       //@TODO : Integrate Routers
-      
+      this.app.use(bodyParser.urlencoded({extended: false}));
       this.app.use('/', indexRouter);
       this.app.use('/users', usersRouter);
       this.app.use('/signUp', signupRouter);
       this.app.use('/signIn', signInRouter);
       this.app.use('/Feed', FeedRouter);
       this.app.use('/profile', profileRouter);
-      
+      this.app.use('/comment', commentRouter);
     }
     catch (error) {
       console.log("error : ", error);

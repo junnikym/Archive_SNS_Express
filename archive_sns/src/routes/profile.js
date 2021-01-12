@@ -22,6 +22,6 @@ router.post('/update', function(req, res) {
     
     new_userProfile = feed_update(userInfo.userID, userInfo.status, userInfo.userimage);
 
-    res.redirect('/');
+    res.redirect('/profile');
 });
 module.exports = router;
