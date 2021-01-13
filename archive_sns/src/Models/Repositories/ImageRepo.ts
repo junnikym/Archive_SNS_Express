@@ -3,10 +3,10 @@ import {
 	EntityRepository, Repository, TransactionManager
 } from "typeorm";
 
-import { Image, ProfileImage } from '../Entities/Image';
+import { Image, PostImage } from '../Entities/Image';
 
 @EntityRepository(Image)
 export class ImageRepo extends Repository<Image> {}
 
-@EntityRepository(ProfileImage)
-export class ProfileImageRepo extends Repository<ProfileImage> {}
+@EntityRepository(PostImage)
+export class PostImageRepo extends Repository<PostImage> {}

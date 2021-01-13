@@ -3,9 +3,10 @@ import {
 	PrimaryGeneratedColumn,
 	Column,
 	OneToOne,
-	JoinColumn,
+	JoinColumn
 } from "typeorm";
 import { IsNotEmpty } from "class-validator";
+import { Image } from "./Image";
 
 /**
  * Account Entity
@@ -28,6 +29,10 @@ export class Account {
 	@IsNotEmpty()
 	@Column({ name: "email", length: 64 })
 	email: string;
+
+	@OneToOne( (type) => Image, { nullable: true } )
+	@JoinColumn({ name: "profile_image" })
+	profile_image: Image | null;
 
 	async check_password(target: string): Promise<boolean> {
 		return (this.password == target);

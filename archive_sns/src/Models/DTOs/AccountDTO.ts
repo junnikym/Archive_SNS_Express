@@ -1,5 +1,6 @@
 import { IsNotEmpty, Length, IsEmail } from "class-validator";
 import { Account } from "../Entities/Account";
+import { Image } from "../Entities/Image";
 
 /**
  * Length constants
@@ -32,6 +33,8 @@ export class CreateAccountDTO {
 	@IsNotEmpty()
 	@Length(MIN_NAME_LEN, MAX_NAME_LEN)
 	public name: string;
+
+	public profile_image: Image|null;
 
 	public toEntity(): Account {
 		const { password, email, name } = this;

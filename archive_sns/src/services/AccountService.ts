@@ -6,9 +6,9 @@ import { Account } from '../Models/Entities/Account';
 import { AccountRepo } from '../Models/Repositories/AccountRepo';
 import { CreateAccountDTO } from '../Models/DTOs/AccountDTO';
 
-import { Image, ProfileImage } from '../Models/Entities/Image';
+import { Image } from '../Models/Entities/Image';
 import { CreateImageDTO } from '../Models/DTOs/ImageDTO';
-import { ImageRepo, ProfileImageRepo } from '../Models/Repositories/ImageRepo';
+import { ImageRepo } from '../Models/Repositories/ImageRepo';
 
 @Service()
 export class AccountService {
@@ -19,9 +19,6 @@ export class AccountService {
 
 	@InjectRepository(Image) 
 	private image_repo: ImageRepo = this.conn.getRepository(Image);
-
-	@InjectRepository(ProfileImage)
-	private profile_img_repo: ProfileImageRepo = this.conn.getRepository(ProfileImage);
 
 	/**
 	 * Service which creating Account
@@ -35,23 +32,16 @@ export class AccountService {
 	): Promise<Account> 
 	{
 		//@TODO : NEED TO TRANSECTION !!!
-		
-		const account = account_dto.toEntity();
-
-		console.log(account_dto);
-
-		const new_account = await this.account_repo.save(account);
 
 		if(image_dto != null) {
 			const profile_image = image_dto.toEntity();
 			const new_img = await this.image_repo.save(profile_image);
-			
-			const profile_img = new ProfileImage();
-			profile_img.account = new_account;
-			profile_img.image = new_img;
 
-			this.profile_img_repo.save(profile_image);
+			account_dto.profile_image = new_img;
 		}
+
+		const account = account_dto.toEntity();
+		const new_account = await this.account_repo.save(account);
 
 		return new_account;
 	}

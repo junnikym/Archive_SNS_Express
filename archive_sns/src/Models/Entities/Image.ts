@@ -1,20 +1,25 @@
 import {
 	Entity,
+	
 	PrimaryGeneratedColumn,
 	Column,
 	CreateDateColumn,
 	UpdateDateColumn,
-	OneToOne,
+	
+	ManyToOne,
 	JoinColumn,
-	Unique
+
+	ChildEntity,
+	TableInheritance
 } from "typeorm";
 import { IsNotEmpty } from "class-validator";
-import { Account } from './Account';
+import { Post } from './Post';
 
 /**
  * Entity which is for saving Image
  */
 @Entity({ name: "image" })
+@TableInheritance({ column: { type: "varchar", name: "type" } })
 export class Image {
 
 	@PrimaryGeneratedColumn("uuid")
@@ -33,36 +38,12 @@ export class Image {
 }
 
 /**
- * Image Entity For which will be use profile image
- */
-@Unique(["image"])
-@Entity({ name: "profile_image" })
-export class ProfileImage {
-	
-	@PrimaryGeneratedColumn("uuid")
-	pk: string;
-
-	@OneToOne((Type) => Account)
-	@JoinColumn({name: 'image'})
-	account: Account;
-
-	@OneToOne((Type) => Image)
-	@JoinColumn()
-	image: Image;
-
-}
-
-/**
  * Image Entity For which will be use post image
  */
-// @Entity({ name: "post_image" })
-// export class PostImage {
+@ChildEntity({ name: "post_image" })
+export class PostImage extends Image {
 
-// 	@OneToOne((Type) => Post)
-// 	@JoinColumn()
-// 	post: Post;
-
-// 	@OneToOne((Type) => Image)
-// 	@JoinColumn()
-// 	image: Image;
-// }
+	@ManyToOne( (type) => Post, (Post) => Post.photos )
+	@JoinColumn({ name: 'post' })
+	post: Post;
+}
