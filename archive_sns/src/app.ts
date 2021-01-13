@@ -8,7 +8,8 @@ var signupRouter = require('./routes/SignUp');
 var AuthRouter = require('./routes/Auth');
 var FeedRouter = require(__dirname+'/../src/routes/Feed');
 var profileRouter = require(__dirname+'/../src/routes/profile');
-var likeRouter = require('./routes/like');
+var feedlikeRouter = require('./routes/feedlike');
+var commentlikeRouter = require('./routes/commentlike');
 var commentRouter = require(__dirname+'/../src/routes/comment');
 
 // npm install --save helmet  보안
@@ -40,7 +41,8 @@ export class App {
 
     this.app.use('/Feed', FeedRouter);
     this.app.use('/profile', profileRouter);
-    this.app.use('/like', likeRouter);
+    this.app.use('/feedlike', feedlikeRouter);
+    this.app.use('/commentlike', commentlikeRouter);
   }
 
   /**

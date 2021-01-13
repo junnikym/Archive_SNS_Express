@@ -11,7 +11,7 @@ var router = express.Router();
 router.get('/', function(req, res) {
     var likeInfo = req.body;
 
-    var like_list = like_count(likeInfo.feedNum);
+    var like_count = like_count(likeInfo.feedNum);
     res.send(like_count);
 });
 
