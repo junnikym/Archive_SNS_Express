@@ -34,19 +34,62 @@ export class CreateAccountDTO {
 	@Length(MIN_NAME_LEN, MAX_NAME_LEN)
 	public name: string;
 
-	public profile_image: Image|null;
+	public profile_image: Image | null;
+
+	public status_msg: string | null;
 
 	public toEntity(): Account {
-		const { password, email, name } = this;
+		const { 
+			password, 
+			email, 
+			name, 
+			profile_image, 
+			status_msg
+		} = this;
 
 		const newAccount = new Account();
 		newAccount.name = name;
 		newAccount.email = email;
 		newAccount.password = password;
+		newAccount.profile_image = profile_image;
+		newAccount.status_msg = status_msg;
 
 		return newAccount;
 	}
 
+}
+
+export class UpdateAccountDTO {
+	@Length(MIN_PW_LEN, MAX_PW_LEN)
+	public password: string | null;
+
+	@Length(MIN_NAME_LEN, MAX_NAME_LEN)
+	public name: string | null;
+
+	public profile_image: Image | null;
+
+	public status_msg: string | null;
+
+	public updateEntity( target: { entity: Account } ) {
+		const { 
+			password,
+			name, 
+			profile_image, 
+			status_msg
+		} = this;
+
+		if(password) 
+			target.entity.password = password;
+		
+		if(name) 
+			target.entity.name = name;
+		
+		if(profile_image)
+			target.entity.profile_image = profile_image;
+
+		if(status_msg)
+			target.entity.status_msg = target.entity.status_msg;
+	}
 }
 
 export class LoginAccountDTO {

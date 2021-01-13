@@ -34,6 +34,9 @@ export class Account {
 	@JoinColumn({ name: "profile_image" })
 	profile_image: Image | null;
 
+	@Column({ name: "status_msg", nullable: true })
+	status_msg: string;
+
 	async check_password(target: string): Promise<boolean> {
 		return (this.password == target);
 	}
