@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { Redirect } from "react-router-dom"
+import axios from 'axios'
 
 import { 
   Form, Button
@@ -11,7 +12,17 @@ function LoginForm({ authenticated, login, location }) {
 
   const handleClick = () => {
     try {
-      login({ email, password })
+      // login({ email, password })
+
+    axios({
+      method: 'post',
+      url: '/auth/login',
+      data: {
+        email: email,
+        pw: password
+      }
+    });
+
     } catch (e) {
       alert("Failed to login")
       setEmail("")
