@@ -9,7 +9,7 @@ var account = require('../services/accountService');
  * 피드 보기
  */
 router.get('/', function(req, res) {
-    Feed = feed_show();
+    var Feed = feed_show();
     res.send(Feed);
 });
 
@@ -50,9 +50,9 @@ router.put('/:feednum', function(req, res) {
  * 피드 삭제 
  */  
 router.delete('/:feednum', function(req, res) {
-  feedInfo = req.body;
-  feed_delete(feedInfo.feednum);
-  res.redirect('/');
+  var feedInfo = req.body;
+  var feed_delete = feed_delete(feedInfo.feednum);
+  res.send(feed_delete);
 });
 
 module.exports = router;

@@ -8,20 +8,16 @@ var signupRouter = require('./routes/SignUp');
 var AuthRouter = require('./routes/Auth');
 var FeedRouter = require(__dirname+'/../src/routes/Feed');
 var profileRouter = require(__dirname+'/../src/routes/profile');
+var likeRouter = require('./routes/like');
 var commentRouter = require(__dirname+'/../src/routes/comment');
 
-// var bodyParser = require('body-parser');
-// app.use(bodyParser.urlencoded({extended: false}));
-
 // npm install --save helmet  보안
-// var helmet = require('helmet');
-// this.app.use(helmet());
+var helmet = require('helmet');
+// 압축
+var compression = require('compression');
 
 // npm install nsp -g 쿠키관련보안
 // nsp check
-
-// var compression = require('compression') 압축
-// app.use(compression());
 
 export class App {
   public app: express.Application;
@@ -33,6 +29,8 @@ export class App {
     //@TODO : Integrate Routers
     this.app.use(bodyParser.urlencoded({extended: false}));
     this.app.use(bodyParser.json());
+    this.app.use(helmet());
+    this.app.use(compression());
     
     this.app.use('/', indexRouter);
     this.app.use('/signup', signupRouter);
@@ -42,6 +40,7 @@ export class App {
 
     this.app.use('/Feed', FeedRouter);
     this.app.use('/profile', profileRouter);
+    this.app.use('/like', likeRouter);
   }
 
   /**

@@ -9,8 +9,8 @@ var router = express.Router();
  * 프로필 확인
  */
 router.get('/', function(req, res) {
-    userInfo = req.body;
-    profile = user_Profile(userInfo.userID);
+    var userInfo = req.body;
+    var profile = user_Profile(userInfo.userID);
     res.send(profile);
 });
 
@@ -18,10 +18,10 @@ router.get('/', function(req, res) {
  * 프로필 업데이트
  */
 router.put('/:usernum', function(req, res) {
-    userInfo = req.body;
+    var userInfo = req.body;
     
-    new_userProfile = feed_update(userInfo.userID, userInfo.status, userInfo.userimage);
+    var new_userProfile = feed_update(userInfo.userID, userInfo.status, userInfo.userimage);
 
-    res.redirect('/profile');
+    res.redirect(new_userProfile);
 });
 module.exports = router;

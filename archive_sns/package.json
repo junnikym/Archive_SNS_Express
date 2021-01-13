@@ -27,7 +27,8 @@
       "request": "^2.88.2",
       "tsdoc": "0.0.4",
       "typedi": "^0.8.0",
-      "typeorm": "^0.2.29"
+      "typeorm": "^0.2.30",
+      "typeorm-typedi-extensions": "^0.2.3"
    },
    "devDependencies": {
       "@types/node": "^8.10.66",
