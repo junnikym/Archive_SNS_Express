@@ -18,7 +18,7 @@ export class Account {
 	pk: string;
 
 	@IsNotEmpty()
-	@Column({ name: "password", select: false })
+	@Column({ name: "password" })
 	password: string;
 
 	@IsNotEmpty()
@@ -28,5 +28,9 @@ export class Account {
 	@IsNotEmpty()
 	@Column({ name: "email", length: 64 })
 	email: string;
+
+	async check_password(target: string): Promise<boolean> {
+		return (this.password == target);
+	}
 }
 

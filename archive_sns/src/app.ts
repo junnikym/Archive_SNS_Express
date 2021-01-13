@@ -5,7 +5,7 @@ import { db_conn } from "./db_connection";
 
 var indexRouter = require(__dirname+'/../src/routes/index');
 var signupRouter = require('./routes/SignUp');
-var signInRouter = require(__dirname+'/../src/routes/signIn');
+var AuthRouter = require('./routes/Auth');
 var FeedRouter = require(__dirname+'/../src/routes/Feed');
 var profileRouter = require(__dirname+'/../src/routes/profile');
 var commentRouter = require(__dirname+'/../src/routes/comment');
@@ -35,7 +35,10 @@ export class App {
     
     this.app.use('/', indexRouter);
     this.app.use('/signup', signupRouter);
-    this.app.use('/signIn', signInRouter);
+    
+    // Authentifications
+    this.app.use('/auth/login', AuthRouter);
+
     this.app.use('/Feed', FeedRouter);
     this.app.use('/profile', profileRouter);
   }
