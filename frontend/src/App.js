@@ -1,36 +1,39 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
-import {Login, home} from './pages';
+import { BrowserRouter as Router, Route} from 'react-router-dom';
 
-import Navigation from "./components/Nav";
-import Main from "./components/Main_Form";
+import __Main__ from "./pages/Main";
 
-//import Content from "./components/Content";
-import Footer_content from "./components/Footer";
+import Navigation from "./components/Nav";            // ================ Nav =================== // 
+import {Login, home} from './pages';                  // ================ Pages ================= //
+import Footer_content from "./components/Footer";     // ================ Footer ================ //   
 
+import __banner__ from './components/banner';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import './css/App.css';
+import './css/components.css';
 
-import './css/App.css'
 
-function App(){
+function App(){ 
   return (
     
     <div className="App">
-      <Navigation />
 
-      <Main />
+      <__Main__ />
 
         <Router>
+          <Navigation />
 
-        <Route exact path='/home' component={home} />
-        <Route exact path='/login' component={Login}/>
+            <__banner__ />
+            <Route exact path='/home' component={home} />
+            <Route exact path='/login' component={Login}/>
 
+          <Footer_content/>
         </Router>
 
-      <Footer_content/>
+      
     </div>
   )
 }
