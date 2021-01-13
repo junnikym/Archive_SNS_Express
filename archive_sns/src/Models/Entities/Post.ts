@@ -35,6 +35,9 @@ export class Post {
 	@Column({ name: "text_content" })
 	text_content: string;
 
+	@Column({ name: "writer", length: 36 })
+	writer_pk: string;
+
 	@IsNotEmpty()
 	@OneToOne((Type) => Account)
 	@JoinColumn({name: 'writer'})

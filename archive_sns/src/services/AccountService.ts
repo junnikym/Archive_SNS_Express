@@ -34,14 +34,14 @@ export class AccountService {
 		//@TODO : NEED TO TRANSECTION !!!
 
 		if(image_dto != null) {
-			const profile_image = image_dto.toEntity();
-			const new_img = await this.image_repo.save(profile_image);
+			const profile_img_ent = image_dto.toEntity();
+			const new_img = await this.image_repo.save(profile_img_ent);
 
 			account_dto.profile_image = new_img;
 		}
 
-		const account = account_dto.toEntity();
-		const new_account = await this.account_repo.save(account);
+		const account_ent = account_dto.toEntity();
+		const new_account = await this.account_repo.save(account_ent);
 
 		return new_account;
 	}

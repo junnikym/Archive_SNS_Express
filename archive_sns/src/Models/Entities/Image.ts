@@ -42,8 +42,11 @@ export class Image {
  */
 @ChildEntity({ name: "post_image" })
 export class PostImage extends Image {
-
-	@ManyToOne( (type) => Post, (Post) => Post.photos )
-	@JoinColumn({ name: 'post' })
+	
+	@ManyToOne((type) => Post, (Post) => Post.pk, {
+		cascade: true,
+		onDelete: "CASCADE",
+	})
+	@JoinColumn({ name: "post" })
 	post: Post;
 }
