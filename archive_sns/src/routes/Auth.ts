@@ -45,6 +45,8 @@ router.post('/', async function(req, res) {
     res.redirect('/');
   }
   else {
+    
+
     console.log("it can be login : ", result);
     // @TODO : send the account data to frontend
     res.redirect('/');

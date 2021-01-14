@@ -12,11 +12,8 @@ var feedlikeRouter = require('./routes/feedlike');
 var commentlikeRouter = require('./routes/commentlike');
 var commentRouter = require(__dirname+'/../src/routes/comment');
 
-// npm install --save helmet  보안
-var helmet = require('helmet');
-// 압축
-var compression = require('compression');
-
+// var helmet = require('helmet'); // npm install --save helmet  보안
+// var compression = require('compression'); // 압축
 // npm install nsp -g 쿠키관련보안
 // nsp check
 
@@ -30,17 +27,15 @@ export class App {
     //@TODO : Integrate Routers
     this.app.use(bodyParser.urlencoded({extended: false}));
     this.app.use(bodyParser.json());
-    this.app.use(helmet());
-    this.app.use(compression());
+    // this.app.use(helmet());
+    // this.app.use(compression());
     
     this.app.use('/', indexRouter);
     this.app.use('/signup', signupRouter);
-    
-    // Authentifications
     this.app.use('/auth/login', AuthRouter);
-
     this.app.use('/Feed', FeedRouter);
     this.app.use('/profile', profileRouter);
+    this.app.use('/comment', commentRouter)
     this.app.use('/feedlike', feedlikeRouter);
     this.app.use('/commentlike', commentlikeRouter);
   }
