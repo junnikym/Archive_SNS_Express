@@ -10,6 +10,8 @@ var FeedRouter = require(__dirname+'/../src/routes/Feed');
 var profileRouter = require(__dirname+'/../src/routes/profile');
 var commentRouter = require(__dirname+'/../src/routes/comment');
 
+var testRouter = require('./routes/test');
+
 // var bodyParser = require('body-parser');
 // app.use(bodyParser.urlencoded({extended: false}));
 
@@ -42,6 +44,8 @@ export class App {
 
     this.app.use('/Feed', FeedRouter);
     this.app.use('/profile', profileRouter);
+
+    this.app.use('/test', testRouter);
   }
 
   /**

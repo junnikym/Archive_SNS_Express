@@ -13,6 +13,14 @@ export class PostLikeService {
 	@InjectRepository(PostLike)
 	private post_like_repo: PostLikeRepo = this.conn.getRepository(PostLike);
 
+	/**
+	 * Like Toggle which for Post
+	 * if giver gave the like before, service will delete row
+	 * if not, it will create row
+	 * 
+	 * @param giver : Giver Account PK
+	 * @param post : Post's PK
+	 */
 	public async ToggleLike(
 		giver : string,
 		post : string
@@ -21,12 +29,14 @@ export class PostLikeService {
 			where: {post_pk: post, giver_pk: giver} 
 		});
 
+		// ( OFF ) If exist row => Delete it
 		if(target) {
-			this.post_like_repo.delete(target);
+			console.log("find target");
+			this.post_like_repo.delete({ pk: target.pk});
 			return null;
 		}
 
-		// If not exist => Make new one
+		// ( ON ) If not exist => Make new one
 		const new_like = new PostLike;
 		new_like.giver_pk = giver;
 		new_like.post_pk = post;

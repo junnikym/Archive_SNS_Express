@@ -11,8 +11,8 @@ import { Account } from './Account';
 import { Post } from './Post';
 
 abstract class Like {
-	@PrimaryGeneratedColumn()
-	id: number
+	@PrimaryGeneratedColumn("uuid")
+	pk: string;
 
 	@Column({ name: "giver_pk", length: 36 })
 	giver_pk: string;

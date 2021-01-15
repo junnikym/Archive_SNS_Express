@@ -1,7 +1,6 @@
 import { IsNotEmpty, Length, IsEmail } from "class-validator";
 import { PostImage } from "../Entities/Image";
 import { Post } from "../Entities/Post";
-import { ImageOnlyContentsDTO } from "../DTOs/ImageDTO";
 
 export class CreatePostDTO {
 
@@ -23,7 +22,7 @@ export class CreatePostDTO {
 
 }
 
-export class UpdateEntityDTO  {
+export class UpdatePostDTO  {
 
 	title: string | null;
 	text_content: string | null;

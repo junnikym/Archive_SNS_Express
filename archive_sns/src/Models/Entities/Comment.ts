@@ -31,7 +31,7 @@ export class Comment {
 	writer: Account;
 }
 
-@ChildEntity({ name: "post_comment" })
+@ChildEntity()
 export class PostComment extends Comment {
 
 	@Column({ name: "post_pk", length: 36 })
@@ -45,7 +45,7 @@ export class PostComment extends Comment {
 	post: Post;
 }
 
-@ChildEntity({ name: "post_re_comment" })
+@ChildEntity()
 export class PostReComment extends Comment {
 
 	@Column({ name: "parent_pk", length: 36 })

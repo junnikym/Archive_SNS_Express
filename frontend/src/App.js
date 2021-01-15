@@ -22,13 +22,8 @@ function App(){
       <Navigation />
 
       <Main />
-
-        <Router>
-
         <Route exact path='/home' component={home} />
-        <Route exact path='/login' component={Login}/>
-
-        </Router>
+        <Route exact path='/login' component={Login}/>s
 
       <Footer_content/>
     </div>
