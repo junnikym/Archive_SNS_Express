@@ -103,7 +103,10 @@ export class AccountService {
 			where: { name: target_name }
 		});
 
-		return [account_list, n_account];
+		return { 
+			account_list : account_list, 
+			n : n_account 
+		};
 	}
 
 	/**
