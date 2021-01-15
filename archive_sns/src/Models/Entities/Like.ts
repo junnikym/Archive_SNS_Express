@@ -14,6 +14,9 @@ abstract class Like {
 	@PrimaryGeneratedColumn()
 	id: number
 
+	@Column({ name: "giver_pk", length: 36 })
+	giver_pk: string;
+
 	@ManyToOne((type) => Account, (Account) => Account.pk, {
 		cascade: true,
 		onDelete: "CASCADE",
@@ -27,6 +30,9 @@ abstract class Like {
 
 @Entity()
 export class PostLike extends Like {
+	@Column({ name: "post_pk", length: 36 })
+	post_pk: string;
+
 	@ManyToOne((type) => Post, (Post) => Post.pk, {
 		cascade: true,
 		onDelete: "CASCADE",

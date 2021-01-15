@@ -20,6 +20,9 @@ export class Comment {
 	@Column({ name: "file_name" })
 	content: string;
 
+	@Column({ name: "writer_pk", length: 36 })
+	writer_pk: string;
+
 	@ManyToOne((type) => Account, (Account) => Account.pk, {
 		cascade: true,
 		onDelete: "CASCADE",
@@ -30,6 +33,10 @@ export class Comment {
 
 @ChildEntity({ name: "post_comment" })
 export class PostComment extends Comment {
+
+	@Column({ name: "post_pk", length: 36 })
+	post_pk: string;
+
 	@ManyToOne((type) => Post, (Post) => Post.pk, {
 		cascade: true,
 		onDelete: "CASCADE",
@@ -40,6 +47,10 @@ export class PostComment extends Comment {
 
 @ChildEntity({ name: "post_re_comment" })
 export class PostReComment extends Comment {
+
+	@Column({ name: "parent_pk", length: 36 })
+	parent_pk: string;
+
 	@ManyToOne((type) => Comment, (Comment) => Comment.pk, {
 		cascade: true,
 		onDelete: "CASCADE",

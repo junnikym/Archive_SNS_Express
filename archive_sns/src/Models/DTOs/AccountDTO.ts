@@ -47,14 +47,14 @@ export class CreateAccountDTO {
 			status_msg
 		} = this;
 
-		const newAccount = new Account();
-		newAccount.name = name;
-		newAccount.email = email;
-		newAccount.password = password;
-		newAccount.profile_image = profile_image;
-		newAccount.status_msg = status_msg;
+		const new_account = new Account();
+		new_account.name = name;
+		new_account.email = email;
+		new_account.password = password;
+		new_account.profile_image = profile_image;
+		new_account.status_msg = status_msg;
 
-		return newAccount;
+		return new_account;
 	}
 
 }

@@ -12,7 +12,6 @@ import { AccountRepo } from '../Models/Repositories/AccountRepo';
 import { PostImage } from '../Models/Entities/Image';
 import { PostImageRepo } from '../Models/Repositories/ImageRepo';
 import { CreateImageDTO } from '../Models/DTOs/ImageDTO';
-import { async } from '../db_connection';
 
 @Service()
 export class PostService {
@@ -62,7 +61,7 @@ export class PostService {
 	): Promise<Post | null> {
 
 		const target = {
-			entity: await this.post_repo.findOne({ where: {pk: Account} })
+			entity: await this.post_repo.findOne({ where: {pk: writer_pk} })
 		}
 
 		if(target.entity.writer_pk === writer_pk ) {
@@ -98,6 +97,5 @@ export class PostService {
 
 		return false;
 	}
-
 
 }
