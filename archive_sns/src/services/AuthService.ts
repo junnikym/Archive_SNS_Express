@@ -14,6 +14,14 @@ export class AuthService {
 	@InjectRepository(Account) 
 	private account_repo: AccountRepo = this.conn.getRepository(Account);
 
+	/**
+	 * Verify that the data passed to DTO and the data which exist in 
+	 * the Database are correct
+	 * 
+	 * @param login_account_dto : Login Account DTO
+	 * 
+	 * @returns Account Data ( fail : undefined ) 
+	 */
 	public async validateAccount(
 		login_account_dto: LoginAccountDTO 
 	): Promise<Account> 

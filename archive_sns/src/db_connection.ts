@@ -14,7 +14,6 @@ export async function db_conn(): Promise<void> {
 			username: env.database.usename,
 			password: env.database.password,
 			database: env.database.name,
-			synchronize: env.database.synchronize,
 			logging: env.database.logging,
 			entities: [
 				__dirname + "/Models/Entities/*{.ts,.js}"
@@ -23,6 +22,10 @@ export async function db_conn(): Promise<void> {
 
 		useContainer(Container);
 		const connection = await createConnection(connectionOpts);
+		if(env.database.synchronize) {
+			await connection.dropDatabase();
+			await connection.synchronize();
+		}
 	} catch (error) {
 		throw error;
 	}

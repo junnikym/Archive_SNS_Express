@@ -12,8 +12,20 @@ var feedlikeRouter = require('./routes/feedlike');
 var commentlikeRouter = require('./routes/commentlike');
 var commentRouter = require(__dirname+'/../src/routes/comment');
 
+<<<<<<< HEAD
 // var helmet = require('helmet'); // npm install --save helmet  보안
 // var compression = require('compression'); // 압축
+=======
+var testRouter = require('./routes/test');
+
+// var bodyParser = require('body-parser');
+// app.use(bodyParser.urlencoded({extended: false}));
+
+// npm install --save helmet  보안
+// var helmet = require('helmet');
+// this.app.use(helmet());
+
+>>>>>>> f818f32632ea626d3a657f1dcb734be1be049f2f
 // npm install nsp -g 쿠키관련보안
 // nsp check
 
@@ -38,6 +50,8 @@ export class App {
     this.app.use('/comment', commentRouter)
     this.app.use('/feedlike', feedlikeRouter);
     this.app.use('/commentlike', commentlikeRouter);
+
+    // this.app.use('/test', testRouter);
   }
 
   /**

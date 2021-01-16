@@ -7,6 +7,22 @@ import { CreateImageDTO } from '../Models/DTOs/ImageDTO';
 
 import { AccountService } from '../services/AccountService';
 
+<<<<<<< HEAD
+=======
+router.get('/', function(req, res) {  //확인용 폼
+  var signform = `
+    <form action="/signup/" method="post">
+      <p><input type="text" name="email" placeholder="이메일"></p>
+      <p><input type="password" name="pw" placeholder="Password"></p>
+      <p><input type="password" name="pw_confirm" placeholder="Password Confirm"></p>
+      <p><input type="text" name="name" placeholder="이름"></p>
+      <p><input type="submit"></p>
+    </form>
+    `
+  res.send(signform);
+});
+
+>>>>>>> f818f32632ea626d3a657f1dcb734be1be049f2f
 router.post('/', async function(req, res) {
   const user_info = req.body;
 
