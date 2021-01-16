@@ -108,3 +108,9 @@ export class LoginAccountDTO {
 	@Length(MIN_PW_LEN, MAX_PW_LEN)
 	public password: string;
 }
+
+export class AccountVO {
+	public pk		: string;
+	public email	: string;
+	public name		: string;
+  }

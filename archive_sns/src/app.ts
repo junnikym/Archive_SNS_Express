@@ -5,12 +5,14 @@ import { db_conn } from "./db_connection";
 
 var indexRouter = require(__dirname+'/../src/routes/index');
 var signupRouter = require('./routes/SignUp');
-var AuthRouter = require('./routes/Auth');
+
 var FeedRouter = require(__dirname+'/../src/routes/Feed');
 var profileRouter = require(__dirname+'/../src/routes/profile');
 var commentRouter = require(__dirname+'/../src/routes/comment');
 
-var testRouter = require('./routes/test');
+const TestRouter    = require('./routes/Test');
+const UploadRouter  = require('./routes/upload');
+const AuthRouter = require('./routes/Auth');
 
 // var bodyParser = require('body-parser');
 // app.use(bodyParser.urlencoded({extended: false}));
@@ -40,12 +42,15 @@ export class App {
     this.app.use('/signup', signupRouter);
     
     // Authentifications
-    this.app.use('/auth/login', AuthRouter);
+    this.app.use('/auth', AuthRouter);
 
     this.app.use('/Feed', FeedRouter);
     this.app.use('/profile', profileRouter);
 
-    this.app.use('/test', testRouter);
+    this.app.use('/test', TestRouter);
+    this.app.use('/upload', UploadRouter)
+
+    this.app.use('/images', express.static('upload/Images/Profiles'));
   }
 
   /**
