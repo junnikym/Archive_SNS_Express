@@ -37,6 +37,9 @@ export class Account {
 	@Column({ name: "status_msg", nullable: true })
 	status_msg: string;
 
+	@Column({ name: "refresh_token", nullable: true, select: false })
+	refresh_token: string;
+
 	async check_password(target: string): Promise<boolean> {
 		return (this.password == target);
 	}

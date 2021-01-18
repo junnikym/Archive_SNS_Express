@@ -22,7 +22,7 @@ export class AuthService {
 	 * 
 	 * @returns Account Data ( fail : undefined ) 
 	 */
-	public async validateAccount(
+	public async ValidateAccount(
 		login_account_dto: LoginAccountDTO 
 	): Promise<Account> 
 	{
@@ -41,4 +41,50 @@ export class AuthService {
 
 		return undefined;
 	}
+
+	/**
+	 * Check that Refresh Token is Verify Token
+	 * 
+	 * @param account_pk : Account's PK
+	 * @param refresh_token : Account's Refresh Token
+	 */
+	public async ValidateRefreshToken (
+		account_pk : string,
+		refresh_token : string
+	) {
+		const result = await this.account_repo.findOne({
+			select: ["pk", "email", "name"],
+			where: {
+				pk: account_pk,
+				refresh_toke: refresh_token,
+			}
+		});
+		
+		return result ? result : undefined;
+	}
+
+	public async SaveRefreshTokenDirectly(
+		account : Account,
+		refresh_token : string
+	) {
+		account.refresh_token = refresh_token;
+		await this.account_repo.save(account);
+	}
+
+	public async SaveRefreshToken(
+		account_pk : string,
+		refresh_token : string,
+	) : Promise<boolean> {
+		const account = await this.account_repo.findOne({where: {pk: account_pk}});
+
+		if(account) {
+			account.refresh_token = refresh_token;
+			await this.account_repo.save(account);
+			
+			return true;
+		}
+		
+		return false;
+	}
+
 }

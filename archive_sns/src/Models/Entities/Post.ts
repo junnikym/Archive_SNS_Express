@@ -44,12 +44,18 @@ export class Post {
 	writer: Account;
 
 	@OneToMany( (type) => PostImage, (PostImage) => PostImage.post )
-	photos: PostImage[];
+	image: PostImage[];
 
 	@CreateDateColumn({ name: "created_at" })
 	createdAt: Date;
 
 	@UpdateDateColumn({ name: "updated_at" })
 	updatedAt: Date;
+
+	@Column({ 
+		default: 0, 
+		comment: "popularly score"
+	})
+	q_score: number;
 }
 

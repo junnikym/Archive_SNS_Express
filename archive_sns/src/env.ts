@@ -41,4 +41,9 @@ export const env = {
 		synchronize	: process.env.TYPEORM_SYNCHRONIZE === "true",
 		logging		: process.env.TYPEORM_LOGGING === "true",
 	},
+
+	jwt: {
+		secret_access_key : process.env.JWT_SECRET_ACCESS_KEY,
+		secret_refresh_key : process.env.JWT_SECRET_REFRESH_KEY,
+	}
 };

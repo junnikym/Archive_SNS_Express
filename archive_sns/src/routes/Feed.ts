@@ -4,9 +4,13 @@
 var express = require('express');
 var router = express.Router();
 
+// JWT middleware
+import { VerifyAccessToken } from "../Middleware/JWT_Auth";
+
 import { PostService } from "../services/PostService";
 
 import { CreatePostDTO } from '../Models/DTOs/PostDTO';
+import { CreateImageDTO } from "../Models/DTOs/ImageDTO";
 
 
 /**
@@ -20,18 +24,26 @@ router.get('/', function(req, res) {
 /**
  * 피드 생성
  */
-router.post('/', function(req, res) {
+router.post(
+  '/', 
+  VerifyAccessToken,
+  function(req, res) {
     const feed_Info = req.body;
 
     const PostDTO = new CreatePostDTO();        //피드 생성 DTO
-
-    const Post_Create = new PostService();  //피드 생성 DAO
+    const ImgDTO = new CreateImageDTO();
+    
+    const Post_Create = new PostService();
 
     //토큰으로 wrter_pk 받아오기
     PostDTO.title = feed_Info.title;
     PostDTO.text_content = feed_Info.content; //DTO에 요청받은 데이터 삽입
 
-    await Post_Create.CreatePost(writer_pk, PostDTO, image);
+    await Post_Create.CreatePost(
+      res.locals.jwt_payload.pk, 
+      PostDTO, 
+      image
+    );
 
     res.redirect('/');
 });
