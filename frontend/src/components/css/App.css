@@ -1,0 +1,54 @@
+
+.__Logo__{
+    position: static;
+    margin: 5%;
+    text-align: center;
+}
+
+.__Logo__ > h1{
+    font-size: 3svw;
+}
+
+.Login_center{
+    position: absolute;
+    align-items: center;
+    padding: 3%;
+    margin-left: 15%;
+    width: 70%;
+    box-shadow: 0px 2px 5px gray;
+}
+
+/* ========================================== */
+
+.User_list {
+    float: right;
+    width: 10vw;
+    margin-top: 1%;
+    margin-right: 1%;
+}
+
+.Post{
+    width: 50vw;
+    float: left;
+    margin-top: 4%;
+    margin-left: 20%;
+    overflow: hidden;
+    box-shadow: 0px 2px 5px gray;
+}
+
+.Feed_Card{
+    width: 80vw;
+    float: left;
+    margin-left: 5%;
+    margin-top: 5%;
+    width: 80%;
+    box-shadow: 0px 2px 5px gray;
+}
+
+.footer{
+    position: static;
+    background-color: #f7f7f7;
+    margin-top: 100%;
+    text-align: center;
+}
+
