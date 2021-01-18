@@ -7,8 +7,6 @@ import { CreateImageDTO } from '../Models/DTOs/ImageDTO';
 
 import { AccountService } from '../services/AccountService';
 
-<<<<<<< HEAD
-=======
 router.get('/', function(req, res) {  //확인용 폼
   var signform = `
     <form action="/signup/" method="post">
@@ -22,7 +20,6 @@ router.get('/', function(req, res) {  //확인용 폼
   res.send(signform);
 });
 
->>>>>>> f818f32632ea626d3a657f1dcb734be1be049f2f
 router.post('/', async function(req, res) {
   const user_info = req.body;
 
