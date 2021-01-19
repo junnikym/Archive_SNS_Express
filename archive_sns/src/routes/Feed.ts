@@ -9,7 +9,7 @@ import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
 import { PostService } from "../services/PostService";
 
-import { CreatePostDTO } from '../Models/DTOs/PostDTO';
+import { CreatePostDTO, UpdatePostDTO } from '../Models/DTOs/PostDTO';
 import { CreateImageDTO } from "../Models/DTOs/ImageDTO";
 
 
@@ -17,8 +17,8 @@ import { CreateImageDTO } from "../Models/DTOs/ImageDTO";
  * 피드 보기
  */
 router.get('/', function(req, res) {
-    // var Feed = feed_show();
-    // res.send(Feed);
+    const feed_Info = req.body;
+
 });
 
 /**
@@ -27,50 +27,105 @@ router.get('/', function(req, res) {
 router.post(
   '/', 
   VerifyAccessToken,
-  function(req, res) {
+  async function(req, res) {
     const feed_Info = req.body;
+
+    const pk = res.locals.jwt_payload.pk;
 
     const PostDTO = new CreatePostDTO();        //피드 생성 DTO
     const ImgDTO = new CreateImageDTO();
     
     const Post_Create = new PostService();
 
-    //토큰으로 wrter_pk 받아오기
     PostDTO.title = feed_Info.title;
     PostDTO.text_content = feed_Info.content; //DTO에 요청받은 데이터 삽입
+    ImgDTO.url = feed_Info.url;
 
-    await Post_Create.CreatePost(
-      res.locals.jwt_payload.pk, 
+    const Create_feed = await Post_Create.CreatePost(
+      pk, 
       PostDTO, 
-      image
+      null  //잘못됨
     );
 
-    res.redirect('/');
+    if(!Create_feed){
+      return res.state(403).send({
+        status : 403,
+        success : true,
+        message : "Forbidden"
+      });
+    }
+
+    return res.status(200).send({
+      status : 200,
+      success : true,
+      message : "success"
+    });
 });
 
 /**
  * 피드 수정
  */
-router.put('/:feednum', function(req, res) { 
-  var feed_Info = req.body;
-  var accountresult = account.feedAccount(feed_Info);
-  if(accountresult){
-    res.send('error!');
+router.put(
+  '/:feednum',
+  VerifyAccessToken,
+  async function(req, res) { 
+  const feed_Info = req.body;
+  const pk = res.locals.jwt_payload.pk;
+
+  const Post_Update_DTO = new UpdatePostDTO();
+  Post_Update_DTO.title = feed_Info.title;
+  Post_Update_DTO.text_content = feed_Info.text_content;
+
+  const ImgDTO = new CreateImageDTO();
+  ImgDTO.url = feed_Info.url;
+
+  const Post_Update = new PostService();
+
+  const Update_Feed = await Post_Update.UpdatePost(
+    pk,
+    feed_Info.post_pk,
+    Post_Update_DTO,
+    ImgDTO,
+    null
+  )
+
+  if(!Update_Feed){
+    return res.state(403).send({
+      status : 403,
+      success : true,
+      message : "Forbidden"
+    });
   }
-  else{
-    feed_update(feed_Info.feedNum, feed_Info.title, feed_Info.content,
-      feed_Info.time, feed_Info.file_name, feed_Info.file_type, feed_Info.file_copied);
-    res.redirect('/');
-  }
+
+  return res.status(200).send({
+    status : 200,
+    success : true,
+    message : "success"
+  });
 });
 
 /*
  * 피드 삭제 
  */  
-router.delete('/:feednum', function(req, res) {
-  var feed_Info = req.body;
-  var feed_delete = feed_delete(feed_Info.feednum);
-  res.send(feed_delete);
+router.delete(
+  '/:feednum', 
+  async function(req, res) {
+  const feed_Info = req.body;
+  const Feed_pk = feed_Info.post_pk;
+  const pk = res.locals.jwt_payload.pk;
+
+  const Feed_Delete = new PostService();
+
+  const Delete_Feed = await Feed_Delete.DeletePost(
+    pk,
+    Feed_pk
+  )
+
+  return res.status(200).send({
+    status : 200,
+    success : true,
+    message : "success"
+  });
 });
 
 module.exports = router;
