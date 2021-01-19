@@ -85,7 +85,7 @@ router.put(
     pk,
     feed_Info.post_pk,
     Post_Update_DTO,
-    ImgDTO,
+    ImgDTO,    //모름
     null
   )
 
@@ -120,6 +120,14 @@ router.delete(
     pk,
     Feed_pk
   )
+
+  if(!Delete_Feed){
+    return res.state(403).send({
+      status : 403,
+      success : true,
+      message : "Forbidden"
+    });
+  }
 
   return res.status(200).send({
     status : 200,
