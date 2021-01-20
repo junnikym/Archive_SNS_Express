@@ -33,18 +33,25 @@ router.post(
     const pk = res.locals.jwt_payload.pk;
 
     const PostDTO = new CreatePostDTO();        //피드 생성 DTO
-    const ImgDTO = new CreateImageDTO();
+    let ImgDTO: CreateImageDTO[];
     
     const Post_Create = new PostService();
 
     PostDTO.title = feed_Info.title;
     PostDTO.text_content = feed_Info.content; //DTO에 요청받은 데이터 삽입
-    ImgDTO.url = feed_Info.url;
+
+    for(let i = 0; i < feed_Info.url.Length; i++) {
+      const temp_img_dto = new CreateImageDTO;
+      temp_img_dto.url = feed_Info.url;
+
+      ImgDTO.push(temp_img_dto);
+    }
+    
 
     const Create_feed = await Post_Create.CreatePost(
       pk, 
       PostDTO, 
-      null  //잘못됨
+      ImgDTO
     );
 
     if(!Create_feed){
@@ -76,8 +83,14 @@ router.put(
   Post_Update_DTO.title = feed_Info.title;
   Post_Update_DTO.text_content = feed_Info.text_content;
 
-  const ImgDTO = new CreateImageDTO();
-  ImgDTO.url = feed_Info.url;
+  let ImgDTO: CreateImageDTO[];
+  
+  for(let i = 0; i < feed_Info.url.Length; i++) {
+    const temp_img_dto = new CreateImageDTO;
+    temp_img_dto.url = feed_Info.url;
+
+    ImgDTO.push(temp_img_dto);
+  }
 
   const Post_Update = new PostService();
 
@@ -85,7 +98,7 @@ router.put(
     pk,
     feed_Info.post_pk,
     Post_Update_DTO,
-    ImgDTO,    //모름
+    ImgDTO,
     null
   )
 
