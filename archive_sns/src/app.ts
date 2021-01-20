@@ -8,19 +8,12 @@ var signupRouter = require('./routes/SignUp');
 
 var FeedRouter = require(__dirname+'/../src/routes/Feed');
 var profileRouter = require(__dirname+'/../src/routes/profile');
-var feedlikeRouter = require('./routes/feedlike');
-var commentlikeRouter = require('./routes/commentlike');
 var commentRouter = require(__dirname+'/../src/routes/comment');
 
-<<<<<<< HEAD
-// var helmet = require('helmet'); // npm install --save helmet  보안
-// var compression = require('compression'); // 압축
-var testRouter = require('./routes/test');
-=======
-const TestRouter    = require('./routes/Test');
 const UploadRouter  = require('./routes/upload');
 const AuthRouter = require('./routes/Auth');
->>>>>>> 95ee3338a1c86fd4ac1d7228ade4b7ae29ea9e70
+// var helmet = require('helmet'); // npm install --save helmet  보안
+// var compression = require('compression'); // 압축
 
 // var bodyParser = require('body-parser');
 // app.use(bodyParser.urlencoded({extended: false}));
@@ -47,28 +40,12 @@ export class App {
     
     this.app.use('/', indexRouter);
     this.app.use('/signup', signupRouter);
-<<<<<<< HEAD
     this.app.use('/auth/login', AuthRouter);
-=======
-    
-    // Authentifications
-    this.app.use('/auth', AuthRouter);
-
->>>>>>> 95ee3338a1c86fd4ac1d7228ade4b7ae29ea9e70
     this.app.use('/Feed', FeedRouter);
     this.app.use('/profile', profileRouter);
     this.app.use('/comment', commentRouter)
-    this.app.use('/feedlike', feedlikeRouter);
-    this.app.use('/commentlike', commentlikeRouter);
-
-<<<<<<< HEAD
-    // this.app.use('/test', testRouter);
-=======
-    this.app.use('/test', TestRouter);
-    this.app.use('/upload', UploadRouter)
-
-    this.app.use('/images', express.static('upload/Images/Profiles'));
->>>>>>> 95ee3338a1c86fd4ac1d7228ade4b7ae29ea9e70
+    // this.app.use('/feedlike', feedlikeRouter);
+    // this.app.use('/commentlike', commentlikeRouter);
   }
 
   /**
