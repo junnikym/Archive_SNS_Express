@@ -4,22 +4,24 @@ import Post from "./presenter";
 
 const Container = (props, context) => {
 
-    const [feed, setAccount] = useState({
+    const [feed, setFeed] = useState({
 		text	: '',
 		file    : '',
     });
-    
-    const __text_input_handler__ = event => {
-		const { value, name } = event.target;
-		setAccount({
-			...account,
-			[name]: value
-		});
-	};
 
-	const __file_input_handler__ = event => {
-		setAccount({
-			...account,
+    const { text, file } = feed;
+
+    const __text_input_handler__ = event => {
+		const { value, text } = event.target;
+		setFeed({
+			...feed,
+			[text]: value
+		});
+    };
+    
+    const __file_input_handler__ = event => {
+		setFeed({
+			...feed,
 			file : event.target.files[0]
 		})
 	};
@@ -34,9 +36,8 @@ const Container = (props, context) => {
 			text_val		= {text}
 			file_val		= {file}
 
-			step_stage 			= {__step_stage__}
 			text_input_handler 	= {__text_input_handler__}
-			img_input_handler 	= {__img_input_handler__}
+			file_input_handler 	= {__file_input_handler__}
 			submit_handler 		= {__submit_handler__} />
 	);
 

@@ -1,4 +1,3 @@
-node_modules/
-public/
-*eslintcache
-
+/node_modules
+/public
+*.eslintcache
