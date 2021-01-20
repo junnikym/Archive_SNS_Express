@@ -1,7 +1,7 @@
 // /**
 //  *  게시물 좋아요 관련 라우트
 //  */
-// var express = require('express');
+// import express, { Request, Response } from "express";
 // var router = express.Router();
 // // var account = require('../services/accountService');
 

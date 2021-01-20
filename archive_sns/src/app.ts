@@ -9,9 +9,12 @@ var signupRouter = require('./routes/SignUp');
 var FeedRouter = require(__dirname+'/../src/routes/Feed');
 var profileRouter = require(__dirname+'/../src/routes/profile');
 var commentRouter = require(__dirname+'/../src/routes/comment');
+const feedlikeRouter = require(__dirname+'/../src/routes/feedlike');
+// const commentlikeRouter = require(__dirname+'/../src/routes/commentlike');
 
 const UploadRouter  = require('./routes/upload');
 const AuthRouter = require('./routes/Auth');
+
 // var helmet = require('helmet'); // npm install --save helmet  보안
 // var compression = require('compression'); // 압축
 
@@ -44,7 +47,7 @@ export class App {
     this.app.use('/Feed', FeedRouter);
     this.app.use('/profile', profileRouter);
     this.app.use('/comment', commentRouter)
-    // this.app.use('/feedlike', feedlikeRouter);
+    this.app.use('/feedlike', feedlikeRouter);
     // this.app.use('/commentlike', commentlikeRouter);
   }
 
