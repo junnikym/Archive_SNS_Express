@@ -43,12 +43,14 @@ router.post('/try', async function(req, res) {
 	// 	null
 	// );
 
-	const service = new PostCommentService;
+	const service = new PostCommentService(
+
+	);
 
 	const dto = new UpdateCommentDTO;
 	dto.content = "this is updated comment for update post comment test";
 
-	const result = await service.DeletePostComment(
+	const result = await service.DeleteComment(
 		'027bdec7-ce58-4f2d-861e-43234b182ca7',
 		'81a05fcd-14de-49b5-8b5b-45f41fb5ea5f'
 	);

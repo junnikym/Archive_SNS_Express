@@ -18,7 +18,7 @@ export class PostService {
 	private conn = getConnection();
 
 	@InjectRepository() 
-	private post_repo: PostRepo = this.conn.getCustomRepository(Post);
+	private post_repo: PostRepo = this.conn.getCustomRepository(PostRepo);
 
 	@InjectRepository(PostImage) 
 	private post_image_repo: PostImageRepo = this.conn.getRepository(PostImage);
