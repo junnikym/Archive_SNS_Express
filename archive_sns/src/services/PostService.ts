@@ -3,7 +3,7 @@ import { InjectRepository } from "typeorm-typedi-extensions";
 import { getConnection } from "typeorm";
 
 import { Post } from '../Models/Entities/Post';
-import { PostRepo } from '../Models/Repositories/PostRepo';
+import { PostRepo, PostOrder } from '../Models/Repositories/PostRepo';
 import { CreatePostDTO, UpdatePostDTO } from '../Models/DTOs/PostDTO';
 
 import { Account } from '../Models/Entities/Account';
@@ -17,8 +17,8 @@ import { CreateImageDTO } from '../Models/DTOs/ImageDTO';
 export class PostService {
 	private conn = getConnection();
 
-	@InjectRepository(Post) 
-	private post_repo: PostRepo = this.conn.getRepository(Post);
+	@InjectRepository() 
+	private post_repo: PostRepo = this.conn.getCustomRepository(PostRepo);
 
 	@InjectRepository(PostImage) 
 	private post_image_repo: PostImageRepo = this.conn.getRepository(PostImage);
@@ -57,6 +57,40 @@ export class PostService {
 		}
 
 		return new_post;
+	}
+
+	/**
+	 * Get just one of post information
+	 * 
+	 * @param post_pk : Post PK
+	 */
+	public async GetSinglePost( post_pk: string ): Promise<Post> {
+		return await this.post_repo.GetSinglePost(post_pk);
+	}
+
+	/**
+	 * Get list of short post information
+	 * 
+	 * @param offset 
+	 * @param limit 
+	 * @param order_by 
+	 */
+	public async GetPostList(
+		offset 	: number,
+		limit 	: number,
+		order_by: PostOrder
+	): Promise<Post[]> 
+	{
+		return await this.post_repo.GetPost(offset, limit, order_by);
+	}
+
+	public async GetOwnPost(
+		writer_pk: string,
+		offset	 : number,
+		limit	 : number,
+	): Promise<Post[]>
+	{
+		return await this.post_repo.GetOwnPost(writer_pk, offset, limit);
 	}
 
 	/**

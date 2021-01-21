@@ -107,6 +107,8 @@ export class LoginAccountDTO {
 	@IsNotEmpty()
 	@Length(MIN_PW_LEN, MAX_PW_LEN)
 	public password: string;
+
+	
 }
 
 export class AccountVO {

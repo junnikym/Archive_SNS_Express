@@ -26,17 +26,6 @@ import {
 
 import { CreateImageDTO } from '../Models/DTOs/ImageDTO';
 
-router.get('/', function(req, res) {  //확인용 폼
-  const login = `
-    <form action="/auth/login/" method="post">
-      <p><input type="text" name="email" placeholder="이메일"></p>
-      <p><input type="password" name="pw" placeholder="Password"></p>
-      <p><input type="submit"></p>
-    </form>
-    `
-  res.send(login);
-});
-
 /**
  * Get a Account VO
  */
@@ -166,8 +155,8 @@ router.post(
       success : true,
       message : "success",
       data : {
-        access_token: _access_token,
-        refresh_token: _refresh_token,
+        // access_token: _access_token,
+        // refresh_token: _refresh_token,
       }
     });
   }
@@ -190,7 +179,7 @@ router.post(
     // < Fail >
     // --------------------------------------------------
     if(!account) {
-      return res.state(401).send({
+      return res.status(401).send({
         status : 401,
         success : true,
         message : "Fail : Not match Account and Refresh Token",

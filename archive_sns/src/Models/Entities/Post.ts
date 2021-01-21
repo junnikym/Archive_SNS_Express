@@ -46,6 +46,12 @@ export class Post {
 	@OneToMany( (type) => PostImage, (PostImage) => PostImage.post )
 	image: PostImage[];
 
+	@Column({ default: 0 })
+	n_like: number;
+
+	@Column({ default: 0 })
+	view: number;
+
 	@CreateDateColumn({ name: "created_at" })
 	createdAt: Date;
 
