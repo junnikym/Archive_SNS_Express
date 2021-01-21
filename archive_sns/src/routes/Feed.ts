@@ -9,8 +9,8 @@ import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
 import { PostService } from "../services/PostService";
 
-import { CreatePostDTO, UpdatePostDTO } from '../Models/DTOs/PostDTO';
-import { CreateImageDTO } from "../Models/DTOs/ImageDTO";
+import { PostDTO } from '../Models/DTOs/PostDTO';
+import { ImageDTO } from "../Models/DTOs/ImageDTO";
 
 
 // /**
@@ -30,32 +30,29 @@ router.post(
   VerifyAccessToken,
   async function(req, res) {
     const feed_Info = req.body;
-
     const pk = res.locals.jwt_payload.pk;
 
-    const PostDTO = new CreatePostDTO();        //피드 생성 DTO
-    let ImgDTO: CreateImageDTO[];
-    
-    const Post_Create = new PostService();
+    const post_dto = new PostDTO();  //피드 생성 DTO
+    let img_dto: ImageDTO[];
 
-    PostDTO.title = feed_Info.title;
-    PostDTO.text_content = feed_Info.content; //DTO에 요청받은 데이터 삽입
+    post_dto.title = feed_Info.title;
+    post_dto.text_content = feed_Info.content; //DTO에 요청받은 데이터 삽입
 
     for(let i = 0; i < feed_Info.url.Length; i++) {
-      const temp_img_dto = new CreateImageDTO;
+      const temp_img_dto = new ImageDTO;
       temp_img_dto.url = feed_Info.url;
 
-      ImgDTO.push(temp_img_dto);
+      img_dto.push(temp_img_dto);
     }
     
-
-    const Create_feed = await Post_Create.CreatePost(
+    const post_create = new PostService();
+    const create_feed = await post_create.CreatePost(
       pk, 
-      PostDTO, 
-      ImgDTO
+      post_dto, 
+      img_dto
     );
 
-    if(!Create_feed){
+    if(!create_feed){
       return res.state(403).send({
         status : 403,
         success : true,
@@ -80,14 +77,14 @@ router.put(
   const feed_Info = req.body;
   const pk = res.locals.jwt_payload.pk;
 
-  const Post_Update_DTO = new UpdatePostDTO();
+  const Post_Update_DTO = new PostDTO();
   Post_Update_DTO.title = feed_Info.title;
   Post_Update_DTO.text_content = feed_Info.text_content;
 
-  let ImgDTO: CreateImageDTO[];
+  let ImgDTO: ImageDTO[];
   
   for(let i = 0; i < feed_Info.url.Length; i++) {
-    const temp_img_dto = new CreateImageDTO;
+    const temp_img_dto = new ImageDTO;
     temp_img_dto.url = feed_Info.url;
 
     ImgDTO.push(temp_img_dto);

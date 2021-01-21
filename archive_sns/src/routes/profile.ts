@@ -60,35 +60,4 @@ router.get(
 
 // });
 
-/**
- * 프로필 삭제 (삭제예정)
- */
-router.delete(
-    '/:usernum', 
-    VerifyAccessToken,
-    async function(req, res) {
-    const pk = res.locals.jwt_payload.pk;
-    const user_Info = req.body;
-    const password = user_Info.password;
-
-    const DeleteProfile = new AccountService();
-    const Delete_Profile = await DeleteProfile.DeleteAccount(
-        pk,
-        password
-    );
-    if(!Delete_Profile){
-        return res.status(403).send({
-            status : 403,
-            success : true,
-            message : "Forbidden"
-        });
-    }
-    
-    return res.status(200).send({
-        status : 200,
-        success : true,
-        message : "success"
-    });
-
-});
 module.exports = router;

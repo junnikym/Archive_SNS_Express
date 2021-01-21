@@ -13,10 +13,7 @@ import {
 
 import { PostCommentService } from '../services/CommentService';
 
-import { 
-    CreateCommentDTO,
-    UpdateCommentDTO
-} from '../Models/DTOs/CommentDTO';
+import { CommentDTO } from '../Models/DTOs/CommentDTO';
 
 /**
  * 댓글 표시
@@ -68,7 +65,7 @@ router.post(
 
     const pk = res.locals.jwt_payload.pk;
 
-    const Create_Comment = new CreateCommentDTO();
+    const Create_Comment = new CommentDTO();
     Create_Comment.content = comment_Info.content;
 
     const CreatePost_Comment = new PostCommentService();
@@ -105,7 +102,7 @@ router.put(
     const comment_pk = comment_Info.comment_pk
     const pk = res.locals.jwt_payload.pk;
 
-    const Update_Comment = new UpdateCommentDTO();
+    const Update_Comment = new CommentDTO();
     Update_Comment.content = comment_Info.content;
 
     const UpdatePost_Comment = new PostCommentService();

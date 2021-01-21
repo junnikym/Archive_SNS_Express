@@ -4,7 +4,7 @@ import { getConnection } from "typeorm";
 
 import { PostComment, PostReComment } from '../Models/Entities/Comment';
 import { PostCommentRepo, PostReCommentRepo } from '../Models/Repositories/CommentRepo';
-import { CreateCommentDTO, UpdateCommentDTO } from '../Models/DTOs/CommentDTO';
+import { CommentDTO } from '../Models/DTOs/CommentDTO';
 
 enum SortBy {
 	Date = 0
@@ -27,12 +27,12 @@ class CommentService<
 	 * 
 	 * @param writer_pk : writer's PK
 	 * @param comment_pk : comment's PK
-	 * @param update_commnet_dto : Update comment DTO
+	 * @param comment_dto : Update comment DTO
 	 */
 	public async UpdateComment(
 		writer_pk : string,
 		comment_pk: string,
-		update_commnet_dto : UpdateCommentDTO,
+		comment_dto : CommentDTO,
 	) : Promise<EntType> 
 	{
 		const test = new PostCommentRepo;
@@ -45,7 +45,7 @@ class CommentService<
 		}
 		
 		if( target.entity?.writer_pk === writer_pk ) {
-			update_commnet_dto.updateEntity(target);
+			comment_dto.updateEntity(target);
 			await this.comment_repo.save(target.entity);
 			return target.entity;
 		}
@@ -91,15 +91,15 @@ export class PostCommentService extends CommentService< PostCommentRepo, PostCom
 	 * 
 	 * @param writer_pk : Writer's PK
 	 * @param post_pk : post's PK which want to post a comment
-	 * @param create_comment_dto : Create comment DTO
+	 * @param comment_dto : Create comment DTO
 	 */
 	public async CreateComment(
 		writer_pk : string,
 		post_pk : string,
-		create_comment_dto : CreateCommentDTO
+		comment_dto : CommentDTO
 	) : Promise<PostComment> {
 		const comment_ent : PostComment = 
-			create_comment_dto.toEntity() as PostComment;
+			comment_dto.toEntity() as PostComment;
 		
 		comment_ent.writer_pk 	= writer_pk;
 		comment_ent.post_pk 	= post_pk;

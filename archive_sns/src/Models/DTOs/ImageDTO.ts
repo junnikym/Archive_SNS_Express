@@ -1,7 +1,7 @@
 import { IsNotEmpty, Length, IsEmail } from "class-validator";
 import { Image, PostImage } from "../Entities/Image";
 
-export class CreateImageDTO {
+export class ImageDTO {
 	@IsNotEmpty()
 	url: string;
 
@@ -12,5 +12,17 @@ export class CreateImageDTO {
 		newImage.url = url;
 
 		return newImage;
+	}
+
+	public updateEntity(target) {
+		const { url } = this;
+
+		target.entity.url = url;
+	}
+
+	public fromJson(json) {
+		const { url } = json
+
+		this.url = url;
 	}
 }

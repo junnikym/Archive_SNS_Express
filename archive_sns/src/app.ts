@@ -46,6 +46,8 @@ export class App {
     this.app.use('/auth/login', AuthRouter);
     this.app.use('/Feed', FeedRouter);
     this.app.use('/profile', profileRouter);
+    this.app.use('/upload', UploadRouter)
+    this.app.use('/images', express.static('upload/Images/Profiles'));
     this.app.use('/comment', commentRouter)
     this.app.use('/feedlike', feedlikeRouter);
     // this.app.use('/commentlike', commentlikeRouter);
