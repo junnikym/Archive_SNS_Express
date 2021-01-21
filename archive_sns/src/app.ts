@@ -10,7 +10,6 @@ var FeedRouter = require(__dirname+'/../src/routes/Feed');
 var profileRouter = require(__dirname+'/../src/routes/profile');
 var commentRouter = require(__dirname+'/../src/routes/comment');
 
-const TestRouter    = require('./routes/Test');
 const UploadRouter  = require('./routes/upload');
 const AuthRouter = require('./routes/Auth');
 
@@ -47,7 +46,6 @@ export class App {
     this.app.use('/Feed', FeedRouter);
     this.app.use('/profile', profileRouter);
 
-    this.app.use('/test', TestRouter);
     this.app.use('/upload', UploadRouter)
 
     this.app.use('/images', express.static('upload/Images/Profiles'));

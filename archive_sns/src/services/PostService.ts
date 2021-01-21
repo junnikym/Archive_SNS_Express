@@ -4,14 +4,14 @@ import { getConnection } from "typeorm";
 
 import { Post } from '../Models/Entities/Post';
 import { PostRepo, PostOrder } from '../Models/Repositories/PostRepo';
-import { CreatePostDTO, UpdatePostDTO } from '../Models/DTOs/PostDTO';
+import { PostDTO } from '../Models/DTOs/PostDTO';
 
 import { Account } from '../Models/Entities/Account';
 import { AccountRepo } from '../Models/Repositories/AccountRepo';
 
 import { PostImage } from '../Models/Entities/Image';
 import { PostImageRepo } from '../Models/Repositories/ImageRepo';
-import { CreateImageDTO } from '../Models/DTOs/ImageDTO';
+import { ImageDTO } from '../Models/DTOs/ImageDTO';
 
 @Service()
 export class PostService {
@@ -32,8 +32,8 @@ export class PostService {
 	 */
 	public async CreatePost(
 		writer_pk: string,
-		post_dto: CreatePostDTO,
-		image_dto_list: CreateImageDTO[] | null
+		post_dto: PostDTO,
+		image_dto_list: ImageDTO[] | null
 	): Promise<Post> 
 	{
 		// Create Post
@@ -105,8 +105,8 @@ export class PostService {
 	public async UpdatePost(
 		writer_pk: string,
 		post_pk: string,
-		post_dto: UpdatePostDTO | null,
-		new_img_dto: CreateImageDTO[] | null,
+		post_dto: PostDTO | null,
+		new_img_dto: ImageDTO[] | null,
 		del_img_list: string[] | null,
 	): Promise<Post | null> {
 
@@ -116,7 +116,7 @@ export class PostService {
 
 		if(target.entity?.writer_pk === writer_pk ) {
 
-			post_dto?.UpdateEntity(target);
+			post_dto?.updateEntity(target);
 			await this.post_repo.save(target.entity);
 			
 			del_img_list?.forEach( async elem => {

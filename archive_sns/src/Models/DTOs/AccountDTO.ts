@@ -1,6 +1,7 @@
 import { IsNotEmpty, Length, IsEmail } from "class-validator";
 import { Account } from "../Entities/Account";
 import { Image } from "../Entities/Image";
+import { profile } from 'console';
 
 /**
  * Length constants
@@ -15,33 +16,34 @@ const MAX_EMAIL_LEN = 64;
 const MIN_NAME_LEN = 1;
 const MAX_NAME_LEN = 64;
 
-export class CreateAccountDTO {
+export class AccountVO {
+	public readonly pk			: string | null;
+	public readonly email		: string | null;
+	public readonly name		: string | null;
+	public readonly profile_image: Image | null;
+	public readonly status_msg	: string | null;
+}
 
-	/**
-	 * DTO for Create Account
-	 */
+export class AccountDTO {
 
-	@IsNotEmpty()
 	@Length(MIN_EMAIL_LEN, MAX_EMAIL_LEN)
 	@IsEmail()
 	public email: string;
 
-	@IsNotEmpty()
 	@Length(MIN_PW_LEN, MAX_PW_LEN)
 	public password: string;
 
-	@IsNotEmpty()
 	@Length(MIN_NAME_LEN, MAX_NAME_LEN)
 	public name: string;
-
+	
 	public profile_image: Image | null;
 
 	public status_msg: string | null;
 
 	public toEntity(): Account {
 		const { 
-			password, 
 			email, 
+			password, 
 			name, 
 			profile_image, 
 			status_msg
@@ -56,19 +58,6 @@ export class CreateAccountDTO {
 
 		return new_account;
 	}
-
-}
-
-export class UpdateAccountDTO {
-	@Length(MIN_PW_LEN, MAX_PW_LEN)
-	public password: string | null;
-
-	@Length(MIN_NAME_LEN, MAX_NAME_LEN)
-	public name: string | null;
-
-	public profile_image: Image | null;
-
-	public status_msg: string | null;
 
 	public updateEntity( target: { entity: Account } ) {
 		const { 
@@ -90,29 +79,59 @@ export class UpdateAccountDTO {
 		if(status_msg)
 			target.entity.status_msg = target.entity.status_msg;
 	}
+
+	public fromJson(json) {
+		const { 
+			email, 
+			password, 
+			name, 
+			profile_image, 
+			status_msg
+		} = json
+
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.profile_image = profile_image;
+		this.status_msg = status_msg;
+	}
 }
 
-export class LoginAccountDTO {
+export class AcocutBuilder {	
 
-	/**
-	 * DTO for Login Account
-	 */
+	private dto: AccountDTO;
 
-	@IsNotEmpty()
-	@Length(MIN_EMAIL_LEN, MAX_EMAIL_LEN)
-	@IsEmail()
-	public email: string;
-
-	// Only To Compare
-	@IsNotEmpty()
-	@Length(MIN_PW_LEN, MAX_PW_LEN)
-	public password: string;
-
+	constructor() { 
+		this.dto = new AccountDTO(); 
+	}
 	
-}
+	Email(x: string) {
+		this.dto.email = x;
+		return this;
+	}
 
-export class AccountVO {
-	public pk		: string;
-	public email	: string;
-	public name		: string;
-  }
+	Password(x: string) {
+		this.dto.password = x;
+		return this;
+	}
+
+	Name(x: string) {
+		this.dto.name = x;
+		return this;
+	}
+
+	ProfileImage(x: Image) {
+		this.dto.profile_image = x;
+		return this;
+	}
+
+	StatusMsg(x: string) {
+		this.dto.status_msg = x;
+		return this;
+	}
+	
+	build() { 
+		return this.dto; 
+	}
+
+}
