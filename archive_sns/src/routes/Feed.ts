@@ -1,8 +1,8 @@
 /**
  *  피드 관련 라우트
  */
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 // JWT middleware
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
