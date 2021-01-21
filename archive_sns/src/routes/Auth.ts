@@ -85,7 +85,7 @@ router.post(
     // < Fail >
     // --------------------------------------------------
     if(!account) {
-      return res.state(401).send({
+      return res.status(401).send({
         status : 401,
         success : true,
         message : "Fail : Not verify account",

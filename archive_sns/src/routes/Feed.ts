@@ -104,7 +104,7 @@ router.put(
   )
 
   if(!Update_Feed){
-    return res.state(403).send({
+    return res.status(403).send({
       status : 403,
       success : true,
       message : "Forbidden"
@@ -136,7 +136,7 @@ router.delete(
   )
 
   if(!Delete_Feed){
-    return res.state(403).send({
+    return res.status(403).send({
       status : 403,
       success : true,
       message : "Forbidden"

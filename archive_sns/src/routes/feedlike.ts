@@ -20,7 +20,7 @@ router.get(
 });
 
 /**
- * 좋아요 입력
+ * 좋아요 입력, 삭제
  */
 router.post(
     '/:feedNum', 
