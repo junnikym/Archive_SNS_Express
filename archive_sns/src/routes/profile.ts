@@ -42,28 +42,28 @@ router.get(
     });
 });
 
-/**
- * 프로필 생성
- */
-router.put('/:usernum', function(req, res) {
-    var user_Info = req.body;
+// /**
+//  * 프로필 생성
+//  */
+// router.put('/:usernum', function(req, res) {
+//     var user_Info = req.body;
     
 
-});
+// });
 
-/**
- * 프로필 수정
- */
-router.put('/:usernum', function(req, res) {
-    var user_Info = req.body;
+// /**
+//  * 프로필 수정
+//  */
+// router.put('/:usernum', function(req, res) {
+//     var user_Info = req.body;
     
 
-});
+// });
 
 /**
- * 프로필 삭제
+ * 프로필 삭제 (삭제예정)
  */
-router.put(
+router.delete(
     '/:usernum', 
     VerifyAccessToken,
     async function(req, res) {

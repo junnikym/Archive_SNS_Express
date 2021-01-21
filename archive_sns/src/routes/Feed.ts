@@ -13,14 +13,14 @@ import { CreatePostDTO, UpdatePostDTO } from '../Models/DTOs/PostDTO';
 import { CreateImageDTO } from "../Models/DTOs/ImageDTO";
 
 
-/**
- * 피드 보기
- */
-router.get('/', function(req, res) {
-    const feed_Info = req.body;
+// /**
+//  * 피드 보기
+//  */
+// router.get('/', function(req, res) {
+//     const feed_Info = req.body;
 
     
-});
+// });
 
 /**
  * 피드 생성
