@@ -114,5 +114,4 @@ export class LoginAccountDTO {
 export class AccountVO {
 	public pk		: string;
 	public email	: string;
-	public name		: string;
-  }
+	public name		: string; }

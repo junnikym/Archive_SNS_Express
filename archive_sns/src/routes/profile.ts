@@ -4,6 +4,12 @@
 import * as express from "express";
 var router = express.Router();
 
+import { 
+    RefreshTokenGenerator,
+    AccessTokenGenerator,
+    VerifyAccessToken 
+} from "../Middleware/JWT_Auth";
+
 import { AccountService } from "../services/AccountService";
 
 /**
@@ -59,6 +65,7 @@ router.put('/:usernum', function(req, res) {
  */
 router.put(
     '/:usernum', 
+    VerifyAccessToken,
     async function(req, res) {
     const pk = res.locals.jwt_payload.pk;
     const user_Info = req.body;

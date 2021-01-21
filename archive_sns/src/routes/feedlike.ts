@@ -2,10 +2,16 @@
  *  게시물 좋아요 관련 라우트
  */
 import * as express from "express";
-var router = express.Router();
+const router = express.Router();
+
+import { 
+    RefreshTokenGenerator,
+    AccessTokenGenerator,
+    VerifyAccessToken 
+} from "../Middleware/JWT_Auth";
 
 import { PostLikeService } from '../services/LikeService';
-// var account = require('../services/accountService');
+// const account = require('../services/accountService');
 
 /**
  * 좋아요 수 보기
@@ -13,10 +19,51 @@ import { PostLikeService } from '../services/LikeService';
 router.get(
     '/',
     function(req, res) {
-    var likeInfo = req.body;
+    const likeInfo = req.body;
+
+
+});
+
+/**
+ * 좋아요 누른 사람  목록 보기
+ */
+router.get('/list/:feedNum', function(req, res) {
+    const like_Info = req.body;
+
+    
+});
+
+/**
+ * 좋아요 눌렀나 안눌렀나?
+ */
+router.get(
+    '/list/:feedNum', 
+    VerifyAccessToken,
+    async function(req, res) {
+    const liketoggle_Info = req.body;
+    const target_pk = liketoggle_Info.feed_pk;
     const pk = res.locals.jwt_payload.pk;
 
+    const Like_Service = new PostLikeService();
 
+    const Like_toggle = Like_Service.IsLike(
+        pk,
+        target_pk
+    );
+
+    if(!Like_toggle){
+        return res.status(403).send({
+            status : 403,
+            success : true,
+            message : "Forbidden"
+        });
+    }
+    
+    return res.status(200).send({
+        status : 200,
+        success : true,
+        message : "success"
+    });  
 });
 
 /**
@@ -25,7 +72,7 @@ router.get(
 router.post(
     '/:feedNum', 
     async function(req, res) {
-    var like_Info = req.body;
+    const like_Info = req.body;
     const pk = res.locals.jwt_payload.pk;
     const giver = like_Info.Feed_pk;
 
@@ -51,13 +98,6 @@ router.post(
     });
 });
 
-/**
- * 좋아요 누른 사람  목록 보기
- */
-router.get('/list/:feedNum', function(req, res) {
-    var like_Info = req.body;
 
-    
-});
 
 module.exports = router;

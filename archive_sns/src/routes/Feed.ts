@@ -123,6 +123,7 @@ router.put(
  */  
 router.delete(
   '/:feednum', 
+  VerifyAccessToken,
   async function(req, res) {
   const feed_Info = req.body;
   const Feed_pk = feed_Info.post_pk;
