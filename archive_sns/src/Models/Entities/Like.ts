@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 
 import { Account } from './Account';
+import { Comment } from './Comment';
 import { Post } from './Post';
 
 abstract class Like {
@@ -28,7 +29,7 @@ abstract class Like {
 	createdAt: Date;
 }
 
-@Entity()
+@Entity({ name: "post_like" })
 export class PostLike extends Like {
 	@Column({ name: "post_pk", length: 36 })
 	post_pk: string;
@@ -41,12 +42,15 @@ export class PostLike extends Like {
 	post: Post;
 }
 
-// @Entity
-// export class CommentLike extends Like {
-// 	@ManyToOne((type) => Comment, (Comment) => Comment.pk, {
-// 		cascade: true,
-// 		onDelete: "CASCADE",
-// 	})
-// 	@JoinColumn({ name: "comment" })
-// 	comment: Comment;
-// }
+@Entity({ name: "comment_like" })
+export class CommentLike extends Like {
+	@Column({ name: "comment_pk", length: 36 })
+	comment_pk: string;
+
+	@ManyToOne((type) => Comment, (Comment) => Comment.pk, {
+		cascade: true,
+		onDelete: "CASCADE",
+	})
+	@JoinColumn({ name: "comment" })
+	comment: Comment;
+}

@@ -3,6 +3,7 @@ import {
 	ChildEntity,
 	TableInheritance,
 	PrimaryGeneratedColumn,
+	CreateDateColumn,
 	Column,
 	JoinColumn,
 	ManyToOne,
@@ -22,6 +23,12 @@ export class Comment {
 
 	@Column({ name: "writer_pk", length: 36 })
 	writer_pk: string;
+
+	@Column({ default: 0 })
+	n_like: number;
+
+	@CreateDateColumn({ name: "created_at" })
+	createdAt: Date;
 
 	@ManyToOne((type) => Account, (Account) => Account.pk, {
 		cascade: true,

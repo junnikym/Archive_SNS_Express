@@ -50,7 +50,7 @@ export class AccountService {
 	 * Update Account Data ( User Infomation )
 	 * 
 	 * @param account_pk : Account's PK
-	 * @param update_account_dto : UpdateAccountDTO which is include updated account data
+	 * @param update_account_dto : UpdateAccountDTO which is include updated aㅏccount data
 	 */
 	public async UpdateAccount(
 		account_pk: string,

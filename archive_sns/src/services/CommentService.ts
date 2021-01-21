@@ -12,7 +12,7 @@ enum SortBy {
 
 class CommentService<
 	RepoType extends (PostCommentRepo | PostReCommentRepo),
-	EntType
+	EntType extends (PostComment | PostReComment)
 > {
 	@InjectRepository() protected comment_repo;
 

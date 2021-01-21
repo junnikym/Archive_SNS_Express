@@ -3,7 +3,7 @@ import {
 	EntityRepository, Repository, TransactionManager
 } from "typeorm";
 
-import { PostComment, PostReComment } from '../Entities/Comment';
+import { Comment, PostComment, PostReComment } from '../Entities/Comment';
 
 export const enum PostOrder {
 	latest = "post.createAt",
@@ -13,39 +13,43 @@ export const enum PostOrder {
 // --------------------------------------------------
 
 const CommonCommentSelect = [
+	"pk",
 	"title",
 	"writer",
 ]
 
 const PostCommentSelect = [
 	...CommonCommentSelect,
-	"post.pk",
+	"post_pk",
 ];
 
 const PostReCommentSelect = [
 	...CommonCommentSelect,
-	"parent"
+	"parent_pk",
 ]
 
 // < Common Repository > 
 // --------------------------------------------------
 
-class CommentRepo<T> extends Repository<T> {
+class CommonCommentRepo<T> extends Repository<T> {
 
 }
 
 // < Repositories > 
 // --------------------------------------------------
 
+@EntityRepository(Comment)
+export class CommentRepo extends CommonCommentRepo<Comment> { }
+
 @EntityRepository(PostComment)
-export class PostCommentRepo extends CommentRepo<PostComment> { 
+export class PostCommentRepo extends CommonCommentRepo<PostComment> { 
 	
-	public GetComment = ( 
+	public async GetComment ( 
 		post_pk: string,
 		offset: number, 
 		limit: number, 
 		order_by: string 
-	) => {
+	) {
 		return this.createQueryBuilder("comment")
 				.select( PostCommentSelect )
 				.leftJoinAndSelect("comment.writer", "writer")
@@ -59,23 +63,23 @@ export class PostCommentRepo extends CommentRepo<PostComment> {
 }
 
 @EntityRepository(PostReComment)
-export class PostReCommentRepo extends CommentRepo<PostReComment> { 
+export class PostReCommentRepo extends CommonCommentRepo<PostReComment> { 
 
-	// @TODO : adapt limit at re-comment of re-comment
-	public GetComment = ( 
+	public async GetComment ( 
 		target_comment_pk: string,
 		offset: number, 
 		limit: number, 
 		order_by: string 
-	) => {
+	) {
 		return this.createQueryBuilder("comment")
 				.select( PostCommentSelect )
 				.leftJoinAndSelect("comment.writer", "writer")
-				.where("comment.parent_pk = :target_comment_pk", { target_comment_pk })
+				.where("comment.root_pk = :target_comment_pk", { target_comment_pk })
 				.orderBy(order_by, "DESC")
 				.skip(offset)
 				.take(limit)
 				.getMany();
+
 	}
 
 }
