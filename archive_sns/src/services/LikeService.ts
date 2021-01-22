@@ -10,6 +10,7 @@ import { PostRepo } from "../Models/Repositories/PostRepo";
 import { CommentRepo } from "../Models/Repositories/CommentRepo";
 import { Post } from '../Models/Entities/Post';
 import { Comment } from '../Models/Entities/Comment';
+import { async } from '../db_connection';
 
 class CommonLikeService<
 	RepoType extends (PostLikeRepo | CommentLikeRepo),
@@ -35,6 +36,30 @@ class CommonLikeService<
 	) : Promise<boolean> {
 		const old_like = this.like_repo.GetLike(giver_pk, target_pk);
 		return old_like ? true : false;
+	}
+
+	/**
+	 * count like number
+	 * 
+	 * @param target_pk : target PK
+	 */
+	public async CountLike(
+		target_pk : string
+	) : Promise<number> {
+		return this.like_repo.GetCount(target_pk);
+	}
+
+	/**
+	 * the list of people who like the target(post, comment ...) things
+	 * 
+	 * @param target_pk : target PK
+	 * @param limit : list limit number
+	 */
+	public async WhoLike(
+		target_pk : string,
+		limit : number
+	) : Promise<number> {
+		return this.like_repo.GetWho(target_pk, limit);
 	}
 
 	/**
@@ -71,6 +96,8 @@ class CommonLikeService<
 		target.n_like = await this.like_repo.GetCount(target_pk);
 		return await this.target_repo.save(target)
 	}
+
+
 
 }
 

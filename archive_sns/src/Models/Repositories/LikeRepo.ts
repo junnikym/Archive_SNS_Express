@@ -37,6 +37,14 @@ export class PostLikeRepo extends Repository<PostLike> {
 		});
 	}
 
+	public async GetWho(target_pk: string, limit: number) {
+		return super.createQueryBuilder("PostLike")
+			.where("post_pk = :target_pk", {target_pk})
+			.orderBy("like.createdAt", "DESC")
+			.take(limit)
+			.getMany();
+	}
+
 }
 
 @EntityRepository(CommentLike)
@@ -69,6 +77,15 @@ export class CommentLikeRepo extends Repository<CommentLike> {
 		return super.count({
 			where: { comment_pk: target_pk }
 		});
+	}
+
+	public async GetWho(target_pk: string, limit: number) {
+		return super.createQueryBuilder("PostLike")
+			.select('giver')
+			.where("comment_pk = :target_pk", {target_pk})
+			.orderBy("like.createdAt", "DESC")
+			.take(limit)
+			.getMany();
 	}
 
 }
