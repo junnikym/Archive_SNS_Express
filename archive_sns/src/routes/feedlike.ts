@@ -13,25 +13,25 @@ import {
 import { PostLikeService } from '../services/LikeService';
 // const account = require('../services/accountService');
 
-/**
- * 좋아요 수 보기
- */
-router.get(
-    '/',
-    function(req, res) {
-    const likeInfo = req.body;
+// /**
+//  * 좋아요 수 보기
+//  */
+// router.get(
+//     '/',
+//     function(req, res) {
+//     const likeInfo = req.body;
 
 
-});
+// });
 
-/**
- * 좋아요 누른 사람  목록 보기
- */
-router.get('/list/:feedNum', function(req, res) {
-    const like_Info = req.body;
+// /**
+//  * 좋아요 누른 사람  목록 보기
+//  */
+// router.get('/list/:feedNum', function(req, res) {
+//     const like_Info = req.body;
 
     
-});
+// });
 
 /**
  * 좋아요 눌렀나 안눌렀나?

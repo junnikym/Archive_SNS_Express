@@ -42,4 +42,22 @@ router.get(
     });
 });
 
+// /**
+//  * 프로필 생성
+//  */
+// router.put('/:usernum', function(req, res) {
+//     var user_Info = req.body;
+    
+
+// });
+
+// /**
+//  * 프로필 수정
+//  */
+// router.put('/:usernum', function(req, res) {
+//     var user_Info = req.body;
+    
+
+// });
+
 module.exports = router;
