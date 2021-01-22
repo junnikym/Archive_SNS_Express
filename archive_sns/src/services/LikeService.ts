@@ -10,7 +10,6 @@ import { PostRepo } from "../Models/Repositories/PostRepo";
 import { CommentRepo } from "../Models/Repositories/CommentRepo";
 import { Post } from '../Models/Entities/Post';
 import { Comment } from '../Models/Entities/Comment';
-import { async } from '../db_connection';
 
 class CommonLikeService<
 	RepoType extends (PostLikeRepo | CommentLikeRepo),
