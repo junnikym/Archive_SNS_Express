@@ -1,12 +1,12 @@
 import { connect } from "react-redux";
 import Container from "./container";
-// import { actionCreators as feedAct } from "../../redux/modules/Feed";
+import { actionCreators as PostAct } from "../../redux/modules/Post";
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        // createFeed: (text, file) => {
-        //     dispatch(feedAct.createFeed(text, file));
-        // }
+        createPost: (text, img) => {
+            dispatch(PostAct.createPost(text, img));
+        }
     };
 };
 

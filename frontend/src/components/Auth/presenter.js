@@ -23,19 +23,7 @@ const Auth = (props, context) => (
 
 	<div className='Login_center'>		
 
-	<Tabs defaultActiveKey="Main" id="default">
-
-	<Tab eventKey="Main" title="Main">
-			<br/>
-		<center>
-			<span>
-				안녕하세요 저희 'ARCHIVE' 에 오신걸 환영합니다. <br/><br/>
-				접속하시기 전에 회원가입은 하셨나요?<br/>
-				사이트를 이용하시기 전에 상단 'SignUp'을 통해 회원가입 부탁드립니다.
-			</span>
-			</center>
-			
-		</Tab>
+	<Tabs defaultActiveKey="Login" id="default">
 
 		<Tab eventKey="Login" title="Login">
 			<br/>

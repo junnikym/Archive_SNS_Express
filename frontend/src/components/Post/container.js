@@ -1,50 +1,62 @@
 import React, { useState }  from "react";
 import PropTypes from "prop-types";
-import Post from "./presenter";
+import _Post_ from "./presenter";
 
 const Container = (props, context) => {
 
-    const [feed, setFeed] = useState({
-		text	: '',
-		file    : '',
+    const [Post, setPost] = useState({
+		title		: '',
+		text		: '',
+		img     	: ''
     });
 
-    const { text, file } = feed;
+	const { title, text, img } = Post;
+	
+	const __title_input_handler__ = event => {
+		const { value, name } = event.target;
+		setPost({
+			...Post,
+			[name]: value
+		});
+    };
 
     const __text_input_handler__ = event => {
-		const { value, text } = event.target;
-		setFeed({
-			...feed,
-			[text]: value
+		const { value, name } = event.target;
+		setPost({
+			...Post,
+			[name]: value
 		});
     };
     
-    const __file_input_handler__ = event => {
-		setFeed({
-			...feed,
-			file : event.target.files[0]
+    const __img_input_handler__ = event => {
+		setPost({
+			...Post,
+			img : event.target.files[0]
 		})
-	};
+	}; 
 
 	const __submit_handler__ = event => {
 		event.preventDefault();
-		props.createAccount(text, file);
+		props.createPost(title, text, img);
 	};
 
     return (
-		<Post
-			text_val		= {text}
-			file_val		= {file}
+		<_Post_
+			title_input_handler 	= {__title_input_handler__}
+			text_input_handler 		= {__text_input_handler__}
+			img_input_handler 		= {__img_input_handler__}
+			submit_handler 			= {__submit_handler__} 
 
-			text_input_handler 	= {__text_input_handler__}
-			file_input_handler 	= {__file_input_handler__}
-			submit_handler 		= {__submit_handler__} />
+			Post_text				= 	{text}
+			Post_img				= 	{img}
+			Post_title				= 	{title}
+			/>
 	);
 
 }
 
 Container.propTypes = {
-	createAccount : PropTypes.func.isRequired,
+	createPost : PropTypes.func.isRequired,
 };
 
 export default Container;
