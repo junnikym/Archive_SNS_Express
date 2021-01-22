@@ -12,6 +12,20 @@ import {
 
 import { AccountService } from "../services/AccountService";
 
+const status = function(result, res){
+    if(!result){
+        return res.status(403).send({
+            status : 403,
+            success : true,
+            message : "Forbidden"
+        });
+    };
+    return res.status(200).send({
+        status : 200,
+        success : true,
+        message : "success"
+    });  
+}
 /**
  * 프로필 확인
  */
@@ -26,20 +40,7 @@ router.get(
     const Get_Account = await GetAccount.GetAccountByPK(
         user_Email
     );
-
-    if(!Get_Account){
-        return res.status(403).send({
-            status : 403,
-            success : true,
-            message : "Forbidden"
-        });
-    }
-    
-    return res.status(200).send({
-        status : 200,
-        success : true,
-        message : "success"
-    });
+    return status(Get_Account, res);
 });
 
 // /**

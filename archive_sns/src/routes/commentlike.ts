@@ -8,6 +8,20 @@ import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
 import { CommentLikeService } from "../services/LikeService";
 
+const status = function(result, res){
+    if(!result){
+        return res.status(403).send({
+            status : 403,
+            success : true,
+            message : "Forbidden"
+        });
+    };
+    return res.status(200).send({
+        status : 200,
+        success : true,
+        message : "success"
+    });  
+}
 
 // /**
 //  * 좋아요 수 보기
@@ -44,20 +58,7 @@ router.post(
         user_pk,
         comment_pk
     );
-
-    if(!CommentLike){
-        return res.status(403).send({
-            status : 403,
-            success : true,
-            message : "Forbidden"
-        });
-    }
-
-    return res.status(200).send({
-        status : 200,
-        success : true,
-        message : "success"
-    });
+    return status(CommentLike, res);
 });
 
 module.exports = router;

@@ -52,7 +52,7 @@ router.post(
 			return res.tatus(400).send({
 				status: 400, 
 				success: false, 
-				message: "이미지가 존제하지 않습니다."
+				message: "이미지가 존재하지 않습니다."
 			});
 		}
 
