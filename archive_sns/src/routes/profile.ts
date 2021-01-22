@@ -12,6 +12,11 @@ import {
 
 import { AccountService } from "../services/AccountService";
 
+/**
+ * 
+ * @param result 라우트 처리 결과
+ * @param res 상태 처리 결과
+ */
 const status = function(result, res){
     if(!result){
         return res.status(403).send({
@@ -26,6 +31,7 @@ const status = function(result, res){
         message : "success"
     });  
 }
+
 /**
  * 프로필 확인
  */

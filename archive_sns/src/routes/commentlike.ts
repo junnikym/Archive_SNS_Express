@@ -8,6 +8,11 @@ import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
 import { CommentLikeService } from "../services/LikeService";
 
+/**
+ * 
+ * @param result 라우트 처리 결과
+ * @param res 상태 처리 결과
+ */
 const status = function(result, res){
     if(!result){
         return res.status(403).send({
@@ -28,8 +33,6 @@ const status = function(result, res){
 //  */
 // router.get('/', function(req, res) {
 //     var likeInfo = req.body;
-
-    
 // });
 
 // /**
@@ -37,8 +40,6 @@ const status = function(result, res){
 //  */
 // router.get('/list/:commentNum', function(req, res) {
 //     var likeInfo = req.body;
-
-
 // });
 
 /**

@@ -12,6 +12,11 @@ import { PostService } from "../services/PostService";
 import { PostDTO } from '../Models/DTOs/PostDTO';
 import { ImageDTO } from "../Models/DTOs/ImageDTO";
 
+/**
+ * 
+ * @param result 라우트 처리 결과
+ * @param res 상태 처리 결과
+ */
 const status = function(result, res){
   if(!result){
       return res.status(403).send({
@@ -26,13 +31,12 @@ const status = function(result, res){
       message : "success"
   });  
 }
+
 // /**
 //  * 피드 보기
 //  */
 // router.get('/', function(req, res) {
 //     const feed_Info = req.body;
-
-    
 // });
 
 /**

@@ -5,11 +5,7 @@
 var express = require('express');
 var router = express.Router();
 
-import { 
-    RefreshTokenGenerator,
-    AccessTokenGenerator,
-    VerifyAccessToken 
-} from "../Middleware/JWT_Auth";
+import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
 import { PostCommentService } from '../services/CommentService';
 

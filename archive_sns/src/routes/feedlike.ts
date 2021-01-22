@@ -4,14 +4,15 @@
 import * as express from "express";
 const router = express.Router();
 
-import { 
-    RefreshTokenGenerator,
-    AccessTokenGenerator,
-    VerifyAccessToken 
-} from "../Middleware/JWT_Auth";
+import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
 import { PostLikeService } from '../services/LikeService';
 
+/**
+ * 
+ * @param result 라우트 처리 결과
+ * @param res 상태 처리 결과
+ */
 const status = function(result, res){
     if(!result){
         return res.status(403).send({
@@ -43,8 +44,6 @@ const status = function(result, res){
 //  */
 // router.get('/list/:feedNum', function(req, res) {
 //     const like_Info = req.body;
-
-    
 // });
 
 /**
@@ -85,7 +84,5 @@ router.post(
     );
     return status(Post_Like, res);
 });
-
-
 
 module.exports = router;
