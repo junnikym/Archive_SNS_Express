@@ -9,7 +9,8 @@ function createPost(title, text, img) {
 		fetch("/feed", {
 			method: "post",
 			headers: {
-				"Content-Type": "application/json"
+				"Content-Type": "application/json",
+				Authorization: `JWT ${token}`
 			},
 			body: JSON.stringify({
 				"title" : title,
@@ -30,19 +31,6 @@ function reducer(state = null, action) {
 		default:
 			return state;
 	}
-}
-
-function applySetToken(state, action) {
-	const { token } = action;
-	localStorage.setItem("jwt", token);
-
-	console.log("set token called");
-
-	return {
-		...state,
-		isLoggedIn	: true,
-		token		: token
-	};
 }
 
 const actionCreators = {

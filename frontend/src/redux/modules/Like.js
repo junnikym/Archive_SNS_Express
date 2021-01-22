@@ -1,0 +1,2 @@
+const SAVE_TOKEN 	= "SAVE_TOKEN";
+const OUT_TOKEN 	= "OUT_TOKEN";
