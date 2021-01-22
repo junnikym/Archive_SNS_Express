@@ -11,7 +11,6 @@ import {
 } from "../Middleware/JWT_Auth";
 
 import { PostLikeService } from '../services/LikeService';
-// const account = require('../services/accountService');
 
 // /**
 //  * 좋아요 수 보기
