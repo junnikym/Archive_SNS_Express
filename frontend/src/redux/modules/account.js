@@ -25,15 +25,17 @@ function logout() {
 // --------------------------------------------------
 
 function defaultLogin(email, password) {
-	return dispatch => {
+	return (dispatch, getState) => {
+		console.log(getState());
+
 		fetch("/auth/login", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
 			},
 			body: JSON.stringify({
-				"email" : email,
-				"pw"	: password
+				"email" 	: email,
+				"password"	: password
 			})
 		})
 		.then(response => response.json())
@@ -59,7 +61,7 @@ function createAccount(email, pw, confirm_pw, img, alias) {
 			body: JSON.stringify({
 				"name"		: alias,
 				"email"		: email,
-				"pw"		: pw,
+				"password"	: pw,
 				"pw_confirm": confirm_pw,
 			})
 		})

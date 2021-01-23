@@ -113,7 +113,7 @@ router.post(
 
     // < Wrong Input >
     // --------------------------------------------------
-    if(user_info.pw != user_info.pw_confirm) {
+    if(user_info.password != user_info.pw_confirm) {
       return res.status(409).send({
         status : 409,
         success : false,

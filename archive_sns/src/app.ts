@@ -1,7 +1,10 @@
 import bodyParser from "body-parser";
 import express, { Request, Response } from "express";
+
 import { appendFile } from "fs";
 import { db_conn } from "./db_connection";
+import { createServer, Server as httpServer } from "http";
+import { WebSocket } from "./web_socket";
 
 var indexRouter = require(__dirname+'/../src/routes/index');
 var signupRouter = require('./routes/SignUp');
@@ -15,21 +18,9 @@ const feedlikeRouter = require(__dirname+'/../src/routes/feedlike');
 const UploadRouter  = require('./routes/upload');
 const AuthRouter = require('./routes/Auth');
 
-// var helmet = require('helmet'); // npm install --save helmet  보안
-// var compression = require('compression'); // 압축
-
-// var bodyParser = require('body-parser');
-// app.use(bodyParser.urlencoded({extended: false}));
-
-// npm install --save helmet  보안
-// var helmet = require('helmet');
-// this.app.use(helmet());
-
-// npm install nsp -g 쿠키관련보안
-// nsp check
-
 export class App {
-  public app: express.Application;
+  private app: express.Application;
+  private server: httpServer;
 
   constructor() {
     this.app = express();
@@ -43,7 +34,7 @@ export class App {
     
     this.app.use('/', indexRouter);
     this.app.use('/signup', signupRouter);
-    this.app.use('/auth/login', AuthRouter);
+    this.app.use('/auth', AuthRouter);
     this.app.use('/Feed', FeedRouter);
     this.app.use('/profile', profileRouter);
     this.app.use('/upload', UploadRouter)
@@ -51,6 +42,9 @@ export class App {
     this.app.use('/comment', commentRouter)
     this.app.use('/feedlike', feedlikeRouter);
     // this.app.use('/commentlike', commentlikeRouter);
+
+    this.server = createServer(this.app);
+    WebSocket(this.server);
   }
 
   /**
@@ -73,7 +67,8 @@ export class App {
    */
   public async run(port: number) : Promise<void> {
     try {
-      this.app.listen(port, () => {
+      this.server.listen(port, () => {
+      // this.server.listen(port, () => {
         console.log('Conneted ', port, ' port');
       });
     }
