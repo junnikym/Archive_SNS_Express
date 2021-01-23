@@ -4,8 +4,8 @@ import { actionCreators as PostAct } from "../../redux/modules/Post";
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        createPost: (text, img) => {
-            dispatch(PostAct.createPost(text, img));
+        createPost: (title, text, img) => {
+            dispatch(PostAct.createPost(title, text, img));
         }
     };
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BrowserRouter as Router, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 import Navigation from "../../Navigation";     
 import Post_Card from "../../Post_Card";       
@@ -17,6 +17,11 @@ const Home_ = (props, contet) => (
         <Router>   
           
           <Navigation />
+
+          {/* <Switch>
+            <Route exact path ="/" component = {} />
+          </Switch> */}
+          
           <User_list/>
           <Post/>
           <Post_Card/>

@@ -26,14 +26,14 @@ function logout() {
 
 function defaultLogin(email, password) {
 	return dispatch => {
-		fetch("/rest-auth/login/", {
+		fetch("/auth/login", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
 			},
 			body: JSON.stringify({
-				email,
-				password
+				"email" : email,
+				"pw"	: password
 			})
 		})
 		.then(response => response.json())
@@ -48,18 +48,19 @@ function defaultLogin(email, password) {
 
 function createAccount(email, pw, confirm_pw, img, alias) {
 	return dispatch => {
+
+		console.log(alias);
 		
-		fetch("/rest-auth/registration/", {
+		fetch("/auth/registration", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
 			},
 			body: JSON.stringify({
+				"name"		: alias,
 				"email"		: email,
-				"password1"	: pw,
-				"password2"	: confirm_pw,
-				// profile_img	: img,
-				// "alias"		: alias
+				"pw"		: pw,
+				"pw_confirm": confirm_pw,
 			})
 		})
 		.then(response => response.json())

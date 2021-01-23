@@ -1,6 +1,8 @@
 const SAVE_TOKEN 	= "SAVE_TOKEN";
 
 function createPost(title, text, img) {
+	console.log("run");
+
     return (dispatch, getState) => {
         const { account : { token }} = getState();
 

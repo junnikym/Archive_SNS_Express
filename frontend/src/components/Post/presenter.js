@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import formStyles from "../../shared/formStyles.scss";
+
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 
 import { 
@@ -13,14 +13,13 @@ const Post = (props, context) => (
     <div className = "Post">
 
     <Form
-        className={formStyles.form}
         onSubmit={props.submit_handler}
         method="post" >
 
     <Form.Group controlId="Textarea">
         <Form.Label>@사용자</Form.Label>
         <Form.Control  
-        type="title"
+        type="text"
         name="title"
         placeholder="오늘 최고의 키워드!" 
         value={props.Post_title}
@@ -37,7 +36,6 @@ const Post = (props, context) => (
 		onChange={props.text_input_handler}         
         rows={3} />
     </Form.Group>
-    </Form>
 
     <Form.File id="formcheck-api-regular">
         <Form.File.Input
@@ -49,11 +47,13 @@ const Post = (props, context) => (
         </Form.File>
 
         <Button 
-        className = "button_right"
-        variant = "primary"
-        type = "submit" > 
+            className = "button_right"
+            variant = "primary"
+            type = "submit" > 
         게시하기 
         </Button>
+
+        </Form>
     
         </div>
 );

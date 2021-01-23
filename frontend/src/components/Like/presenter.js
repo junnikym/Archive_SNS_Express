@@ -6,11 +6,13 @@ import {
 	Button
 } from 'react-bootstrap';
 
-const Like_button = (props, context) => (
-	<div className = "Like_button">
+const Like = (props) => (
+
+	<div className = "Like_button"
+    onSubmit={props.submit_handler}>
 
         <Button 
-        onSubmit={props.submit_handler}
+        className = "button_right"
         type = "submit"
         name = "Like"
         >
@@ -20,6 +22,8 @@ const Like_button = (props, context) => (
 	</div>
 );
 
+Like.propsTypes = {
+    submit_handler	    	: PropTypes.func.isRequired,
+};
 
-export { MAX_SIGNUP_STAGE };
-export default Like_button;
+export default Like;

@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from "prop-types";
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 
+import Like_button from "../../components/Like/presenter"  
+
 import { 
     Card,
     Button,
@@ -22,11 +24,7 @@ const Post_Card = (props, contet) => (
         <Card.Text>
             
         </Card.Text>
-            <Button 
-                className="button_right" 
-                variant="primary">
-                    좋아요
-                    </Button>
+            <Like_button/>
         </Card.Body>
         <Card.Footer>
         <small className="text-muted">Last updated 3 mins ago</small>

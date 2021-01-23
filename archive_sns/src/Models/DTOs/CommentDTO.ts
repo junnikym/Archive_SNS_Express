@@ -1,9 +1,9 @@
 import { IsNotEmpty, Length, IsEmail } from "class-validator";
 import { Comment, PostComment, PostReComment } from '../Entities/Comment';
 
-export class CreateCommentDTO {
+export class CommentDTO {
 	@IsNotEmpty()
-	public content: string;
+	public content:string
 
 	public toEntity(): Comment{
 		const { content } = this;
@@ -13,15 +13,16 @@ export class CreateCommentDTO {
 		
 		return new_comment;
 	}
-}
-
-export class UpdateCommentDTO {
-	@IsNotEmpty()
-	public content: string;
 
 	public updateEntity(target) {
 		const { content } = this;
 
 		target.entity.content = content;
+	}
+
+	public fromJson(json) {
+		const { content } = json;
+		
+		this.content = content;
 	}
 }

@@ -4,10 +4,10 @@ import { getConnection } from "typeorm";
 
 import { Account } from '../Models/Entities/Account';
 import { AccountRepo } from '../Models/Repositories/AccountRepo';
-import { CreateAccountDTO, UpdateAccountDTO } from '../Models/DTOs/AccountDTO';
+import { AccountDTO } from '../Models/DTOs/AccountDTO';
 
 import { Image } from '../Models/Entities/Image';
-import { CreateImageDTO } from '../Models/DTOs/ImageDTO';
+import { ImageDTO } from '../Models/DTOs/ImageDTO';
 import { ImageRepo } from '../Models/Repositories/ImageRepo';
 
 @Service()
@@ -27,11 +27,10 @@ export class AccountService {
 	 * @param image_dto : Create Image DTO or NULL
 	 */
 	public async CreateAccount(
-		account_dto: CreateAccountDTO,
-		image_dto: CreateImageDTO | null
+		account_dto: AccountDTO,
+		image_dto: ImageDTO | null
 	): Promise<Account> 
 	{
-		//@TODO : NEED TO TRANSECTION !!!
 
 		if(image_dto != null) {
 			const profile_img_ent = image_dto.toEntity();
@@ -50,11 +49,11 @@ export class AccountService {
 	 * Update Account Data ( User Infomation )
 	 * 
 	 * @param account_pk : Account's PK
-	 * @param update_account_dto : UpdateAccountDTO which is include updated account data
+	 * @param account_dto : UpdateAccountDTO which is include updated aㅏccount data
 	 */
 	public async UpdateAccount(
 		account_pk: string,
-		updateUserDto: UpdateAccountDTO,
+		account_dto: AccountDTO,
 	): Promise<Account> 
 	{
 
@@ -63,7 +62,7 @@ export class AccountService {
 		}
 
 		if (target.entity?.pk === account_pk) {
-			updateUserDto.updateEntity(target);
+			account_dto.updateEntity(target);
 			return await this.account_repo.save(target.entity);
 		}
 

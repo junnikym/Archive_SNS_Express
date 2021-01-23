@@ -19,23 +19,11 @@ import {
 import { AuthService } from "../services/AuthService";
 import { AccountService } from '../services/AccountService';
 import { 
-  CreateAccountDTO,
-  LoginAccountDTO, 
+  AccountDTO,
   AccountVO 
 } from "../Models/DTOs/AccountDTO";
 
-import { CreateImageDTO } from '../Models/DTOs/ImageDTO';
-
-router.get('/', function(req, res) {  //확인용 폼
-  const login = `
-    <form action="/auth/login/" method="post">
-      <p><input type="text" name="email" placeholder="이메일"></p>
-      <p><input type="password" name="pw" placeholder="Password"></p>
-      <p><input type="submit"></p>
-    </form>
-    `
-  res.send(login);
-});
+import { ImageDTO } from '../Models/DTOs/ImageDTO';
 
 /**
  * Get a Account VO
@@ -51,6 +39,8 @@ router.post(
       pk: _pk,
       email: _email,
       name: _name,
+      profile_image: null,
+      status_msg: null,
     };
 
     // < Success Message >
@@ -68,24 +58,21 @@ router.post(
 router.post(
   '/login',
   async function(req, res) {
-    const user_info = req.body;
-
-    const auth_service = new AuthService();
 
     // < Login Account DTO Setting >
     // --------------------------------------------------
-    const login_account_dto = new LoginAccountDTO();
-    login_account_dto.email = user_info.email;
-    login_account_dto.password = user_info.pw;
+    const account_dto = new AccountDTO();
+    account_dto.fromJson(req.body);
 
     // < Validate >
     // --------------------------------------------------
-    const account = await auth_service.ValidateAccount(login_account_dto);
+    const auth_service = new AuthService();
+    const account = await auth_service.ValidateAccount(account_dto);
 
     // < Fail >
     // --------------------------------------------------
     if(!account) {
-      return res.state(401).send({
+      return res.status(401).send({
         status : 401,
         success : true,
         message : "Fail : Not verify account",
@@ -121,6 +108,9 @@ router.post(
   async function(req, res) {
     const user_info = req.body;
 
+    const account_service = new AccountService();
+    const auth_service = new AuthService();
+
     // < Wrong Input >
     // --------------------------------------------------
     if(user_info.pw != user_info.pw_confirm) {
@@ -131,22 +121,17 @@ router.post(
       });
     }
 
-    const account_service = new AccountService();
-    const auth_service = new AuthService();
-
     // < Create Account DTO Setting >
     // --------------------------------------------------
-    const account_dto = new CreateAccountDTO();
-    account_dto.email    = user_info.email;
-    account_dto.password = user_info.pw;
-    account_dto.name     = user_info.name;
+    const account_dto = new AccountDTO();
+    account_dto.fromJson(user_info)
 
     // < Create Image DTO Setting >
     // --------------------------------------------------
     let profile_img = null;
 
     if(user_info.profile_img_url) {
-      profile_img = new CreateImageDTO();
+      profile_img = new ImageDTO();
       profile_img.url = user_info.profile_img_url;
     }
 
@@ -190,7 +175,7 @@ router.post(
     // < Fail >
     // --------------------------------------------------
     if(!account) {
-      return res.state(401).send({
+      return res.status(401).send({
         status : 401,
         success : true,
         message : "Fail : Not match Account and Refresh Token",
@@ -210,8 +195,43 @@ router.post(
         refresh_token : token,
       }
     });
-
   }
 )
+
+
+/**
+ * 프로필 삭제
+ */
+router.delete(
+  '/:usernum', 
+  VerifyAccessToken,
+  async function(req, res) {
+    
+    const pk = res.locals.jwt_payload.pk;
+    const user_Info = req.body;
+    const password = user_Info.password;
+
+    const DeleteProfile = new AccountService();
+    const Delete_Profile = await DeleteProfile.DeleteAccount(
+        pk,
+        password
+    );
+    
+    if(!Delete_Profile){
+        return res.status(403).send({
+            status : 403,
+            success : true,
+            message : "Forbidden"
+        });
+    }
+    
+    return res.status(200).send({
+        status : 200,
+        success : true,
+        message : "success"
+    });
+
+  }
+);
 
 module.exports = router;
