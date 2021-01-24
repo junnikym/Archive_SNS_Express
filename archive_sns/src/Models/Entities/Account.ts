@@ -3,10 +3,14 @@ import {
 	PrimaryGeneratedColumn,
 	Column,
 	OneToOne,
-	JoinColumn
+	JoinColumn,
+	ManyToOne,
+	ManyToMany,
+	JoinTable
 } from "typeorm";
 import { IsNotEmpty } from "class-validator";
 import { Image } from "./Image";
+import { ChatGroup } from "./Chat";
 
 /**
  * Account Entity
@@ -33,6 +37,13 @@ export class Account {
 	@OneToOne( (type) => Image, { nullable: true } )
 	@JoinColumn({ name: "profile_image" })
 	profile_image: Image | null;
+
+	@ManyToMany( 
+		(type) => ChatGroup, 
+		(chat_group) => chat_group.participant, 
+		{ nullable: true }
+	)
+	chat_group: ChatGroup[];
 
 	@Column({ name: "status_msg", nullable: true })
 	status_msg: string;

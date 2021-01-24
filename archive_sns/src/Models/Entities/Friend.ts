@@ -7,7 +7,6 @@ import {
 	JoinColumn
 } from "typeorm";
 import { IsNotEmpty } from "class-validator";
-import { Image } from "./Image";
 import { Account } from './Account';
 
 /**
@@ -26,6 +25,7 @@ export class Friend {
 	// < Account >
 	// --------------------------------------------------
 
+	@IsNotEmpty()
 	@Column({ name: "account_pk", length: 36 })
 	account_pk: string;
 
@@ -39,6 +39,7 @@ export class Friend {
 	// < Friend >
 	// --------------------------------------------------
 
+	@IsNotEmpty()
 	@Column({ name: "friend_pk", length: 36 })
 	friend_pk: string;
 

@@ -22,7 +22,7 @@ abstract class Like {
 		cascade: true,
 		onDelete: "CASCADE",
 	})
-	@JoinColumn({ name: "account" })
+	@JoinColumn({ name: "giver" })
 	giver: Account;
 
 	@CreateDateColumn({ name: "created_at" })
