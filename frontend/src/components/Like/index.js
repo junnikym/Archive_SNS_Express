@@ -4,8 +4,8 @@ import { actionCreators as LikeAct } from "../../redux/modules/Like";
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        __cilckLike__: () => {
-            dispatch(LikeAct.__cilckLike__());
+        feed_Like: () => {
+            dispatch(LikeAct.feed_Like());
             
         }
     };

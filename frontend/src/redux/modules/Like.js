@@ -15,7 +15,7 @@ function feed_Like() {
     };
 }
 
-function reducer(state = action) {
+function reducer(state = null, action) {
 	switch(action.type) {
 		
 		default:

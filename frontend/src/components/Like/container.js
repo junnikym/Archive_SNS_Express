@@ -19,13 +19,10 @@ import Like from "./presenter";
 const Container = (props, context) => {
 
     const __cilckLike__ = event => {
-        console.log("clked");
         
-        // event.preventDefault();
+        event.preventDefault();
     
-        // console.log("clked");
-    
-        // props.feed_Like();
+        props.feed_Like();
     };
 
     return (
