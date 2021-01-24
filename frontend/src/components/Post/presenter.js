@@ -8,7 +8,7 @@ import {
     Button
 } from 'react-bootstrap';
 
-const Post = (props, context) => (
+const Post = (props) => (
     
     <div className = "Post">
 

@@ -6,24 +6,25 @@ import {
 	Button
 } from 'react-bootstrap';
 
-const Like = (props) => (
+const Like = (props, context) => {
 
-	<div className = "Like_button"
-    onSubmit={props.submit_handler}>
+    return(
 
-        <Button 
-        className = "button_right"
-        type = "submit"
-        name = "Like"
-        >
+	<div className = "Like_button">
+
+            <button 
+                className = "button_right"
+                onClick = {() => props.cilckLike()}
+                >
             좋아요
-        </Button>
-		
+            </button>
+
 	</div>
-);
+)
+};
 
 Like.propsTypes = {
-    submit_handler	    	: PropTypes.func.isRequired,
+    cilckLike	    	: PropTypes.func.isRequired,
 };
 
 export default Like;

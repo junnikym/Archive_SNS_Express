@@ -16,28 +16,28 @@ import Like from "./presenter";
 //     }
 // }
 
-const Container = (props) => {
+const Container = (props, context) => {
 
-    const __submit_handler__ = event => {
+    const __cilckLike__ = event => {
         console.log("clked");
         
-        event.preventDefault();
+        // event.preventDefault();
     
-        console.log("clked");
+        // console.log("clked");
     
-        props.Like_onClick();
+        // props.feed_Like();
     };
 
     return (
         <Like
-            submit_handler 			= {__submit_handler__} 
+            cilckLike			= {__cilckLike__} 
             />
     );
 
 }
 
 Container.propTypes = {
-	Like_onClick: PropTypes.func.isRequired,
+	feed_Like: PropTypes.func.isRequired,
 };
 
 export default Container;

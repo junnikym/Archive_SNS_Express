@@ -1,22 +1,21 @@
-const SAVE_TOKEN 	= "SAVE_TOKEN";
-
-function Like_onClick() {
+function feed_Like() {
     console.log("run");
 
     return (dispatch, getState) => {
         const { account : { token }} = getState();
 
         fetch("/Like", {
-            method: "",
+            method: "get",
             headers: {
-                // "Content-Type": "application/json",
 				Authorization: `JWT ${token}`
             },
         })
+
+        .catch(err => console.log(err));
     };
 }
 
-function reducer(state = null, action) {
+function reducer(state = action) {
 	switch(action.type) {
 		
 		default:
@@ -25,7 +24,7 @@ function reducer(state = null, action) {
 }
 
 const actionCreators = {
-	Like_onClick,
+	feed_Like,
 };
 
 export { actionCreators };
