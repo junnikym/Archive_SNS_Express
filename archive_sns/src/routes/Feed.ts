@@ -1,16 +1,23 @@
 /**
  *  피드 관련 라우트
  */
+
 const express = require('express');
 const router = express.Router();
 
 // JWT middleware
-import { VerifyAccessToken } from "../Middleware/JWT_Auth";
+import { 
+  RefreshTokenGenerator,
+  AccessTokenGenerator,
+  VerifyAccessToken 
+} from "../Middleware/JWT_Auth";
 
 import { PostService } from "../services/PostService";
 
 import { PostDTO } from '../Models/DTOs/PostDTO';
 import { ImageDTO } from "../Models/DTOs/ImageDTO";
+
+import { Post } from '../Models/Entities/Post';
 
 /**
  * 
@@ -52,16 +59,16 @@ router.post(
     const post_dto = new PostDTO();  //피드 생성 DTO
     let img_dto: ImageDTO[];
 
-    post_dto.title = feed_Info.title;
+    post_dto.title        = feed_Info.title;
     post_dto.text_content = feed_Info.content; //DTO에 요청받은 데이터 삽입
 
-    for(let i = 0; i < feed_Info.url.Length; i++) {
+    for(let i = 0; i < feed_Info.Length; i++) {
       const temp_img_dto = new ImageDTO;
       temp_img_dto.url = feed_Info.url;
 
       img_dto.push(temp_img_dto);
     }
-    
+
     const post_create = new PostService();
     const create_feed = await post_create.CreatePost(
       pk, 

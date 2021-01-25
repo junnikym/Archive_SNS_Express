@@ -2,28 +2,34 @@ function createPost(title, text, img) {
 	console.log("run");
 
     return (dispatch, getState) => {
-        const { account : { token }} = getState();
-
-	// return dispatch => {
+		const { account : { AccessToken }} = getState();
+		console.log("it runing : ", text);
 		
 		fetch("/feed", {
-			method: "post",
+			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `JWT ${token}`
+				Authorization: `${AccessToken}`
 			},
 			body: JSON.stringify({
-				"title" : title,
-				"text"	: text,
-				"img"	: img,
+				title 	: title,
+				content	: text,
+				img		: img,
 			})
 		})
-        .then(response => response.json())
-        
 		.catch(err => console.log(err));
     };
     
 };
+
+// < Initial State >
+// --------------------------------------------------
+
+const initialState = {
+}
+
+// < Reducer >
+// --------------------------------------------------
 
 function reducer(state = null, action) {
 	switch(action.type) {

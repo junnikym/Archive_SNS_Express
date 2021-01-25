@@ -17,7 +17,7 @@ import { ImageDTO } from '../Models/DTOs/ImageDTO';
 export class PostService {
 	private conn = getConnection();
 
-	@InjectRepository() 
+	@InjectRepository(Post) 
 	private post_repo: PostRepo = this.conn.getCustomRepository(PostRepo);
 
 	@InjectRepository(PostImage) 

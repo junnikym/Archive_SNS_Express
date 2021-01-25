@@ -66,8 +66,6 @@ export class AuthService {
 		account : Account,
 		refresh_token : string
 	) {
-		console.log(account);
-
 		account.refresh_token = refresh_token;
 		return await this.account_repo.save(account);
 	}

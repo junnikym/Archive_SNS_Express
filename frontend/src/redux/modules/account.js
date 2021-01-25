@@ -169,11 +169,6 @@ function applyLogout(state, action) {
 function applyGetInfo(state, action) {
 	const { data } = action;
 
-	console.log("in applyGetInfo", {
-		...state,
-		data: data
-	});
-
 	return {
 		...state,
 		info: data

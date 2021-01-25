@@ -14,7 +14,7 @@ import { ImageRepo } from '../Models/Repositories/ImageRepo';
 export class AccountService {
 	private conn = getConnection();
 	
-	@InjectRepository() 
+	@InjectRepository(Account) 
 	private account_repo: AccountRepo = this.conn.getCustomRepository(AccountRepo);
 
 	@InjectRepository(Image) 
@@ -76,6 +76,8 @@ export class AccountService {
 		account_pk: string
 	)
 	{
+		console.log(this.conn);
+
 		return await this.account_repo.findOne({
 			select: [
 				"name", "email", "profile_image", "status_msg",

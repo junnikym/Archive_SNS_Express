@@ -5,7 +5,6 @@
 const express = require('express');
 const router = express.Router();
 
-import { userInfo } from "os";
 /**
  * Authentification Service / DTO
  */
@@ -240,9 +239,6 @@ router.post(
         const account_service = new AccountService();
         result = await account_service.GetAccountByPK(req.body.pk);
       }
-
-      console.log("in getInfo : pk -> ", req.body.pk);
-      console.log("in getInfo : result : ", result);
 
       if(result == undefined){
           return res.status(404).send({

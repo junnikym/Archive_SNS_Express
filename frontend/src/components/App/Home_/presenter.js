@@ -22,9 +22,14 @@ const Home_ = (props, contet) => (
             <Route exact path ="/" component = {} />
           </Switch> */}
           
-          <User_list/>
+          <User_list/>  
+          
+          {/* Post 쓰기 */}
           <Post/>
+
+          {/* Post 보기 */}
           <Post_Card/>
+
           {/* <Chat/> */}
           <Footer/>
         </Router>

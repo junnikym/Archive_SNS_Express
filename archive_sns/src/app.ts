@@ -8,7 +8,6 @@ import { WebSocket } from "./web_socket";
 
 var indexRouter = require(__dirname+'/../src/routes/index');
 
-var FeedRouter = require(__dirname+'/../src/routes/Feed');
 var profileRouter = require(__dirname+'/../src/routes/profile');
 var commentRouter = require(__dirname+'/../src/routes/comment');
 const feedlikeRouter = require(__dirname+'/../src/routes/feedlike');
@@ -16,6 +15,7 @@ const feedlikeRouter = require(__dirname+'/../src/routes/feedlike');
 
 const UploadRouter  = require('./routes/upload');
 const AuthRouter = require('./routes/Auth');
+const FeedRouter = require('./routes/Feed')
 
 export class App {
   private app: express.Application;
