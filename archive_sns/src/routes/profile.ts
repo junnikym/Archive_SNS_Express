@@ -55,8 +55,8 @@ router.get(
 /**
  * 프로필 생성
  */
-router.put('/:usernum', function(req, res) {
-    var user_Info = req.body;
+router.post('/:usernum', function(req, res) {
+    const user_Info = req.body;
     
 
 });
@@ -65,7 +65,7 @@ router.put('/:usernum', function(req, res) {
  * 프로필 수정
  */
 router.put('/:usernum', function(req, res) {
-    var user_Info = req.body;
+    const user_Info = req.body;
     
 
 });

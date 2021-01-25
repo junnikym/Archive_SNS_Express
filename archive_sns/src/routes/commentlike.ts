@@ -28,19 +28,41 @@ const status = function(result, res){
     });  
 }
 
-// /**
-//  * 좋아요 수 보기
-//  */
-// router.get('/', function(req, res) {
-//     var likeInfo = req.body;
-// });
+/**
+ * 좋아요 수 보기
+ */
+router.get(
+    '/count',
+    function(req, res) {
+    const like_Info = req.body;
+    const target_pk = like_Info.target_pk;
 
-// /**
-//  * 좋아요 누른 사람  목록 보기
-//  */
-// router.get('/list/:commentNum', function(req, res) {
-//     var likeInfo = req.body;
-// });
+    const comment_Like = new CommentLikeService();
+    const Count_Like = comment_Like.CountLike(
+        target_pk
+    );
+
+    return status(Count_Like, res);
+});
+
+/**
+ * 좋아요 누른 사람  목록 보기
+ */
+router.get(
+    '/userlist/:feedNum', 
+    function(req, res) {
+    const like_Info = req.body;
+    const target_pk = like_Info.target_pk;
+    const limit = like_Info.limit;
+
+    const comment_Like = new CommentLikeService();
+    const Who_Like = comment_Like.WhoLike(
+        target_pk,
+        limit
+    );
+    
+    return status(Who_Like, res);
+});
 
 /**
  * 좋아요 입력
