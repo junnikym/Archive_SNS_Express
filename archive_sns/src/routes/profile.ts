@@ -12,6 +12,7 @@ import {
 
 import { AccountService } from '../services/AccountService';
 import { Account } from '../Models/Entities/Account';
+import { AccountDTO } from '../Models/DTOs/AccountDTO';
 
 /**
  * 
@@ -50,24 +51,28 @@ router.get(
     return status(Get_Account, res);
 });
 
-
-
-/**
- * 프로필 생성
- */
-router.post('/:usernum', function(req, res) {
-    const user_Info = req.body;
-    
-
-});
-
 /**
  * 프로필 수정
  */
-router.put('/:usernum', function(req, res) {
+router.put(
+    '/:usernum', 
+    async function(req, res) {
     const user_Info = req.body;
-    
+    const account_pk = user_Info.account_pk;
 
+    const Update_Profile = new AccountDTO();
+    Update_Profile.email = user_Info.email;
+    Update_Profile.password = user_Info.password;
+    Update_Profile.name = user_Info.name;
+    Update_Profile.profile_image = user_Info.profile_image;
+    Update_Profile.status_msg = user_Info.status_msg;
+
+    const UpdateProfile = new AccountService();
+    const Update_Profile_result = await UpdateProfile.UpdateAccount(
+        account_pk,
+        Update_Profile
+    );
+    return status(Update_Profile_result, res);
 });
 
 module.exports = router;
