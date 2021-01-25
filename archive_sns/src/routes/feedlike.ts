@@ -4,14 +4,29 @@
 import * as express from "express";
 const router = express.Router();
 
-import { 
-    RefreshTokenGenerator,
-    AccessTokenGenerator,
-    VerifyAccessToken 
-} from "../Middleware/JWT_Auth";
+import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
 import { PostLikeService } from '../services/LikeService';
-// const account = require('../services/accountService');
+
+/**
+ * 
+ * @param result 라우트 처리 결과
+ * @param res 상태 처리 결과
+ */
+const status = function(result, res){
+    if(!result){
+        return res.status(403).send({
+            status : 403,
+            success : true,
+            message : "Forbidden"
+        });
+    };
+    return res.status(200).send({
+        status : 200,
+        success : true,
+        message : "success"
+    });  
+}
 
 // /**
 //  * 좋아요 수 보기
@@ -29,8 +44,6 @@ import { PostLikeService } from '../services/LikeService';
 //  */
 // router.get('/list/:feedNum', function(req, res) {
 //     const like_Info = req.body;
-
-    
 // });
 
 /**
@@ -50,20 +63,7 @@ router.get(
         pk,
         target_pk
     );
-
-    if(!Like_toggle){
-        return res.status(403).send({
-            status : 403,
-            success : true,
-            message : "Forbidden"
-        });
-    }
-    
-    return res.status(200).send({
-        status : 200,
-        success : true,
-        message : "success"
-    });  
+    return status(Like_toggle, res);
 });
 
 /**
@@ -82,22 +82,7 @@ router.post(
         pk,
         giver
     );
-    
-    if(!Post_Like){
-        return res.status(403).send({
-            status : 403,
-            success : true,
-            message : "Forbidden"
-        });
-    }
-
-    return res.status(200).send({
-        status : 200,
-        success : true,
-        message : "success"
-    });
+    return status(Post_Like, res);
 });
-
-
 
 module.exports = router;

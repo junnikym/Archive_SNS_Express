@@ -14,8 +14,8 @@ import { ImageRepo } from '../Models/Repositories/ImageRepo';
 export class AccountService {
 	private conn = getConnection();
 	
-	@InjectRepository(Account) 
-	private account_repo: AccountRepo = this.conn.getRepository(Account);
+	@InjectRepository() 
+	private account_repo: AccountRepo = this.conn.getCustomRepository(AccountRepo);
 
 	@InjectRepository(Image) 
 	private image_repo: ImageRepo = this.conn.getRepository(Image);
@@ -40,9 +40,8 @@ export class AccountService {
 		}
 
 		const account_ent = account_dto.toEntity();
-		const new_account = await this.account_repo.save(account_ent);
 
-		return new_account;
+		return await this.account_repo.save(account_ent);
 	}
 
 	/**
@@ -56,7 +55,6 @@ export class AccountService {
 		account_dto: AccountDTO,
 	): Promise<Account> 
 	{
-
 		const target = { 
 			entity : await this.account_repo.findOne({ where: { pk: account_pk } })
 		}
@@ -76,7 +74,7 @@ export class AccountService {
 	 */
 	public async GetAccountByPK(
 		account_pk: string
-	): Promise<Account>
+	)
 	{
 		return await this.account_repo.findOne({
 			select: [

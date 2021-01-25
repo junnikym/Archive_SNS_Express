@@ -8,8 +8,6 @@ import Home_ from "./Home_";
 
 const App = props => [
   props.isLoggedIn ? <PrivateRoutes key={1} /> : <PublicRoutes key={1} />,
-  // props.isLoggedIn ? <PublicRoutes key={1} /> : <PrivateRoutes key={1} />,
-
 ];
 
 App.propTypes = {
@@ -25,7 +23,6 @@ const PrivateRoutes = props => (
 const PublicRoutes = props => (
   <Switch>
     <Route exact path="/" component={Auth} />
-    {/* <Redirect path="*" to="/" /> */}
   </Switch>
 );
 

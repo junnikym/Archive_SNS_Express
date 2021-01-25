@@ -12,14 +12,31 @@ import { PostService } from "../services/PostService";
 import { PostDTO } from '../Models/DTOs/PostDTO';
 import { ImageDTO } from "../Models/DTOs/ImageDTO";
 
+/**
+ * 
+ * @param result 라우트 처리 결과
+ * @param res 상태 처리 결과
+ */
+const status = function(result, res){
+  if(!result){
+      return res.status(403).send({
+          status : 403,
+          success : true,
+          message : "Forbidden"
+      });
+  };
+  return res.status(200).send({
+      status : 200,
+      success : true,
+      message : "success"
+  });
+}
 
 // /**
 //  * 피드 보기
 //  */
 // router.get('/', function(req, res) {
 //     const feed_Info = req.body;
-
-    
 // });
 
 /**
@@ -51,20 +68,7 @@ router.post(
       post_dto, 
       img_dto
     );
-
-    if(!create_feed){
-      return res.state(403).send({
-        status : 403,
-        success : true,
-        message : "Forbidden"
-      });
-    }
-
-    return res.status(200).send({
-      status : 200,
-      success : true,
-      message : "success"
-    });
+    return status(create_feed, res);
 });
 
 /**
@@ -99,20 +103,7 @@ router.put(
     ImgDTO,
     null
   )
-
-  if(!Update_Feed){
-    return res.status(403).send({
-      status : 403,
-      success : true,
-      message : "Forbidden"
-    });
-  }
-
-  return res.status(200).send({
-    status : 200,
-    success : true,
-    message : "success"
-  });
+  return status(Update_Feed, res);
 });
 
 /*
@@ -132,20 +123,7 @@ router.delete(
     pk,
     Feed_pk
   )
-
-  if(!Delete_Feed){
-    return res.status(403).send({
-      status : 403,
-      success : true,
-      message : "Forbidden"
-    });
-  }
-
-  return res.status(200).send({
-    status : 200,
-    success : true,
-    message : "success"
-  });
+  return status(Delete_Feed, res);
 });
 
 module.exports = router;

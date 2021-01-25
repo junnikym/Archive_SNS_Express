@@ -30,26 +30,20 @@ import { ImageDTO } from '../Models/DTOs/ImageDTO';
  */
 
 router.post(
-  '/account',
+  '/my_pk',
   VerifyAccessToken,
   async function(req, res) {
-    const { _pk, _email, _name } = res.locals.jwt_payload;
-
-    const result: AccountVO = {
-      pk: _pk,
-      email: _email,
-      name: _name,
-      profile_image: null,
-      status_msg: null,
-    };
 
     // < Success Message >
 		return res.status(200).send({
 			status  : 200,
 			success : true,
       message : "success",
-      data    : result 
-		});
+      data    : {
+        pk: res.locals.jwt_payload.pk
+      } 
+    });
+    
   });
 
 /**
@@ -81,8 +75,8 @@ router.post(
 
     // < Generate Token >
     // --------------------------------------------------
-    const _access_token = AccessTokenGenerator(account);
-    const _refresh_token = RefreshTokenGenerator(account);
+    const _access_token = await AccessTokenGenerator(account);
+    const _refresh_token = await RefreshTokenGenerator(account);
 
     await auth_service.SaveRefreshTokenDirectly(account, _refresh_token);
 
@@ -95,6 +89,7 @@ router.post(
       data : {
         access_token: _access_token,
         refresh_token: _refresh_token,
+        pk: account.pk
       }
     });
   }
@@ -153,6 +148,7 @@ router.post(
       data : {
         access_token: _access_token,
         refresh_token: _refresh_token,
+        pk: account.pk
       }
     });
   }
@@ -233,5 +229,36 @@ router.delete(
 
   }
 );
+
+router.post(
+  '/short_info',
+  async function(req, res) {
+
+      let result = undefined;
+
+      if(req.body.pk) {
+        const account_service = new AccountService();
+        result = await account_service.GetAccountByPK(req.body.pk);
+      }
+
+      console.log("in getInfo : pk -> ", req.body.pk);
+      console.log("in getInfo : result : ", result);
+
+      if(result == undefined){
+          return res.status(404).send({
+              status : 404,
+              success : false,
+              message : "Not Found"
+          });
+      }
+
+      return res.status(200).send({
+          status : 200,
+          success : true,
+          message : "success",
+          data: result
+      });  
+  }
+)
 
 module.exports = router;

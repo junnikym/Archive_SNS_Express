@@ -4,6 +4,7 @@
 
 const SAVE_TOKEN 	= "SAVE_TOKEN";
 const LOGOUT 		= "LOGOUT";
+const PASS_INFO		= "PASS_INFO"
 
 // < Actions Creators >
 // --------------------------------------------------
@@ -21,12 +22,18 @@ function logout() {
 	};
 }
 
+function passInfo(data) {
+	return {
+		type: PASS_INFO,
+		data
+	};
+}
+
 // < API Actions >
 // --------------------------------------------------
 
 function defaultLogin(email, password) {
 	return (dispatch, getState) => {
-		console.log(getState());
 
 		fetch("/auth/login", {
 			method: "POST",
@@ -40,8 +47,8 @@ function defaultLogin(email, password) {
 		})
 		.then(response => response.json())
 		.then(json => {
-			if (json.token) {
-				dispatch(saveToken(json.token));
+			if (json.data) {
+				dispatch(saveToken(json.data));
 			}
 		})
 		.catch(err => console.log(err));
@@ -51,8 +58,6 @@ function defaultLogin(email, password) {
 function createAccount(email, pw, confirm_pw, img, alias) {
 	return dispatch => {
 
-		console.log(alias);
-		
 		fetch("/auth/registration", {
 			method: "POST",
 			headers: {
@@ -65,10 +70,36 @@ function createAccount(email, pw, confirm_pw, img, alias) {
 				"pw_confirm": confirm_pw,
 			})
 		})
+		.then(response =>  response.json())
+		.then(json => {
+			if (json.data) {
+				dispatch(saveToken(json.data));
+			}
+		})
+		.catch(err => console.log(err));
+	};
+}
+
+function getInfo(pk) {
+	return dispatch => {
+		fetch("/auth/short_info", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				"pk": pk
+			})
+		})
 		.then(response => response.json())
 		.then(json => {
-			if (json.token) {
-				dispatch(saveToken(json.token));
+			if (json.status != 200) {
+				console.log("this is bad status result");
+				dispatch(logout());
+			}
+
+			if (json.data) {
+				dispatch(passInfo(json.data));
 			}
 		})
 		.catch(err => console.log(err));
@@ -78,20 +109,24 @@ function createAccount(email, pw, confirm_pw, img, alias) {
 // < Initial State >
 // --------------------------------------------------
 
-const initState = {
-	isLoggedIn: localStorage.getItem("jwt") ? true : false,
-	token: localStorage.getItem("jwt")
+const initialState = {
+	isLoggedIn: localStorage.getItem("AccessToken") ? true : false,
+	AccessToken: localStorage.getItem("AccessToken"),
+	RefreshToken: localStorage.getItem("RefeshToken"),
+	PK: localStorage.getItem("PK")
 };
 
 // < Reducer >
 // --------------------------------------------------
 
-function reducer(state = initState, action) {
+function reducer(state = initialState, action) {
 	switch(action.type) {
 		case SAVE_TOKEN:
 			return applySetToken(state, action);
 		case LOGOUT:
 			return applyLogout(state, action);
+		case PASS_INFO:
+			return applyGetInfo(state, action);
 		default:
 			return state;
 	}
@@ -101,23 +136,47 @@ function reducer(state = initState, action) {
 // --------------------------------------------------
 
 function applySetToken(state, action) {
-	const { token } = action;
-	localStorage.setItem("jwt", token);
 
-	console.log("set token called");
+	const { access_token, refresh_token, pk } = action.token;
+
+	localStorage.setItem("AccessToken", access_token);
+	localStorage.setItem("RefreshToken", refresh_token);
+	localStorage.setItem("PK", pk);
 
 	return {
 		...state,
-		isLoggedIn	: true,
-		token		: token
+		isLoggedIn		: true,
+		AccessToken		: access_token,
+		RefreshToken	: refresh_token,
+		PK				: pk,
 	};
 }
 
 function applyLogout(state, action) {
-	localStorage.removeItem("jwt");
+
+	localStorage.removeItem("AccessToken");
+	localStorage.removeItem("RefreshToken");
+	localStorage.removeItem("PK");
 
 	return {
-		isLoggedIn: false
+		isLoggedIn: false,
+		AccesssToken: undefined,
+		RefreshToken: undefined,
+		PK: undefined
+	};
+}
+
+function applyGetInfo(state, action) {
+	const { data } = action;
+
+	console.log("in applyGetInfo", {
+		...state,
+		data: data
+	});
+
+	return {
+		...state,
+		info: data
 	};
 }
 
@@ -128,6 +187,7 @@ const actionCreators = {
 	defaultLogin,
 	createAccount,
 	logout,
+	getInfo
 };
 
 export { actionCreators };

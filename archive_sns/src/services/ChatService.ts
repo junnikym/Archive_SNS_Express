@@ -17,7 +17,7 @@ export class ChatService {
 	private chat_group_repo: ChatGroupRepo = this.conn.getCustomRepository(ChatGroupRepo);
 
 	@InjectRepository()
-	private accont_repo: AccountRepo = this.conn.getCustomRepository(AccountRepo);
+	private account_repo: AccountRepo = this.conn.getCustomRepository(AccountRepo);
 	
 	@InjectRepository()
 	private chat_msg_repo: ChatMsgRepo = this.conn.getCustomRepository(ChatMsgRepo)
@@ -29,7 +29,7 @@ export class ChatService {
 		if(people_pk_list.length < 2)
 			return undefined;
 
-		const people: Account[] = await this.accont_repo.FindByPKs(people_pk_list);
+		const people: Account[] = await this.account_repo.FindByPKs(people_pk_list);
 		
 		if(people) {
 			const new_group = new ChatGroup()

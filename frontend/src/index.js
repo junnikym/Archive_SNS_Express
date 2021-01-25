@@ -6,7 +6,6 @@ import { ConnectedRouter } from 'connected-react-router';
 import store, { history } from './redux/configureStore';
 
 import './components/css/App.css';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(

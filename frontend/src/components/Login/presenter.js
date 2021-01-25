@@ -46,7 +46,8 @@ const Login = (props, context) => (
 		<Form.Check type="checkbox" label="Check me out" />
 		</Form.Group>
 
-		<Button className = "right"
+		<Button 
+			className = "button_right"
 			variant="primary" 
 			type="submit">
 				Login		

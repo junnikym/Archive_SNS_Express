@@ -7,7 +7,6 @@ import { createServer, Server as httpServer } from "http";
 import { WebSocket } from "./web_socket";
 
 var indexRouter = require(__dirname+'/../src/routes/index');
-var signupRouter = require('./routes/SignUp');
 
 var FeedRouter = require(__dirname+'/../src/routes/Feed');
 var profileRouter = require(__dirname+'/../src/routes/profile');
@@ -33,11 +32,12 @@ export class App {
     // this.app.use(compression());
     
     this.app.use('/', indexRouter);
-    this.app.use('/signup', signupRouter);
+    
+    // Authentifications
     this.app.use('/auth', AuthRouter);
     this.app.use('/Feed', FeedRouter);
     this.app.use('/profile', profileRouter);
-    this.app.use('/upload', UploadRouter)
+    this.app.use('/upload', UploadRouter);
     this.app.use('/images', express.static('upload/Images/Profiles'));
     this.app.use('/comment', commentRouter)
     this.app.use('/feedlike', feedlikeRouter);

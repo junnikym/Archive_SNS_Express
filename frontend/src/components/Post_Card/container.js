@@ -1,9 +1,10 @@
 import React from "react";
-import Feed_Card from "./presenter";
+import Post_Card from "./presenter";
 
 const Container = (props, context) => {
+
     return (
-        <Feed_Card/>
+        <Post_Card/>
     );
 }
 

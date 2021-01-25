@@ -1,54 +1,63 @@
+@import url(Navbar.css);
+@import url(Login.css);
+@import url(chat.css);
 
-.__Logo__{
-    position: static;
-    margin: 5%;
-    text-align: center;
+@media screen and (max-width: 1000px) { 
+    #Over_size { display: none; } 
 }
 
-.__Logo__ > h1{
-    font-size: 3svw;
+@media screen and (max-width: 700px) { 
+    #Over_size-small { display: none; } 
 }
 
-.Login_center{
-    position: absolute;
-    align-items: center;
-    padding: 3%;
-    margin-left: 15%;
-    width: 70%;
-    box-shadow: 0px 2px 5px gray;
+:root {
+    --primaryColor: rgb(228, 228, 228);
+    --mainWhite: #fff;
+    --mainBlack: #222;
+    --mainGrey: #ececec;
 }
 
-/* ========================================== */
+.button_right{
+    float: right;
+}
+
+.button_grid{
+    width: 90vw;
+    padding: 1%;
+    margin: 5% auto;
+    max-width: 500px;
+    min-width: 100px;
+}
 
 .User_list {
     float: right;
-    width: 10vw;
-    margin-top: 1%;
-    margin-right: 1%;
+    width: 5vw;
+    height: 1000px;
+    display: inline-table;
+    margin: 1vw auto;
 }
 
 .Post{
-    width: 50vw;
-    float: left;
-    margin-top: 4%;
-    margin-left: 20%;
-    overflow: hidden;
-    box-shadow: 0px 2px 5px gray;
+    width: 90vw;
+    padding: 1%;
+    margin: 5% auto;
+    max-width: 500px;
+    min-width: 100px;
+    display: grid;
+    border: 1px solid rgb(228, 228, 228);
+    border-radius: 5px;
 }
 
-.Feed_Card{
-    width: 80vw;
-    float: left;
-    margin-left: 5%;
-    margin-top: 5%;
-    width: 80%;
-    box-shadow: 0px 2px 5px gray;
+.Post_Card{
+    width: 90vw;
+    margin: 0 auto;
+    max-width: 1170px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /* grid-template-columns: repeat(4, 1fr); */
+    grid-column-gap: 1.5rem;
+    grid-row-gap: 2rem;
 }
 
-.footer{
-    position: static;
-    background-color: #f7f7f7;
-    margin-top: 100%;
-    text-align: center;
-}
+
 

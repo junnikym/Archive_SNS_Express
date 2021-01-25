@@ -11,8 +11,8 @@ export class AuthService {
 
 	private conn = getConnection();
 
-	@InjectRepository(Account) 
-	private account_repo: AccountRepo = this.conn.getRepository(Account);
+	@InjectRepository()
+	private account_repo: AccountRepo = this.conn.getCustomRepository(AccountRepo);
 
 	/**
 	 * Verify that the data passed to DTO and the data which exist in 
@@ -27,7 +27,6 @@ export class AuthService {
 	): Promise<Account> 
 	{
 		const account = await this.account_repo.findOne({
-			select: ["email", "password", "name"],
 			where: { email: account_dto.email }
 		});
 
@@ -67,24 +66,24 @@ export class AuthService {
 		account : Account,
 		refresh_token : string
 	) {
+		console.log(account);
+
 		account.refresh_token = refresh_token;
-		await this.account_repo.save(account);
+		return await this.account_repo.save(account);
 	}
 
 	public async SaveRefreshToken(
 		account_pk : string,
 		refresh_token : string,
-	) : Promise<boolean> {
+	) : Promise<Account> {
 		const account = await this.account_repo.findOne({where: {pk: account_pk}});
 
 		if(account) {
 			account.refresh_token = refresh_token;
-			await this.account_repo.save(account);
-			
-			return true;
+			return await this.account_repo.save(account);
 		}
 		
-		return false;
+		return undefined;
 	}
 
 }

@@ -5,15 +5,26 @@
 var express = require('express');
 var router = express.Router();
 
-import { 
-    RefreshTokenGenerator,
-    AccessTokenGenerator,
-    VerifyAccessToken 
-} from "../Middleware/JWT_Auth";
+import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
 import { PostCommentService } from '../services/CommentService';
 
 import { CommentDTO } from '../Models/DTOs/CommentDTO';
+
+const status = function(result, res){
+    if(!result){
+        return res.status(403).send({
+            status : 403,
+            success : true,
+            message : "Forbidden"
+        });
+    };
+    return res.status(200).send({
+        status : 200,
+        success : true,
+        message : "success"
+    });  
+}
 
 /**
  * 댓글 표시
@@ -36,20 +47,7 @@ router.get(
         limit,
         order_by
     );
-
-    if(!GetPostComment){
-        return res.state(403).send({
-            status : 403,
-            success : true,
-            message : "Forbidden"
-        });
-    }
-    
-    return res.status(200).send({
-        status : 200,
-        success : true,
-        message : "success"
-    });
+    return status(GetPostComment, res);
 });
 
 /**
@@ -75,20 +73,7 @@ router.post(
         post_pk,
         Create_Comment
     )
-
-    if(!CreateComment){
-        return res.state(403).send({
-            status : 403,
-            success : true,
-            message : "Forbidden"
-        });
-    }
-    
-    return res.status(200).send({
-        status : 200,
-        success : true,
-        message : "success"
-    });
+    return status(CreateComment, res);
 });
 
 /**
@@ -112,20 +97,7 @@ router.put(
         comment_pk,
         Update_Comment
     )
-
-    if(!UpdateComment){
-        return res.state(403).send({
-            status : 403,
-            success : true,
-            message : "Forbidden"
-        });
-    }
-    
-    return res.status(200).send({
-        status : 200,
-        success : true,
-        message : "success"
-    });
+    return status(UpdateComment, res);
 });
 
 /**
@@ -145,20 +117,7 @@ router.delete(
         pk,
         comment_pk
     )
-
-    if(!DeleteComment){
-        return res.state(403).send({
-            status : 403,
-            success : true,
-            message : "Forbidden"
-        });
-    }
-    
-    return res.status(200).send({
-        status : 200,
-        success : true,
-        message : "success"
-    });
+    return status(DeleteComment, res);
 });
 
 module.exports = router;
