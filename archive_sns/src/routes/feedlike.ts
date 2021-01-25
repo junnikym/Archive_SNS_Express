@@ -28,23 +28,41 @@ const status = function(result, res){
     });  
 }
 
-// /**
-//  * 좋아요 수 보기
-//  */
-// router.get(
-//     '/',
-//     function(req, res) {
-//     const likeInfo = req.body;
+/**
+ * 좋아요 수 보기
+ */
+router.get(
+    '/count',
+    function(req, res) {
+    const like_Info = req.body;
+    const target_pk = like_Info.target_pk;
 
+    const Post_Like = new PostLikeService();
+    const Count_Like = Post_Like.CountLike(
+        target_pk
+    );
 
-// });
+    return status(Count_Like, res);
+});
 
-// /**
-//  * 좋아요 누른 사람  목록 보기
-//  */
-// router.get('/list/:feedNum', function(req, res) {
-//     const like_Info = req.body;
-// });
+/**
+ * 좋아요 누른 사람  목록 보기
+ */
+router.get(
+    '/userlist/:feedNum', 
+    function(req, res) {
+    const like_Info = req.body;
+    const target_pk = like_Info.target_pk;
+    const limit = like_Info.limit;
+
+    const Post_Like = new PostLikeService();
+    const Who_Like = Post_Like.WhoLike(
+        target_pk,
+        limit
+    );
+    
+    return status(Who_Like, res);
+});
 
 /**
  * 좋아요 눌렀나 안눌렀나?
