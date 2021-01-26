@@ -13,6 +13,7 @@ import { PostDTO } from '../Models/DTOs/PostDTO';
 import { ImageDTO } from "../Models/DTOs/ImageDTO";
 
 /**
+ * 결과처리
  * 
  * @param result 라우트 처리 결과
  * @param res 상태 처리 결과
@@ -34,21 +35,25 @@ const status = function(result, res){
 
 /**
  * GetSinglePost
+ * 
+ * @param post_pk : 
  */
 router.get(
   '/:postpk', 
   async function(req, res) {
-    const postNum = req.params.postpk;
+    const post_pk = req.params.post_pk;
 
     const Post_Service = new PostService();
     const Get_SinglePost_Result = await Post_Service.GetSinglePost(
-      postNum
+      post_pk
     );
     return status(Get_SinglePost_Result, res);
 });
 
 /**
  * GetPostList
+ * 
+ * @param 
  */
 router.get(
   '/', 
@@ -58,14 +63,17 @@ router.get(
 
 /**
  * GetOwnPost
+ * 
+ * @param writer_pk : 
+ * @param offset : 
+ * @param limit :
  */
 router.get(
   '/:witer_pk', 
   async function(req, res) {
-    const post_Info = req.body;
     const writer_pk = req.params.witer_pk;
-    const offset = post_Info.offset;
-    const limit = post_Info.limit;
+    const offset = req.body.offset;
+    const limit = req.body.limit;
 
     const Post_Service = new PostService();
     const Get_OwnPost_Result = await Post_Service.GetOwnPost(
@@ -77,7 +85,11 @@ router.get(
 });
 
 /**
- * 피드 생성
+ * CreatePost
+ * 
+ * @param user_pk : jwt tokken
+ * @param post_dto : PostDTO(title, text_content)
+ * @param img_dto : ImageDTO(url)
  */
 router.post(
   '/', 
@@ -109,14 +121,20 @@ router.post(
 });
 
 /**
- * 피드 수정
+ * UpdatePost
+ * 
+ * @param user_pk : jwt tokken
+ * @param post_pk : 
+ * @param Post_Update_DTO : PostDTO(title, text_content)
+ * @param ImgDTO : ImageDTO(url)
+ * @param null : 
  */
 router.put(
   '/:feednum',
   VerifyAccessToken,
   async function(req, res) { 
   const feed_Info = req.body;
-  const pk = res.locals.jwt_payload.pk;
+  const user_pk = res.locals.jwt_payload.pk;
 
   const Post_Update_DTO = new PostDTO();
   Post_Update_DTO.title = feed_Info.title;
@@ -134,7 +152,7 @@ router.put(
   const Post_Service = new PostService();
 
   const Update_Feed = await Post_Service.UpdatePost(
-    pk,
+    user_pk,
     feed_Info.post_pk,
     Post_Update_DTO,
     ImgDTO,
@@ -143,22 +161,25 @@ router.put(
   return status(Update_Feed, res);
 });
 
-/*
- * 피드 삭제 
+/**
+ * DeletePost
+ * 
+ * @param user_pk : jwt tokken
+ * @param post_pk :
  */  
 router.delete(
   '/:feednum', 
   VerifyAccessToken,
   async function(req, res) {
   const feed_Info = req.body;
-  const Feed_pk = feed_Info.post_pk;
-  const pk = res.locals.jwt_payload.pk;
+  const post_pk = feed_Info.post_pk;
+  const user_pk = res.locals.jwt_payload.pk;
 
   const Post_Service = new PostService();
 
   const Delete_Feed = await Post_Service.DeletePost(
-    pk,
-    Feed_pk
+    user_pk,
+    post_pk
   )
   return status(Delete_Feed, res);
 });

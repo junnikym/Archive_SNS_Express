@@ -9,6 +9,7 @@ import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 import { CommentLikeService } from "../services/LikeService";
 
 /**
+ * 결과 처리
  * 
  * @param result 라우트 처리 결과
  * @param res 상태 처리 결과
@@ -30,12 +31,14 @@ const status = function(result, res){
 
 /**
  * 좋아요 수 보기
+ * 
+ * @param comment_pk : target_pk
  */
 router.get(
     '/count',
     function(req, res) {
     const like_Info = req.body;
-    const target_pk = like_Info.target_pk;
+    const target_pk = like_Info.comment_pk;
 
     const comment_Like = new CommentLikeService();
     const Count_Like = comment_Like.CountLike(
@@ -46,13 +49,16 @@ router.get(
 });
 
 /**
- * 좋아요 누른 사람  목록 보기
+ * WhoLike
+ * 
+ * @param comment_pk : target_pk
+ * @param limit : 
  */
 router.get(
     '/userlist/:feedNum', 
     function(req, res) {
     const like_Info = req.body;
-    const target_pk = like_Info.target_pk;
+    const target_pk = like_Info.comment_pk;
     const limit = like_Info.limit;
 
     const comment_Like = new CommentLikeService();
@@ -65,7 +71,10 @@ router.get(
 });
 
 /**
- * 좋아요 입력
+ * ToggleLike 
+ * 
+ * @param user_pk : jwt tokken
+ * @param comment_pk : 
  */
 router.post(
     '/:commentNum', 

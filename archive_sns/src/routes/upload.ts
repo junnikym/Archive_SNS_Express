@@ -41,6 +41,10 @@ router.get('/', (req, res) => {
 	res.send(image_send);
 })
 
+/**
+ * 
+ * @param path : 
+ */
 router.post(
 	'/profile_img', 
 	profile_img_multer.single('profile_image'), 

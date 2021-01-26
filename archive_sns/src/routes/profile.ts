@@ -15,6 +15,7 @@ import { Account } from '../Models/Entities/Account';
 import { AccountDTO } from '../Models/DTOs/AccountDTO';
 
 /**
+ * 결과처리
  * 
  * @param result 라우트 처리 결과
  * @param res 상태 처리 결과
@@ -35,7 +36,9 @@ const status = function(result, res){
 }
 
 /**
- * 프로필 확인
+ * GetAccountByPK
+ * 
+ * @param email : user_Email
  */
 router.get(
     '/', 
@@ -52,7 +55,11 @@ router.get(
 });
 
 /**
- * 프로필 수정
+ * UpdateAccount
+ * 
+ * @param account_pk : 
+ * @param Update_Profile : 
+ * AccountDTO(email, password, name, profile_image, status_msg)
  */
 router.put(
     '/:usernum', 

@@ -196,7 +196,10 @@ router.post(
 
 
 /**
- * 프로필 삭제
+ * DeleteAccount
+ * 
+ * @param pk : jwt tokken
+ * @param password : 
  */
 router.delete(
   '/:usernum', 
@@ -230,6 +233,11 @@ router.delete(
   }
 );
 
+/**
+ * 
+ * 
+ * @param pk :
+ */
 router.post(
   '/short_info',
   async function(req, res) {

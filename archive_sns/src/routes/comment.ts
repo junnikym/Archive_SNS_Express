@@ -12,9 +12,10 @@ import { PostCommentService } from '../services/CommentService';
 import { CommentDTO } from '../Models/DTOs/CommentDTO';
 
 /**
+ * 결과처리
  * 
- * @param result 라우트 처리 결과
- * @param res 상태 처리 결과
+ * @param result : 라우트 처리 결과
+ * @param res : 상태 처리 결과
  */
 const status = function(result, res){
     if(!result){
@@ -32,9 +33,12 @@ const status = function(result, res){
 }
 
 /**
- * 댓글 표시
- * @param feedNum 게시물 번호
- * @param commentNum 부모댓글 번호
+ * GetPostComment
+ * 
+ * @param post_pk : 
+ * @param offset : 
+ * @param limit : 
+ * @param order_by : 
  */
 router.get(
     '/', 
@@ -56,7 +60,11 @@ router.get(
 });
 
 /**
- * 댓글 작성
+ * CreateComment
+ * 
+ * @param user_pk : jwt tokken
+ * @param post_pk : 
+ * @param Create_Comment : CommentDTO(content)
  */
 router.post(
     '/', 
@@ -82,7 +90,11 @@ router.post(
 });
 
 /**
- * 댓글 수정
+ * UpdateComment
+ * 
+ * @param pk : jwt tokken
+ * @param comment_pk :
+ * @param Update_Comment : CommentDTO(content)
  */
 router.put(
     '/:commentpk',
@@ -106,7 +118,10 @@ router.put(
 });
 
 /**
- * 댓글 삭제
+ * DeleteComment
+ * 
+ * @param pk : jwt tokken
+ * @param comment_pk : 
  */
 router.delete(
     '/:commentpk',

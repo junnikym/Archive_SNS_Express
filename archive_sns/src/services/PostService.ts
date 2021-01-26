@@ -78,7 +78,7 @@ export class PostService {
 	 * @param limit 
 	 * @param order_by 
 	 */
-	public async GetPostList(	//
+	public async GetPostList(
 		offset 	: number,
 		limit 	: number,
 		order_by: PostOrder

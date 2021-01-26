@@ -9,6 +9,7 @@ import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 import { PostLikeService } from '../services/LikeService';
 
 /**
+ * 결과처리
  * 
  * @param result 라우트 처리 결과
  * @param res 상태 처리 결과
@@ -29,13 +30,15 @@ const status = function(result, res){
 }
 
 /**
- * 좋아요 수 보기
+ * CountLike
+ * 
+ * @param post_pk : target_pk
  */
 router.get(
     '/count',
     function(req, res) {
     const like_Info = req.body;
-    const target_pk = like_Info.target_pk;
+    const target_pk = like_Info.post_pk;
 
     const Post_Like = new PostLikeService();
     const Count_Like = Post_Like.CountLike(
@@ -46,13 +49,16 @@ router.get(
 });
 
 /**
- * 좋아요 누른 사람  목록 보기
+ * WhoLike
+ * 
+ * @param post_pk : target_pk
+ * @param limit : 
  */
 router.get(
     '/userlist/:feedNum', 
     function(req, res) {
     const like_Info = req.body;
-    const target_pk = like_Info.target_pk;
+    const target_pk = like_Info.post_pk;
     const limit = like_Info.limit;
 
     const Post_Like = new PostLikeService();
@@ -65,39 +71,45 @@ router.get(
 });
 
 /**
- * 좋아요 눌렀나 안눌렀나?
+ * IsLike
+ * 
+ * @param user_pk : jwt tokken
+ * @param post_pk : target_pk
  */
 router.get(
     '/list/:feedNum', 
     VerifyAccessToken,
     async function(req, res) {
     const liketoggle_Info = req.body;
-    const target_pk = liketoggle_Info.feed_pk;
-    const pk = res.locals.jwt_payload.pk;
+    const target_pk = liketoggle_Info.post_pk;
+    const user_pk = res.locals.jwt_payload.user_pk;
 
     const Post_Like = new PostLikeService();
 
     const Like_toggle = Post_Like.IsLike(
-        pk,
+        user_pk,
         target_pk
     );
     return status(Like_toggle, res);
 });
 
 /**
- * 좋아요 입력, 삭제
+ * ToggleLike
+ * 
+ * @param user_pk : jwt tokken
+ * @param Feed_pk : giver
  */
 router.post(
     '/:feedNum', 
     async function(req, res) {
     const like_Info = req.body;
-    const pk = res.locals.jwt_payload.pk;
+    const user_pk = res.locals.jwt_payload.pk;
     const giver = like_Info.Feed_pk;
 
     const Post_Like = new PostLikeService();
 
     const PostLike = await Post_Like.ToggleLike(
-        pk,
+        user_pk,
         giver
     );
     return status(PostLike, res);
