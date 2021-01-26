@@ -66,7 +66,7 @@ router.post(
     const comment_Info = req.body;
     const post_pk = comment_Info.post_pk;
 
-    const pk = res.locals.jwt_payload.pk;
+    const user_pk = res.locals.jwt_payload.pk;
 
     const Create_Comment = new CommentDTO();
     Create_Comment.content = comment_Info.content;
@@ -74,7 +74,7 @@ router.post(
     const CreatePost_Comment = new PostCommentService();
 
     const CreateComment = await CreatePost_Comment.CreateComment(
-        pk,
+        user_pk,
         post_pk,
         Create_Comment
     )

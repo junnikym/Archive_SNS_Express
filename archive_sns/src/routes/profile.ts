@@ -67,8 +67,8 @@ router.put(
     Update_Profile.profile_image = user_Info.profile_image;
     Update_Profile.status_msg = user_Info.status_msg;
 
-    const UpdateProfile = new AccountService();
-    const Update_Profile_result = await UpdateProfile.UpdateAccount(
+    const Account_Service = new AccountService();
+    const Update_Profile_result = await Account_Service.UpdateAccount(
         account_pk,
         Update_Profile
     );

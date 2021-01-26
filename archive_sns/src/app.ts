@@ -5,6 +5,7 @@ import { appendFile } from "fs";
 import { db_conn } from "./db_connection";
 import { createServer, Server as httpServer } from "http";
 import { WebSocket } from "./web_socket";
+import { CommentRepo } from "./Models/Repositories/CommentRepo";
 
 var indexRouter = require(__dirname+'/../src/routes/index');
 
@@ -18,6 +19,7 @@ const UploadRouter  = require('./routes/upload');
 const AuthRouter = require('./routes/Auth');
 
 export class App {
+
   private app: express.Application;
   private server: httpServer;
 

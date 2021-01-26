@@ -75,9 +75,9 @@ router.get(
     const target_pk = liketoggle_Info.feed_pk;
     const pk = res.locals.jwt_payload.pk;
 
-    const Like_Service = new PostLikeService();
+    const Post_Like = new PostLikeService();
 
-    const Like_toggle = Like_Service.IsLike(
+    const Like_toggle = Post_Like.IsLike(
         pk,
         target_pk
     );
@@ -94,13 +94,13 @@ router.post(
     const pk = res.locals.jwt_payload.pk;
     const giver = like_Info.Feed_pk;
 
-    const PostLike = new PostLikeService();
+    const Post_Like = new PostLikeService();
 
-    const Post_Like = await PostLike.ToggleLike(
+    const PostLike = await Post_Like.ToggleLike(
         pk,
         giver
     );
-    return status(Post_Like, res);
+    return status(PostLike, res);
 });
 
 module.exports = router;

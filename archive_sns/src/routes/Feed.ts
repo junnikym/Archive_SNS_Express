@@ -28,16 +28,53 @@ const status = function(result, res){
   return res.status(200).send({
       status : 200,
       success : true,
-      message : "success"
+      message : "success",
   });
 }
 
-// /**
-//  * 피드 보기
-//  */
-// router.get('/', function(req, res) {
-//     const feed_Info = req.body;
-// });
+/**
+ * GetSinglePost
+ */
+router.get(
+  '/:postpk', 
+  async function(req, res) {
+    const postNum = req.params.postpk;
+
+    const Post_Service = new PostService();
+    const Get_SinglePost_Result = await Post_Service.GetSinglePost(
+      postNum
+    );
+    return status(Get_SinglePost_Result, res);
+});
+
+/**
+ * GetPostList
+ */
+router.get(
+  '/', 
+  function(req, res) {
+    const feed_Info = req.body;
+});
+
+/**
+ * GetOwnPost
+ */
+router.get(
+  '/:witer_pk', 
+  async function(req, res) {
+    const post_Info = req.body;
+    const writer_pk = req.params.witer_pk;
+    const offset = post_Info.offset;
+    const limit = post_Info.limit;
+
+    const Post_Service = new PostService();
+    const Get_OwnPost_Result = await Post_Service.GetOwnPost(
+      writer_pk,
+      offset,
+      limit
+    );
+    return status(Get_OwnPost_Result, res);
+});
 
 /**
  * 피드 생성
@@ -47,7 +84,7 @@ router.post(
   VerifyAccessToken,
   async function(req, res) {
     const feed_Info = req.body;
-    const pk = res.locals.jwt_payload.pk;
+    const user_pk = res.locals.jwt_payload.pk;
 
     const post_dto = new PostDTO();  //피드 생성 DTO
     let img_dto: ImageDTO[];
@@ -62,9 +99,9 @@ router.post(
       img_dto.push(temp_img_dto);
     }
     
-    const post_create = new PostService();
-    const create_feed = await post_create.CreatePost(
-      pk, 
+    const Post_Service = new PostService();
+    const create_feed = await Post_Service.CreatePost(
+      user_pk, 
       post_dto, 
       img_dto
     );
@@ -94,9 +131,9 @@ router.put(
     ImgDTO.push(temp_img_dto);
   }
 
-  const Post_Update = new PostService();
+  const Post_Service = new PostService();
 
-  const Update_Feed = await Post_Update.UpdatePost(
+  const Update_Feed = await Post_Service.UpdatePost(
     pk,
     feed_Info.post_pk,
     Post_Update_DTO,
@@ -117,9 +154,9 @@ router.delete(
   const Feed_pk = feed_Info.post_pk;
   const pk = res.locals.jwt_payload.pk;
 
-  const Feed_Delete = new PostService();
+  const Post_Service = new PostService();
 
-  const Delete_Feed = await Feed_Delete.DeletePost(
+  const Delete_Feed = await Post_Service.DeletePost(
     pk,
     Feed_pk
   )
