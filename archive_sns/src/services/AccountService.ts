@@ -12,13 +12,11 @@ import { ImageRepo } from '../Models/Repositories/ImageRepo';
 
 @Service()
 export class AccountService {
-	private conn = getConnection();
 	
-	@InjectRepository(Account) 
-	private account_repo: AccountRepo = this.conn.getCustomRepository(AccountRepo);
-
-	@InjectRepository(Image) 
-	private image_repo: ImageRepo = this.conn.getRepository(Image);
+	constructor(
+		@InjectRepository() private account_repo: AccountRepo,
+		@InjectRepository() private image_repo: ImageRepo
+	) { }
 
 	/**
 	 * Service which creating Account
@@ -76,8 +74,6 @@ export class AccountService {
 		account_pk: string
 	)
 	{
-		console.log(this.conn);
-
 		return await this.account_repo.findOne({
 			select: [
 				"name", "email", "profile_image", "status_msg",
