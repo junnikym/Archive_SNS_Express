@@ -8,7 +8,7 @@ const express 	= require('express');
 const path 		= require('path');
 
 const ImagefileFilter = (req, file, callback) => {
-	var ext = path.extname(file.originalname);
+	const ext = path.extname(file.originalname);
 
 	if (
 		ext !== '.png' && 
@@ -22,32 +22,31 @@ const ImagefileFilter = (req, file, callback) => {
 	callback(null, true)
 }
 
-const router = express.Router();
 const profile_img_multer = multer({
 	dest: 'upload/Images/Profiles',
 	fileFilter: ImagefileFilter
 });
 
-// for testing
-router.get('/', (req, res) => {
-	const image_send = `
-		<form action="/upload/profile_img/" method="post" enctype="multipart/form-data">
-			<span>
-				<input type="file" name="profile_image" />
-				<input type="submit"/>
-			</span>
-		</form>
-	`
-	res.send(image_send);
-})
+export class ImageUpdateControl {
 
-router.post(
-	'/profile_img', 
-	profile_img_multer.single('profile_image'), 
-	(req, res) => {
+	public router;
+
+	constructor() {
+		this.router = express.Router();
+
+		this.router.post(
+			'/profile_img', 
+			profile_img_multer.single('profile_image'),
+		);
+	}
+
+	/**
+	 * 
+	 * @param path : 
+	 */
+	private ProfileImage(req, res) {
 		const image = req.file.path;
 
-		console.log(req.file);
 		if(image === undefined) {
 			return res.tatus(400).send({
 				status: 400, 
@@ -63,6 +62,5 @@ router.post(
 			data: image
 		});
 	}
-);
 
-module.exports = router;
+}

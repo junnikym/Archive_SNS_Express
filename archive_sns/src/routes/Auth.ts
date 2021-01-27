@@ -1,5 +1,4 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
 
 /**
  * Authentification Service / DTO
@@ -17,6 +16,7 @@ import {
 } from "../Models/DTOs/AccountDTO";
 
 import { ImageDTO } from '../Models/DTOs/ImageDTO';
+
 import { AccountService } from '../services/AccountService';
 import { AuthService } from "../services/AuthService";
 
@@ -35,7 +35,7 @@ export class AuthControl {
     this.auth_service    = auth_service;
     this.account_service = account_service
 
-    this.router = router;
+    this.router = express.Router();
     
     // < routing >
     this.router.post(

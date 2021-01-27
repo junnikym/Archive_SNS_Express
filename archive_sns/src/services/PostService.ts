@@ -64,7 +64,10 @@ export class PostService {
 	 * 
 	 * @param post_pk : Post PK
 	 */
-	public async GetSinglePost( post_pk: string ): Promise<Post> {
+	public async GetSinglePost( 
+		post_pk: string 
+		): Promise<Post> 
+	{
 		return await this.post_repo.GetSinglePost(post_pk);
 	}
 
@@ -84,7 +87,7 @@ export class PostService {
 		return await this.post_repo.GetPost(offset, limit, order_by);
 	}
 
-	public async GetOwnPost(
+	public async GetOwnPost( //내가쓴글
 		writer_pk: string,
 		offset	 : number,
 		limit	 : number,
