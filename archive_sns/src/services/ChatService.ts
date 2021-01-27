@@ -11,16 +11,11 @@ import { group } from 'console';
 @Service()
 export class ChatService {
 
-	private conn = getConnection();
-
-	@InjectRepository() 
-	private chat_group_repo: ChatGroupRepo = this.conn.getCustomRepository(ChatGroupRepo);
-
-	@InjectRepository()
-	private account_repo: AccountRepo = this.conn.getCustomRepository(AccountRepo);
-	
-	@InjectRepository()
-	private chat_msg_repo: ChatMsgRepo = this.conn.getCustomRepository(ChatMsgRepo)
+	constructor(
+		@InjectRepository() private chat_group_repo: ChatGroupRepo,
+		@InjectRepository() private account_repo: AccountRepo,
+		@InjectRepository() private chat_msg_repo: ChatMsgRepo
+	) {}
 
 	public async CreateChatGroup(
 		people_pk_list: string[],
