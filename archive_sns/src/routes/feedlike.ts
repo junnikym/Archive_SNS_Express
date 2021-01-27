@@ -14,7 +14,7 @@ import { PostLikeService } from '../services/LikeService';
  * @param result 라우트 처리 결과
  * @param res 상태 처리 결과
  */
-const status = function(result, res){
+const status = (result, res) => {
     if(!result){
         return res.status(403).send({
             status : 403,
@@ -36,7 +36,7 @@ const status = function(result, res){
  */
 router.get(
     '/count',
-    function(req, res) {
+    (req, res) => {
     const like_Info = req.body;
     const target_pk = like_Info.post_pk;
 
@@ -56,7 +56,7 @@ router.get(
  */
 router.get(
     '/userlist/:feedNum', 
-    function(req, res) {
+    (req, res) => {
     const like_Info = req.body;
     const target_pk = like_Info.post_pk;
     const limit = like_Info.limit;
@@ -79,7 +79,7 @@ router.get(
 router.get(
     '/list/:feedNum', 
     VerifyAccessToken,
-    async function(req, res) {
+    async (req, res) => {
     const liketoggle_Info = req.body;
     const target_pk = liketoggle_Info.post_pk;
     const user_pk = res.locals.jwt_payload.user_pk;
@@ -101,7 +101,7 @@ router.get(
  */
 router.post(
     '/:feedNum', 
-    async function(req, res) {
+    async (req, res) => {
     const like_Info = req.body;
     const user_pk = res.locals.jwt_payload.pk;
     const giver = like_Info.Feed_pk;

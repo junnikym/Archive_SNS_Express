@@ -18,7 +18,7 @@ import { ImageDTO } from "../Models/DTOs/ImageDTO";
  * @param result 라우트 처리 결과
  * @param res 상태 처리 결과
  */
-const status = function(result, res){
+const status = (result, res) => {
   if(!result){
       return res.status(403).send({
           status : 403,
@@ -40,7 +40,7 @@ const status = function(result, res){
  */
 router.get(
   '/:postpk', 
-  async function(req, res) {
+  async (req, res) => {
     const post_pk = req.params.post_pk;
 
     const Post_Service = new PostService();
@@ -50,16 +50,16 @@ router.get(
     return status(Get_SinglePost_Result, res);
 });
 
-/**
- * GetPostList
- * 
- * @param 
- */
-router.get(
-  '/', 
-  function(req, res) {
-    const feed_Info = req.body;
-});
+// /**
+//  * GetPostList
+//  * 
+//  * @param 
+//  */
+// router.get(
+//   '/', 
+//   (req, res) => {
+//     const feed_Info = req.body;
+// });
 
 /**
  * GetOwnPost
@@ -70,7 +70,7 @@ router.get(
  */
 router.get(
   '/:witer_pk', 
-  async function(req, res) {
+  async (req, res) => {
     const writer_pk = req.params.witer_pk;
     const offset = req.body.offset;
     const limit = req.body.limit;
@@ -94,7 +94,7 @@ router.get(
 router.post(
   '/', 
   VerifyAccessToken,
-  async function(req, res) {
+  async (req, res) => {
     const feed_Info = req.body;
     const user_pk = res.locals.jwt_payload.pk;
 
@@ -132,7 +132,7 @@ router.post(
 router.put(
   '/:feednum',
   VerifyAccessToken,
-  async function(req, res) { 
+  async (req, res) => { 
   const feed_Info = req.body;
   const user_pk = res.locals.jwt_payload.pk;
 
@@ -170,7 +170,7 @@ router.put(
 router.delete(
   '/:feednum', 
   VerifyAccessToken,
-  async function(req, res) {
+  async (req, res) => {
   const feed_Info = req.body;
   const post_pk = feed_Info.post_pk;
   const user_pk = res.locals.jwt_payload.pk;

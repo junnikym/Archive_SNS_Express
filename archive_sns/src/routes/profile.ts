@@ -20,7 +20,7 @@ import { AccountDTO } from '../Models/DTOs/AccountDTO';
  * @param result 라우트 처리 결과
  * @param res 상태 처리 결과
  */
-const status = function(result, res){
+const status = (result, res) => {
     if(!result){
         return res.status(403).send({
             status : 403,
@@ -42,7 +42,7 @@ const status = function(result, res){
  */
 router.get(
     '/:user_pk', 
-    async function(req, res) {
+    async (req, res) => {
     const user_pk = req.params.user_pk;
 
     const Account_Service = new AccountService();
@@ -56,11 +56,11 @@ router.get(
 /**
  * GetAccountbyName
  * 
- * @param email : user_Email
+ * @param name : 
  */
 router.get(
     '/:name', 
-    async function(req, res) {
+    async (req, res) => {
     const target_name = req.params.name;
 
     const Account_Service = new AccountService();
@@ -78,7 +78,7 @@ router.get(
  */
 router.get(
     '/getpk', 
-    async function(req, res) {
+    async (req, res) => {
     const user_Info = req.body;
     const user_Email = user_Info.email;
 
@@ -98,7 +98,7 @@ router.get(
  */
 router.put(
     '/:usernum', 
-    async function(req, res) {
+    async (req, res) => {
     const user_Info = req.body;
     const account_pk = user_Info.account_pk;
 

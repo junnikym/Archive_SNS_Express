@@ -10,6 +10,8 @@ import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 import { PostCommentService } from '../services/CommentService';
 
 import { CommentDTO } from '../Models/DTOs/CommentDTO';
+import { Any } from "typeorm";
+import { PostComment } from "../Models/Entities/Comment";
 
 /**
  * 결과처리
@@ -17,7 +19,7 @@ import { CommentDTO } from '../Models/DTOs/CommentDTO';
  * @param result : 라우트 처리 결과
  * @param res : 상태 처리 결과
  */
-const status = function(result, res){
+const status = (result, res) => {
     if(!result){
         return res.status(403).send({
             status : 403,
@@ -42,7 +44,7 @@ const status = function(result, res){
  */
 router.get(
     '/', 
-    async function(req, res) {
+    async (req, res) => {
     const post_pk = req.body.post_pk;
     const offset = req.body.offset;
     const limit = req.body.limit;
@@ -69,8 +71,7 @@ router.get(
 router.post(
     '/', 
     VerifyAccessToken,
-    async function(req, res) {
-
+    async (req, res) => {
     const comment_Info = req.body;
     const post_pk = comment_Info.post_pk;
 
@@ -99,7 +100,7 @@ router.post(
 router.put(
     '/:commentpk',
     VerifyAccessToken,
-    async function(req, res) {
+    async (req, res) => {
     const comment_Info = req.body;
     const comment_pk = comment_Info.comment_pk
     const pk = res.locals.jwt_payload.pk;
@@ -126,7 +127,7 @@ router.put(
 router.delete(
     '/:commentpk',
     VerifyAccessToken,
-    async function(req, res) {
+    async (req, res) => {
     const comment_Info = req.body;
     const comment_pk = comment_Info.comment_pk
     const pk = res.locals.jwt_payload.pk;

@@ -32,7 +32,7 @@ import { ImageDTO } from '../Models/DTOs/ImageDTO';
 router.post(
   '/my_pk',
   VerifyAccessToken,
-  async function(req, res) {
+  async (req, res) => {
 
     // < Success Message >
 		return res.status(200).send({
@@ -51,7 +51,7 @@ router.post(
  */
 router.post(
   '/login',
-  async function(req, res) {
+  async (req, res) => {
 
     // < Login Account DTO Setting >
     // --------------------------------------------------
@@ -100,7 +100,7 @@ router.post(
  */
 router.post(
   '/registration', 
-  async function(req, res) {
+  async (req, res) => {
     const user_info = req.body;
 
     const account_service = new AccountService();
@@ -204,8 +204,7 @@ router.post(
 router.delete(
   '/:usernum', 
   VerifyAccessToken,
-  async function(req, res) {
-    
+  async (req, res) => {
     const pk = res.locals.jwt_payload.pk;
     const user_Info = req.body;
     const password = user_Info.password;
@@ -240,8 +239,7 @@ router.delete(
  */
 router.post(
   '/short_info',
-  async function(req, res) {
-
+  async (req, res) => {
       let result = undefined;
 
       if(req.body.pk) {
