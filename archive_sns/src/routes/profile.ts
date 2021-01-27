@@ -36,12 +36,48 @@ const status = function(result, res){
 }
 
 /**
+ * GetAccountbyPK
+ * 
+ * @param user_pk : url
+ */
+router.get(
+    '/:user_pk', 
+    async function(req, res) {
+    const user_pk = req.params.user_pk;
+
+    const Account_Service = new AccountService();
+
+    const GetAccountByPK = Account_Service.GetAccountByPK(
+        user_pk
+    );
+    return status(GetAccountByPK, res);
+});
+
+/**
+ * GetAccountbyName
+ * 
+ * @param email : user_Email
+ */
+router.get(
+    '/:name', 
+    async function(req, res) {
+    const target_name = req.params.name;
+
+    const Account_Service = new AccountService();
+
+    const GetAccountByName = Account_Service.GetAccountByName(
+        target_name
+    );
+    return status(GetAccountByName, res);
+});
+
+/**
  * GetAccountByPK
  * 
  * @param email : user_Email
  */
 router.get(
-    '/', 
+    '/getpk', 
     async function(req, res) {
     const user_Info = req.body;
     const user_Email = user_Info.email;
@@ -58,8 +94,7 @@ router.get(
  * UpdateAccount
  * 
  * @param account_pk : 
- * @param Update_Profile : 
- * AccountDTO(email, password, name, profile_image, status_msg)
+ * @param Update_Profile : AccountDTO(email, password, name, profile_image, status_msg)
  */
 router.put(
     '/:usernum', 
