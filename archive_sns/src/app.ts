@@ -14,7 +14,7 @@ import { CommentRepo } from "./Models/Repositories/CommentRepo";
 import { AuthControl } from './routes/Auth';
 import { CommentControl } from './routes/comment';
 import { CommentLikeControl } from './routes/commentlike';
-import { FeedControl } from "./routes/Feed"
+import { PostControl } from './routes/Post';
 import { FeedLikeControl } from './routes/feedlike';
 import { ProfileControl } from "./routes/profile";
 import { ImageUpdateControl } from "./routes/upload";
@@ -48,7 +48,7 @@ export class App {
       const auth_control = new AuthControl(auth_service, account_service);
       const comment_control = new CommentControl(post_comment_service);
       const comment_like_control = new CommentLikeControl(comment_like_service);
-      const feed_control = new FeedControl(post_service);
+      const feed_control = new PostControl(post_service);
       const feed_like_control = new FeedLikeControl(post_like_service);
       const profile_control = new ProfileControl(account_service);
 
@@ -58,7 +58,7 @@ export class App {
       this.app.use('/auth', auth_control.router);
       this.app.use('/comment', comment_control.router);
       this.app.use('/commentlike', comment_like_control.router);
-      this.app.use('/feed', feed_control.router);
+      this.app.use('/post', feed_control.router);
       this.app.use('/feedlike', feed_like_control.router);
 
       this.app.use('/upload', img_upload_control.router);

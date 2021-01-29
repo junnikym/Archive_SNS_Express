@@ -7,8 +7,7 @@ export const enum PostOrder {
 
 const ShortInfoSelect = [
 	"post.pk",
-	"title",
-	"writer",
+	"post.title",
 ];
 
 @EntityRepository(Post)
@@ -23,10 +22,12 @@ export class PostRepo extends Repository<Post> {
 	 */
 	public async GetPost( offset: number, limit: number, order_by: PostOrder ) {
 		
+		// @TODO : FIX IT -> order by part
+
 		return this.createQueryBuilder("post")
 			.select(ShortInfoSelect)
 			.leftJoinAndSelect("post.writer", "writer")
-			.orderBy(order_by, "DESC")
+			// .orderBy(order_by, "DESC")
 			.skip(offset)
 			.take(limit)
 			.getMany();

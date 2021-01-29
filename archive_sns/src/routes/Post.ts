@@ -18,7 +18,7 @@ import { ImageDTO } from "../Models/DTOs/ImageDTO";
 
 import { Post } from '../Models/Entities/Post';
 
-export class FeedControl {
+export class PostControl {
 
   public router;
 
@@ -37,7 +37,7 @@ export class FeedControl {
       async (req, res) => this.GetSinglePost(req, res)
     );
 
-    this.router.get(
+    this.router.post(
       '/', 
       async (req, res) => this.GetPostList(req, res)
     );
@@ -48,7 +48,7 @@ export class FeedControl {
     );
 
     this.router.post(
-      '/', 
+      '/create', 
       VerifyAccessToken,
       async (req, res) => this.CreatePost(req, res)
     );
@@ -109,7 +109,27 @@ export class FeedControl {
    * @param 
    */
   private async GetPostList(req, res) {
-    const feed_Info = req.body;
+
+    const result =  await this.post_service.GetPostList(
+      req.body.offset,
+      req.body.limit,
+      req.body.order_by
+    );
+
+    if(!result){
+      return res.status(403).send({
+          status : 403,
+          success : true,
+          message : "Forbidden"
+      });
+    };
+    
+    return res.status(200).send({
+        status : 200,
+        success : true,
+        message : "success",
+        data : result
+    });
   }
 
   /**
