@@ -14,7 +14,7 @@ class CommentService<
 	RepoType extends (PostCommentRepo | PostReCommentRepo),
 	EntType extends (PostComment | PostReComment)
 > {
-	@InjectRepository() protected comment_repo;
+	protected comment_repo;
 
 	constructor(
 		comment_repo: RepoType
@@ -80,10 +80,10 @@ class CommentService<
 @Service()
 export class PostCommentService extends CommentService< PostCommentRepo, PostComment> {
 
-	constructor() {
-		super(
-			getConnection().getCustomRepository(PostCommentRepo)
-		);
+	constructor(
+		@InjectRepository() comment_repo : PostCommentRepo
+	) {
+		super(comment_repo);
 	}
 
 	/**

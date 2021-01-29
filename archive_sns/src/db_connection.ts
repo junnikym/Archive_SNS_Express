@@ -1,11 +1,11 @@
 import Container from "typedi";
-import { createConnection, ConnectionOptions, useContainer } from "typeorm";
+import { createConnection, ConnectionOptions, useContainer, Connection } from "typeorm";
 import { env } from "./env";
 
 /**
  * DB Connection Setting
  */
-export async function db_conn(): Promise<void> {
+export async function db_conn(): Promise<Connection> {
 	try {
 		const connectionOpts: ConnectionOptions = {
 			type: "mysql",
@@ -26,6 +26,8 @@ export async function db_conn(): Promise<void> {
 			await connection.dropDatabase();
 			await connection.synchronize();
 		}
+
+		return connection;
 	} catch (error) {
 		throw error;
 	}

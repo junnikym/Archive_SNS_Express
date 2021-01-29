@@ -12,13 +12,11 @@ import { ImageRepo } from '../Models/Repositories/ImageRepo';
 
 @Service()
 export class AccountService {
-	private conn = getConnection();
 	
-	@InjectRepository() 
-	private account_repo: AccountRepo = this.conn.getCustomRepository(AccountRepo);
-
-	@InjectRepository(Image) 
-	private image_repo: ImageRepo = this.conn.getRepository(Image);
+	constructor(
+		@InjectRepository() private account_repo: AccountRepo,
+		@InjectRepository() private image_repo: ImageRepo
+	) { }
 
 	/**
 	 * Service which creating Account

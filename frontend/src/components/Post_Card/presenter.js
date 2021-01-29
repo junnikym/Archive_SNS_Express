@@ -10,28 +10,30 @@ import {
 } from 'react-bootstrap';
 import Post from '../Post';
 
-const Post_Card = (props, contet) => (
+const Post_Card = props => (
     
-        <div className = "Post_Card">
+    <div className = "Post_Card">
 
     <Card>
-        <Card.Img 
-        variant="top" 
-        img src="/" onError="this.style.display='none'" alt='' 
-        />
-        <Card.Body>
-            {props.Post_text}
-        <Card.Text>
+        {/* <Card.Img 
+            variant="top" 
+            img src="/" onError="this.style.display='none'" alt='' 
+            /> */}
             
-        </Card.Text>
+        <Card.Body>
+            <Card.Text>
+                {props.Post_text}
+            </Card.Text>
+
             <Like_button/>
         </Card.Body>
+
         <Card.Footer>
-        <small className="text-muted">Last updated 3 mins ago</small>
+            <small className="text-muted">Last updated 3 mins ago</small>
         </Card.Footer>
     </Card>
     
-        </div>
+    </div>
 
 );
 

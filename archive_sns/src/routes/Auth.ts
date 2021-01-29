@@ -1,11 +1,5 @@
-/**
- * 로그인 관련 라우트
- */
-
 const express = require('express');
-const router = express.Router();
 
-import { userInfo } from "os";
 /**
  * Authentification Service / DTO
  */
@@ -16,8 +10,6 @@ import {
   VerifyAccessToken 
 } from "../Middleware/JWT_Auth";
 
-import { AuthService } from "../services/AuthService";
-import { AccountService } from '../services/AccountService';
 import { 
   AccountDTO,
   AccountVO 
@@ -25,33 +17,76 @@ import {
 
 import { ImageDTO } from '../Models/DTOs/ImageDTO';
 
-/**
- * Get a Account VO
- */
+import { AccountService } from '../services/AccountService';
+import { AuthService } from "../services/AuthService";
 
+<<<<<<< HEAD
 router.post(
   '/my_pk',
   VerifyAccessToken,
   async (req, res) => {
+=======
+export class AuthControl {
+>>>>>>> 3998fca66adf99771446f8f7f4c9273606d6b264
 
-    // < Success Message >
-		return res.status(200).send({
-			status  : 200,
-			success : true,
-      message : "success",
-      data    : {
-        pk: res.locals.jwt_payload.pk
-      } 
-    });
+  public router;
+
+  private auth_service : AuthService;
+  private account_service : AccountService;
+
+  constructor(
+    auth_service : AuthService,
+    account_service : AccountService
+  ) {
+
+    this.auth_service    = auth_service;
+    this.account_service = account_service
+
+    this.router = express.Router();
     
-  });
+    // < routing >
+    this.router.post(
+      "/login", 
+      async (req, res) => this.login(req, res)
+    );
 
+<<<<<<< HEAD
 /**
  * Login
  */
 router.post(
   '/login',
   async (req, res) => {
+=======
+    this.router.post(
+      '/registration', 
+      async (req, res) => this.registration(req, res)
+    );
+
+    this.router.post(
+      '/account', 
+      VerifyAccessToken, 
+      async (req, res) => this.account(req, res)
+    );
+
+    this.router.delete(
+      '/:usernum', 
+      VerifyAccessToken, 
+      async (req, res) => this.delete(req, res)
+    );
+
+    this.router.post(
+      '/short_info', 
+      async (req, res) => this.short_info(req, res)
+    );
+  }
+
+  /**
+   * Login
+   */
+  
+  private login = async function (req, res) {
+>>>>>>> 3998fca66adf99771446f8f7f4c9273606d6b264
 
     // < Login Account DTO Setting >
     // --------------------------------------------------
@@ -60,8 +95,7 @@ router.post(
 
     // < Validate >
     // --------------------------------------------------
-    const auth_service = new AuthService();
-    const account = await auth_service.ValidateAccount(account_dto);
+    const account = await this.auth_service.ValidateAccount(account_dto);
 
     // < Fail >
     // --------------------------------------------------
@@ -78,7 +112,7 @@ router.post(
     const _access_token = await AccessTokenGenerator(account);
     const _refresh_token = await RefreshTokenGenerator(account);
 
-    await auth_service.SaveRefreshTokenDirectly(account, _refresh_token);
+    await this.auth_service.SaveRefreshTokenDirectly(account, _refresh_token);
 
     // < Success >
     // --------------------------------------------------
@@ -93,18 +127,25 @@ router.post(
       }
     });
   }
-);
 
+<<<<<<< HEAD
 /**
  * Registration Account
  */
 router.post(
   '/registration', 
   async (req, res) => {
+=======
+  /**
+   * Registration Account
+   */
+   
+  private registration = async function(req, res) {
+      
+>>>>>>> 3998fca66adf99771446f8f7f4c9273606d6b264
     const user_info = req.body;
 
-    const account_service = new AccountService();
-    const auth_service = new AuthService();
+    
 
     // < Wrong Input >
     // --------------------------------------------------
@@ -132,12 +173,12 @@ router.post(
 
     // < Save & Generate Token >
     // --------------------------------------------------
-    const account = await account_service.CreateAccount(account_dto, profile_img);
+    const account = await this.account_service.CreateAccount(account_dto, profile_img);
 
     const _access_token = AccessTokenGenerator(account);
     const _refresh_token = RefreshTokenGenerator(account);
 
-    await auth_service.SaveRefreshTokenDirectly(account, _refresh_token);
+    await this.auth_service.SaveRefreshTokenDirectly(account, _refresh_token);
 
     // < Success >
     // --------------------------------------------------
@@ -152,21 +193,17 @@ router.post(
       }
     });
   }
-);
 
-/**
- * Get Account
- */
-router.post(
-  '/account',
-  VerifyAccessToken,
-  async (req, res) => {
+
+  /**
+   * Get Account
+   */
+ 
+  private account = async (req, res) => {
     const pk = res.locals.jwt_payload.pk;
     const token = res.locals.token;
 
-    const auth_service = new AuthService();
-
-    const account = await auth_service.ValidateRefreshToken(pk, token);
+    const account = await this.auth_service.ValidateRefreshToken(pk, token);
 
     // < Fail >
     // --------------------------------------------------
@@ -192,9 +229,9 @@ router.post(
       }
     });
   }
-)
 
 
+<<<<<<< HEAD
 /**
  * DeleteAccount
  * 
@@ -205,12 +242,19 @@ router.delete(
   '/:usernum', 
   VerifyAccessToken,
   async (req, res) => {
+=======
+  /**
+   * 프로필 삭제
+   */
+  
+  private delete = async function(req, res) {
+    
+>>>>>>> 3998fca66adf99771446f8f7f4c9273606d6b264
     const pk = res.locals.jwt_payload.pk;
     const user_Info = req.body;
     const password = user_Info.password;
 
-    const DeleteProfile = new AccountService();
-    const Delete_Profile = await DeleteProfile.DeleteAccount(
+    const Delete_Profile = await this.DeleteProfile.DeleteAccount(
         pk,
         password
     );
@@ -230,8 +274,8 @@ router.delete(
     });
 
   }
-);
 
+<<<<<<< HEAD
 /**
  * 
  * 
@@ -240,15 +284,15 @@ router.delete(
 router.post(
   '/short_info',
   async (req, res) => {
+=======
+  private short_info = async function(req, res) {
+
+>>>>>>> 3998fca66adf99771446f8f7f4c9273606d6b264
       let result = undefined;
 
       if(req.body.pk) {
-        const account_service = new AccountService();
-        result = await account_service.GetAccountByPK(req.body.pk);
+        result = await this.account_service.GetAccountByPK(req.body.pk);
       }
-
-      console.log("in getInfo : pk -> ", req.body.pk);
-      console.log("in getInfo : result : ", result);
 
       if(result == undefined){
           return res.status(404).send({
@@ -265,6 +309,5 @@ router.post(
           data: result
       });  
   }
-)
 
-module.exports = router;
+}

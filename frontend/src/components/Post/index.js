@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import Container from "./container";
-import { actionCreators as PostAct } from "../../redux/modules/Post";
+import { actionCreators as PostAct } from "../../redux/modules/post";
 
 const mapDispatchToProps = (dispatch, props) => {
     return {

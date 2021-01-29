@@ -9,10 +9,13 @@ import { AccountDTO } from '../Models/DTOs/AccountDTO';
 @Service()
 export class AuthService {
 
-	private conn = getConnection();
+	constructor(
+		@InjectRepository() private account_repo: AccountRepo
+	) { }
 
-	@InjectRepository()
-	private account_repo: AccountRepo = this.conn.getCustomRepository(AccountRepo);
+	// private conn = getConnection();
+
+	// private account_repo: AccountRepo = this.conn.getCustomRepository(AccountRepo);
 
 	/**
 	 * Verify that the data passed to DTO and the data which exist in 
@@ -66,8 +69,6 @@ export class AuthService {
 		account : Account,
 		refresh_token : string
 	) {
-		console.log(account);
-
 		account.refresh_token = refresh_token;
 		return await this.account_repo.save(account);
 	}

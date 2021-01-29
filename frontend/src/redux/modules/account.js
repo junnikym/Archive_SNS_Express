@@ -4,7 +4,7 @@
 
 const SAVE_TOKEN 	= "SAVE_TOKEN";
 const LOGOUT 		= "LOGOUT";
-const PASS_INFO		= "PASS_INFO"
+const PASS_DATA		= "PASS_DATA";
 
 // < Actions Creators >
 // --------------------------------------------------
@@ -22,9 +22,9 @@ function logout() {
 	};
 }
 
-function passInfo(data) {
+function passData(data) {
 	return {
-		type: PASS_INFO,
+		type: PASS_DATA,
 		data
 	};
 }
@@ -99,7 +99,7 @@ function getInfo(pk) {
 			}
 
 			if (json.data) {
-				dispatch(passInfo(json.data));
+				dispatch(passData(json.data));
 			}
 		})
 		.catch(err => console.log(err));
@@ -125,8 +125,8 @@ function reducer(state = initialState, action) {
 			return applySetToken(state, action);
 		case LOGOUT:
 			return applyLogout(state, action);
-		case PASS_INFO:
-			return applyGetInfo(state, action);
+		case PASS_DATA:
+			return applyGetData(state, action);
 		default:
 			return state;
 	}
@@ -160,19 +160,14 @@ function applyLogout(state, action) {
 
 	return {
 		isLoggedIn: false,
-		AccesssToken: undefined,
+		AccessToken: undefined,
 		RefreshToken: undefined,
 		PK: undefined
 	};
 }
 
-function applyGetInfo(state, action) {
+function applyGetData(state, action) {
 	const { data } = action;
-
-	console.log("in applyGetInfo", {
-		...state,
-		data: data
-	});
 
 	return {
 		...state,

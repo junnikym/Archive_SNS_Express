@@ -10,16 +10,6 @@ const Container = (props, context) => {
 		img     	: ''
     });
 
-	const { title, text, img } = PostInfo;
-	
-	const __title_input_handler__ = event => {
-		const { value, name } = event.target;
-		setPostInfo({
-			...PostInfo,
-			[name]: value
-		});
-    };
-
     const __text_input_handler__ = event => {
 		const { value, name } = event.target;
 		setPostInfo({
@@ -35,19 +25,15 @@ const Container = (props, context) => {
 		})
 	}; 
 
+	const { title, text, img } = PostInfo;
+
 	const __submit_handler__ = event => {
-		console.log("clked");
-		
 		event.preventDefault();
-
-		console.log("clked");
-
 		props.createPost(title, text, img);
 	};
 
     return (
 		<Post
-			title_input_handler 	= {__title_input_handler__}
 			text_input_handler 		= {__text_input_handler__}
 			img_input_handler 		= {__img_input_handler__}
 			submit_handler 			= {__submit_handler__} 

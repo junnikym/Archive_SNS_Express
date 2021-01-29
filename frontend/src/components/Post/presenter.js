@@ -19,11 +19,11 @@ const Post = (props) => (
     <Form.Group controlId="Textarea">
         <Form.Label>@사용자</Form.Label>
         <Form.Control  
-        type="text"
-        name="title"
-        placeholder="오늘 최고의 키워드!" 
-        value={props.Post_title}
-		onChange={props.title_input_handler}  />
+            type="text"
+            name="title"
+            placeholder="오늘 최고의 키워드!" 
+            value={props.Post_title}
+            onChange={props.text_input_handler} />
     </Form.Group>
 
     <Form.Group controlId="Textarea">
@@ -39,11 +39,10 @@ const Post = (props) => (
 
     <Form.File id="formcheck-api-regular">
         <Form.File.Input
-        type="file"
-        name="img" 
-        value={props.Post_img}
-        onChange={props.img_input_handler}
-        />
+            type="file"
+            name="img" 
+            value={props.Post_img}
+            onChange={props.img_input_handler} />
         </Form.File>
 
         <Button 

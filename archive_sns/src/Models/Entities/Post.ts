@@ -9,6 +9,7 @@ import {
 	OneToOne,
 	OneToMany,
 	JoinColumn,
+	ManyToOne,
 
 } from "typeorm";
 import { IsNotEmpty } from "class-validator";
@@ -32,15 +33,18 @@ export class Post {
 	title: string;
 
 	@IsNotEmpty()
-	@Column({ name: "text_content" })
+	@Column({ name: "text_content", default: "" })
 	text_content: string;
 
-	@Column({ name: "writer", length: 36 })
+	@IsNotEmpty()
+	@Column({ name: "writer", length: 36, nullable: false })
 	writer_pk: string;
 
-	@IsNotEmpty()
-	@OneToOne((Type) => Account)
-	@JoinColumn({name: 'writer'})
+	@ManyToOne((type) => Account, (account) => account.pk, {
+		cascade: true,
+		onDelete: "CASCADE",
+	})
+	@JoinColumn({ name: "writer" })
 	writer: Account;
 
 	@OneToMany( (type) => PostImage, (PostImage) => PostImage.post )

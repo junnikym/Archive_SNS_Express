@@ -3,50 +3,66 @@ import express, { Request, Response } from "express";
 
 import { appendFile } from "fs";
 import { db_conn } from "./db_connection";
+import { Connection } from "typeorm";
+import Container from "typedi";
+
 import { createServer, Server as httpServer } from "http";
 import { WebSocket } from "./web_socket";
 import { CommentRepo } from "./Models/Repositories/CommentRepo";
 
-var indexRouter = require(__dirname+'/../src/routes/index');
+// < Controls >
+import { AuthControl } from './routes/Auth';
+import { CommentControl } from './routes/comment';
+import { CommentLikeControl } from './routes/commentlike';
+import { PostControl } from './routes/Post';
+import { FeedLikeControl } from './routes/feedlike';
+import { ProfileControl } from "./routes/profile";
+import { ImageUpdateControl } from "./routes/upload";
 
-var FeedRouter = require(__dirname+'/../src/routes/Feed');
-var profileRouter = require(__dirname+'/../src/routes/profile');
-var commentRouter = require(__dirname+'/../src/routes/comment');
-const feedlikeRouter = require(__dirname+'/../src/routes/feedlike');
-// const commentlikeRouter = require(__dirname+'/../src/routes/commentlike');
-
-const UploadRouter  = require('./routes/upload');
-const AuthRouter = require('./routes/Auth');
+// < Services >
+import { AuthService } from "./services/AuthService";
+import { AccountService } from './services/AccountService';
+import { PostCommentService } from './services/CommentService';
+import { CommentLikeService, PostLikeService } from "./services/LikeService";
+import { PostService } from './services/PostService';
 
 export class App {
 
   private app: express.Application;
   private server: httpServer;
+  private db_conn: Connection;
 
   constructor() {
     this.app = express();
-    this.initDB();
+    this.initDB().then(() => {
 
-    //@TODO : Integrate Routers
-    this.app.use(bodyParser.urlencoded({extended: false}));
-    this.app.use(bodyParser.json());
-    // this.app.use(helmet());
-    // this.app.use(compression());
-    
-    this.app.use('/', indexRouter);
-    
-    // Authentifications
-    this.app.use('/auth', AuthRouter);
-    this.app.use('/Feed', FeedRouter);
-    this.app.use('/profile', profileRouter);
-    this.app.use('/upload', UploadRouter);
-    this.app.use('/images', express.static('upload/Images/Profiles'));
-    this.app.use('/comment', commentRouter)
-    this.app.use('/feedlike', feedlikeRouter);
-    // this.app.use('/commentlike', commentlikeRouter);
+      // Services
+      const auth_service: AuthService = Container.get(AuthService);
+      const account_service: AccountService = Container.get(AccountService);
+      const post_comment_service: PostCommentService = Container.get(PostCommentService);
+      const comment_like_service: CommentLikeService = Container.get(CommentLikeService);
+      const post_service: PostService = Container.get(PostService);
+      const post_like_service: PostLikeService = Container.get(PostLikeService);
 
-    this.server = createServer(this.app);
-    WebSocket(this.server);
+      // Controls
+      const auth_control = new AuthControl(auth_service, account_service);
+      const comment_control = new CommentControl(post_comment_service);
+      const comment_like_control = new CommentLikeControl(comment_like_service);
+      const feed_control = new PostControl(post_service);
+      const feed_like_control = new FeedLikeControl(post_like_service);
+      const profile_control = new ProfileControl(account_service);
+
+      const img_upload_control = new ImageUpdateControl();
+
+      // routing
+      this.app.use('/auth', auth_control.router);
+      this.app.use('/comment', comment_control.router);
+      this.app.use('/commentlike', comment_like_control.router);
+      this.app.use('/post', feed_control.router);
+      this.app.use('/feedlike', feed_like_control.router);
+
+      this.app.use('/upload', img_upload_control.router);
+    });
   }
 
   /**
@@ -55,7 +71,7 @@ export class App {
 
   private async initDB(): Promise<void> {
     try {
-      await db_conn();
+      this.db_conn = await db_conn();
     } 
     catch (error) {
       console.log("didn't connect Database : \n", error);
@@ -69,8 +85,17 @@ export class App {
    */
   public async run(port: number) : Promise<void> {
     try {
+
+      //@TODO : Integrate Routers
+      this.app.use(bodyParser.urlencoded({extended: false}));
+      this.app.use(bodyParser.json());
+      // this.app.use(helmet());
+      // this.app.use(compression());
+
+      this.server = createServer(this.app);
+      WebSocket(this.server);
+
       this.server.listen(port, () => {
-      // this.server.listen(port, () => {
         console.log('Conneted ', port, ' port');
       });
     }

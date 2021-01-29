@@ -15,8 +15,8 @@ class CommonLikeService<
 	RepoType extends (PostLikeRepo | CommentLikeRepo),
 	EntType extends (PostLike | CommentLike)
 > {
-	@InjectRepository() protected like_repo;
-	@InjectRepository() protected target_repo;
+	protected like_repo;
+	protected target_repo;
 
 	constructor(like_repo: RepoType, target_repo: any) {
 		this.like_repo = like_repo;
@@ -103,11 +103,11 @@ class CommonLikeService<
 @Service()
 export class PostLikeService extends CommonLikeService<PostLikeRepo, PostLike>{
 
-	constructor() {
-		super( 
-			getConnection().getCustomRepository(PostLikeRepo), 
-			getConnection().getCustomRepository(PostRepo) 
-		);
+	constructor(
+		@InjectRepository() like_repo : PostLikeRepo,
+		@InjectRepository() post_repo : PostRepo
+	) {
+		super( like_repo, post_repo );
 	}
 	
 }
@@ -115,11 +115,11 @@ export class PostLikeService extends CommonLikeService<PostLikeRepo, PostLike>{
 @Service()
 export class CommentLikeService extends CommonLikeService<CommentLikeRepo, CommentLike>{
 
-	constructor() {
-		super( 
-			getConnection().getCustomRepository(CommentLikeRepo), 
-			getConnection().getCustomRepository(PostRepo)
-		);
+	constructor(
+		@InjectRepository() like_repo : CommentLikeRepo,
+		@InjectRepository() post_repo : PostRepo
+	) {
+		super( like_repo, post_repo );
 	}
 	
 }

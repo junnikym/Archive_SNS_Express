@@ -8,10 +8,10 @@ import { Friend } from '../Models/Entities/Friend';
 
 @Service()
 export class FriendService {
-	private conn = getConnection();
 
-	@InjectRepository() 
-	private friend_repo: FriendRepo = this.conn.getCustomRepository(FriendRepo);
+	constructor (
+		@InjectRepository() private friend_repo: FriendRepo
+	) { }
 
 	/**
 	 * Add friend 
