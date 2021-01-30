@@ -13,18 +13,6 @@ import { AccountService } from '../services/AccountService';
 import { Account } from '../Models/Entities/Account';
 import { AccountDTO } from '../Models/DTOs/AccountDTO';
 
-<<<<<<< HEAD
-/**
- * 결과처리
- * 
- * @param result 라우트 처리 결과
- * @param res 상태 처리 결과
- */
-const status = (result, res) => {
-    if(!result){
-        return res.status(403).send({
-            status : 403,
-=======
 export class ProfileControl {
 
     public router
@@ -65,60 +53,11 @@ export class ProfileControl {
         };
         return res.status(200).send({
             status : 200,
->>>>>>> 3998fca66adf99771446f8f7f4c9273606d6b264
             success : true,
             message : "success"
         });  
     }
 
-<<<<<<< HEAD
-/**
- * GetAccountbyPK
- * 
- * @param user_pk : url
- */
-router.get(
-    '/:user_pk', 
-    async (req, res) => {
-    const user_pk = req.params.user_pk;
-
-    const Account_Service = new AccountService();
-
-    const GetAccountByPK = Account_Service.GetAccountByPK(
-        user_pk
-    );
-    return status(GetAccountByPK, res);
-});
-
-/**
- * GetAccountbyName
- * 
- * @param name : 
- */
-router.get(
-    '/:name', 
-    async (req, res) => {
-    const target_name = req.params.name;
-
-    const Account_Service = new AccountService();
-
-    const GetAccountByName = Account_Service.GetAccountByName(
-        target_name
-    );
-    return status(GetAccountByName, res);
-});
-
-/**
- * GetAccountByPK
- * 
- * @param email : user_Email
- */
-router.get(
-    '/getpk', 
-    async (req, res) => {
-    const user_Info = req.body;
-    const user_Email = user_Info.email;
-=======
     /**
      * GetAccountByPK
      * 
@@ -127,7 +66,6 @@ router.get(
     private async GetAccountByPk (req, res) {
         const user_Info = req.body;
         const user_Email = user_Info.email;
->>>>>>> 3998fca66adf99771446f8f7f4c9273606d6b264
 
         const Get_Account = await this.account_service.GetAccountByPK(
             user_Email
@@ -136,36 +74,6 @@ router.get(
         return this.status(Get_Account, res);
     }
 
-<<<<<<< HEAD
-/**
- * UpdateAccount
- * 
- * @param account_pk : 
- * @param Update_Profile : AccountDTO(email, password, name, profile_image, status_msg)
- */
-router.put(
-    '/:usernum', 
-    async (req, res) => {
-    const user_Info = req.body;
-    const account_pk = user_Info.account_pk;
-
-    const Update_Profile = new AccountDTO();
-    Update_Profile.email = user_Info.email;
-    Update_Profile.password = user_Info.password;
-    Update_Profile.name = user_Info.name;
-    Update_Profile.profile_image = user_Info.profile_image;
-    Update_Profile.status_msg = user_Info.status_msg;
-
-    const Account_Service = new AccountService();
-    const Update_Profile_result = await Account_Service.UpdateAccount(
-        account_pk,
-        Update_Profile
-    );
-    return status(Update_Profile_result, res);
-});
-
-module.exports = router;
-=======
     /**
      * UpdateAccount
      * 
@@ -193,4 +101,3 @@ module.exports = router;
     }
 
 }
->>>>>>> 3998fca66adf99771446f8f7f4c9273606d6b264

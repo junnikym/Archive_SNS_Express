@@ -20,14 +20,7 @@ import { ImageDTO } from '../Models/DTOs/ImageDTO';
 import { AccountService } from '../services/AccountService';
 import { AuthService } from "../services/AuthService";
 
-<<<<<<< HEAD
-router.post(
-  '/my_pk',
-  VerifyAccessToken,
-  async (req, res) => {
-=======
 export class AuthControl {
->>>>>>> 3998fca66adf99771446f8f7f4c9273606d6b264
 
   public router;
 
@@ -50,14 +43,6 @@ export class AuthControl {
       async (req, res) => this.login(req, res)
     );
 
-<<<<<<< HEAD
-/**
- * Login
- */
-router.post(
-  '/login',
-  async (req, res) => {
-=======
     this.router.post(
       '/registration', 
       async (req, res) => this.registration(req, res)
@@ -86,7 +71,6 @@ router.post(
    */
   
   private login = async function (req, res) {
->>>>>>> 3998fca66adf99771446f8f7f4c9273606d6b264
 
     // < Login Account DTO Setting >
     // --------------------------------------------------
@@ -128,21 +112,12 @@ router.post(
     });
   }
 
-<<<<<<< HEAD
-/**
- * Registration Account
- */
-router.post(
-  '/registration', 
-  async (req, res) => {
-=======
   /**
    * Registration Account
    */
    
   private registration = async function(req, res) {
       
->>>>>>> 3998fca66adf99771446f8f7f4c9273606d6b264
     const user_info = req.body;
 
     
@@ -231,25 +206,12 @@ router.post(
   }
 
 
-<<<<<<< HEAD
-/**
- * DeleteAccount
- * 
- * @param pk : jwt tokken
- * @param password : 
- */
-router.delete(
-  '/:usernum', 
-  VerifyAccessToken,
-  async (req, res) => {
-=======
   /**
    * 프로필 삭제
    */
   
   private delete = async function(req, res) {
     
->>>>>>> 3998fca66adf99771446f8f7f4c9273606d6b264
     const pk = res.locals.jwt_payload.pk;
     const user_Info = req.body;
     const password = user_Info.password;
@@ -275,19 +237,8 @@ router.delete(
 
   }
 
-<<<<<<< HEAD
-/**
- * 
- * 
- * @param pk :
- */
-router.post(
-  '/short_info',
-  async (req, res) => {
-=======
   private short_info = async function(req, res) {
 
->>>>>>> 3998fca66adf99771446f8f7f4c9273606d6b264
       let result = undefined;
 
       if(req.body.pk) {
