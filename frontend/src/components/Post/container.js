@@ -1,5 +1,4 @@
-import React, { useState }  from "react";
-import PropTypes from "prop-types";
+import React, {useState} from "react";
 import Post from "./presenter";
 
 const Container = (props, context) => {
@@ -45,9 +44,5 @@ const Container = (props, context) => {
 	);
 
 }
-
-Container.propTypes = {
-	createPost : PropTypes.func.isRequired,
-};
 
 export default Container;
