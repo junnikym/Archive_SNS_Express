@@ -13,11 +13,13 @@ const Like = (props, context) => {
 	<div className = "Like_button">
 
             <button 
-                className = "button_right"
+                className = "button"
                 onClick = {props.cilckLike}
                 >
-            좋아요
+            <div className = "Like_btn"></div>
             </button>
+
+            
 
 	</div>
 )

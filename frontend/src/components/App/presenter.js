@@ -4,10 +4,17 @@ import { Route, Switch } from "react-router-dom";
 
 import Auth from "../Auth";
 
-import Home_ from "./Home_";
+import Navigation from "../Navigation";        
+import User_list from "../User_list"    
+import Footer from "../Footer";    
+
+import Own_Profile from "../Profile_/Own";
+
+import Post from "../Post/container";
 
 const App = props => [
   props.isLoggedIn ? <PrivateRoutes key={1} /> : <PublicRoutes key={1} />,
+  // props.isLoggedIn ? <PrivateRoutes key={1} /> : <PrivateRoutes key={1} />,
 ];
 
 App.propTypes = {
@@ -16,7 +23,18 @@ App.propTypes = {
 
 const PrivateRoutes = props => (
   <Route>
-      <Home_/>
+    <Navigation />  
+    <User_list/>
+
+      <Switch>
+            {/* Profiles */}
+            <Route exact path ="/Own_Profile" component = {Own_Profile} />
+
+            {/* Post */}
+            <Route exact path ="/" component = {Post} />
+          </Switch>
+          
+          <Footer/>
   </Route>
 );
 
