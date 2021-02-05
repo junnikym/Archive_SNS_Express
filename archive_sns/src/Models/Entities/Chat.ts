@@ -3,32 +3,19 @@ import {
 	JoinColumn,
 	JoinTable,
 	Entity,
-	OneToMany,
 	ManyToMany,
 	PrimaryGeneratedColumn,
 	ManyToOne,
 	OneToOne
 } from "typeorm";
 import { IsNotEmpty } from "class-validator";
-import { type } from 'os';
+
 import { Account } from "./Account";
+import { ChatGroup } from './Group';
 
-
-@Entity({ name: "chat_group" })
-export class ChatGroup {
-
-	@PrimaryGeneratedColumn("uuid")
-	pk: string;
-
-	@ManyToMany(
-		(type) => Account, 
-		(account) => account.chat_group, 
-		{ nullable: false }
-	)
-	@JoinTable()
-	participant: Account[];
-}
-
+/**
+ * Chat Massage Entity
+ */
 @Entity({ name: "chat_msg" })
 export class ChatMsg {
 	
@@ -42,12 +29,12 @@ export class ChatMsg {
 	@JoinColumn({ name: "writer" })
 	writer: Account;
 
-	@Column({ name: "group_pk", length: 36 })
-	group_pk: string;
-
-	@ManyToOne( type => ChatGroup, (chat_group) => chat_group.pk )
-	@JoinColumn({ name: 'chat_group' })
-	group: ChatGroup;
+	@ManyToOne((type) => ChatGroup, (chat_group) => chat_group.chat_msg, {
+		cascade: true,
+		onDelete: "CASCADE",
+	})
+	@JoinColumn({ name: "chat_group" })
+	chat_group: ChatGroup;
 
 	@Column({ name: "content" })
 	content: string;

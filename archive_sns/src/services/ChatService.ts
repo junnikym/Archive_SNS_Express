@@ -1,12 +1,16 @@
 import { Service } from 'typedi';
 import { getConnection } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { Account } from '../Models/Entities/Account';
-import { ChatGroup, ChatMsg } from '../Models/Entities/Chat';
+
 import { AccountRepo } from '../Models/Repositories/AccountRepo';
-import { ChatGroupRepo, ChatMsgRepo } from '../Models/Repositories/ChatRepo';
+import { ChatGroupRepo } from '../Models/Repositories/GroupRepo';
+import { ChatMsgRepo } from '../Models/Repositories/ChatRepo';
+
+import { Account } from '../Models/Entities/Account';
+import { ChatGroup } from '../Models/Entities/Group';
+import { ChatMsg } from '../Models/Entities/Chat';
+
 import { ChatMsgDTO } from '../Models/DTOs/ChatDTO';
-import { group } from 'console';
 
 @Service()
 export class ChatService {
@@ -24,11 +28,12 @@ export class ChatService {
 		if(people_pk_list.length < 2)
 			return undefined;
 
-		const people: Account[] = await this.account_repo.FindByPKs(people_pk_list);
+		const participant: Account[] = 
+			await this.account_repo.FindByPKs(people_pk_list);
 		
-		if(people) {
+		if(participant) {
 			const new_group = new ChatGroup()
-			new_group.participant = people;
+			new_group.participant = participant;
 
 			return await this.chat_group_repo.save(new_group);
 		}
@@ -36,17 +41,17 @@ export class ChatService {
 		return undefined;
 	}
 
-	public async SendMsg(
-		account_pk: string,
-		group_pk: string,
-		chat_msg_dto: ChatMsgDTO
-	) : Promise<ChatMsg> {
-		const new_chat_msg = await chat_msg_dto.toEntity();
-		new_chat_msg.writer_pk = account_pk;
-		new_chat_msg.group_pk = account_pk;
+	// public async SendMsg(
+	// 	account_pk: string,
+	// 	group_pk: string,
+	// 	chat_msg_dto: ChatMsgDTO
+	// ) : Promise<ChatMsg> {
+	// 	const new_chat_msg = await chat_msg_dto.toEntity();
+	// 	new_chat_msg.writer_pk = account_pk;
+	// 	new_chat_msg.group_pk = account_pk;
 
-		return await this.chat_msg_repo.save(new_chat_msg);
-	}
+	// 	return await this.chat_msg_repo.save(new_chat_msg);
+	// }
 
 	public async ExitChatGroup(
 		account_pk: string,

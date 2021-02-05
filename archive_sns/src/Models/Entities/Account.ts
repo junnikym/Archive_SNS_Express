@@ -10,7 +10,7 @@ import {
 } from "typeorm";
 import { IsNotEmpty } from "class-validator";
 import { Image } from "./Image";
-import { ChatGroup } from "./Chat";
+import { Group } from './Group';
 
 /**
  * Account Entity
@@ -38,12 +38,8 @@ export class Account {
 	@JoinColumn({ name: "profile_image" })
 	profile_image: Image | null;
 
-	@ManyToMany( 
-		(type) => ChatGroup, 
-		(chat_group) => chat_group.participant, 
-		{ nullable: true }
-	)
-	chat_group: ChatGroup[];
+	@ManyToMany(type => Group, group => group.participant)
+	own_group: Group[];
 
 	@Column({ name: "status_msg", nullable: true })
 	status_msg: string;
