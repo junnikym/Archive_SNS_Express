@@ -21,26 +21,6 @@ export class ChatService {
 		@InjectRepository() private chat_msg_repo: ChatMsgRepo
 	) {}
 
-	public async CreateChatGroup(
-		people_pk_list: string[],
-	) : Promise<ChatGroup> 
-	{
-		if(people_pk_list.length < 2)
-			return undefined;
-
-		const participant: Account[] = 
-			await this.account_repo.FindByPKs(people_pk_list);
-		
-		if(participant) {
-			const new_group = new ChatGroup()
-			new_group.participant = participant;
-
-			return await this.chat_group_repo.save(new_group);
-		}
-
-		return undefined;
-	}
-
 	// public async SendMsg(
 	// 	account_pk: string,
 	// 	group_pk: string,
