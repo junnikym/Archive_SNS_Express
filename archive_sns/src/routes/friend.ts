@@ -65,8 +65,8 @@ export class FriendControl {
         async (req, res) => this.RejectFriend(req, res)
     );
 
-    this.router.get(
-        '/delete/:account_pk',
+    this.router.delete(
+        '/:account_pk',
         VerifyAccessToken,
         async (req, res) => this.DeleteFriend(req, res)
     );
