@@ -38,27 +38,6 @@ export class CommentLikeControl {
     }
 
     /**
-     * 결과 처리
-     * 
-     * @param result 라우트 처리 결과
-     * @param res 상태 처리 결과
-     */
-    private status = function(result, res){
-        if(!result){
-            return res.status(403).send({
-                status : 403,
-                success : true,
-                message : "Forbidden"
-            });
-        };
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "success"
-        });  
-    }
-
-    /**
      * 좋아요 수 보기
      * 
      * @param comment_pk : target_pk
@@ -71,7 +50,19 @@ export class CommentLikeControl {
             target_pk
         );
 
-        return this.status(Count_Like, res);
+        if(!Count_Like){
+            return res.status(403).send({
+                status : 403,
+                success : true,
+                message : "Forbidden"
+            });
+        };
+        
+        return res.status(200).send({
+            status : 200,
+            success : true,
+            message : "success"
+        });  
     }
 
     /**
@@ -90,7 +81,19 @@ export class CommentLikeControl {
             limit
         );
         
-        return this.status(Who_Like, res);
+        if(!Who_Like){
+            return res.status(403).send({
+                status : 403,
+                success : true,
+                message : "Forbidden"
+            });
+        };
+        
+        return res.status(200).send({
+            status : 200,
+            success : true,
+            message : "success"
+        });  
     }
 
     /**
@@ -110,7 +113,19 @@ export class CommentLikeControl {
             comment_pk
         );
 
-        return this.status(CommentLike, res);
+        if(!CommentLike){
+            return res.status(403).send({
+                status : 403,
+                success : true,
+                message : "Forbidden"
+            });
+        };
+        
+        return res.status(200).send({
+            status : 200,
+            success : true,
+            message : "success"
+        });  
     }
 
 }

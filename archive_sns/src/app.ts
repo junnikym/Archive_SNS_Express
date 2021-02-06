@@ -45,6 +45,7 @@ export class App {
       const post_like_service: PostLikeService = Container.get(PostLikeService);
 
       // Controls
+    
       const auth_control = new AuthControl(auth_service, account_service);
       const comment_control = new CommentControl(post_comment_service);
       const comment_like_control = new CommentLikeControl(comment_like_service);

@@ -115,12 +115,10 @@ export class AuthControl {
   /**
    * Registration Account
    */
-   
+  
   private registration = async function(req, res) {
       
     const user_info = req.body;
-
-    
 
     // < Wrong Input >
     // --------------------------------------------------
@@ -173,7 +171,7 @@ export class AuthControl {
   /**
    * Get Account
    */
- 
+
   private account = async (req, res) => {
     const pk = res.locals.jwt_payload.pk;
     const token = res.locals.token;

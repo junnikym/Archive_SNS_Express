@@ -21,7 +21,6 @@ import { Post } from '../Models/Entities/Post';
 export class PostControl {
 
   public router;
-
   private post_service : PostService;
 
   constructor(
@@ -74,18 +73,7 @@ export class PostControl {
    * @param res 상태 처리 결과
    */
   private status = function(result, res){
-    if(!result){
-        return res.status(403).send({
-            status : 403,
-            success : true,
-            message : "Forbidden"
-        });
-    };
-    return res.status(200).send({
-        status : 200,
-        success : true,
-        message : "success",
-    });
+    
   }
 
   /**
@@ -100,7 +88,18 @@ export class PostControl {
       post_pk
     );
     
-    return this.status(Get_SinglePost_Result, res);
+    if(!Get_SinglePost_Result){
+      return res.status(403).send({
+        status : 403,
+        success : true,
+        message : "Forbidden"
+      });
+    };
+    return res.status(200).send({
+      status : 200,
+      success : true,
+      message : "success",
+    });
   }
 
   /**
@@ -118,17 +117,15 @@ export class PostControl {
 
     if(!result){
       return res.status(403).send({
-          status : 403,
-          success : true,
-          message : "Forbidden"
+        status : 403,
+        success : true,
+        message : "Forbidden"
       });
     };
-    
     return res.status(200).send({
-        status : 200,
-        success : true,
-        message : "success",
-        data : result
+      status : 200,
+      success : true,
+      message : "success",
     });
   }
 
@@ -150,7 +147,18 @@ export class PostControl {
       limit
     );
 
-    return this.status(Get_OwnPost_Result, res);
+    if(!Get_OwnPost_Result){
+      return res.status(403).send({
+        status : 403,
+        success : true,
+        message : "Forbidden"
+      });
+    };
+    return res.status(200).send({
+      status : 200,
+      success : true,
+      message : "success",
+    });
   }
 
   /**
@@ -183,7 +191,18 @@ export class PostControl {
       img_dto
     );
 
-    return this.status(create_feed, res);
+    if(!create_feed){
+      return res.status(403).send({
+        status : 403,
+        success : true,
+        message : "Forbidden"
+      });
+    };
+    return res.status(200).send({
+      status : 200,
+      success : true,
+      message : "success",
+    });
   }
 
   /**
@@ -220,7 +239,18 @@ export class PostControl {
       null
     );
 
-    return this.status(Update_Feed, res);
+    if(!Update_Feed){
+      return res.status(403).send({
+        status : 403,
+        success : true,
+        message : "Forbidden"
+      });
+    };
+    return res.status(200).send({
+      status : 200,
+      success : true,
+      message : "success",
+    });
   }
 
   /**
@@ -239,7 +269,18 @@ export class PostControl {
       post_pk
     );
 
-    return this.status(Delete_Feed, res);
+    if(!Delete_Feed){
+      return res.status(403).send({
+        status : 403,
+        success : true,
+        message : "Forbidden"
+      });
+    };
+    return res.status(200).send({
+      status : 200,
+      success : true,
+      message : "success",
+    });
   }
 
 }
