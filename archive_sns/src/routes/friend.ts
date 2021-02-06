@@ -1,247 +1,275 @@
-// /**
-//  *  friend 관련 라우트
-//  */
+/**
+ *  friend 관련 라우트
+ */
 
-// const express = require('express');
+const express = require('express');
 
-// // JWT middleware
-// import { VerifyAccessToken } from "../Middleware/JWT_Auth";
+// JWT middleware
+import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
-// import { FriendService } from "../services/FriendService";
+import { FriendService } from "../services/FriendService";
 
-// import { PostDTO } from '../Models/DTOs/PostDTO';
-// import { ImageDTO } from "../Models/DTOs/ImageDTO";
+import { PostDTO } from '../Models/DTOs/PostDTO';
+import { ImageDTO } from "../Models/DTOs/ImageDTO";
 
-// import { Post } from '../Models/Entities/Post';
+import { Post } from '../Models/Entities/Post';
+import { FriendDTO } from "../Models/DTOs/FriendDTO";
 
-// export class FriendControl {
+export class FriendControl {
 
-//   public router;
+    public router;
 
-//   private friend_service : FriendService;
+    private FriendService : FriendService;
 
-//   constructor(
-//     friend_service : FriendService
-//   ) {
+    constructor(
+        FriendService : FriendService
+    ) {
 
-//     this.friend_service = friend_service;
+    this.FriendService = FriendService;
 
-//     this.router = express.Router();
+    this.router = express.Router();
 
-//     // this.router.get(
-//     //     '/:postpk', 
-//     //     async (req, res) => this.AddFriend(req, res)
-//     // );
+    this.router.post(
+        '/add',
+        VerifyAccessToken,
+        async (req, res) => this.AddFriend(req, res)
+    );
 
-//     // this.router.post(
-//     //     '/', 
-//     //     async (req, res) => this.GetFriendList(req, res)
-//     // );
+    this.router.get(
+        '/list/:account_pk',
+        VerifyAccessToken,
+        async (req, res) => this.GetFriendList(req, res)
+    );
 
-//     // this.router.get(
-//     //     '/:witer_pk', 
-//     //     async (req, res) => this.GetSendList(req, res)
-//     // );
+    this.router.get(
+        '/sendlist/:account_pk',
+        VerifyAccessToken,
+        async (req, res) => this.GetSendList(req, res)
+    );
 
-//     // this.router.post(
-//     //     '/create', 
-//     //     VerifyAccessToken,
-//     //     async (req, res) => this.GetReceiveList(req, res)
-//     // );
+    this.router.get(
+        '/receivelist/:account_pk',
+        VerifyAccessToken,
+        async (req, res) => this.GetReceiveList(req, res)
+    );
 
-//     this.router.put(
-//         '/:feednum',
-//         VerifyAccessToken,
-//         async (req, res) => this.AcceptFriend(req, res)
-//     );
+    this.router.get(
+        '/accept/:account_pk',
+        VerifyAccessToken,
+        async (req, res) => this.AcceptFriend(req, res)
+    );
 
-//     this.router.delete(
-//         '/:feednum',
-//         VerifyAccessToken,
-//         async (req, res) => this.RejectFriend(req, res)
-//     );
+    this.router.get(
+        '/reject/:account_pk',
+        VerifyAccessToken,
+        async (req, res) => this.RejectFriend(req, res)
+    );
 
-//     this.router.delete(
-//         '/:feednum',
-//         VerifyAccessToken,
-//         async (req, res) => this.DeleteFriend(req, res)
-//     );
+    this.router.get(
+        '/delete/:account_pk',
+        VerifyAccessToken,
+        async (req, res) => this.DeleteFriend(req, res)
+    );
+}
 
-//   }
-
-//   /**
-//    * 결과처리
-//    * 
-//    * @param result 라우트 처리 결과
-//    * @param res 상태 처리 결과
-//    */
-//   private status = function(result, res){
-//     if(!result){
-//         return res.status(403).send({
-//             status : 403,
-//             success : true,
-//             message : "Forbidden"
-//         });
-//     };
-//     return res.status(200).send({
-//         status : 200,
-//         success : true,
-//         message : "success",
-//     });
-//   }
-
-//   /**
-//    * GetSinglePost
-//    * 
-//    * @param post_pk : 
-//    */
-//   private async GetSinglePost(req, res) {
-//     const post_pk = req.params.post_pk;
-
-//     const Get_SinglePost_Result = await this.post_service.GetSinglePost(
-//       post_pk
-//     );
+/**
+ * AddFriend
+ * @param req 
+ * @param res 
+ */
+private async AddFriend(req, res) {
+    const account_pk = res.locals.jwt_payload.pk;
+    const friend_pk = req.body.friend_pk;
     
-//     return this.status(Get_SinglePost_Result, res);
-//   }
+    const Friend_DTO = new FriendDTO();
+    Friend_DTO.account_pk = account_pk;
+    Friend_DTO.friend_pk = friend_pk;
 
-//   /**
-//    * GetPostList
-//    * 
-//    * @param 
-//    */
-//   private async GetPostList(req, res) {
-
-//     const result =  await this.post_service.GetPostList(
-//       req.body.offset,
-//       req.body.limit,
-//       req.body.order_by
-//     );
-
-//     if(!result){
-//       return res.status(403).send({
-//           status : 403,
-//           success : true,
-//           message : "Forbidden"
-//       });
-//     };
+    const AddFriend_Result = await this.FriendService.AddFriend(
+        Friend_DTO
+    );
     
-//     return res.status(200).send({
-//         status : 200,
-//         success : true,
-//         message : "success",
-//         data : result
-//     });
-//   }
+    if(!AddFriend_Result){
+        return res.status(403).send({
+            status : 403,
+            success : true,
+            message : "Forbidden"
+        });
+    };
 
-//   /**
-//    * GetOwnPost
-//    * 
-//    * @param writer_pk : 
-//    * @param offset : 
-//    * @param limit :
-//    */
-//   private async GetOwnPost(req, res) {
-//     const writer_pk = req.params.witer_pk;
-//     const offset = req.body.offset;
-//     const limit = req.body.limit;
+    return res.status(200).send({
+        status : 200,
+        success : true,
+        message : "success",
+    });
+}
 
-//     const Get_OwnPost_Result = await this.post_service.GetOwnPost(
-//       writer_pk,
-//       offset,
-//       limit
-//     );
-
-//     return this.status(Get_OwnPost_Result, res);
-//   }
-
-//   /**
-//    * CreatePost
-//    * 
-//    * @param user_pk : jwt tokken
-//    * @param post_dto : PostDTO(title, text_content)
-//    * @param img_dto : ImageDTO(url)
-//    */
-//   private async CreatePost(req, res) {
-//     const feed_Info = req.body;
-//     const user_pk = res.locals.jwt_payload.pk;
-
-//     const post_dto = new PostDTO();  //피드 생성 DTO
-//     let img_dto: ImageDTO[];
-
-//     post_dto.title        = feed_Info.title;
-//     post_dto.text_content = feed_Info.content; //DTO에 요청받은 데이터 삽입
-
-//     for(let i = 0; i < feed_Info.Length; i++) {
-//       const temp_img_dto = new ImageDTO;
-//       temp_img_dto.url = feed_Info.url;
-
-//       img_dto.push(temp_img_dto);
-//     }
-
-//     const create_feed = await this.post_service.CreatePost(
-//       user_pk, 
-//       post_dto, 
-//       img_dto
-//     );
-
-//     return this.status(create_feed, res);
-//   }
-
-//   /**
-//    * UpdatePost
-//    * 
-//    * @param user_pk : jwt tokken
-//    * @param post_pk : 
-//    * @param Post_Update_DTO : PostDTO(title, text_content)
-//    * @param ImgDTO : ImageDTO(url)
-//    * @param null : 
-//    */
-//   private async UpdatePost(req, res) { 
-//     const feed_Info = req.body;
-//     const user_pk = res.locals.jwt_payload.pk;
-
-//     const Post_Update_DTO = new PostDTO();
-//     Post_Update_DTO.title = feed_Info.title;
-//     Post_Update_DTO.text_content = feed_Info.text_content;
-
-//     let ImgDTO: ImageDTO[];
+/**
+ * GetFriendList
+ * @param req 
+ * @param res 
+ */
+private async GetFriendList(req, res) {
+    const account_pk = req.params.account_pk;
     
-//     for(let i = 0; i < feed_Info.url.Length; i++) {
-//       const temp_img_dto = new ImageDTO;
-//       temp_img_dto.url = feed_Info.url;
+    const GetFriendList_Result = await this.FriendService.GetFriendList(
+        account_pk
+    );
 
-//       ImgDTO.push(temp_img_dto);
-//     }
+    if(!GetFriendList_Result){
+        return res.status(403).send({
+            status : 403,
+            success : true,
+            message : "Forbidden"
+        });
+    };
 
-//     const Update_Feed = await this.post_service.UpdatePost(
-//       user_pk,
-//       feed_Info.post_pk,
-//       Post_Update_DTO,
-//       ImgDTO,
-//       null
-//     );
+    return res.status(200).send({
+        status : 200,
+        success : true,
+        message : "success",
+    });
+}
 
-//     return this.status(Update_Feed, res);
-//   }
+/**
+ * GetSendList
+ * @param req 
+ * @param res 
+ */
+private async GetSendList(req, res) {
+    const account_pk = req.params.account_pk;
 
-//   /**
-//    * DeletePost
-//    * 
-//    * @param user_pk : jwt tokken
-//    * @param post_pk :
-//    */  
-//   private async DeletePost(req, res) {
-//     const feed_Info = req.body;
-//     const post_pk = feed_Info.post_pk;
-//     const user_pk = res.locals.jwt_payload.pk;
+    const GetSendList_Result = await this.FriendService.GetSendList(
+        account_pk
+    );
 
-//     const Delete_Feed = await this.post_service.DeletePost(
-//       user_pk,
-//       post_pk
-//     );
+    if(!GetSendList_Result){
+        return res.status(403).send({
+            status : 403,
+            success : true,
+            message : "Forbidden"
+        });
+    };
 
-//     return this.status(Delete_Feed, res);
-//   }
+    return res.status(200).send({
+        status : 200,
+        success : true,
+        message : "success",
+    });
+}
 
-// }
+/**
+ * GetReceiveList
+ * @param req 
+ * @param res 
+ */
+private async GetReceiveList(req, res) {
+    const account_pk = req.params.account_pk;
+
+    const GetReceiveList_Result = await this.FriendService.GetReceiveList(
+        account_pk
+    );
+
+    if(!GetReceiveList_Result){
+        return res.status(403).send({
+            status : 403,
+            success : true,
+            message : "Forbidden"
+        });
+    };
+
+    return res.status(200).send({
+        status : 200,
+        success : true,
+        message : "success",
+    });
+}
+
+/**
+ * AcceptFriend
+ * @param req 
+ * @param res 
+ */
+private async AcceptFriend(req, res) {
+    const account_pk = req.params.account_pk;
+    const request_pk = req.body.request_pk;
+
+    const AcceptFriend_Result = await this.FriendService.AcceptFriend(
+        account_pk,
+        request_pk
+    );
+
+    if(!AcceptFriend_Result){
+        return res.status(403).send({
+            status : 403,
+            success : true,
+            message : "Forbidden"
+        });
+    };
+
+    return res.status(200).send({
+        status : 200,
+        success : true,
+        message : "success",
+    });
+}
+
+/**
+ * RejectFriend
+ * @param req 
+ * @param res 
+ */
+private async RejectFriend(req, res) {
+    const account_pk = req.params.account_pk;
+    const request_pk = req.body.request_pk;
+
+    const RejectFriend_Result = await this.FriendService.RejectFriend(
+        account_pk,
+        request_pk
+    );
+
+    if(!RejectFriend_Result){
+        return res.status(403).send({
+            status : 403,
+            success : true,
+            message : "Forbidden"
+        });
+    };
+
+    return res.status(200).send({
+        status : 200,
+        success : true,
+        message : "success",
+    });
+}
+
+/**
+ * DeleteFriend
+ * @param req 
+ * @param res 
+ */
+private async DeleteFriend(req, res) {
+    const account_pk = req.params.account_pk;
+    const request_pk = req.body.request_pk;
+
+    const DeleteFriend_Result = await this.FriendService.DeleteFriend(
+        account_pk,
+        request_pk
+    );
+
+    if(!DeleteFriend_Result){
+        return res.status(403).send({
+            status : 403,
+            success : true,
+            message : "Forbidden"
+        });
+    };
+
+    return res.status(200).send({
+        status : 200,
+        success : true,
+        message : "success",
+    });
+}
+
+}

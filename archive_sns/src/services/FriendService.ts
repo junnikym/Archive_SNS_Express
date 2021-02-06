@@ -59,15 +59,15 @@ export class FriendService {
 	 * Accept friend request
 	 * 
 	 * @param account_pk : account PK ( who accept )
-	 * @param requst_pk : Friend Entity which created on request
+	 * @param request_pk : Friend Entity which created on request
 	 */
 	public async AcceptFriend(
 		account_pk: string,
-		requst_pk: string
+		request_pk: string
 	): Promise<Friend> 
 	{
 		const request_ent = 
-			await this.friend_repo.findOne({ where: { pk: requst_pk } });
+			await this.friend_repo.findOne({ where: { pk: request_pk } });
 
 		if(account_pk === request_ent.friend_pk) {
 

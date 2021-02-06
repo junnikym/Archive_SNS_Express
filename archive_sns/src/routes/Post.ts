@@ -67,16 +67,6 @@ export class PostControl {
   }
 
   /**
-   * 결과처리
-   * 
-   * @param result 라우트 처리 결과
-   * @param res 상태 처리 결과
-   */
-  private status = function(result, res){
-    
-  }
-
-  /**
    * GetSinglePost
    * 
    * @param post_pk : 
