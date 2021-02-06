@@ -27,6 +27,12 @@ abstract class GroupService<
 		this.account_repo = account_repo;
 	}
 
+	/**
+	 * Create Group
+	 * 
+	 * @param gropu_dto : group dto
+	 * @param member_pk_list : participant's pk 
+	 */
 	public async CreateGroup(
 		gropu_dto: GroupDTO,
 		member_pk_list: string[],
@@ -37,7 +43,7 @@ abstract class GroupService<
 
 		const participant: Account[] = 
 			await this.account_repo.FindByPKs(member_pk_list);
-		
+
 		if(participant) {
 			const new_group = gropu_dto.toEntity() as EntType;
 			new_group.participant = participant;

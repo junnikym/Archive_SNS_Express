@@ -6,6 +6,7 @@ import {
 	ManyToMany,
 	PrimaryGeneratedColumn,
 	ManyToOne,
+	CreateDateColumn,
 	OneToOne
 } from "typeorm";
 import { IsNotEmpty } from "class-validator";
@@ -22,20 +23,26 @@ export class ChatMsg {
 	@PrimaryGeneratedColumn("uuid")
 	pk: string;
 
-	@Column({ name: "writer_pk", length: 36 })
+	@Column({ name: "writer", length: 36 })
 	writer_pk: string;
 
 	@ManyToOne( (type) => Account, (Account) => Account.pk )
 	@JoinColumn({ name: "writer" })
 	writer: Account;
 
+	@Column({ name: "group", length: 36 })
+	group_pk: string;
+
 	@ManyToOne((type) => ChatGroup, (chat_group) => chat_group.chat_msg, {
 		cascade: true,
 		onDelete: "CASCADE",
 	})
-	@JoinColumn({ name: "chat_group" })
-	chat_group: ChatGroup;
+	@JoinColumn({ name: "group" })
+	group: ChatGroup;
 
 	@Column({ name: "content" })
 	content: string;
+
+	@CreateDateColumn({ name: "created_at" })
+	createdAt: Date;
 }

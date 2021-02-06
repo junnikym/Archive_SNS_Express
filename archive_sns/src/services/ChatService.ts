@@ -21,17 +21,17 @@ export class ChatService {
 		@InjectRepository() private chat_msg_repo: ChatMsgRepo
 	) {}
 
-	// public async SendMsg(
-	// 	account_pk: string,
-	// 	group_pk: string,
-	// 	chat_msg_dto: ChatMsgDTO
-	// ) : Promise<ChatMsg> {
-	// 	const new_chat_msg = await chat_msg_dto.toEntity();
-	// 	new_chat_msg.writer_pk = account_pk;
-	// 	new_chat_msg.group_pk = account_pk;
+	public async SendMsg(
+		account_pk: string,
+		group_pk: string,
+		chat_msg_dto: ChatMsgDTO
+	) : Promise<ChatMsg> {
+		const new_chat_msg = await chat_msg_dto.toEntity();
+		new_chat_msg.writer_pk = account_pk;
+		new_chat_msg.group_pk = group_pk;
 
-	// 	return await this.chat_msg_repo.save(new_chat_msg);
-	// }
+		return await this.chat_msg_repo.save(new_chat_msg);
+	}
 
 	public async ExitChatGroup(
 		account_pk: string,
@@ -44,6 +44,15 @@ export class ChatService {
 		});
 
 		return await this.chat_group_repo.save(target_group);
+	}
+
+	public async GetChatList(
+		group_pk: string,
+		offset: number, 
+		limit: number,
+	): Promise<ChatMsg[]> 
+	{
+		return await this.chat_msg_repo.GetChatMsg(group_pk, offset, limit);
 	}
 
 }

@@ -36,7 +36,7 @@ export class Group {
 @ChildEntity()
 export class ChatGroup extends Group {
 
-	@OneToMany((type) => ChatMsg, (chat_msg) => chat_msg.chat_group)
+	@OneToMany((type) => ChatMsg, (chat_msg) => chat_msg.group)
 	chat_msg: ChatMsg[];
 
 }

@@ -4,7 +4,7 @@ import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from "history";
 import  { composeWithDevTools } from "redux-devtools-extension";
 import account from "./modules/account";
-import post from './modules/Post';
+import post from './modules/post';
 
 const env = process.env.NODE_ENV;
 
