@@ -5,6 +5,7 @@ import { createBrowserHistory } from "history";
 import  { composeWithDevTools } from "redux-devtools-extension";
 import account from "./modules/account";
 import post from './modules/Post';
+import profile from './modules/Profile'
 
 const env = process.env.NODE_ENV;
 
@@ -20,6 +21,7 @@ if (env === "development") {
 const reducer = combineReducers({
   account,
   post,
+  profile,
   router : connectRouter(history),
 });
 

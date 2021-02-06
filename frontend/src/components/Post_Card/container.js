@@ -1,8 +1,8 @@
 import React, { useState, useEffect }  from "react";
 import PropTypes from "prop-types";
-import PostList from "./presenter";
 
-import Post_Card from "../Post_Card/presenter";
+// import PostList from "./presenter";
+import Post_Card from "./presenter";
 
 const Container = (props, context) => {
 	
@@ -32,7 +32,11 @@ const Container = (props, context) => {
 			return (
 				list.map(elem => (
 					<Post_Card 
-						Post_text={elem.title} />
+						Post_title 	= {elem.title}
+						Post_img 	= {elem.img}
+						Post_text	= {elem.text_content}
+						Post_date	= {elem.date} 
+					/>
 			)));
 		}
 

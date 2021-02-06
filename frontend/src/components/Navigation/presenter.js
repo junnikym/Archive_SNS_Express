@@ -30,7 +30,7 @@ const Navigation = (props, context) => (
             type="text" placeholder="Please enter your search" className="mr-sm-2" />
         </Form>
                 
-            <Link to = "/Own_Profile" className = "imgUser"></Link>
+            <Link to = "/Profile/pk" className = "imgUser"></Link>
             {props.info?.name}
                 &nbsp;
 

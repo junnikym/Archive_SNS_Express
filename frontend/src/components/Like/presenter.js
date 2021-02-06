@@ -10,18 +10,12 @@ const Like = (props, context) => {
 
     return(
 
-	<div className = "Like_button">
-
             <button 
                 className = "button"
                 onClick = {props.cilckLike}
                 >
             <div className = "Like_btn"></div>
             </button>
-
-            
-
-	</div>
 )
 };
 
