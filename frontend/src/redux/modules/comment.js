@@ -2,14 +2,14 @@
 // < Actions >
 // --------------------------------------------------
 
-const GET_POST_LIST = "GET_POST_LIST";
+const GET_COMMENT_LIST = "GET_COMMENT_LIST";
 
 // < Actions Creators >
 // --------------------------------------------------
 
-function getPostList(data) {
+function getCommentList(data) {
 	return {
-		type: GET_POST_LIST,
+		type: GET_COMMENT_LIST,
 		data
 	}
 }
@@ -17,21 +17,20 @@ function getPostList(data) {
 // < API Actions >
 // --------------------------------------------------
 
-function createPost(title, text, img) {
+
+function createComment(comment) {
 
     return (dispatch, getState) => {
 		const { account : { AccessToken }} = getState();
 		
-		fetch("/post/create", {
+		fetch("/comment/", {
 			method: "post",
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `${AccessToken}`
 			},
 			body: JSON.stringify({
-				title 			: title,
-				text_content	: text,
-				url				: img,
+				content     : comment
 			})
 		})
 		
@@ -39,34 +38,6 @@ function createPost(title, text, img) {
     };
     
 };
-
-function postList(offset, limit, order_by) {
-
-	return (dispatch, getState) => {
-		// const { account : { AccessToken }} = getState();
-		
-		fetch("/post", {
-			method: "post",
-			headers: {
-				"Content-Type": "application/json"
-				// Authorization: `${AccessToken}`
-			},
-			body: JSON.stringify({
-				offset 	: offset,
-				limit	: limit,
-				order_by: order_by,
-			})
-		})
-		.then(response => response.json())
-		.then(json => {
-			if (json.data) {
-				dispatch(getPostList(json.data));
-			}
-		})
-		.catch(err => console.log(err));
-    };
-
-}
 
 // < Initial State >
 // --------------------------------------------------
@@ -79,8 +50,8 @@ const initialState = {
 
 function reducer(state = initialState, action) {
 	switch(action.type) {
-		case GET_POST_LIST:
-			return applyGetPostList(state, action);
+		case GET_COMMENT_LIST:
+			return applyGetCommentList(state, action);
 		default:
 			return state;
 	}
@@ -88,13 +59,13 @@ function reducer(state = initialState, action) {
 
 // < Reducer FunctioPostAct.createPost(title, text, img));
             
-function applyGetPostList(state, action) {
+function applyGetCommentList(state, action) {
 
 	const { data } = action;
 
 	return {
 		...state,
-		post_list : data
+		comment_list : data
 	};
 }
 
@@ -102,8 +73,8 @@ function applyGetPostList(state, action) {
 // --------------------------------------------------
 
 const actionCreators = {
-	createPost,
-	postList
+	createComment,
+	getCommentList
 };
 
 export { actionCreators };
