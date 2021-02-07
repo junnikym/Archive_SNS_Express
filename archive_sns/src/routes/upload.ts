@@ -44,8 +44,7 @@ const profile_img_multer = multer({
 export class ImageUpdateControl {
 
 	public router;
-
-	private post_image_service : PostImageService;
+	private post_image_service: PostImageService;
 
 	constructor(
 		post_image_service: PostImageService
@@ -58,33 +57,24 @@ export class ImageUpdateControl {
 			'/post_img',
 			post_img_multer.array('image', 30),
 			VerifyAccessToken,
-			this.PostImage
+			async (req, res) => this.PostImage(req, res)
 		);
 
 		this.router.post(
 			'/profile_img', 
 			profile_img_multer.single('image'),
 			VerifyAccessToken,
-			this.ProfileImage
+			async (req, res) => this.ProfileImage(req, res)
 		);
 
 	}
 
 	private async PostImage(req, res) {
-		console.log("asdf");
-
+		
 		const image = req.files;
 		const path = image.map(img => img.path);
 
-		const image_dto = new ImageDTO;
-		image_dto.url = "asdf";
-
 		console.log("asdf");
-
-		this.post_image_service.UpdatePost(
-		  "1e4a0d14-4665-4e5d-9d97-891bdad0dab6",
-		  image_dto
-		)
 
 		const fail = () => {
 			res.tatus(400).send({
@@ -94,32 +84,18 @@ export class ImageUpdateControl {
 			});
 		}
 
-		console.log("are you not working?");
-
-		if(image === undefined) {
-			console.log("are you returning fail?");
+		if(image === undefined) 
 			return fail();
-		}
-
-		console.log("so what the hell is wrong?");
 
 		const user_pk = res.locals.jwt_payload.pk;
 
-		console.log("bring the localhost.jwt_payload");
-
 		const img_dto = new ImageDTO;
 
-		console.log("make a new dto");
-
 		const images = [];
-
-		// console.log("image serviece is ", this.post_image_service);
-		console.log("make a images list for return result");
 
 		for(let i = 0;  i < path.length; i++) {
 			img_dto.url = path[i];
 
-			console.log("in control loop : ", i);
 			const result = await this.post_image_service.UpdatePost(user_pk, img_dto);
 			
 			if(!result)
