@@ -48,12 +48,16 @@ export class Post {
 	@JoinColumn({ name: "writer" })
 	writer: Account;
 
+	@IsNotEmpty()
+	@Column({ name: "group", length: 36, nullable: false })
+	group_pk: string;
+
 	@ManyToOne((type) => PostGroup, (post_group) => post_group.pk, {
 		cascade: true,
 		onDelete: "CASCADE",
 	})
-	@JoinColumn({ name: "post_group" })
-	post_group: PostGroup;
+	@JoinColumn({ name: "group" })
+	group: PostGroup;
 
 	@OneToMany( (type) => PostImage, (PostImage) => PostImage.post )
 	image: PostImage[];
@@ -75,5 +79,11 @@ export class Post {
 		comment: "popularly score"
 	})
 	q_score: number;
+
+	// @Column({
+	// 	default: 0
+	// })
+	// permission: number;
+
 }
 

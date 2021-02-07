@@ -47,7 +47,7 @@ export class PostGroup extends Group {
 	@Column({ name: "is_private" })
 	is_private: boolean;
 
-	@OneToMany((type) => Post, (post) => post.post_group)
+	@OneToMany((type) => Post, (post) => post.group)
 	post: Post[];
 
 }

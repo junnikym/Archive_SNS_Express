@@ -7,6 +7,8 @@ import {
     Button
 } from 'react-bootstrap';
 
+import ImageUploader from '../ImageUploader';
+
 const Feed = (props) => (
     
     <div className = "Feed">
@@ -35,14 +37,10 @@ const Feed = (props) => (
                     onChange={props.text_input_handler} />
             </Form.Group>
 
-            <Form.File id="formcheck-api-regular">
-
-                <Form.File.Input
-                    type="file"
-                    name="img" 
-                    value={props.Post_img}
-                    onChange={props.img_input_handler} />
-                </Form.File>
+            <ImageUploader 
+                is_run_submit={props.is_run_submit}
+                submit_handler={props.img_submit_handler}
+            />
 
             <Button 
                 className = "button_right"
@@ -51,19 +49,19 @@ const Feed = (props) => (
                     <span>게시하기</span>
             </Button>
 
-            </Form>
+        </Form>
     
     </div>
 );
 
 Feed.propTypes = {
 	text_input_handler   	: PropTypes.func.isRequired,
-	img_input_handler	    : PropTypes.func.isRequired,
     submit_handler		    : PropTypes.func.isRequired,
+    img_submit_handler      : PropTypes.func.isRequired,
     
     Post_title              : PropTypes.string.isRequired,
     Post_text               : PropTypes.string.isRequired,
-    Post_img                : PropTypes.string.isRequired
+    is_run_submit           : PropTypes.bool.isRequired
 };
 
 export default Feed;

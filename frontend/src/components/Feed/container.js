@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 import Feed from "./presenter";
 
@@ -12,10 +12,9 @@ const Container = (props, context) => {
     const [PostInfo, setPostInfo] = useState({
 		title		: '',
 		text		: '',
-		img     	: '',
 	});
 
-	const { title, text, img, _date } = PostInfo;
+	const { title, text, _date } = PostInfo;
 	
 	const __text_input_handler__ = event => {
 		const { value, name } = event.target;
@@ -25,30 +24,30 @@ const Container = (props, context) => {
 			});
     };
 
-    const __img_input_handler__ = event => {
-		setPostInfo({
-			...PostInfo,
-			img : event.target.files[0]
-		})
-	}; 
-
 	const __submit_handler__ = event => {
 		event.preventDefault(); 
-		console.log(title, text, img, _date);
-		props.createPost(title, text, img);
+		console.log(title, text, _date);
+		props.createPost(title, text);
 		
 	};
+
+	/**
+	 * Image Uploader
+	 */
+
+	function __img_submit_handler__(data) {
+		
+	}
 
     return (
 		<Feed
 			text_input_handler 		= {__text_input_handler__}
-			img_input_handler 		= {__img_input_handler__}
 			submit_handler 			= {__submit_handler__} 
+			img_submit_handler		= {__img_submit_handler__}
 
 			Post_title				= 	{title}
 			Post_text				= 	{text}
-			Post_img				= 	{img}
-			/>
+		/>
 	);
 
 }

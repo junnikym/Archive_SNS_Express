@@ -8,14 +8,12 @@ import { AccountDTO } from '../Models/DTOs/AccountDTO';
 
 import { Image } from '../Models/Entities/Image';
 import { ImageDTO } from '../Models/DTOs/ImageDTO';
-import { ImageRepo } from '../Models/Repositories/ImageRepo';
 
 @Service()
 export class AccountService {
 	
 	constructor(
 		@InjectRepository() private account_repo: AccountRepo,
-		@InjectRepository() private image_repo: ImageRepo
 	) { }
 
 	/**
@@ -32,9 +30,9 @@ export class AccountService {
 
 		if(image_dto != null) {
 			const profile_img_ent = image_dto.toEntity();
-			const new_img = await this.image_repo.save(profile_img_ent);
+			// const new_img = await this.image_repo.save(profile_img_ent);
 
-			account_dto.profile_image = new_img;
+			// account_dto.profile_image = new_img;
 		}
 
 		const account_ent = account_dto.toEntity();
