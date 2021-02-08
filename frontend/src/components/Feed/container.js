@@ -10,12 +10,12 @@ const Container = (props, context) => {
 	// }, [input])
 
     const [PostInfo, setPostInfo] = useState({
-		title		: '',
-		text		: '',
-		img     	: '',
+		title				: '',
+		text_content		: '',
+		img     			: '',
 	});
 
-	const { title, text, img, _date } = PostInfo;
+	const { title, text_content, img, _date } = PostInfo;
 	
 	const __text_input_handler__ = event => {
 		const { value, name } = event.target;
@@ -34,8 +34,8 @@ const Container = (props, context) => {
 
 	const __submit_handler__ = event => {
 		event.preventDefault(); 
-		console.log(title, text, img, _date);
-		props.createPost(title, text, img);
+		console.log(title, text_content, img, _date);
+		props.createPost(title, text_content, img);
 		
 	};
 
@@ -46,7 +46,7 @@ const Container = (props, context) => {
 			submit_handler 			= {__submit_handler__} 
 
 			Post_title				= 	{title}
-			Post_text				= 	{text}
+			Post_content			= 	{text_content}
 			Post_img				= 	{img}
 			/>
 	);

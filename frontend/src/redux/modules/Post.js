@@ -17,7 +17,7 @@ function getPostList(data) {
 // < API Actions >
 // --------------------------------------------------
 
-function createPost(title, text, img) {
+function createPost(title, text_content, url) {
 
     return (dispatch, getState) => {
 		const { account : { AccessToken }} = getState();
@@ -30,8 +30,8 @@ function createPost(title, text, img) {
 			},
 			body: JSON.stringify({
 				title 			: title,
-				text_content	: text,
-				url				: img,
+				text_content	: text_content,
+				url				: url,
 			})
 		})
 		
@@ -45,7 +45,7 @@ function postList(offset, limit, order_by) {
 	return (dispatch, getState) => {
 		// const { account : { AccessToken }} = getState();
 		
-		fetch("/post", {
+		fetch("/post/", {
 			method: "post",
 			headers: {
 				"Content-Type": "application/json"

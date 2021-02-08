@@ -8,7 +8,7 @@ import {
     AccessTokenGenerator,
     VerifyAccessToken 
 } from "../Middleware/JWT_Auth";
-
+    
 import { AccountService } from '../services/AccountService';
 import { Account } from '../Models/Entities/Account';
 import { AccountDTO } from '../Models/DTOs/AccountDTO';
@@ -27,7 +27,7 @@ export class ProfileControl {
         this.router = express.Router();
 
         this.router.get(
-            '/',
+            '/:pk',
             async (req, res) => this.GetAccountByPk(req, res)
         );
 
@@ -54,21 +54,21 @@ export class ProfileControl {
         return res.status(200).send({
             status : 200,
             success : true,
-            message : "success"
+            message : "success",
+            data: result
         });  
     }
 
     /**
      * GetAccountByPK
      * 
-     * @param email : user_Email
+     * @param pk
      */
     private async GetAccountByPk (req, res) {
-        const user_Info = req.body;
-        const user_Email = user_Info.email;
+        const user_pk = req.params.pk;
 
         const Get_Account = await this.account_service.GetAccountByPK(
-            user_Email
+            user_pk
         );
 
         return this.status(Get_Account, res);

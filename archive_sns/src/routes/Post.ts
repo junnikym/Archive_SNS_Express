@@ -85,6 +85,7 @@ export class PostControl {
         status : 200,
         success : true,
         message : "success",
+        data: result
     });
   }
 
@@ -160,6 +161,7 @@ export class PostControl {
    * @param post_dto : PostDTO(title, text_content)
    * @param img_dto : ImageDTO(url)
    */
+
   private async CreatePost(req, res) {
     const feed_Info = req.body;
     const user_pk = res.locals.jwt_payload.pk;

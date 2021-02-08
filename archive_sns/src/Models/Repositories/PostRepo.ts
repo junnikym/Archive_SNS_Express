@@ -8,6 +8,8 @@ export const enum PostOrder {
 const ShortInfoSelect = [
 	"post.pk",
 	"post.title",
+	"post.text_content",
+	"post.createdAt",
 ];
 
 @EntityRepository(Post)

@@ -39,6 +39,35 @@ function createComment(comment) {
     
 };
 
+function commentList(post_pk, offset, limit, order_by) {
+
+	return (dispatch, getState) => {
+		// const { account : { AccessToken }} = getState();
+		
+		fetch("/comment/", {
+			method: "get",
+			headers: {
+				"Content-Type": "application/json"
+				// Authorization: `${AccessToken}`
+			},
+			body: JSON.stringify({
+                post_pk : post_pk,
+				offset 	: offset,
+				limit	: limit,
+				order_by: order_by,
+			})
+		})
+		.then(response => response.json())
+		.then(json => {
+			if (json.data) {
+				dispatch(getCommentList(json.data));
+			}
+		})
+		.catch(err => console.log(err));
+    };
+
+}
+
 // < Initial State >
 // --------------------------------------------------
 
@@ -74,7 +103,7 @@ function applyGetCommentList(state, action) {
 
 const actionCreators = {
 	createComment,
-	getCommentList
+	commentList
 };
 
 export { actionCreators };

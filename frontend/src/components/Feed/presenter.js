@@ -31,7 +31,7 @@ const Feed = (props) => (
                     type="text"
                     name="text"
                     placeholder="내용" 
-                    value={props.Post_text}
+                    value={props.Post_content}
                     onChange={props.text_input_handler} />
             </Form.Group>
 
@@ -62,7 +62,7 @@ Feed.propTypes = {
     submit_handler		    : PropTypes.func.isRequired,
     
     Post_title              : PropTypes.string.isRequired,
-    Post_text               : PropTypes.string.isRequired,
+    Post_content            : PropTypes.string.isRequired,
     Post_img                : PropTypes.string.isRequired
 };
 

@@ -4,12 +4,14 @@ import { BrowserRouter as Router, Route} from 'react-router-dom';
 
 import Like_button from "../Like"  
 import Comment from "../Comment";
+// import getComment from "../getComment";
 
 import { 
     Card,
     Button,
     Form
 } from 'react-bootstrap';
+import getComment from '../getComment/presenter';
 
 const Post_Card = props => (
     
@@ -26,7 +28,7 @@ const Post_Card = props => (
                     <b> {props.Post_title} </b>
                     <hr/>
                         {props.Post_img}
-                        {props.Post_text}
+                        {props.Post_content}
                 </Card.Text>
 
                 <Like_button/>
@@ -38,16 +40,9 @@ const Post_Card = props => (
             </Card.Body>
 
             <Card.Footer>
-                <Form.Group controlId="Textarea">
-                    <Comment/>
-                </Form.Group>
+                
+                {/* <getComment/>  */}
 
-                <Button 
-                    className = "button_right"
-                    variant = "primary"
-                    type = "submit" > 
-                        <span>게시하기</span>
-                </Button>
             </Card.Footer>
         </Card>
     

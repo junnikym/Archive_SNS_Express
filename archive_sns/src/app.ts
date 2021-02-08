@@ -60,7 +60,7 @@ export class App {
       this.app.use('/commentlike', comment_like_control.router);
       this.app.use('/post', feed_control.router);
       this.app.use('/feedlike', feed_like_control.router);
-
+      this.app.use('/profile', profile_control.router);
       this.app.use('/upload', img_upload_control.router);
     });
   }

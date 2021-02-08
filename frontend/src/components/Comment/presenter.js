@@ -2,25 +2,35 @@ import React from 'react';
 import PropTypes from "prop-types";
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 
+import getComment from "../getComment";
+
 const Comment = props => (
     
-    <form
-        className = "comment"
-        onSubmit={props.submit_handler}
-        method="post">
+    <article>
 
-        <input 
-            type = "comment"
-            name = "comment"
-            placeholder = "댓글을 입력해주세요." 
-            value = {props.comment}
-            onChange = {props.comment_input_handler} 
-        />
+        <getComment/>
+        
+        <form
+            className = "comment"
+            onSubmit={props.submit_handler}
+            method="post">
 
-        <input
-            type = "submit"
+            <input 
+                type = "comment"
+                name = "comment"
+                placeholder = "댓글을 입력해주세요." 
+                value = {props.comment}
+                onChange = {props.comment_input_handler} 
             />
-    </form>
+
+            <input
+                type = "submit"
+                />
+        </form>
+
+    </article>
+
+    
 
 );
 

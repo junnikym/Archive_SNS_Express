@@ -1,6 +1,6 @@
 import React, { useState, useEffect }  from "react";
 import PropTypes from "prop-types";
-import Post_Card from "./presenter";
+import getComment from "./presenter";
 
 const Container = (props, context) => {
 	
@@ -10,15 +10,15 @@ const Container = (props, context) => {
 	});
 
 	useEffect(() => {
-		if(!props.post_list)
-			props.postList(0, 256, "post.createAt");
+		if(!props.comment_list)
+			props.commentList(0, 5, "comment.createAt");
 		else {
 			setState({
 				loading: false,
-				list: props.post_list
+				list: props.comment_list
 			});
 		}
-	}, [props.post_list]);
+	}, [props.comment_list]);
 
 	const {loading, list} = state;
 
@@ -29,11 +29,9 @@ const Container = (props, context) => {
 		else {
 			return (
 				list.map(elem => (
-					<Post_Card 
-						Post_title	 	= {elem.title}
-						Post_img 		= {elem.url}
-						Post_content	= {elem.text_content}
-						Post_date		= {elem.date} 
+					<getComment 
+						comment 	= {elem.content}
+						// user    	= {elem.user}
 					/>
 			)));
 		}
@@ -48,9 +46,8 @@ const Container = (props, context) => {
 }
 
 Container.propTypes = {
-	postList : PropTypes.func.isRequired,
-	post_list: PropTypes.array.isRequired
+	commentList   	     : PropTypes.func.isRequired,
+	comment_list         : PropTypes.array.isRequired
 };
 
 export default Container;
-
