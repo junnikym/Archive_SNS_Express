@@ -51,13 +51,13 @@ function createPost(data) {
 function postList(offset, limit, order_by) {
 
 	return (dispatch, getState) => {
-		// const { account : { AccessToken }} = getState();
+		const { account : { AccessToken }} = getState();
 		
 		fetch("/post", {
 			method: "post",
 			headers: {
-				"Content-Type": "application/json"
-				// Authorization: `${AccessToken}`
+				"Content-Type": "application/json",
+				Authorization: `${AccessToken}`
 			},
 			body: JSON.stringify({
 				offset 	: offset,

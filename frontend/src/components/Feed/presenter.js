@@ -58,11 +58,11 @@ const Feed = (props) => (
 Feed.propTypes = {
 	text_input_handler   	: PropTypes.func.isRequired,
     submit_handler		    : PropTypes.func.isRequired,
-    img_submit_handler      : PropTypes.func.isRequired,
+    uploader                : PropTypes.func.isRequired,
     
-    Post_title              : PropTypes.string.isRequired,
-    Post_text               : PropTypes.string.isRequired,
-    is_run_submit           : PropTypes.bool.isRequired
+    post_info               : PropTypes.object.isRequired,
+    upload                  : PropTypes.number.isRequired
+    
 };
 
 export default Feed;

@@ -81,6 +81,8 @@ export class App {
       this.app.use('/post', feed_control.router);
       this.app.use('/feedlike', feed_like_control.router);
 
+      this.app.use("/static", express.static(__dirname + '/..'));
+
         // ------------------------------------------------ //
        //  T E S T  //  T E S T  //  T E S T  //  T E S T  //
       // ------------------------------------------------ //

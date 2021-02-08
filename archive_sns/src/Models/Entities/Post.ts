@@ -13,7 +13,6 @@ import {
 
 } from "typeorm";
 import { IsNotEmpty } from "class-validator";
-import { type } from "os";
 
 import { Account } from "./Account";
 import { Image, PostImage } from './Image';
