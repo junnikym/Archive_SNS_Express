@@ -6,7 +6,6 @@ import  { composeWithDevTools } from "redux-devtools-extension";
 import account from "./modules/account";
 import post from './modules/Post';
 import profile from './modules/Profile'
-import image from './modules/Image'
 
 const env = process.env.NODE_ENV;
 
@@ -23,7 +22,6 @@ const reducer = combineReducers({
   account,
   post,
   profile,
-  image,
   router : connectRouter(history),
 });
 

@@ -6,12 +6,21 @@ const Container = (props, context) => {
 
 	const [base64, setBase64] = useState([]);
 	const [imgFile, setImgFile] = useState([]);
+	const [imgVal, setImgVal] = useState("");
 
 	useEffect(() => {
-		console.log(imgFile);
-	}, [imgFile])
+
+		if(props.upload >= 0) {
+			props.uploader(imgFile);
+		}
+		else {
+			setBase64([]);
+			setImgFile([]);
+		}
+	}, [props.upload])
 
 	const __img_change_handler__ = (event) => {
+		setImgVal(event.target.value);
 		const reader = new FileReader();
 		const file = event.target.files[0];
 		
@@ -22,6 +31,8 @@ const Container = (props, context) => {
 					...base64,
 					reader.result.toString()
 				]);
+
+				setImgVal("");
 			}
 
 		}
@@ -36,20 +47,11 @@ const Container = (props, context) => {
 		}
 	}
 
-	const __upload_handler__ = event => {
-		event.preventDefault(); 
-
-		const data = new FormData();
-		imgFile.map(elem => data.append('image', elem));
-
-		props.uploadPostImg(data);
-	};
-
     return (
 		<ImageUploader
 			img_change_handler		= { __img_change_handler__ }
 			img_preview				= { base64 }
-			upload_handler 			= { __upload_handler__ }
+			img_value				= { imgVal }
 		/>
 	);
 

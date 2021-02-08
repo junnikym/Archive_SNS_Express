@@ -55,13 +55,28 @@ export class Image {
  */
 @ChildEntity()
 export class PostImage extends Image {
+
+	@IsNotEmpty()
+	@Column({ name: "post", length: 36, nullable: false })
+	post_pk: string;
 	
 	@ManyToOne((type) => Post, (Post) => Post.pk, 
-	// {
-	// 	cascade: true,
-	// 	onDelete: "CASCADE",
-	// }
+		{
+			cascade: true,
+			onDelete: "CASCADE",
+		}
 	)
 	@JoinColumn({ name: "post" })
 	post: Post;
+}
+
+/**
+ * Image Entity For which will be use profile image
+ */
+@ChildEntity()
+export class ProfileImage extends Image {
+	
+	@Column({ name: "is_current_use", default: true })
+	is_current_use: boolean;
+
 }

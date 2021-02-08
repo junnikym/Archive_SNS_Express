@@ -24,22 +24,23 @@ const Feed = (props) => (
                     type="text"
                     name="title"
                     placeholder="제목" 
-                    value={props.Post_title}
+                    value={props.post_info.title}
                     onChange={props.text_input_handler} />
             </Form.Group>
 
             <Form.Group controlId="Textarea">
                 <Form.Control  
                     type="text"
-                    name="text"
+                    name="content"
                     placeholder="내용" 
-                    value={props.Post_text}
+                    value={props.post_info.content}
                     onChange={props.text_input_handler} />
             </Form.Group>
 
             <ImageUploader 
-                is_run_submit={props.is_run_submit}
-                submit_handler={props.img_submit_handler}
+                upload = {props.upload}
+                uploader = {props.uploader}
+                post_info = {props.post_info}
             />
 
             <Button 

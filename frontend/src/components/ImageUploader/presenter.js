@@ -21,10 +21,8 @@ const ImageUploader = (props, context) => (
 			type="file"
 			// accept='image/jpg, impge/png, image/jpeg, image/gif'
 			name="img" 
-			value={props.Post_img}
+			value={props.img_value}
 			onChange={props.img_change_handler} />
-
-		<button onClick={props.upload_handler}>hello</button>
 
 	</Form.File>
 	

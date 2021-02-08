@@ -1,52 +1,62 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Feed from "./presenter";
 
 const Container = (props, context) => {
 
-	// useEffect(() => {
-			
-	// 	}
-	// }, [input])
+	const [upload, setUpload] = useState(-1);
 
-    const [PostInfo, setPostInfo] = useState({
+	const PostInfoInit = {
 		title		: '',
-		text		: '',
-	});
+		content		: '',
+	};
+    const [PostInfo, setPostInfo] = useState(PostInfoInit);
 
-	const { title, text, _date } = PostInfo;
+	useEffect(() => {
+
+		if(upload == props.new_post_count) {
+			setUpload(-1);
+
+			setPostInfo(PostInfoInit);
+		}
+		
+	}, [props.new_post_count])
+
+	const { title, content } = PostInfo;
 	
 	const __text_input_handler__ = event => {
 		const { value, name } = event.target;
 		setPostInfo({
 			...PostInfo,
 			[name]: value
-			});
+		});
     };
 
 	const __submit_handler__ = event => {
 		event.preventDefault(); 
-		console.log(title, text, _date);
-		props.createPost(title, text);
-		
+		setUpload(props.new_post_count + 1);
 	};
 
-	/**
-	 * Image Uploader
-	 */
-
-	function __img_submit_handler__(data) {
+	const __uploader__ = (img) => {
+		const data = new FormData();
 		
+		img.map(elem => data.append('image', elem));
+
+		Object.keys(PostInfo).map( elem => {
+			data.append( elem, PostInfo[elem] );
+		});
+
+		props.createPost(data);
 	}
 
     return (
 		<Feed
 			text_input_handler 		= {__text_input_handler__}
 			submit_handler 			= {__submit_handler__} 
-			img_submit_handler		= {__img_submit_handler__}
+			upload					= {upload}
+			uploader				= {__uploader__}
 
-			Post_title				= 	{title}
-			Post_text				= 	{text}
+			post_info = {PostInfo}
 		/>
 	);
 
