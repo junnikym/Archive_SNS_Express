@@ -31,9 +31,7 @@ const PostReCommentSelect = [
 // < Common Repository > 
 // --------------------------------------------------
 
-class CommonCommentRepo<T> extends Repository<T> {
-
-}
+class CommonCommentRepo<T> extends Repository<T> {}
 
 // < Repositories > 
 // --------------------------------------------------

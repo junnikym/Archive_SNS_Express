@@ -3,52 +3,46 @@ import {
 	JoinColumn,
 	JoinTable,
 	Entity,
-	OneToMany,
 	ManyToMany,
 	PrimaryGeneratedColumn,
 	ManyToOne,
+	CreateDateColumn,
 	OneToOne
 } from "typeorm";
 import { IsNotEmpty } from "class-validator";
-import { type } from 'os';
+
 import { Account } from "./Account";
+import { ChatGroup } from './Group';
 
-
-@Entity({ name: "chat_group" })
-export class ChatGroup {
-
-	@PrimaryGeneratedColumn("uuid")
-	pk: string;
-
-	@ManyToMany(
-		(type) => Account, 
-		(account) => account.chat_group, 
-		{ nullable: false }
-	)
-	@JoinTable()
-	participant: Account[];
-}
-
+/**
+ * Chat Massage Entity
+ */
 @Entity({ name: "chat_msg" })
 export class ChatMsg {
 	
 	@PrimaryGeneratedColumn("uuid")
 	pk: string;
 
-	@Column({ name: "writer_pk", length: 36 })
+	@Column({ name: "writer", length: 36 })
 	writer_pk: string;
 
 	@ManyToOne( (type) => Account, (Account) => Account.pk )
 	@JoinColumn({ name: "writer" })
 	writer: Account;
 
-	@Column({ name: "group_pk", length: 36 })
+	@Column({ name: "group", length: 36 })
 	group_pk: string;
 
-	@ManyToOne( type => ChatGroup, (chat_group) => chat_group.pk )
-	@JoinColumn({ name: 'chat_group' })
+	@ManyToOne((type) => ChatGroup, (chat_group) => chat_group.chat_msg, {
+		cascade: true,
+		onDelete: "CASCADE",
+	})
+	@JoinColumn({ name: "group" })
 	group: ChatGroup;
 
 	@Column({ name: "content" })
 	content: string;
+
+	@CreateDateColumn({ name: "created_at" })
+	createdAt: Date;
 }

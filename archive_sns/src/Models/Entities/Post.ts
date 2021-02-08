@@ -17,6 +17,7 @@ import { type } from "os";
 
 import { Account } from "./Account";
 import { Image, PostImage } from './Image';
+import { PostGroup } from './Group';
 
 /**
  * Post Entity
@@ -46,6 +47,13 @@ export class Post {
 	})
 	@JoinColumn({ name: "writer" })
 	writer: Account;
+
+	@ManyToOne((type) => PostGroup, (post_group) => post_group.pk, {
+		cascade: true,
+		onDelete: "CASCADE",
+	})
+	@JoinColumn({ name: "post_group" })
+	post_group: PostGroup;
 
 	@OneToMany( (type) => PostImage, (PostImage) => PostImage.post )
 	image: PostImage[];
