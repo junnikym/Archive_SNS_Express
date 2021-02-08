@@ -1,12 +1,16 @@
 import { Service } from 'typedi';
 import { getConnection } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { Account } from '../Models/Entities/Account';
-import { ChatGroup, ChatMsg } from '../Models/Entities/Chat';
+
 import { AccountRepo } from '../Models/Repositories/AccountRepo';
-import { ChatGroupRepo, ChatMsgRepo } from '../Models/Repositories/ChatRepo';
+import { ChatGroupRepo } from '../Models/Repositories/GroupRepo';
+import { ChatMsgRepo } from '../Models/Repositories/ChatRepo';
+
+import { Account } from '../Models/Entities/Account';
+import { ChatGroup } from '../Models/Entities/Group';
+import { ChatMsg } from '../Models/Entities/Chat';
+
 import { ChatMsgDTO } from '../Models/DTOs/ChatDTO';
-import { group } from 'console';
 
 @Service()
 export class ChatService {
@@ -17,25 +21,6 @@ export class ChatService {
 		@InjectRepository() private chat_msg_repo: ChatMsgRepo
 	) {}
 
-	public async CreateChatGroup(
-		people_pk_list: string[],
-	) : Promise<ChatGroup> 
-	{
-		if(people_pk_list.length < 2)
-			return undefined;
-
-		const people: Account[] = await this.account_repo.FindByPKs(people_pk_list);
-		
-		if(people) {
-			const new_group = new ChatGroup()
-			new_group.participant = people;
-
-			return await this.chat_group_repo.save(new_group);
-		}
-
-		return undefined;
-	}
-
 	public async SendMsg(
 		account_pk: string,
 		group_pk: string,
@@ -43,7 +28,7 @@ export class ChatService {
 	) : Promise<ChatMsg> {
 		const new_chat_msg = await chat_msg_dto.toEntity();
 		new_chat_msg.writer_pk = account_pk;
-		new_chat_msg.group_pk = account_pk;
+		new_chat_msg.group_pk = group_pk;
 
 		return await this.chat_msg_repo.save(new_chat_msg);
 	}
@@ -59,6 +44,15 @@ export class ChatService {
 		});
 
 		return await this.chat_group_repo.save(target_group);
+	}
+
+	public async GetChatList(
+		group_pk: string,
+		offset: number, 
+		limit: number,
+	): Promise<ChatMsg[]> 
+	{
+		return await this.chat_msg_repo.GetChatMsg(group_pk, offset, limit);
 	}
 
 }

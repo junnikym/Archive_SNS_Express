@@ -4,7 +4,6 @@ import { getConnection, Like } from "typeorm";
 
 import { CommentLike, PostLike } from '../Models/Entities/Like';
 import { CommentLikeRepo, PostLikeRepo } from '../Models/Repositories/LikeRepo';
-import { ImageRepo } from '../Models/Repositories/ImageRepo';
 import { post } from 'request';
 import { PostRepo } from "../Models/Repositories/PostRepo";
 import { CommentRepo } from "../Models/Repositories/CommentRepo";

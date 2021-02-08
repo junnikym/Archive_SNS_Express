@@ -8,9 +8,9 @@ import { Account } from '../Entities/Account';
 export class AccountRepo extends Repository<Account> {
 
 	public async FindByPKs( pk_list: string[] ) : Promise<Account[]> {
-		return this.createQueryBuilder("Account")
+		return this.createQueryBuilder("account")
 			.where( "account.pk IN (:list)", { list: pk_list } )
-			.orderBy("account.createDate")
+			// .orderBy("account.createDate")
 			.getMany();
 	}
 
