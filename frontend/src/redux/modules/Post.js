@@ -67,6 +67,7 @@ function postList(offset, limit, order_by) {
 		})
 		.then(response => response.json())
 		.then(json => {
+			console.log(json.data)
 			if (json.data) {
 				dispatch(getPostList(json.data));
 			}

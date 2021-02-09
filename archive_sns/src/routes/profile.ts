@@ -38,28 +38,6 @@ export class ProfileControl {
     }
 
     /**
-     * 결과처리
-     * 
-     * @param result 라우트 처리 결과
-     * @param res 상태 처리 결과
-     */
-    private status = function(result, res){
-        if(!result){
-            return res.status(403).send({
-                status : 403,
-                success : true,
-                message : "Forbidden"
-            });
-        };
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "success",
-            data: result
-        });  
-    }
-
-    /**
      * GetAccountByPK
      * 
      * @param pk
@@ -71,7 +49,21 @@ export class ProfileControl {
             user_pk
         );
 
-        return this.status(Get_Account, res);
+        if(!Get_Account){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
+            });
+        };
+        return res.status(200).send({
+            status : 200,
+            success : true,
+            message : "success",
+            data : {
+                Get_Account
+            }
+        });
     }
 
     /**
@@ -97,7 +89,21 @@ export class ProfileControl {
             Update_Profile
         );
 
-        return this.status(Update_Profile_result, res);
+        if(!Update_Profile_result){
+            return res.status(403).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
+            });
+        };
+        return res.status(200).send({
+            status : 200,
+            success : true,
+            message : "success",
+            data : {
+                Update_Profile_result
+            }
+        });
     }
 
 }

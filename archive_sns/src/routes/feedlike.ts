@@ -44,27 +44,6 @@ export class FeedLikeControl {
     }
 
     /**
-     * 결과처리
-     * 
-     * @param result 라우트 처리 결과
-     * @param res 상태 처리 결과
-     */
-    private status = function(result, res){
-        if(!result){
-            return res.status(403).send({
-                status : 403,
-                success : true,
-                message : "Forbidden"
-            });
-        };
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "success"
-        });  
-    }
-
-    /**
      * CountLike
      * 
      * @param post_pk : target_pk
@@ -77,7 +56,21 @@ export class FeedLikeControl {
             target_pk
         );
 
-        return this.status(Count_Like, res);
+        if(!Count_Like){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
+            });
+        };
+        return res.status(200).send({
+            status : 200,
+            success : true,
+            message : "success",
+            data : {
+                Count_Like
+            }
+        });  
     }
 
     /**
@@ -96,7 +89,21 @@ export class FeedLikeControl {
             limit
         );
         
-        return this.status(Who_Like, res);
+        if(!Who_Like){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
+            });
+        };
+        return res.status(200).send({
+            status : 200,
+            success : true,
+            message : "success",
+            data : {
+                Who_Like
+            }
+        });  
     }
 
     /**
@@ -115,7 +122,21 @@ export class FeedLikeControl {
             target_pk
         );
 
-        return this.status(Like_toggle, res);
+        if(!Like_toggle){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Forbidden"
+            });
+        };
+        return res.status(200).send({
+            status : 200,
+            success : true,
+            message : "success",
+            data : {
+                Like_toggle
+            }
+        });  
     }
 
     /**
@@ -134,7 +155,18 @@ export class FeedLikeControl {
             giver
         );
 
-        return this.status(PostLike, res);
+        if(!PostLike){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
+            });
+        };
+        return res.status(200).send({
+            status : 200,
+            success : true,
+            message : "success"
+        });  
     }
 
 }

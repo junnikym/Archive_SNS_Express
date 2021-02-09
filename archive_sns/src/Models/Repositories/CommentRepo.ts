@@ -39,6 +39,7 @@ class CommonCommentRepo<T> extends Repository<T> {}
 @EntityRepository(Comment)
 export class CommentRepo extends CommonCommentRepo<Comment> { }
 
+
 @EntityRepository(PostComment)
 export class PostCommentRepo extends CommonCommentRepo<PostComment> { 
 	

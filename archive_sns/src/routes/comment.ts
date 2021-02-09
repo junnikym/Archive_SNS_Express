@@ -2,8 +2,7 @@
  * 댓글 관련 라우트 생성,삭제,수정
  */
 
-var express = require('express');
-var router = express.Router();
+const express = require('express');
 
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
@@ -23,7 +22,7 @@ export class CommentControl {
 
         this.post_comment_service = post_comment_service;
 
-        this.router = router;
+        this.router = express.Router();
 
         // < routing >
         this.router.get(
@@ -51,28 +50,6 @@ export class CommentControl {
 
     }
 
-
-    /**
-     * 결과처리
-     * 
-     * @param result : 라우트 처리 결과
-     * @param res : 상태 처리 결과
-     */
-    private status = function(result, res){
-        if(!result){
-            return res.status(403).send({
-                status : 403,
-                success : true,
-                message : "Forbidden"
-            });
-        };
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "success"
-        });  
-    }
-
     /**
      * GetPostComment
      * 
@@ -93,7 +70,23 @@ export class CommentControl {
             limit,
             order_by
         );
-        return this.status(GetPostComment, res);
+
+        if(!GetPostComment){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
+            });
+        };
+
+        return res.status(200).send({
+            status : 200,
+            success : true,
+            message : "success",
+            data : {
+                GetPostComment
+            }
+        });
     }
 
     /**
@@ -110,14 +103,30 @@ export class CommentControl {
         const user_pk = res.locals.jwt_payload.pk;
 
         const Create_Comment = new CommentDTO();
-        Create_Comment.content = comment_Info.content;
+        Create_Comment.content = comment_Info.content; 
 
         const CreateComment = await this.post_comment_service.CreateComment(
             user_pk,
             post_pk,
             Create_Comment
         )
-        return this.status(CreateComment, res);
+
+        if(!CreateComment){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
+            });
+        };
+
+        return res.status(201).send({
+            status : 201,
+            success : true,
+            message : "Created",
+            data : {
+                CreateComment
+            }
+        });
     }
 
     /**
@@ -127,7 +136,7 @@ export class CommentControl {
      * @param comment_pk :
      * @param Update_Comment : CommentDTO(content)
      */
-    async UpdateComment(req, res) {
+    private async UpdateComment(req, res) {
         const comment_Info = req.body;
 
         const comment_pk = comment_Info.comment_pk
@@ -141,7 +150,23 @@ export class CommentControl {
             comment_pk,
             Update_Comment
         )
-        return this.status(UpdateComment, res);
+        
+        if(!UpdateComment){
+            return res.status(403).send({
+                status : 403,
+                success : false,
+                message : "Forbidden"
+            });
+        };
+
+        return res.status(201).send({
+            status : 201,
+            success : false,
+            message : "Created",
+            data : {
+                UpdateComment
+            }
+        });
     }
 
     /**
@@ -160,7 +185,20 @@ export class CommentControl {
             pk,
             comment_pk
         )
-        return this.status(DeleteComment, res);
+        
+        if(!DeleteComment){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
+            });
+        };
+
+        return res.status(200).send({
+            status : 200,
+            success : true,
+            message : "success"
+        });
     }
 
 }

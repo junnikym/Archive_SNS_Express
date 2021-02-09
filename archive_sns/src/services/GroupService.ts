@@ -30,11 +30,11 @@ abstract class GroupService<
 	/**
 	 * Create Group
 	 * 
-	 * @param gropu_dto : group dto
+	 * @param group_dto : group dto
 	 * @param member_pk_list : participant's pk 
 	 */
 	public async CreateGroup(
-		gropu_dto: GroupDTO,
+		group_dto: GroupDTO,
 		member_pk_list: string[],
 	) : Promise<EntType> 
 	{
@@ -45,7 +45,7 @@ abstract class GroupService<
 			await this.account_repo.FindByPKs(member_pk_list);
 
 		if(participant) {
-			const new_group = gropu_dto.toEntity() as EntType;
+			const new_group = group_dto.toEntity() as EntType;
 			new_group.participant = participant;
 
 			return await this.group_repo.save(new_group);

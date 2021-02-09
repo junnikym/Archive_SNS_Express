@@ -26,7 +26,7 @@ const Container = (props, context) => {
 	const image_loader = (elem) => {
 		return (
 			elem.image.map(elem => (
-				<Post_Card_Img img={elem} />
+				<Post_Card_Img img = {elem} />
 			))
 		);
 	}
@@ -36,6 +36,8 @@ const Container = (props, context) => {
 			return ( <p>loading...</p> )
 		}
 		else {
+			console.log(props.post_list);
+
 			return (
 				props.post_list.map(elem => (
 					<Post_Card 
@@ -46,7 +48,6 @@ const Container = (props, context) => {
 					/>
 			)));
 		}
-
 	}
 
 	return (
