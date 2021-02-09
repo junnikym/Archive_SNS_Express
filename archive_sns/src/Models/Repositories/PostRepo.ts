@@ -38,7 +38,7 @@ export class PostRepo extends Repository<Post> {
 	
 	/**
 	 *  Get list that short post information which written by user
-	 *  앞단 - 컨트롤 -
+	 * 
 	 * @param offset 
 	 * @param limit 
 	 * @param order_by
