@@ -55,7 +55,7 @@ export class AccountService {
 	}
 
 	/**
-	 * Get Account by PK
+	 * GetAccountbyPK
 	 * 
 	 * @param account_pk : Account's PK
 	 */
@@ -72,7 +72,7 @@ export class AccountService {
 	}
 
 	/**
-	 * Get Account by Name
+	 * GetAccountbyName
 	 * 
 	 * @param target_name : search keyword
 	 */

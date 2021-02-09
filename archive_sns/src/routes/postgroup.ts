@@ -1,0 +1,122 @@
+/**
+ *  그룹 관련 라우트
+ */
+
+const express = require('express');
+
+// JWT middleware
+import { 
+    RefreshTokenGenerator,
+    AccessTokenGenerator,
+    VerifyAccessToken 
+} from "../Middleware/JWT_Auth";
+
+import { PostGroupService } from "../services/GroupService";
+
+import { GroupDTO } from '../Models/DTOs/GroupDTO';
+
+export class GroupControl {
+
+    public router;
+    private PostGroup_Service : PostGroupService;
+
+    constructor(
+        PostGroup_Service : PostGroupService
+    ) {
+
+        this.PostGroup_Service = PostGroup_Service;
+
+        this.router = express.Router();
+
+        this.router.post(
+            '/', 
+            async (req, res) => this.CreateGroup(req, res)
+        );
+
+        this.router.delete(
+            '/:group_pk', 
+            async (req, res) => this.DeleteGroup(req, res)
+        );
+
+        this.router.get(
+            '/invite/:group_pk', 
+            async (req, res) => this.Invite(req, res)
+        );
+
+    }
+
+    private async CreateGroup(req, res) {
+
+        const Group_DTO = new GroupDTO();
+        Group_DTO.title = req.body.title;
+
+        const member_pk_list: string[] = req.body.member_pk_list;
+
+        const CreateGroup_Result = await this.PostGroup_Service.CreateGroup(
+            Group_DTO,
+            member_pk_list
+        )
+        
+        if(!CreateGroup_Result){
+            return res.status(403).send({
+                status : 403,
+                success : true,
+                message : "Forbidden"
+            });
+        };
+
+        return res.status(200).send({
+            status : 200,
+            success : true,
+            message : "success",
+        });
+    }
+
+    private async DeleteGroup(req, res) {
+
+        const group_pk: string = req.params.group_pk;
+
+        const DeleteGroup_Result = await this.PostGroup_Service.DeleteGroup(
+            group_pk
+        )
+        
+        if(!DeleteGroup_Result){
+            return res.status(403).send({
+                status : 403,
+                success : true,
+                message : "Forbidden"
+            });
+        };
+
+        return res.status(200).send({
+            status : 200,
+            success : true,
+            message : "success",
+        });
+    }
+
+    private async Invite(req, res) {
+        const group_pk: string = req.params.group_pk;
+        const member_pk_list: string[] = req.body.member_pk_list;
+
+        const Invite_Result = await this.PostGroup_Service.Invite(
+            group_pk,
+            member_pk_list
+        )
+
+        if(!Invite_Result){
+            return res.status(403).send({
+                status : 403,
+                success : true,
+                message : "Forbidden"
+            });
+        };
+
+        return res.status(200).send({
+            status : 200,
+            success : true,
+            message : "success",
+        });
+    }
+
+}
