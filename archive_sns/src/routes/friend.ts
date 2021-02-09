@@ -101,6 +101,9 @@ private async AddFriend(req, res) {
         status : 200,
         success : true,
         message : "success",
+        data : {
+            AddFriend_Result
+        }
     });
 }
 
@@ -128,6 +131,9 @@ private async GetFriendList(req, res) {
         status : 200,
         success : true,
         message : "success",
+        data : {
+            GetFriendList_Result
+        }
     });
 }
 
@@ -155,6 +161,9 @@ private async GetSendList(req, res) {
         status : 200,
         success : true,
         message : "success",
+        data : {
+            GetSendList_Result
+        }
     });
 }
 
@@ -182,6 +191,9 @@ private async GetReceiveList(req, res) {
         status : 200,
         success : true,
         message : "success",
+        data : {
+            GetReceiveList_Result
+        }
     });
 }
 
@@ -211,6 +223,9 @@ private async AcceptFriend(req, res) {
         status : 200,
         success : true,
         message : "success",
+        data : {
+            AcceptFriend_Result
+        }
     });
 }
 
@@ -240,6 +255,9 @@ private async RejectFriend(req, res) {
         status : 200,
         success : true,
         message : "success",
+        data : {
+            RejectFriend_Result
+        }
     });
 }
 
@@ -268,7 +286,7 @@ private async DeleteFriend(req, res) {
     return res.status(200).send({
         status : 200,
         success : true,
-        message : "success",
+        message : "success"
     });
 }
 

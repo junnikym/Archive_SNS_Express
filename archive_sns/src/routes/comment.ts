@@ -82,7 +82,10 @@ export class CommentControl {
         return res.status(200).send({
             status : 200,
             success : true,
-            message : "success"
+            message : "success",
+            data : {
+                GetPostComment
+            }
         });
     }
 
@@ -119,7 +122,10 @@ export class CommentControl {
         return res.status(200).send({
             status : 200,
             success : true,
-            message : "success"
+            message : "success",
+            data : {
+                CreateComment
+            }
         });
     }
 
@@ -156,7 +162,10 @@ export class CommentControl {
         return res.status(200).send({
             status : 200,
             success : true,
-            message : "success"
+            message : "success",
+            data : {
+                UpdateComment
+            }
         });
     }
 

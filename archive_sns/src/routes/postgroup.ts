@@ -69,6 +69,9 @@ export class GroupControl {
             status : 200,
             success : true,
             message : "success",
+            data : {
+                CreateGroup_Result
+            }
         });
     }
 
@@ -91,7 +94,7 @@ export class GroupControl {
         return res.status(200).send({
             status : 200,
             success : true,
-            message : "success",
+            message : "success"
         });
     }
 
@@ -116,6 +119,9 @@ export class GroupControl {
             status : 200,
             success : true,
             message : "success",
+            data : {
+                Invite_Result
+            }
         });
     }
 

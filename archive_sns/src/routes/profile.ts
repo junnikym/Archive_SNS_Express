@@ -60,7 +60,10 @@ export class ProfileControl {
         return res.status(200).send({
             status : 200,
             success : true,
-            message : "success"
+            message : "success",
+            data : {
+                Get_Account
+            }
         });
     }
 
@@ -97,7 +100,10 @@ export class ProfileControl {
         return res.status(200).send({
             status : 200,
             success : true,
-            message : "success"
+            message : "success",
+            data : {
+                Update_Profile_result
+            }
         });
     }
 

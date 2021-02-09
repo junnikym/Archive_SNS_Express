@@ -66,7 +66,10 @@ export class FeedLikeControl {
         return res.status(200).send({
             status : 200,
             success : true,
-            message : "success"
+            message : "success",
+            data : {
+                Count_Like
+            }
         });  
     }
 
@@ -96,7 +99,10 @@ export class FeedLikeControl {
         return res.status(200).send({
             status : 200,
             success : true,
-            message : "success"
+            message : "success",
+            data : {
+                Who_Like
+            }
         });  
     }
 
@@ -126,7 +132,10 @@ export class FeedLikeControl {
         return res.status(200).send({
             status : 200,
             success : true,
-            message : "success"
+            message : "success",
+            data : {
+                Like_toggle
+            }
         });  
     }
 

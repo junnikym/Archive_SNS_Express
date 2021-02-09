@@ -89,6 +89,9 @@ export class PostControl {
       status : 200,
       success : true,
       message : "success",
+      data : {
+        Get_SinglePost_Result
+      }
     });
   }
 
@@ -99,13 +102,13 @@ export class PostControl {
    */
   private async GetPostList(req, res) {
 
-    const result =  await this.post_service.GetPostList(
+    const GetPostList_Result =  await this.post_service.GetPostList(
       req.body.offset,
       req.body.limit,
       req.body.order_by
     );
 
-    if(!result){
+    if(!GetPostList_Result){
       return res.status(403).send({
         status : 403,
         success : true,
@@ -116,6 +119,9 @@ export class PostControl {
       status : 200,
       success : true,
       message : "success",
+      data : {
+        GetPostList_Result
+      }
     });
   }
 
@@ -148,6 +154,9 @@ export class PostControl {
       status : 200,
       success : true,
       message : "success",
+      data : {
+        Get_OwnPost_Result
+      }
     });
   }
 
@@ -192,6 +201,9 @@ export class PostControl {
       status : 200,
       success : true,
       message : "success",
+      data : {
+        create_feed
+      }
     });
   }
 
@@ -240,6 +252,9 @@ export class PostControl {
       status : 200,
       success : true,
       message : "success",
+      data : {
+        Update_Feed
+      }
     });
   }
 
@@ -269,7 +284,7 @@ export class PostControl {
     return res.status(200).send({
       status : 200,
       success : true,
-      message : "success",
+      message : "success"
     });
   }
 
