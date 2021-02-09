@@ -69,9 +69,7 @@ export class GroupControl {
             status : 201,
             success : true,
             message : "Created",
-            data : {
-                CreateGroup_Result
-            }
+            data : CreateGroup_Result
         });
     }
 
@@ -119,9 +117,7 @@ export class GroupControl {
             status : 200,
             success : true,
             message : "success",
-            data : {
-                Invite_Result
-            }
+            data : Invite_Result
         });
     }
 
