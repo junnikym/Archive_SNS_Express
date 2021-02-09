@@ -80,16 +80,17 @@ export class PostControl {
     );
     
     if(!Get_SinglePost_Result){
-      return res.status(403).send({
-        status : 403,
-        success : true,
-        message : "Forbidden"
+      return res.status(400).send({
+        status : 400,
+        success : false,
+        message : "Bad Request"
       });
     };
     return res.status(200).send({
       status : 200,
       success : true,
       message : "success",
+      data :  Get_SinglePost_Result
     });
   }
 
@@ -100,24 +101,24 @@ export class PostControl {
    */
   private async GetPostList(req, res) {
 
-    const result =  await this.post_service.GetPostList(
+    const GetPostList_Result =  await this.post_service.GetPostList(
       req.body.offset,
       req.body.limit,
       req.body.order_by
     );
 
-    if(!result){
-      return res.status(403).send({
-        status : 403,
-        success : true,
-        message : "Forbidden"
+    if(!GetPostList_Result){
+      return res.status(400).send({
+        status : 400,
+        success : false,
+        message : "Bad Request"
       });
     };
     return res.status(200).send({
       status : 200,
       success : true,
       message : "success",
-      data: result
+      data : GetPostList_Result
     });
   }
 
@@ -140,16 +141,17 @@ export class PostControl {
     );
 
     if(!Get_OwnPost_Result){
-      return res.status(403).send({
-        status : 403,
-        success : true,
-        message : "Forbidden"
+      return res.status(400).send({
+        status : 400,
+        success : false,
+        message : "Bad Request"
       });
     };
     return res.status(200).send({
       status : 200,
       success : true,
       message : "success",
+      data : Get_OwnPost_Result
     });
   }
 
@@ -198,11 +200,11 @@ export class PostControl {
       });
 
     return res.status(200).send({
-			status: 200,
+      status: 200,
 			success: true,
 			message: "success",
 			data: result
-		});
+    });
   }
 
   /**
@@ -242,7 +244,7 @@ export class PostControl {
     if(!Update_Feed){
       return res.status(403).send({
         status : 403,
-        success : true,
+        success : false,
         message : "Forbidden"
       });
     };
@@ -250,6 +252,7 @@ export class PostControl {
       status : 200,
       success : true,
       message : "success",
+      data : Update_Feed
     });
   }
 
@@ -272,14 +275,14 @@ export class PostControl {
     if(!Delete_Feed){
       return res.status(403).send({
         status : 403,
-        success : true,
+        success : false,
         message : "Forbidden"
       });
     };
     return res.status(200).send({
       status : 200,
       success : true,
-      message : "success",
+      message : "success"
     });
   }
 

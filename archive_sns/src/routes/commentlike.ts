@@ -51,17 +51,18 @@ export class CommentLikeControl {
         );
 
         if(!Count_Like){
-            return res.status(403).send({
-                status : 403,
-                success : true,
-                message : "Forbidden"
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
             });
         };
         
         return res.status(200).send({
             status : 200,
             success : true,
-            message : "success"
+            message : "success",
+            data : Count_Like
         });  
     }
 
@@ -82,17 +83,18 @@ export class CommentLikeControl {
         );
         
         if(!Who_Like){
-            return res.status(403).send({
-                status : 403,
-                success : true,
-                message : "Forbidden"
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
             });
         };
         
         return res.status(200).send({
             status : 200,
             success : true,
-            message : "success"
+            message : "success",
+            data : Who_Like
         });  
     }
 
@@ -114,10 +116,10 @@ export class CommentLikeControl {
         );
 
         if(!CommentLike){
-            return res.status(403).send({
-                status : 403,
-                success : true,
-                message : "Forbidden"
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
             });
         };
         
