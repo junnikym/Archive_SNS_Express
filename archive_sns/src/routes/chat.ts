@@ -24,12 +24,6 @@ export class CommentControl {
 
         this.router = express.Router();
 
-        // < routing >
-        // this.router.post(
-        //     "/", 
-        //     async (req, res) => this.CreateChatGroup(res, req)
-        // );
-
         this.router.post(
             "/sendmsg", 
             async (req, res) => this.SendMsg(res, req)
@@ -50,11 +44,9 @@ export class CommentControl {
     private async SendMsg(req, res) {
         const account_pk = req.body.account_pk;
         const group_pk = req.body.group_pk;
-        //ChatMsgDTO
-        const content = req.body.content;
 
         const ChatMsg_DTO = new ChatMsgDTO();
-        ChatMsg_DTO.content = content;
+        ChatMsg_DTO.content = req.body.content;
 
         const SendMsg_Result = await this.Chat_service.SendMsg(
             account_pk,
@@ -63,10 +55,10 @@ export class CommentControl {
         );
 
         if(!SendMsg_Result){
-            return res.status(403).send({
-                status : 403,
-                success : true,
-                message : "Forbidden"
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
             });
         };
 
@@ -92,10 +84,10 @@ export class CommentControl {
         );
 
         if(!ExitChatGroup_Result){
-            return res.status(403).send({
-                status : 403,
-                success : true,
-                message : "Forbidden"
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
             });
         };
 

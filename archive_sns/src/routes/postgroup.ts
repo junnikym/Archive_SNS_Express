@@ -58,10 +58,10 @@ export class GroupControl {
         )
         
         if(!CreateGroup_Result){
-            return res.status(403).send({
-                status : 403,
-                success : true,
-                message : "Forbidden"
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
             });
         };
 
@@ -84,10 +84,10 @@ export class GroupControl {
         )
         
         if(!DeleteGroup_Result){
-            return res.status(403).send({
-                status : 403,
-                success : true,
-                message : "Forbidden"
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
             });
         };
 
@@ -108,10 +108,10 @@ export class GroupControl {
         )
 
         if(!Invite_Result){
-            return res.status(403).send({
-                status : 403,
-                success : true,
-                message : "Forbidden"
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
             });
         };
 

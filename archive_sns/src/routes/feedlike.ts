@@ -57,10 +57,10 @@ export class FeedLikeControl {
         );
 
         if(!Count_Like){
-            return res.status(403).send({
-                status : 403,
-                success : true,
-                message : "Forbidden"
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
             });
         };
         return res.status(200).send({
@@ -90,10 +90,10 @@ export class FeedLikeControl {
         );
         
         if(!Who_Like){
-            return res.status(403).send({
-                status : 403,
-                success : true,
-                message : "Forbidden"
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
             });
         };
         return res.status(200).send({
@@ -123,9 +123,9 @@ export class FeedLikeControl {
         );
 
         if(!Like_toggle){
-            return res.status(403).send({
-                status : 403,
-                success : true,
+            return res.status(400).send({
+                status : 400,
+                success : false,
                 message : "Forbidden"
             });
         };
@@ -156,10 +156,10 @@ export class FeedLikeControl {
         );
 
         if(!PostLike){
-            return res.status(403).send({
-                status : 403,
-                success : true,
-                message : "Forbidden"
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
             });
         };
         return res.status(200).send({

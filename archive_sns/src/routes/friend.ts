@@ -90,10 +90,10 @@ private async AddFriend(req, res) {
     );
     
     if(!AddFriend_Result){
-        return res.status(403).send({
-            status : 403,
-            success : true,
-            message : "Forbidden"
+        return res.status(400).send({
+            status : 400,
+            success : false,
+            message : "Bad Request"
         });
     };
 
@@ -120,10 +120,10 @@ private async GetFriendList(req, res) {
     );
 
     if(!GetFriendList_Result){
-        return res.status(403).send({
-            status : 403,
-            success : true,
-            message : "Forbidden"
+        return res.status(400).send({
+            status : 400,
+            success : false,
+            message : "Bad Request"
         });
     };
 
@@ -150,10 +150,10 @@ private async GetSendList(req, res) {
     );
 
     if(!GetSendList_Result){
-        return res.status(403).send({
-            status : 403,
-            success : true,
-            message : "Forbidden"
+        return res.status(400).send({
+            status : 400,
+            success : false,
+            message : "Bad Request"
         });
     };
 
@@ -180,10 +180,10 @@ private async GetReceiveList(req, res) {
     );
 
     if(!GetReceiveList_Result){
-        return res.status(403).send({
-            status : 403,
-            success : true,
-            message : "Forbidden"
+        return res.status(400).send({
+            status : 400,
+            success : false,
+            message : "Bad Request"
         });
     };
 
@@ -212,10 +212,10 @@ private async AcceptFriend(req, res) {
     );
 
     if(!AcceptFriend_Result){
-        return res.status(403).send({
-            status : 403,
-            success : true,
-            message : "Forbidden"
+        return res.status(400).send({
+            status : 400,
+            success : false,
+            message : "Bad Request"
         });
     };
 
@@ -244,10 +244,10 @@ private async RejectFriend(req, res) {
     );
 
     if(!RejectFriend_Result){
-        return res.status(403).send({
-            status : 403,
-            success : true,
-            message : "Forbidden"
+        return res.status(400).send({
+            status : 400,
+            success : false,
+            message : "Bad Request"
         });
     };
 
@@ -276,10 +276,10 @@ private async DeleteFriend(req, res) {
     );
 
     if(!DeleteFriend_Result){
-        return res.status(403).send({
-            status : 403,
-            success : true,
-            message : "Forbidden"
+        return res.status(400).send({
+            status : 400,
+            success : false,
+            message : "Bad Request"
         });
     };
 

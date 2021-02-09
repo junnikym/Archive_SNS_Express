@@ -80,10 +80,10 @@ export class PostControl {
     );
     
     if(!Get_SinglePost_Result){
-      return res.status(403).send({
-        status : 403,
-        success : true,
-        message : "Forbidden"
+      return res.status(400).send({
+        status : 400,
+        success : false,
+        message : "Bad Request"
       });
     };
     return res.status(200).send({
@@ -110,10 +110,10 @@ export class PostControl {
     );
 
     if(!GetPostList_Result){
-      return res.status(403).send({
-        status : 403,
-        success : true,
-        message : "Forbidden"
+      return res.status(400).send({
+        status : 400,
+        success : false,
+        message : "Bad Request"
       });
     };
     return res.status(200).send({
@@ -145,10 +145,10 @@ export class PostControl {
     );
 
     if(!Get_OwnPost_Result){
-      return res.status(403).send({
-        status : 403,
-        success : true,
-        message : "Forbidden"
+      return res.status(400).send({
+        status : 400,
+        success : false,
+        message : "Bad Request"
       });
     };
     return res.status(200).send({
@@ -250,7 +250,7 @@ export class PostControl {
     if(!Update_Feed){
       return res.status(403).send({
         status : 403,
-        success : true,
+        success : false,
         message : "Forbidden"
       });
     };
@@ -283,7 +283,7 @@ export class PostControl {
     if(!Delete_Feed){
       return res.status(403).send({
         status : 403,
-        success : true,
+        success : false,
         message : "Forbidden"
       });
     };

@@ -72,10 +72,10 @@ export class CommentControl {
         );
 
         if(!GetPostComment){
-            return res.status(403).send({
-                status : 403,
-                success : true,
-                message : "Forbidden"
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
             });
         };
 
@@ -112,17 +112,17 @@ export class CommentControl {
         )
 
         if(!CreateComment){
-            return res.status(403).send({
-                status : 403,
-                success : true,
-                message : "Forbidden"
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
             });
         };
 
-        return res.status(200).send({
-            status : 200,
+        return res.status(201).send({
+            status : 201,
             success : true,
-            message : "success",
+            message : "Created",
             data : {
                 CreateComment
             }
@@ -154,15 +154,15 @@ export class CommentControl {
         if(!UpdateComment){
             return res.status(403).send({
                 status : 403,
-                success : true,
+                success : false,
                 message : "Forbidden"
             });
         };
 
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "success",
+        return res.status(201).send({
+            status : 201,
+            success : false,
+            message : "Created",
             data : {
                 UpdateComment
             }
@@ -187,10 +187,10 @@ export class CommentControl {
         )
         
         if(!DeleteComment){
-            return res.status(403).send({
-                status : 403,
-                success : true,
-                message : "Forbidden"
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
             });
         };
 
