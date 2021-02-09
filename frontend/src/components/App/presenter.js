@@ -9,6 +9,8 @@ import Footer from "../Footer";
 import Home from "../Home_";
 import Profile from "../Profile";
 
+import groupHome from "../groupHome";
+
 const App = props => [
   props.isLoggedIn ? <PrivateRoutes key={1} /> : <PublicRoutes key={1} />,
   // props.isLoggedIn ? <PrivateRoutes key={1} /> : <PrivateRoutes key={1} />,
@@ -25,8 +27,11 @@ const PrivateRoutes = props => (
             {/* Profiles */}
             <Route exact path ="/Profile/:pk" component = {Profile} />
 
+            {/* groupHome */}
+            <Route exact path = "/groupHome" component = {groupHome} />
+
             {/* Post */}
-            <Route exact path ="/" component = {Home} />
+            <Route exact path = "/" component = {Home} />
       </Switch>
       <Footer/>
 

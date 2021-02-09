@@ -2,8 +2,6 @@ import React from 'react';
 
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
-
-
 import Feed from "../Feed";
 // import Post from "../Post";
 import Post_Card from "../Post_Card";       
@@ -12,7 +10,6 @@ import Post_Card from "../Post_Card";
 
 const Home_ = (props, contet) => (
     
-
         <Router>   
 
           {/* <Switch>
@@ -27,7 +24,6 @@ const Home_ = (props, contet) => (
           <Post_Card/>
 
         </Router>
-
 
   )
 
