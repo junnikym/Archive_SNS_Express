@@ -34,6 +34,9 @@ export class Account {
 	@Column({ name: "name", length: 64 })
 	name: string;
 
+	@Column({ name: "profile_image", length: 36, nullable: true })
+	profile_image_pk: string;
+
 	@OneToOne( (type) => Image, { nullable: true } )
 	@JoinColumn({ name: "profile_image" })
 	profile_image: Image | null;

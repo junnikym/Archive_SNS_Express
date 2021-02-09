@@ -4,13 +4,13 @@ function feed_Like() {
     return (dispatch, getState) => {
         const { account : { token }} = getState();
 
-        fetch("/Like", {
+        fetch("feedlike/count/", {
             method: "get",
             headers: {
 				Authorization: `JWT ${token}`
             },
         })
-
+            
         .catch(err => console.log(err));
     };
 }

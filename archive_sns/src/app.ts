@@ -17,7 +17,6 @@ import { CommentLikeControl } from './routes/commentlike';
 import { PostControl } from './routes/Post';
 import { FeedLikeControl } from './routes/feedlike';
 import { ProfileControl } from "./routes/profile";
-import { ImageUpdateControl } from "./routes/upload";
 
 // < Services >
 import { AuthService }                          from "./services/AuthService";
@@ -38,6 +37,11 @@ import { Account } from "./Models/Entities/Account";
 import { ChatMsgDTO } from "./Models/DTOs/ChatDTO";
 import { AccountDTO } from "./Models/DTOs/AccountDTO";
 import { PostDTO } from './Models/DTOs/PostDTO';
+import { PostImage } from "./Models/Entities/Image";
+import { ImageDTO } from './Models/DTOs/ImageDTO';
+
+// ------------------------------------------------ //
+
 
 export class App {
 
@@ -71,8 +75,6 @@ export class App {
       const feed_like_control = new FeedLikeControl(post_like_service);
       const profile_control = new ProfileControl(account_service);
 
-      const img_upload_control = new ImageUpdateControl();
-
       // routing
       this.app.use('/auth', auth_control.router);
       this.app.use('/comment', comment_control.router);
@@ -80,7 +82,7 @@ export class App {
       this.app.use('/post', feed_control.router);
       this.app.use('/feedlike', feed_like_control.router);
 
-      this.app.use('/upload', img_upload_control.router);
+      this.app.use("/static", express.static(__dirname + '/..'));
 
         // ------------------------------------------------ //
        //  T E S T  //  T E S T  //  T E S T  //  T E S T  //
@@ -91,6 +93,16 @@ export class App {
 
       const group_a = "93bf1fe4-d7f1-4986-9dd8-e98c13e90f5b";
       const group_b = "f7e894a8-d269-49f8-8c94-5613c1c1f088";
+
+      // const image_dto = new ImageDTO;
+      // image_dto.url = "asdf";
+
+      // console.log(image_dto)
+
+      // post_image_service.UpdatePost(
+      //   "1e4a0d14-4665-4e5d-9d97-891bdad0dab6",
+      //   image_dto
+      // )
 
       // < Account Create >
       // --------------------------------------------------
@@ -173,6 +185,8 @@ export class App {
       //   group_a, 0, 5
       // )
       // .then( result => console.log(result) );
+
+      // ------------------------------------------------ //
     });
   }
 

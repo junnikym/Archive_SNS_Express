@@ -42,29 +42,6 @@ export class CommentControl {
 
     }
 
-    
-    // private async CreateChatGroup(req, res) {
-    //     const people_pk_list: string[] = req.body.people_pk_list;
-
-    //     const CreateChatGroup_Result = await this.Chat_service.CreateChatGroup(
-    //         people_pk_list
-    //     );
-
-    //     if(!CreateChatGroup_Result){
-    //         return res.status(403).send({
-    //             status : 403,
-    //             success : true,
-    //             message : "Forbidden"
-    //         });
-    //     };
-
-    //     return res.status(200).send({
-    //         status : 200,
-    //         success : true,
-    //         message : "success"
-    //     });
-    // }
-
     /**
      * SendMsg
      * @param req 

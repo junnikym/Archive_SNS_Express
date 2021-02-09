@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import Container from "./container";
-import { actionCreators as PostAct } from "../../redux/modules/post";
+
+import { actionCreators as PostAct } from "../../redux/modules/Post";
 
 const mapStateToProps = (state, ownProps) => {
 	const { post: { post_list } } = state;
@@ -11,7 +12,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, props) => {
     return {
         postList: (offset, limit, order_by) => {
-            dispatch(PostAct.postList(offset, limit, order_by));
+            dispatch(PostAct.postList(offset, 0, order_by));
         }
     };
 };

@@ -28,6 +28,7 @@ const Container = (props, context) => {
 		<Login
 			input_hander	= {__input_handler__}
 			submit_handler	= {__submit_handler__}
+			
 			account_email	= {email}
 			account_pw		= {password}
 		/>

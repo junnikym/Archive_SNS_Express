@@ -7,6 +7,8 @@ import {
     Button
 } from 'react-bootstrap';
 
+import ImageUploader from '../ImageUploader';
+
 const Feed = (props) => (
     
     <div className = "Feed">
@@ -22,27 +24,24 @@ const Feed = (props) => (
                     type="text"
                     name="title"
                     placeholder="제목" 
-                    value={props.Post_title}
+                    value={props.post_info.title}
                     onChange={props.text_input_handler} />
             </Form.Group>
 
             <Form.Group controlId="Textarea">
                 <Form.Control  
                     type="text"
-                    name="text"
+                    name="content"
                     placeholder="내용" 
-                    value={props.Post_text}
+                    value={props.post_info.content}
                     onChange={props.text_input_handler} />
             </Form.Group>
 
-            <Form.File id="formcheck-api-regular">
-
-                <Form.File.Input
-                    type="file"
-                    name="img" 
-                    value={props.Post_img}
-                    onChange={props.img_input_handler} />
-                </Form.File>
+            <ImageUploader 
+                upload = {props.upload}
+                uploader = {props.uploader}
+                post_info = {props.post_info}
+            />
 
             <Button 
                 className = "button_right"
@@ -51,19 +50,19 @@ const Feed = (props) => (
                     <span>게시하기</span>
             </Button>
 
-            </Form>
+        </Form>
     
     </div>
 );
 
 Feed.propTypes = {
 	text_input_handler   	: PropTypes.func.isRequired,
-	img_input_handler	    : PropTypes.func.isRequired,
     submit_handler		    : PropTypes.func.isRequired,
+    uploader                : PropTypes.func.isRequired,
     
-    Post_title              : PropTypes.string.isRequired,
-    Post_text               : PropTypes.string.isRequired,
-    Post_img                : PropTypes.string.isRequired
+    post_info               : PropTypes.object.isRequired,
+    upload                  : PropTypes.number.isRequired
+    
 };
 
 export default Feed;

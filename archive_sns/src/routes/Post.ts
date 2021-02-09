@@ -5,11 +5,10 @@
 const express = require('express');
 
 // JWT middleware
-import { 
-  RefreshTokenGenerator,
-  AccessTokenGenerator,
-  VerifyAccessToken 
-} from "../Middleware/JWT_Auth";
+import { VerifyAccessToken } from "../Middleware/JWT_Auth";
+
+// Multer middleware
+import { PostImageMulter } from '../Middleware/Multer';
 
 import { PostService } from "../services/PostService";
 
@@ -17,6 +16,7 @@ import { PostDTO } from '../Models/DTOs/PostDTO';
 import { ImageDTO } from "../Models/DTOs/ImageDTO";
 
 import { Post } from '../Models/Entities/Post';
+import { Image } from '../Models/Entities/Image';
 
 export class PostControl {
 
@@ -24,7 +24,7 @@ export class PostControl {
   private post_service : PostService;
 
   constructor(
-    post_service : PostService
+    post_service : PostService,
   ) {
 
     this.post_service = post_service;
@@ -48,6 +48,7 @@ export class PostControl {
 
     this.router.post(
       '/create', 
+      PostImageMulter.array('image', 30),
       VerifyAccessToken,
       async (req, res) => this.CreatePost(req, res)
     );
@@ -168,42 +169,47 @@ export class PostControl {
    * @param img_dto : ImageDTO(url)
    */
   private async CreatePost(req, res) {
-    const feed_Info = req.body;
+    const image_req = req.files;
+    const path = image_req.map(img => img.path);
     const user_pk = res.locals.jwt_payload.pk;
 
-    const post_dto = new PostDTO();  //피드 생성 DTO
-    let img_dto: ImageDTO[];
+    if(image_req === undefined) 
+      return res.tatus(400).send({
+				status: 400, 
+				success: false, 
+				message: "not exist image"
+			});
+    
+    // < Post DTO >
+    const post_dto = new PostDTO();
 
-    post_dto.title        = feed_Info.title;
-    post_dto.text_content = feed_Info.content; //DTO에 요청받은 데이터 삽입
+    post_dto.title        = req.body.title;
+    post_dto.text_content = req.body.content; 
 
-    for(let i = 0; i < feed_Info.Length; i++) {
-      const temp_img_dto = new ImageDTO;
-      temp_img_dto.url = feed_Info.url;
+    // < Image DTOs >
+    const img_dto = [];
+    
+    path.map(img_path => {
+      const new_dto = new ImageDTO;
+      new_dto.url = img_path;
+			img_dto.push(new_dto);
+    });
 
-      img_dto.push(temp_img_dto);
-    }
+    // < Generate >
+    const result = await this.post_service.CreatePost(user_pk, post_dto, img_dto);
 
-    const create_feed = await this.post_service.CreatePost(
-      user_pk, 
-      post_dto, 
-      img_dto
-    );
-
-    if(!create_feed){
-      return res.status(403).send({
-        status : 403,
-        success : true,
-        message : "Forbidden"
+    if(!result)
+      return res.status(400).send({
+        status: 400, 
+        success: false, 
+        message: "fail to create"
       });
-    };
+
     return res.status(200).send({
-      status : 200,
-      success : true,
-      message : "success",
-      data : {
-        create_feed
-      }
+      status: 200,
+			success: true,
+			message: "success",
+			data: result
     });
   }
 

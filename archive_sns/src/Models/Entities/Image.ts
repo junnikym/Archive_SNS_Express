@@ -13,7 +13,9 @@ import {
 	TableInheritance
 } from "typeorm";
 import { IsNotEmpty } from "class-validator";
+
 import { Post } from './Post';
+import { Account } from './Account';
 
 /**
  * Entity which is for saving Image
@@ -26,7 +28,18 @@ export class Image {
 	pk: string;
 
 	@IsNotEmpty()
-	@Column({ name: "file_name" })
+	@Column({ name: "uploader", length: 36, nullable: false })
+	uploader_pk: string;
+
+	@ManyToOne((type) => Account, (account) => account.pk, {
+		cascade: true,
+		onDelete: "CASCADE",
+	})
+	@JoinColumn({ name: "uploader" })
+	uploader: Account;
+
+	@IsNotEmpty()
+	@Column({ name: "url" })
 	url: string;
 
 	@CreateDateColumn({ name: "created_at" })
@@ -40,13 +53,30 @@ export class Image {
 /**
  * Image Entity For which will be use post image
  */
-@ChildEntity({ name: "post_image" })
+@ChildEntity()
 export class PostImage extends Image {
+
+	@IsNotEmpty()
+	@Column({ name: "post", length: 36, nullable: false })
+	post_pk: string;
 	
-	@ManyToOne((type) => Post, (Post) => Post.pk, {
-		cascade: true,
-		onDelete: "CASCADE",
-	})
+	@ManyToOne((type) => Post, (Post) => Post.pk, 
+		{
+			cascade: true,
+			onDelete: "CASCADE",
+		}
+	)
 	@JoinColumn({ name: "post" })
 	post: Post;
+}
+
+/**
+ * Image Entity For which will be use profile image
+ */
+@ChildEntity()
+export class ProfileImage extends Image {
+	
+	@Column({ name: "is_current_use", default: true })
+	is_current_use: boolean;
+
 }

@@ -30,6 +30,7 @@
     text-align: center;
     text-decoration: none;
     border-radius: 100%;
+    float: right;
 }
 
 .Search_btn{

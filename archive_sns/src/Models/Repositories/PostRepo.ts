@@ -27,6 +27,7 @@ export class PostRepo extends Repository<Post> {
 		return this.createQueryBuilder("post")
 			.select(ShortInfoSelect)
 			.leftJoinAndSelect("post.writer", "writer")
+			.leftJoinAndSelect("post.image", "image")
 			// .orderBy(order_by, "DESC")
 			.skip(offset)
 			.take(limit)

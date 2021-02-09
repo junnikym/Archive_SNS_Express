@@ -3,10 +3,30 @@ import {
 	EntityRepository, Repository, TransactionManager
 } from "typeorm";
 
-import { Image, PostImage } from '../Entities/Image';
-
-@EntityRepository(Image)
-export class ImageRepo extends Repository<Image> {}
+import { PostImage, ProfileImage } from '../Entities/Image';
 
 @EntityRepository(PostImage)
 export class PostImageRepo extends Repository<PostImage> {}
+
+@EntityRepository(ProfileImage)
+export class ProfileImageRepo extends Repository<ProfileImage> {
+
+	public async SwitchCurrentUse(uploader_pk: string) {
+		
+		await this.createQueryBuilder().update("image")
+				.set({ is_current_use: false })
+				.where("uploader_pk.uploader_pk = :uploader_pk", { uploader_pk })
+				.andWhere("is_current_use = true")
+				.execute();
+
+		
+	}
+
+	public async UploadNewImage(entity: ProfileImage) {
+
+		this.SwitchCurrentUse(entity.uploader_pk);
+		this.save(entity);
+
+	}
+
+}

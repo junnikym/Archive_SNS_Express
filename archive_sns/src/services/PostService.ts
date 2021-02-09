@@ -18,7 +18,7 @@ export class PostService {
 	
 	constructor(
 		@InjectRepository() private post_repo: PostRepo,
-		@InjectRepository() private post_image_repo: PostImageRepo
+		@InjectRepository() private post_img_repo: PostImageRepo
 	) {}
 	
 	/**
@@ -26,35 +26,28 @@ export class PostService {
 	 * 
 	 * @param writer_pk : Writer's PK 
 	 * @param post_dto : Create Post DTO
-	 * @param image_dto_list : Image DTO List which insert into post // or null
+	 * @param img_dto : Image DTO List -> if not upload image : null
 	 */
 	public async CreatePost(
 		writer_pk: string,
-		post_dto: PostDTO,
-		image_dto_list: ImageDTO[] | null
+		post_dto : PostDTO,
+		img_dto  : ImageDTO[]
 	): Promise<Post> 
 	{
-		// Create Post
-
 		const post_ent = post_dto.toEntity();
 		post_ent.writer_pk = writer_pk;
 
-		const new_post = await this.post_repo.save(post_ent);
-		
-		// Create Images
+		const result = await this.post_repo.save(post_ent);
 
-		if(image_dto_list != null) {
+		img_dto.map( async elem => {
+			const new_img = elem.toEntity() as PostImage;
+			new_img.uploader_pk = writer_pk;
+			new_img.post = result;
 
-			image_dto_list.forEach( async (img_dto) => {
-			
-				const img_ent = img_dto.toEntity() as PostImage;
-				img_ent.post = new_post;
+			await this.post_img_repo.save(new_img);
+		});
 
-				await this.post_image_repo.save(img_ent);
-			});
-		}
-
-		return new_post;
+		return result;
 	}
 
 	/**
@@ -120,16 +113,16 @@ export class PostService {
 			post_dto?.updateEntity(target);
 			await this.post_repo.save(target.entity);
 			
-			del_img_list?.forEach( async elem => {
-				await this.post_image_repo.delete({ pk: elem });
-			});
+			// del_img_list?.forEach( async elem => {
+			// 	await this.post_image_repo.delete({ pk: elem });
+			// });
 
-			new_img_dto?.forEach( async elem => {
-				const img_ent = elem.toEntity() as PostImage;
-				img_ent.post = target.entity;
+			// new_img_dto?.forEach( async elem => {
+			// 	const img_ent = elem.toEntity() as PostImage;
+			// 	img_ent.post = target.entity;
 
-				await this.post_image_repo.save(img_ent);
-			});
+			// 	await this.post_image_repo.save(img_ent);
+			// });
 
 			return target.entity;
 		}

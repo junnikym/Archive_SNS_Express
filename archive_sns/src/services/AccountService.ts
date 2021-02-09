@@ -8,14 +8,12 @@ import { AccountDTO } from '../Models/DTOs/AccountDTO';
 
 import { Image } from '../Models/Entities/Image';
 import { ImageDTO } from '../Models/DTOs/ImageDTO';
-import { ImageRepo } from '../Models/Repositories/ImageRepo';
 
 @Service()
 export class AccountService {
 	
 	constructor(
 		@InjectRepository() private account_repo: AccountRepo,
-		@InjectRepository() private image_repo: ImageRepo
 	) { }
 
 	/**
@@ -25,18 +23,9 @@ export class AccountService {
 	 * @param image_dto : Create Image DTO or NULL
 	 */
 	public async CreateAccount(
-		account_dto: AccountDTO,
-		image_dto: ImageDTO | null
+		account_dto: AccountDTO
 	): Promise<Account> 
 	{
-
-		if(image_dto != null) {
-			const profile_img_ent = image_dto.toEntity();
-			const new_img = await this.image_repo.save(profile_img_ent);
-
-			account_dto.profile_image = new_img;
-		}
-
 		const account_ent = account_dto.toEntity();
 
 		return await this.account_repo.save(account_ent);
