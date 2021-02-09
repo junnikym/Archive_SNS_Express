@@ -3,6 +3,7 @@
 // --------------------------------------------------
 
 const GET_POST_LIST = "GET_POST_LIST";
+const SAVE_NEW_POST = "SAVE_NEW_POST";
 
 // < Actions Creators >
 // --------------------------------------------------
@@ -14,10 +15,21 @@ function getPostList(data) {
 	}
 }
 
+function saveNewPost(data) {
+	return {
+		type: SAVE_NEW_POST,
+		data
+	}
+}
+
 // < API Actions >
 // --------------------------------------------------
 
+<<<<<<< HEAD
 function createPost(title, text_content, url) {
+=======
+function createPost(data) {
+>>>>>>> origin/hj
 
     return (dispatch, getState) => {
 		const { account : { AccessToken }} = getState();
@@ -25,16 +37,24 @@ function createPost(title, text_content, url) {
 		fetch("/post/create", {
 			method: "post",
 			headers: {
-				"Content-Type": "application/json",
 				Authorization: `${AccessToken}`
 			},
+<<<<<<< HEAD
 			body: JSON.stringify({
 				title 			: title,
 				text_content	: text_content,
 				url				: url,
 			})
+=======
+			body: data
 		})
-		
+		.then(res => res.json())
+		.then(json => {
+			if(json.data) {
+				dispatch(saveNewPost(json.data));
+			}
+>>>>>>> origin/hj
+		})
 		.catch(err => console.log(err));
     };
     
@@ -43,13 +63,13 @@ function createPost(title, text_content, url) {
 function postList(offset, limit, order_by) {
 
 	return (dispatch, getState) => {
-		// const { account : { AccessToken }} = getState();
+		const { account : { AccessToken }} = getState();
 		
 		fetch("/post/", {
 			method: "post",
 			headers: {
-				"Content-Type": "application/json"
-				// Authorization: `${AccessToken}`
+				"Content-Type": "application/json",
+				Authorization: `${AccessToken}`
 			},
 			body: JSON.stringify({
 				offset 	: offset,
@@ -72,6 +92,8 @@ function postList(offset, limit, order_by) {
 // --------------------------------------------------
 
 const initialState = {
+	new_post_count : 0,
+	post_list : []
 }
 
 // < Reducer >
@@ -79,14 +101,27 @@ const initialState = {
 
 function reducer(state = initialState, action) {
 	switch(action.type) {
+		case SAVE_NEW_POST:
+			return applySaveNewPost(state, action);
+
 		case GET_POST_LIST:
 			return applyGetPostList(state, action);
+		
 		default:
 			return state;
 	}
 }
 
-// < Reducer FunctioPostAct.createPost(title, text, img));
+function applySaveNewPost(state, action) {
+	
+	const { data } = action;
+
+
+	return  {
+		...state,
+		new_post_count : (state.new_post_count+1)
+	}
+}
             
 function applyGetPostList(state, action) {
 

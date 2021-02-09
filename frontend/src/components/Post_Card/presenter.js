@@ -13,17 +13,20 @@ import {
 } from 'react-bootstrap';
 import getComment from '../getComment/presenter';
 
+export const Post_Card_Img = props => (
+    <img src={"/static/" + props.img.url}/>
+)
+
 const Post_Card = props => (
     
     <div className = "Post_Card">
 
         <Card>
-            {/* <Card.Img 
-                variant="top" 
-                img src="/" onError="this.style.display='none'" alt='' 
-                /> */}
                 
             <Card.Body>
+
+                {props.Post_img_loader()}
+
                 <Card.Text>
                     <b> {props.Post_title} </b>
                     <hr/>

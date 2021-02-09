@@ -23,18 +23,9 @@ export class AccountService {
 	 * @param image_dto : Create Image DTO or NULL
 	 */
 	public async CreateAccount(
-		account_dto: AccountDTO,
-		image_dto: ImageDTO | null
+		account_dto: AccountDTO
 	): Promise<Account> 
 	{
-
-		if(image_dto != null) {
-			const profile_img_ent = image_dto.toEntity();
-			// const new_img = await this.image_repo.save(profile_img_ent);
-
-			// account_dto.profile_image = new_img;
-		}
-
 		const account_ent = account_dto.toEntity();
 
 		return await this.account_repo.save(account_ent);

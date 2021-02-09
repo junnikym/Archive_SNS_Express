@@ -24,22 +24,27 @@ const Feed = (props) => (
                     type="text"
                     name="title"
                     placeholder="제목" 
-                    value={props.Post_title}
+                    value={props.post_info.title}
                     onChange={props.text_input_handler} />
             </Form.Group>
 
             <Form.Group controlId="Textarea">
                 <Form.Control  
                     type="text"
-                    name="text"
+                    name="content"
                     placeholder="내용" 
+<<<<<<< HEAD
                     value={props.Post_content}
+=======
+                    value={props.post_info.content}
+>>>>>>> origin/hj
                     onChange={props.text_input_handler} />
             </Form.Group>
 
             <ImageUploader 
-                is_run_submit={props.is_run_submit}
-                submit_handler={props.img_submit_handler}
+                upload = {props.upload}
+                uploader = {props.uploader}
+                post_info = {props.post_info}
             />
 
             <Button 
@@ -57,11 +62,11 @@ const Feed = (props) => (
 Feed.propTypes = {
 	text_input_handler   	: PropTypes.func.isRequired,
     submit_handler		    : PropTypes.func.isRequired,
-    img_submit_handler      : PropTypes.func.isRequired,
+    uploader                : PropTypes.func.isRequired,
     
-    Post_title              : PropTypes.string.isRequired,
-    Post_text               : PropTypes.string.isRequired,
-    is_run_submit           : PropTypes.bool.isRequired
+    post_info               : PropTypes.object.isRequired,
+    upload                  : PropTypes.number.isRequired
+    
 };
 
 export default Feed;

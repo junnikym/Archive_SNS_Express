@@ -10,11 +10,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        createPost: (title, text, img) => {
-            dispatch(PostAct.createPost(title, text, img));
-            
-        },
-
         postList: (offset, limit, order_by) => {
             dispatch(PostAct.postList(offset, limit, order_by));
         }

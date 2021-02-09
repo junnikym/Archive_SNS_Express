@@ -17,7 +17,6 @@ import { CommentLikeControl } from './routes/commentlike';
 import { PostControl } from './routes/Post';
 import { FeedLikeControl } from './routes/feedlike';
 import { ProfileControl } from "./routes/profile";
-import { ImageUpdateControl } from "./routes/upload";
 
 // < Services >
 import { AuthService }                          from "./services/AuthService";
@@ -27,7 +26,6 @@ import { CommentLikeService, PostLikeService }  from "./services/LikeService";
 import { PostService }                          from './services/PostService';
 import { ChatGroupService, PostGroupService }   from './services/GroupService';
 import { ChatService }                          from './services/ChatService';
-import { PostImageService }                     from './services/ImageService';
 
   // ------------------------------------------------ //
  //  T E S T  //  T E S T  //  T E S T  //  T E S T  //
@@ -68,8 +66,6 @@ export class App {
 
       const chat_service: ChatService = Container.get(ChatService);
 
-      const post_image_service: PostImageService = Container.get(PostImageService);
-
       // Controls
       const auth_control = new AuthControl(auth_service, account_service);
       const comment_control = new CommentControl(post_comment_service);
@@ -78,15 +74,14 @@ export class App {
       const feed_like_control = new FeedLikeControl(post_like_service);
       const profile_control = new ProfileControl(account_service);
 
-      const img_upload_control = new ImageUpdateControl(post_image_service);
-
       // routing
       this.app.use('/auth', auth_control.router);
       this.app.use('/comment', comment_control.router);
       this.app.use('/commentlike', comment_like_control.router);
       this.app.use('/post', feed_control.router);
       this.app.use('/feedlike', feed_like_control.router);
-      this.app.use('/upload', img_upload_control.router);
+
+      this.app.use("/static", express.static(__dirname + '/..'));
 
         // ------------------------------------------------ //
        //  T E S T  //  T E S T  //  T E S T  //  T E S T  //

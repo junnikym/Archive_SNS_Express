@@ -3,9 +3,9 @@ import Container from "./container";
 import { actionCreators as PostAct } from "../../redux/modules/Post";
 
 const mapStateToProps = (state, ownProps) => {
-	const { post: { post_list } } = state;
+	const { post: { post_list, new_post_count } } = state;
 
-	return { post_list };
+	return { post_list, new_post_count };
 };
 
 const mapDispatchToProps = (dispatch, props) => {
@@ -17,8 +17,8 @@ const mapDispatchToProps = (dispatch, props) => {
 
         postList: (offset, limit, order_by) => {
             dispatch(PostAct.postList(offset, limit, order_by));
-        }
+        },
     };
 };
 
-export default connect(null, mapDispatchToProps)(Container);
+export default connect(mapStateToProps, mapDispatchToProps)(Container);
