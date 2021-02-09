@@ -60,9 +60,7 @@ export class ProfileControl {
             status : 200,
             success : true,
             message : "success",
-            data : {
-                Get_Account
-            }
+            data : Get_Account
         });
     }
 
@@ -100,9 +98,7 @@ export class ProfileControl {
             status : 200,
             success : true,
             message : "success",
-            data : {
-                Update_Profile_result
-            }
+            data : Update_Profile_result
         });
     }
 

@@ -91,9 +91,7 @@ export class PostControl {
       status : 200,
       success : true,
       message : "success",
-      data : {
-        Get_SinglePost_Result
-      }
+      data :  Get_SinglePost_Result
     });
   }
 
@@ -154,9 +152,7 @@ export class PostControl {
       status : 200,
       success : true,
       message : "success",
-      data : {
-        Get_OwnPost_Result
-      }
+      data : Get_OwnPost_Result
     });
   }
 
@@ -258,9 +254,7 @@ export class PostControl {
       status : 200,
       success : true,
       message : "success",
-      data : {
-        Update_Feed
-      }
+      data : Update_Feed
     });
   }
 

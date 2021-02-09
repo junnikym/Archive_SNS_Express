@@ -83,9 +83,7 @@ export class CommentControl {
             status : 200,
             success : true,
             message : "success",
-            data : {
-                GetPostComment
-            }
+            data : GetPostComment
         });
     }
 
@@ -123,9 +121,7 @@ export class CommentControl {
             status : 201,
             success : true,
             message : "Created",
-            data : {
-                CreateComment
-            }
+            data : CreateComment
         });
     }
 
@@ -163,9 +159,7 @@ export class CommentControl {
             status : 201,
             success : false,
             message : "Created",
-            data : {
-                UpdateComment
-            }
+            data : UpdateComment
         });
     }
 

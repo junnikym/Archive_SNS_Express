@@ -62,9 +62,7 @@ export class CommentLikeControl {
             status : 200,
             success : true,
             message : "success",
-            data : {
-                Count_Like
-            }
+            data : Count_Like
         });  
     }
 
@@ -96,9 +94,7 @@ export class CommentLikeControl {
             status : 200,
             success : true,
             message : "success",
-            data : {
-                Who_Like
-            }
+            data : Who_Like
         });  
     }
 

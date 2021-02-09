@@ -67,9 +67,7 @@ export class FeedLikeControl {
             status : 200,
             success : true,
             message : "success",
-            data : {
-                Count_Like
-            }
+            data : Count_Like
         });  
     }
 
@@ -100,9 +98,7 @@ export class FeedLikeControl {
             status : 200,
             success : true,
             message : "success",
-            data : {
-                Who_Like
-            }
+            data : Who_Like
         });  
     }
 
@@ -133,9 +129,7 @@ export class FeedLikeControl {
             status : 200,
             success : true,
             message : "success",
-            data : {
-                Like_toggle
-            }
+            data : Like_toggle
         });  
     }
 
