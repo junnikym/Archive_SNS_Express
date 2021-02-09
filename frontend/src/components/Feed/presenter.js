@@ -33,11 +33,7 @@ const Feed = (props) => (
                     type="text"
                     name="content"
                     placeholder="내용" 
-<<<<<<< HEAD
-                    value={props.Post_content}
-=======
                     value={props.post_info.content}
->>>>>>> origin/hj
                     onChange={props.text_input_handler} />
             </Form.Group>
 

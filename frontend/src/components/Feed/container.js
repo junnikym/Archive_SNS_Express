@@ -56,14 +56,8 @@ const Container = (props, context) => {
 			upload					= {upload}
 			uploader				= {__uploader__}
 
-<<<<<<< HEAD
-			Post_title				= 	{title}
-			Post_content			= 	{text_content}
-			/>
-=======
 			post_info = {PostInfo}
 		/>
->>>>>>> origin/hj
 	);
 
 }

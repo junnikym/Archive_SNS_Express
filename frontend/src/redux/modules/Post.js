@@ -25,11 +25,7 @@ function saveNewPost(data) {
 // < API Actions >
 // --------------------------------------------------
 
-<<<<<<< HEAD
-function createPost(title, text_content, url) {
-=======
 function createPost(data) {
->>>>>>> origin/hj
 
     return (dispatch, getState) => {
 		const { account : { AccessToken }} = getState();
@@ -37,15 +33,8 @@ function createPost(data) {
 		fetch("/post/create", {
 			method: "post",
 			headers: {
-				Authorization: `${AccessToken}`
+			Authorization: `${AccessToken}`
 			},
-<<<<<<< HEAD
-			body: JSON.stringify({
-				title 			: title,
-				text_content	: text_content,
-				url				: url,
-			})
-=======
 			body: data
 		})
 		.then(res => res.json())
@@ -53,7 +42,6 @@ function createPost(data) {
 			if(json.data) {
 				dispatch(saveNewPost(json.data));
 			}
->>>>>>> origin/hj
 		})
 		.catch(err => console.log(err));
     };

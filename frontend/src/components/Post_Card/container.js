@@ -1,12 +1,8 @@
 import React, { useState, useEffect }  from "react";
 import PropTypes from "prop-types";
-<<<<<<< HEAD
-import Post_Card from "./presenter";
-=======
 
 // import PostList from "./presenter";
 import Post_Card, { Post_Card_Img } from "./presenter";
->>>>>>> origin/hj
 
 const Container = (props, context) => {
 	
@@ -15,13 +11,7 @@ const Container = (props, context) => {
 	});
 
 	useEffect(() => {
-<<<<<<< HEAD
-		if(!props.post_list)
-			props.postList(0, 256, "post.createAt");
-		else {
-=======
 		if(props.post_list.length != 0) {
->>>>>>> origin/hj
 			setState({
 				loading: false,
 			});
@@ -49,17 +39,10 @@ const Container = (props, context) => {
 			return (
 				props.post_list.map(elem => (
 					<Post_Card 
-<<<<<<< HEAD
-						Post_title	 	= {elem.title}
-						Post_img 		= {elem.url}
-						Post_content	= {elem.text_content}
-						Post_date		= {elem.date} 
-=======
 						Post_title 	= {elem.title}
 						Post_img_loader = {() => image_loader(elem)}
 						Post_text	= {elem.text_content}
 						Post_date	= {elem.date} 
->>>>>>> origin/hj
 					/>
 			)));
 		}

@@ -4,14 +4,12 @@ import { BrowserRouter as Router, Route} from 'react-router-dom';
 
 import Like_button from "../Like"  
 import Comment from "../Comment";
-// import getComment from "../getComment";
 
 import { 
     Card,
     Button,
     Form
 } from 'react-bootstrap';
-import getComment from '../getComment/presenter';
 
 export const Post_Card_Img = props => (
     <img src={"/static/" + props.img.url}/>
@@ -25,13 +23,11 @@ const Post_Card = props => (
                 
             <Card.Body>
 
-                {props.Post_img_loader()}
-
                 <Card.Text>
-                    <b> {props.Post_title} </b>
+                    제목 : <b> {props.Post_title} </b>
                     <hr/>
-                        {props.Post_img}
-                        {props.Post_content}
+                    내용 : {props.Post_text} <br/>
+                    이미지 : {props.Post_img_loader()}
                 </Card.Text>
 
                 <Like_button/>
@@ -44,7 +40,7 @@ const Post_Card = props => (
 
             <Card.Footer>
                 
-                {/* <getComment/>  */}
+                <Comment/> 
 
             </Card.Footer>
         </Card>
