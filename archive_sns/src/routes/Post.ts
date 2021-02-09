@@ -117,6 +117,7 @@ export class PostControl {
       status : 200,
       success : true,
       message : "success",
+      data: result
     });
   }
 
