@@ -25,10 +25,10 @@ export class CommentControl {
         this.router = express.Router();
 
         // < routing >
-        this.router.post(
-            "/", 
-            async (req, res) => this.CreateChatGroup(res, req)
-        );
+        // this.router.post(
+        //     "/", 
+        //     async (req, res) => this.CreateChatGroup(res, req)
+        // );
 
         this.router.post(
             "/sendmsg", 
@@ -43,28 +43,33 @@ export class CommentControl {
     }
 
     
-    private async CreateChatGroup(req, res) {
-        const people_pk_list: string[] = req.body.people_pk_list;
+    // private async CreateChatGroup(req, res) {
+    //     const people_pk_list: string[] = req.body.people_pk_list;
 
-        const CreateChatGroup_Result = await this.Chat_service.CreateChatGroup(
-            people_pk_list
-        );
+    //     const CreateChatGroup_Result = await this.Chat_service.CreateChatGroup(
+    //         people_pk_list
+    //     );
 
-        if(!CreateChatGroup_Result){
-            return res.status(403).send({
-                status : 403,
-                success : true,
-                message : "Forbidden"
-            });
-        };
+    //     if(!CreateChatGroup_Result){
+    //         return res.status(403).send({
+    //             status : 403,
+    //             success : true,
+    //             message : "Forbidden"
+    //         });
+    //     };
 
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "success"
-        });
-    }
+    //     return res.status(200).send({
+    //         status : 200,
+    //         success : true,
+    //         message : "success"
+    //     });
+    // }
 
+    /**
+     * SendMsg
+     * @param req 
+     * @param res 
+     */
     private async SendMsg(req, res) {
         const account_pk = req.body.account_pk;
         const group_pk = req.body.group_pk;
@@ -95,6 +100,11 @@ export class CommentControl {
         });
     }
 
+    /**
+     * ExitChatGroup
+     * @param req 
+     * @param res 
+     */
     private async ExitChatGroup(req, res) {
         const account_pk = req.body.account_pk;
         const group_pk = req.body.group_pk;
