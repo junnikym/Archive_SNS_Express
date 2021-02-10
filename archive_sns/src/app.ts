@@ -10,6 +10,8 @@ import { createServer, Server as httpServer } from "http";
 import { WebSocket } from "./web_socket";
 import { CommentRepo } from "./Models/Repositories/CommentRepo";
 
+const passRouter = require('./passport/express-session');
+
 // < Controls >
 import { AuthControl } from './routes/Auth';
 import { CommentControl } from './routes/comment';
@@ -76,6 +78,8 @@ export class App {
       const profile_control = new ProfileControl(account_service);
 
       // routing
+      this.app.use('/passport', passRouter);
+
       this.app.use('/auth', auth_control.router);
       this.app.use('/comment', comment_control.router);
       this.app.use('/commentlike', comment_like_control.router);
