@@ -72,12 +72,11 @@ export class AuthControl {
    */
   
   private login = async function (req, res) {
-    const s_req = sanitizeHtml(req);
 
     // < Login Account DTO Setting >
     // --------------------------------------------------
     const account_dto = new AccountDTO();
-    account_dto.fromJson(s_req.body);
+    account_dto.fromJson(req.body);
 
     // < Validate >
     // --------------------------------------------------
@@ -120,9 +119,8 @@ export class AuthControl {
   
   private registration = async function(req, res) {
     const user_info = req.body;
-    const s_password = sanitizeHtml(req.body.password);
-    const s_pw_confirm = sanitizeHtml(req.body.pw_confirm);
-
+    const s_password: string = sanitizeHtml(req.body.password);
+    const s_pw_confirm: string = sanitizeHtml(req.body.pw_confirm);
 
     // < Wrong Input >
     // --------------------------------------------------
@@ -213,15 +211,13 @@ export class AuthControl {
    */
   
   private delete = async function(req, res) {
-    const s_req = sanitizeHtml(req);
 
+    const s_password: string = sanitizeHtml(req.body.password);
     const pk = res.locals.jwt_payload.pk;
-    const user_Info = s_req.body;
-    const password = user_Info.password;
 
     const Delete_Profile = await this.DeleteProfile.DeleteAccount(
         pk,
-        password
+        s_password
     );
     
     if(!Delete_Profile){
@@ -241,12 +237,12 @@ export class AuthControl {
   }
 
   private short_info = async function(req, res) {
-      const s_req = sanitizeHtml(req);
+      const s_pk = sanitizeHtml(req.body.pk);
 
       let result = undefined;
 
-      if(req.body.pk) {
-        result = await this.account_service.GetAccountByPK(s_req.body.pk);
+      if(s_pk) {
+        result = await this.account_service.GetAccountByPK(s_pk);
       }
 
       if(result == undefined){

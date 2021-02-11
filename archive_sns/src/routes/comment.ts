@@ -59,18 +59,16 @@ export class CommentControl {
      * @param order_by : 
      */
     private async GetPostComment(req, res) {
-        const s_req = sanitizeHtml(req);
-
-        const post_pk = s_req.body.post_pk;
-        const offset = s_req.body.offset;
-        const limit = s_req.body.limit;
-        const order_by = s_req.body.order_by;
+        const s_post_pk = sanitizeHtml(req.body.post_pk);
+        const s_offset = sanitizeHtml(req.body.offset);
+        const s_limit = sanitizeHtml(req.body.limit);
+        const s_order_by = sanitizeHtml(req.body.order_by);
 
         const GetPostComment = await this.post_comment_service.GetPostComment(
-            post_pk,
-            offset,
-            limit,
-            order_by
+            s_post_pk,
+            s_offset,
+            s_limit,
+            s_order_by
         );
 
         if(!GetPostComment){
@@ -97,12 +95,10 @@ export class CommentControl {
      * @param Create_Comment : CommentDTO(content)
      */
     private async CreateComment(req, res) {
-        const s_req = sanitizeHtml(req);
-
-        const comment_Info = s_req.body;
-
-        const post_pk = comment_Info.post_pk;
+        const s_post_pk = sanitizeHtml(req.body.post_pk);
         const user_pk = res.locals.jwt_payload.pk;
+
+        const comment_Info = req.body;
 
         const Create_Comment = new CommentDTO();
         Create_Comment.content = comment_Info.content; 
@@ -117,7 +113,7 @@ export class CommentControl {
 
         const CreateComment = await this.post_comment_service.CreateComment(
             user_pk,
-            post_pk,
+            s_post_pk,
             Create_Comment
         )
 
@@ -145,12 +141,10 @@ export class CommentControl {
      * @param Update_Comment : CommentDTO(content)
      */
     private async UpdateComment(req, res) {
-        const s_req = sanitizeHtml(req);
-
-        const comment_Info = s_req.body;
-
-        const comment_pk = comment_Info.comment_pk
+        const s_comment_pk = sanitizeHtml(req.body.comment_pk);
         const pk = res.locals.jwt_payload.pk;
+
+        const comment_Info = req.body;
 
         const Update_Comment = new CommentDTO();
         Update_Comment.content = comment_Info.content;
@@ -165,7 +159,7 @@ export class CommentControl {
 
         const UpdateComment = await this.post_comment_service.UpdateComment(
             pk,
-            comment_pk,
+            s_comment_pk,
             Update_Comment
         )
         
@@ -192,16 +186,14 @@ export class CommentControl {
      * @param comment_pk : 
      */
     private async DeleteComment(req, res) {
-        const s_req = sanitizeHtml(req);
-
-        const comment_Info = s_req.body;
-
-        const comment_pk = comment_Info.comment_pk
+        const s_comment_pk = sanitizeHtml(req.body.comment_pk);
         const pk = res.locals.jwt_payload.pk;
+
+        const comment_Info = req.body;
 
         const DeleteComment = await this.post_comment_service.DeleteComment(
             pk,
-            comment_pk
+            s_comment_pk
         )
         
         if(!DeleteComment){

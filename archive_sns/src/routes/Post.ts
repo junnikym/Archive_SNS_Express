@@ -74,12 +74,10 @@ export class PostControl {
    * @param post_pk : 
    */
   private async GetSinglePost(req, res) {
-    const s_req = sanitizeHtml(req);
-
-    const post_pk = s_req.params.post_pk;
+    const s_post_pk = sanitizeHtml(req.params.post_pk);
 
     const Get_SinglePost_Result = await this.post_service.GetSinglePost(
-      post_pk
+      s_post_pk
     );
     
     if(!Get_SinglePost_Result){
@@ -103,12 +101,14 @@ export class PostControl {
    * @param 
    */
   private async GetPostList(req, res) {
-    const s_req = sanitizeHtml(req);
+    const s_offset = sanitizeHtml(req.body.offset);
+    const s_limit = sanitizeHtml(req.body.limit);
+    const s_order_by = sanitizeHtml(req.body.order_by);
 
     const GetPostList_Result =  await this.post_service.GetPostList(
-      s_req.body.offset,
-      s_req.body.limit,
-      s_req.body.order_by
+      s_offset,
+      s_limit,
+      s_order_by
     );
 
     if(!GetPostList_Result){
@@ -134,16 +134,14 @@ export class PostControl {
    * @param limit :
    */
   private async GetOwnPost(req, res) {
-    const s_req = sanitizeHtml(req);
-
-    const writer_pk = s_req.params.witer_pk;
-    const offset = s_req.body.offset;
-    const limit = s_req.body.limit;
+    const s_witer_pk = sanitizeHtml(req.params.witer_pk);
+    const s_offset = sanitizeHtml(req.body.offset);
+    const s_limit = sanitizeHtml(req.body.limit);
 
     const Get_OwnPost_Result = await this.post_service.GetOwnPost(
-      writer_pk,
-      offset,
-      limit
+      s_witer_pk,
+      s_offset,
+      s_limit
     );
 
     if(!Get_OwnPost_Result){
@@ -169,9 +167,10 @@ export class PostControl {
    * @param img_dto : ImageDTO(url)
    */
   private async CreatePost(req, res) {
-    const s_req = sanitizeHtml(req);
+    const s_title = sanitizeHtml(req.body.title);
+    const s_content = sanitizeHtml(req.body.content);
 
-    const image_req = s_req.files;
+    const image_req = req.files;
     const path = image_req.map(img => img.path);
     const user_pk = res.locals.jwt_payload.pk;
 
@@ -185,8 +184,8 @@ export class PostControl {
     // < Post DTO >
     const post_dto = new PostDTO();
 
-    post_dto.title        = s_req.body.title;
-    post_dto.text_content = s_req.body.content; 
+    post_dto.title        = s_title;
+    post_dto.text_content = s_content;
 
     // < Image DTOs >
     const img_dto = [];
@@ -225,14 +224,16 @@ export class PostControl {
    * @param null : 
    */
   private async UpdatePost(req, res) { 
-    const s_req = sanitizeHtml(req);
+    const s_title = sanitizeHtml(req.body.title);
+    const s_text_content = sanitizeHtml(req.body.text_content);
 
-    const feed_Info = s_req.body;
+
+    const feed_Info = req.body;
     const user_pk = res.locals.jwt_payload.pk;
 
     const Post_Update_DTO = new PostDTO();
-    Post_Update_DTO.title = feed_Info.title;
-    Post_Update_DTO.text_content = feed_Info.text_content;
+    Post_Update_DTO.title = s_title;
+    Post_Update_DTO.text_content = s_text_content;
 
     let ImgDTO: ImageDTO[];
     
@@ -281,15 +282,13 @@ export class PostControl {
    * @param post_pk :
    */  
   private async DeletePost(req, res) {
-    const s_req = sanitizeHtml(req);
+    const s_post_pk = sanitizeHtml(req.body.post_pk);
 
-    const feed_Info = s_req.body;
-    const post_pk = feed_Info.post_pk;
     const user_pk = res.locals.jwt_payload.pk;
 
     const Delete_Feed = await this.post_service.DeletePost(
       user_pk,
-      post_pk
+      s_post_pk
     );
 
     if(!Delete_Feed){
