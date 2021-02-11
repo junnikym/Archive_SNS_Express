@@ -119,13 +119,14 @@ export class AuthControl {
    */
   
   private registration = async function(req, res) {
-    const s_req = sanitizeHtml(req);
+    const user_info = req.body;
+    const s_password = sanitizeHtml(req.body.password);
+    const s_pw_confirm = sanitizeHtml(req.body.pw_confirm);
 
-    const user_info = s_req.body;
 
     // < Wrong Input >
     // --------------------------------------------------
-    if(user_info.password != user_info.pw_confirm) {
+    if(s_password != s_pw_confirm) {
       return res.status(409).send({
         status : 409,
         success : false,
