@@ -1,8 +1,8 @@
 /**
  * 댓글 관련 라우트 생성,삭제,수정
  */
-
 const express = require('express');
+import sanitizeHtml from 'sanitize-html';
 
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
@@ -59,16 +59,16 @@ export class CommentControl {
      * @param order_by : 
      */
     private async GetPostComment(req, res) {
-        const post_pk = req.body.post_pk;
-        const offset = req.body.offset;
-        const limit = req.body.limit;
-        const order_by = req.body.order_by;
+        const s_post_pk = sanitizeHtml(req.body.post_pk);
+        const s_offset = sanitizeHtml(req.body.offset);
+        const s_limit = sanitizeHtml(req.body.limit);
+        const s_order_by = sanitizeHtml(req.body.order_by);
 
         const GetPostComment = await this.post_comment_service.GetPostComment(
-            post_pk,
-            offset,
-            limit,
-            order_by
+            s_post_pk,
+            s_offset,
+            s_limit,
+            s_order_by
         );
 
         if(!GetPostComment){
@@ -95,17 +95,25 @@ export class CommentControl {
      * @param Create_Comment : CommentDTO(content)
      */
     private async CreateComment(req, res) {
-        const comment_Info = req.body;
-
-        const post_pk = comment_Info.post_pk;
+        const s_post_pk = sanitizeHtml(req.body.post_pk);
         const user_pk = res.locals.jwt_payload.pk;
+
+        const comment_Info = req.body;
 
         const Create_Comment = new CommentDTO();
         Create_Comment.content = comment_Info.content; 
 
+        if(!Create_Comment.content){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "need Comment Content"
+            });
+        }
+
         const CreateComment = await this.post_comment_service.CreateComment(
             user_pk,
-            post_pk,
+            s_post_pk,
             Create_Comment
         )
 
@@ -133,17 +141,25 @@ export class CommentControl {
      * @param Update_Comment : CommentDTO(content)
      */
     private async UpdateComment(req, res) {
-        const comment_Info = req.body;
-
-        const comment_pk = comment_Info.comment_pk
+        const s_comment_pk = sanitizeHtml(req.body.comment_pk);
         const pk = res.locals.jwt_payload.pk;
+
+        const comment_Info = req.body;
 
         const Update_Comment = new CommentDTO();
         Update_Comment.content = comment_Info.content;
 
+        if(!Update_Comment.content){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "need Comment Content"
+            });
+        }
+
         const UpdateComment = await this.post_comment_service.UpdateComment(
             pk,
-            comment_pk,
+            s_comment_pk,
             Update_Comment
         )
         
@@ -170,14 +186,14 @@ export class CommentControl {
      * @param comment_pk : 
      */
     private async DeleteComment(req, res) {
-        const comment_Info = req.body;
-
-        const comment_pk = comment_Info.comment_pk
+        const s_comment_pk = sanitizeHtml(req.body.comment_pk);
         const pk = res.locals.jwt_payload.pk;
+
+        const comment_Info = req.body;
 
         const DeleteComment = await this.post_comment_service.DeleteComment(
             pk,
-            comment_pk
+            s_comment_pk
         )
         
         if(!DeleteComment){

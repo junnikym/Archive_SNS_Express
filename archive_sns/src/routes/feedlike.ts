@@ -2,6 +2,7 @@
  *  게시물 좋아요 관련 라우트
  */
 const express = require('express');
+import sanitizeHtml from 'sanitize-html';
 
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
@@ -49,11 +50,10 @@ export class FeedLikeControl {
      * @param post_pk : target_pk
      */
     private async CountLike(req, res) {
-        const like_Info = req.body;
-        const target_pk = like_Info.post_pk;
+        const s_target_pk = sanitizeHtml(req.body.post_pk);
 
         const Count_Like = await this.post_like_service.CountLike(
-            target_pk
+            s_target_pk
         );
 
         if(!Count_Like){
@@ -78,13 +78,12 @@ export class FeedLikeControl {
      * @param limit : 
      */
     private async WhoLike(req, res) {
-        const like_Info = req.body;
-        const target_pk = like_Info.post_pk;
-        const limit = like_Info.limit;
+        const s_target_pk = sanitizeHtml(req.body.post_pk);
+        const s_limit = sanitizeHtml(req.body.limit);
 
         const Who_Like = await this.post_like_service.WhoLike(
-            target_pk,
-            limit
+            s_target_pk,
+            s_limit
         );
         
         if(!Who_Like){
@@ -109,13 +108,12 @@ export class FeedLikeControl {
      * @param post_pk : target_pk
      */
     private async IsLike(req, res) {
-        const liketoggle_Info = req.body;
-        const target_pk = liketoggle_Info.post_pk;
+        const s_target_pk = sanitizeHtml(req.body.post_pk);
         const user_pk = res.locals.jwt_payload.user_pk;
 
         const Like_toggle = await this.post_like_service.IsLike(
             user_pk,
-            target_pk
+            s_target_pk
         );
 
         if(!Like_toggle){
@@ -140,13 +138,12 @@ export class FeedLikeControl {
      * @param Feed_pk : giver
      */
     private async ToggleLike(req, res) {
-        const like_Info = req.body;
+        const s_giver = sanitizeHtml(req.body.Feed_pk);
         const user_pk = res.locals.jwt_payload.pk;
-        const giver = like_Info.Feed_pk;
 
         const PostLike = await this.post_like_service.ToggleLike(
             user_pk,
-            giver
+            s_giver
         );
 
         if(!PostLike){

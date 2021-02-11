@@ -2,6 +2,7 @@
  *  게시물 좋아요 관련 라우트
  */
 const express = require('express');
+import sanitizeHtml from 'sanitize-html';
 
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
@@ -43,11 +44,10 @@ export class CommentLikeControl {
      * @param comment_pk : target_pk
      */
     private async CountLike(req, res) {
-        const like_Info = req.body;
-        const target_pk = like_Info.comment_pk;
+        const s_target_pk = sanitizeHtml(req.body.comment_pk);
 
         const Count_Like = await this.comment_like_service.CountLike(
-            target_pk
+            s_target_pk
         );
 
         if(!Count_Like){
@@ -73,13 +73,12 @@ export class CommentLikeControl {
      * @param limit : 
      */
     private async WhoLike(req, res) {
-        const like_Info = req.body;
-        const target_pk = like_Info.comment_pk;
-        const limit = like_Info.limit;
+        const s_target_pk = sanitizeHtml(req.body.comment_pk);
+        const s_limit = sanitizeHtml(req.body.limit);
 
         const Who_Like = await this.comment_like_service.WhoLike(
-            target_pk,
-            limit
+            s_target_pk,
+            s_limit
         );
         
         if(!Who_Like){
@@ -105,14 +104,12 @@ export class CommentLikeControl {
      * @param comment_pk : 
      */
     private async ToggleLike(req, res) {
-        const like_Info = req.body;
-
-        const comment_pk = like_Info.comment_pk;
+        const s_comment_pk = sanitizeHtml(req.body.comment_pk);
         const user_pk = res.locals.jwt_payload.pk;
 
         const CommentLike = await this.comment_like_service.ToggleLike(
             user_pk,
-            comment_pk
+            s_comment_pk
         );
 
         if(!CommentLike){

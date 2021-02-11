@@ -1,8 +1,8 @@
 /**
  *  friend 관련 라우트
  */
-
 const express = require('express');
+import sanitizeHtml from 'sanitize-html';
 
 // JWT middleware
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
@@ -78,12 +78,19 @@ export class FriendControl {
  * @param res 
  */
 private async AddFriend(req, res) {
-    const account_pk = res.locals.jwt_payload.pk;
-    const friend_pk = req.body.friend_pk;
-    
+    const s_friend_pk = sanitizeHtml(req.body.friend_pk);
+
     const Friend_DTO = new FriendDTO();
-    Friend_DTO.account_pk = account_pk;
-    Friend_DTO.friend_pk = friend_pk;
+    Friend_DTO.account_pk = res.locals.jwt_payload.pk;
+    Friend_DTO.friend_pk = s_friend_pk;
+
+    if(!Friend_DTO.account_pk || !Friend_DTO.friend_pk){
+        return res.status(400).send({
+            status : 400,
+            success : false,
+            message : "no pk"
+        })
+    }
 
     const AddFriend_Result = await this.FriendService.AddFriend(
         Friend_DTO
@@ -111,10 +118,10 @@ private async AddFriend(req, res) {
  * @param res 
  */
 private async GetFriendList(req, res) {
-    const account_pk = req.params.account_pk;
+    const s_account_pk = sanitizeHtml(req.params.account_pk);
     
     const GetFriendList_Result = await this.FriendService.GetFriendList(
-        account_pk
+        s_account_pk
     );
 
     if(!GetFriendList_Result){
@@ -139,10 +146,10 @@ private async GetFriendList(req, res) {
  * @param res 
  */
 private async GetSendList(req, res) {
-    const account_pk = req.params.account_pk;
+    const s_account_pk = sanitizeHtml(req.params.account_pk);
 
     const GetSendList_Result = await this.FriendService.GetSendList(
-        account_pk
+        s_account_pk
     );
 
     if(!GetSendList_Result){
@@ -167,10 +174,10 @@ private async GetSendList(req, res) {
  * @param res 
  */
 private async GetReceiveList(req, res) {
-    const account_pk = req.params.account_pk;
+    const s_account_pk = sanitizeHtml(req.params.account_pk);
 
     const GetReceiveList_Result = await this.FriendService.GetReceiveList(
-        account_pk
+        s_account_pk
     );
 
     if(!GetReceiveList_Result){
@@ -195,12 +202,12 @@ private async GetReceiveList(req, res) {
  * @param res 
  */
 private async AcceptFriend(req, res) {
-    const account_pk = req.params.account_pk;
-    const request_pk = req.body.request_pk;
+    const s_account_pk = sanitizeHtml(req.params.account_pk);
+    const s_request_pk = sanitizeHtml(req.body.request_pk);
 
     const AcceptFriend_Result = await this.FriendService.AcceptFriend(
-        account_pk,
-        request_pk
+        s_account_pk,
+        s_request_pk
     );
 
     if(!AcceptFriend_Result){
@@ -225,12 +232,12 @@ private async AcceptFriend(req, res) {
  * @param res 
  */
 private async RejectFriend(req, res) {
-    const account_pk = req.params.account_pk;
-    const request_pk = req.body.request_pk;
+    const s_account_pk = sanitizeHtml(req.params.account_pk);
+    const s_request_pk = sanitizeHtml(req.body.request_pk);
 
     const RejectFriend_Result = await this.FriendService.RejectFriend(
-        account_pk,
-        request_pk
+        s_account_pk,
+        s_request_pk
     );
 
     if(!RejectFriend_Result){
@@ -255,12 +262,12 @@ private async RejectFriend(req, res) {
  * @param res 
  */
 private async DeleteFriend(req, res) {
-    const account_pk = req.params.account_pk;
-    const request_pk = req.body.request_pk;
+    const s_account_pk = sanitizeHtml(req.params.account_pk);
+    const s_request_pk = sanitizeHtml(req.body.request_pk);
 
     const DeleteFriend_Result = await this.FriendService.DeleteFriend(
-        account_pk,
-        request_pk
+        s_account_pk,
+        s_request_pk
     );
 
     if(!DeleteFriend_Result){

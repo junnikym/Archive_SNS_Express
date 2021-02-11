@@ -2,6 +2,7 @@
  * 프로필 관련 라우트
  */
 const express = require('express');
+import sanitizeHtml from 'sanitize-html';
 
 import { 
     RefreshTokenGenerator,
@@ -43,10 +44,17 @@ export class ProfileControl {
      * @param pk
      */
     private async GetAccountByPk (req, res) {
+<<<<<<< HEAD
         const user_pk = req.params.pk;
 
         const Get_Account = await this.account_service.GetAccountByPK(
             user_pk
+=======
+        const s_user_Email = sanitizeHtml(req.body.email);
+
+        const Get_Account = await this.account_service.GetAccountByPK(
+            s_user_Email
+>>>>>>> 18dc4e19d9017e3d3811e2f9c0c72ae9808dd1c6
         );
 
         if(!Get_Account){
@@ -72,18 +80,23 @@ export class ProfileControl {
      * AccountDTO(email, password, name, profile_image, status_msg)
      */
     private async UpdateAccount(req, res) {
-        const user_Info = req.body;
-        const account_pk = user_Info.account_pk;
+        const s_email = sanitizeHtml(req.body.email);
+        const s_password = sanitizeHtml(req.body.password);
+        const s_name = sanitizeHtml(req.body.name);
+        const s_profile_image = sanitizeHtml(req.body.profile_image);
+        const s_status_msg = sanitizeHtml(req.body.status_msg);
+
+        const s_account_pk = sanitizeHtml(req.body.account_pk);
 
         const Update_Profile = new AccountDTO();
-        Update_Profile.email = user_Info.email;
-        Update_Profile.password = user_Info.password;
-        Update_Profile.name = user_Info.name;
-        Update_Profile.profile_image = user_Info.profile_image;
-        Update_Profile.status_msg = user_Info.status_msg;
+        Update_Profile.email = s_email;
+        Update_Profile.password = s_password;
+        Update_Profile.name = s_name;
+        Update_Profile.profile_image = s_profile_image;
+        Update_Profile.status_msg = s_status_msg;
 
         const Update_Profile_result = await this.account_service.UpdateAccount(
-            account_pk,
+            s_account_pk,
             Update_Profile
         );
 
