@@ -46,3 +46,25 @@ export class ChatMsg {
 	@CreateDateColumn({ name: "created_at" })
 	createdAt: Date;
 }
+
+@Entity({ name: "chat_notify" })
+export class ChatNotify {
+
+	@PrimaryGeneratedColumn("uuid")
+	pk: string;
+
+	@Column({ name: "listener_pk", length: 36 })
+	listener_pk: string;
+
+	@ManyToOne( (type) => Account, (Account) => Account.pk )
+	@JoinColumn({ name: "listener" })
+	listener: Account;
+
+	@Column({ name: "chat", length: 36 })
+	chat_pk: string;
+
+	@ManyToOne( (type) => ChatMsg, (chat_msg) => chat_msg.pk )
+	@JoinColumn({ name: "chat" })
+	chat: ChatMsg;
+
+}

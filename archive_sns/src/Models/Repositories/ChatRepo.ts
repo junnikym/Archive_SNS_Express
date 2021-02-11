@@ -1,5 +1,5 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { ChatMsg } from '../Entities/Chat';
+import { ChatMsg, ChatNotify } from '../Entities/Chat';
 
 @EntityRepository(ChatMsg)
 export class ChatMsgRepo extends Repository<ChatMsg> {
@@ -16,6 +16,37 @@ export class ChatMsgRepo extends Repository<ChatMsg> {
 				.skip(offset)
 				.take(limit)
 				.getMany();
+	}
+
+}
+
+@EntityRepository(ChatNotify)
+export class ChatNotifyRepo extends Repository<ChatNotify> {
+	
+	public async GetChatNotify (
+		account_pk: string
+	) {
+		return this.createQueryBuilder("chat_notify")
+				.leftJoinAndSelect("chat_notify.chat", "chat")
+				.where("chat_notify.listener_pk = :account_pk", {account_pk})
+				.orderBy("chat.createdAt", "DESC")
+				.getMany();
+	}
+
+	public async CheckChatNotify(
+		account_pk: string,
+		notify_pk: string
+	) {
+		const target_notify = await this.createQueryBuilder("chat_notify")
+				.leftJoinAndSelect("chat_notify.chat", "chat")
+				.where("chat_notify.pk = :notify_pk", {notify_pk})
+				.getOne();
+
+		return await this.createQueryBuilder("chat_notify").delete()
+				// .leftJoinAndSelect("chat_notify.chat", "chat")
+				.where("chat_notify.listener_pk = :account_pk", {account_pk})
+				.where("chat_notify.chat.group_pk = :group_pk", {group_pk: target_notify.chat.group_pk})
+				.execute();
 	}
 
 }
