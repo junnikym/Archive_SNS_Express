@@ -1,5 +1,7 @@
 import bodyParser from "body-parser";
 import express, { Request, Response } from "express";
+import helmet from 'helmet'
+const passportRouter = require('./passport/passport');
 
 import { appendFile } from "fs";
 import { db_conn } from "./db_connection";
@@ -9,8 +11,6 @@ import Container from "typedi";
 import { createServer, Server as httpServer } from "http";
 import { WebSocket } from "./web_socket";
 import { CommentRepo } from "./Models/Repositories/CommentRepo";
-
-const passportRouter = require('./passport/passport');
 
 // < Controls >
 import { AuthControl } from './routes/Auth';
@@ -77,8 +77,11 @@ export class App {
       const feed_like_control = new FeedLikeControl(post_like_service);
       const profile_control = new ProfileControl(account_service);
 
+      // security
+      this.app.use(helmet());
+
       // routing
-      this.app.use('/passport', passportRouter);
+      this.app.use('/auth', passportRouter);
 
       this.app.use('/auth', auth_control.router);
       this.app.use('/comment', comment_control.router);
@@ -224,12 +227,16 @@ export class App {
       this.server = createServer(this.app);
       WebSocket(this.server);
 
+      
+
       this.server.listen(port, () => {
         console.log('Conneted ', port, ' port');
       });
+
     }
     catch (error) {
       console.log("error : ", error);
     }
   }
+
 }

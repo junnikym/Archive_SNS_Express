@@ -24,7 +24,7 @@ export class PostControl {
   private post_service : PostService;
 
   constructor(
-    post_service : PostService,
+    post_service : PostService
   ) {
 
     this.post_service = post_service;
