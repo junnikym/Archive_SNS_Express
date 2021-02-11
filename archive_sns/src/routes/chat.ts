@@ -48,6 +48,14 @@ export class CommentControl {
         const ChatMsg_DTO = new ChatMsgDTO();
         ChatMsg_DTO.content = req.body.content;
 
+        if(!ChatMsg_DTO.content){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "need Chat content"
+            })
+        }
+
         const SendMsg_Result = await this.Chat_service.SendMsg(
             account_pk,
             group_pk,

@@ -78,12 +78,18 @@ export class FriendControl {
  * @param res 
  */
 private async AddFriend(req, res) {
-    const account_pk = res.locals.jwt_payload.pk;
-    const friend_pk = req.body.friend_pk;
     
     const Friend_DTO = new FriendDTO();
-    Friend_DTO.account_pk = account_pk;
-    Friend_DTO.friend_pk = friend_pk;
+    Friend_DTO.account_pk = res.locals.jwt_payload.pk;
+    Friend_DTO.friend_pk = req.body.friend_pk;
+
+    if(!Friend_DTO.account_pk || !Friend_DTO.friend_pk){
+        return res.status(400).send({
+            status : 400,
+            success : false,
+            message : "no pk"
+        })
+    }
 
     const AddFriend_Result = await this.FriendService.AddFriend(
         Friend_DTO

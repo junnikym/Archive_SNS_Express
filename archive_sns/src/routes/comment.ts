@@ -103,6 +103,14 @@ export class CommentControl {
         const Create_Comment = new CommentDTO();
         Create_Comment.content = comment_Info.content; 
 
+        if(!Create_Comment.content){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "need Comment Content"
+            });
+        }
+
         const CreateComment = await this.post_comment_service.CreateComment(
             user_pk,
             post_pk,
@@ -140,6 +148,14 @@ export class CommentControl {
 
         const Update_Comment = new CommentDTO();
         Update_Comment.content = comment_Info.content;
+
+        if(!Update_Comment.content){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "need Comment Content"
+            });
+        }
 
         const UpdateComment = await this.post_comment_service.UpdateComment(
             pk,

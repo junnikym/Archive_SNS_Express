@@ -233,6 +233,14 @@ export class PostControl {
       ImgDTO.push(temp_img_dto);
     }
 
+    if(!ImgDTO){
+      return res.status(400).send({
+        status : 400,
+        success : true,
+        message : "image error",
+      })
+    }
+
     const Update_Feed = await this.post_service.UpdatePost(
       user_pk,
       feed_Info.post_pk,

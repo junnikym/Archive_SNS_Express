@@ -50,6 +50,14 @@ export class GroupControl {
         const Group_DTO = new GroupDTO();
         Group_DTO.title = req.body.title;
 
+        if(!Group_DTO.title){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "no group title"
+            });
+        };
+
         const member_pk_list: string[] = req.body.member_pk_list;
 
         const CreateGroup_Result = await this.PostGroup_Service.CreateGroup(
