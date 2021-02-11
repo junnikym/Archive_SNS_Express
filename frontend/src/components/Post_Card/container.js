@@ -25,14 +25,6 @@ const Container = (props, context) => {
 
 	const {loading} = state;
 
-<<<<<<< HEAD
-	const image_loader = (elem) => {
-		return (
-			elem.image.map(elem => (
-				<Post_Card_Img img = {elem} />
-			))
-		);
-=======
 	const image_loader = (props) => {
 		const result = [];
 
@@ -49,7 +41,6 @@ const Container = (props, context) => {
 		});
 
 		return result;
->>>>>>> f8e33d8a007a2b273d29e83e2228e3bfaf9993b5
 	}
 
 	const render = () => {

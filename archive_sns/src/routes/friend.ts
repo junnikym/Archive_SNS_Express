@@ -101,13 +101,7 @@ private async AddFriend(req, res) {
         status : 200,
         success : true,
         message : "success",
-<<<<<<< HEAD
-        data : {
-            AddFriend_Result
-        }
-=======
         data : AddFriend_Result
->>>>>>> 4bdea4fa241b279ca5f0c8ee8d62585b3289be09
     });
 }
 
