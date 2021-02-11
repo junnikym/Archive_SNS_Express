@@ -46,8 +46,7 @@ export class CommentLikeControl {
     private async CountLike(req, res) {
         const s_req = sanitizeHtml(req);
 
-        const like_Info = s_req.body;
-        const target_pk = like_Info.comment_pk;
+        const target_pk = s_req.body.comment_pk;
 
         const Count_Like = await this.comment_like_service.CountLike(
             target_pk
