@@ -2,6 +2,7 @@
  *  게시물 좋아요 관련 라우트
  */
 const express = require('express');
+import sanitizeHtml from 'sanitize-html';
 
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
@@ -43,7 +44,9 @@ export class CommentLikeControl {
      * @param comment_pk : target_pk
      */
     private async CountLike(req, res) {
-        const like_Info = req.body;
+        const s_req = sanitizeHtml(req);
+
+        const like_Info = s_req.body;
         const target_pk = like_Info.comment_pk;
 
         const Count_Like = await this.comment_like_service.CountLike(
@@ -73,7 +76,9 @@ export class CommentLikeControl {
      * @param limit : 
      */
     private async WhoLike(req, res) {
-        const like_Info = req.body;
+        const s_req = sanitizeHtml(req);
+
+        const like_Info = s_req.body;
         const target_pk = like_Info.comment_pk;
         const limit = like_Info.limit;
 
@@ -105,7 +110,9 @@ export class CommentLikeControl {
      * @param comment_pk : 
      */
     private async ToggleLike(req, res) {
-        const like_Info = req.body;
+        const s_req = sanitizeHtml(req);
+
+        const like_Info = s_req.body;
 
         const comment_pk = like_Info.comment_pk;
         const user_pk = res.locals.jwt_payload.pk;

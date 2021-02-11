@@ -1,8 +1,8 @@
 /**
  * 댓글 관련 라우트 생성,삭제,수정
  */
-
 const express = require('express');
+import sanitizeHtml from 'sanitize-html';
 
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
@@ -59,10 +59,12 @@ export class CommentControl {
      * @param order_by : 
      */
     private async GetPostComment(req, res) {
-        const post_pk = req.body.post_pk;
-        const offset = req.body.offset;
-        const limit = req.body.limit;
-        const order_by = req.body.order_by;
+        const s_req = sanitizeHtml(req);
+
+        const post_pk = s_req.body.post_pk;
+        const offset = s_req.body.offset;
+        const limit = s_req.body.limit;
+        const order_by = s_req.body.order_by;
 
         const GetPostComment = await this.post_comment_service.GetPostComment(
             post_pk,
@@ -95,7 +97,9 @@ export class CommentControl {
      * @param Create_Comment : CommentDTO(content)
      */
     private async CreateComment(req, res) {
-        const comment_Info = req.body;
+        const s_req = sanitizeHtml(req);
+
+        const comment_Info = s_req.body;
 
         const post_pk = comment_Info.post_pk;
         const user_pk = res.locals.jwt_payload.pk;
@@ -141,7 +145,9 @@ export class CommentControl {
      * @param Update_Comment : CommentDTO(content)
      */
     private async UpdateComment(req, res) {
-        const comment_Info = req.body;
+        const s_req = sanitizeHtml(req);
+
+        const comment_Info = s_req.body;
 
         const comment_pk = comment_Info.comment_pk
         const pk = res.locals.jwt_payload.pk;
@@ -186,7 +192,9 @@ export class CommentControl {
      * @param comment_pk : 
      */
     private async DeleteComment(req, res) {
-        const comment_Info = req.body;
+        const s_req = sanitizeHtml(req);
+
+        const comment_Info = s_req.body;
 
         const comment_pk = comment_Info.comment_pk
         const pk = res.locals.jwt_payload.pk;

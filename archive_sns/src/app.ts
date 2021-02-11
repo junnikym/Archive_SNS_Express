@@ -1,6 +1,10 @@
 import bodyParser from "body-parser";
 import express, { Request, Response } from "express";
+
+// security
 import helmet from 'helmet'
+import sanitizeHtml from 'sanitize-html';
+
 const passportRouter = require('./passport/passport');
 
 import { appendFile } from "fs";

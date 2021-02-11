@@ -3,6 +3,7 @@ const express = require('express');
 /**
  * Authentification Service / DTO
  */
+import sanitizeHtml from 'sanitize-html';
 
 import { 
   RefreshTokenGenerator,
@@ -71,11 +72,12 @@ export class AuthControl {
    */
   
   private login = async function (req, res) {
+    const s_req = sanitizeHtml(req);
 
     // < Login Account DTO Setting >
     // --------------------------------------------------
     const account_dto = new AccountDTO();
-    account_dto.fromJson(req.body);
+    account_dto.fromJson(s_req.body);
 
     // < Validate >
     // --------------------------------------------------
@@ -117,8 +119,9 @@ export class AuthControl {
    */
   
   private registration = async function(req, res) {
-      
-    const user_info = req.body;
+    const s_req = sanitizeHtml(req);
+
+    const user_info = s_req.body;
 
     // < Wrong Input >
     // --------------------------------------------------
@@ -209,9 +212,10 @@ export class AuthControl {
    */
   
   private delete = async function(req, res) {
-    
+    const s_req = sanitizeHtml(req);
+
     const pk = res.locals.jwt_payload.pk;
-    const user_Info = req.body;
+    const user_Info = s_req.body;
     const password = user_Info.password;
 
     const Delete_Profile = await this.DeleteProfile.DeleteAccount(
@@ -236,11 +240,12 @@ export class AuthControl {
   }
 
   private short_info = async function(req, res) {
+      const s_req = sanitizeHtml(req);
 
       let result = undefined;
 
       if(req.body.pk) {
-        result = await this.account_service.GetAccountByPK(req.body.pk);
+        result = await this.account_service.GetAccountByPK(s_req.body.pk);
       }
 
       if(result == undefined){

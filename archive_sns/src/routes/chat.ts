@@ -1,8 +1,8 @@
 /**
  * 채팅 관련 라우트
  */
-
 const express = require('express');
+import sanitizeHtml from 'sanitize-html';
 
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
@@ -42,11 +42,13 @@ export class CommentControl {
      * @param res 
      */
     private async SendMsg(req, res) {
-        const account_pk = req.body.account_pk;
-        const group_pk = req.body.group_pk;
+        const s_req = sanitizeHtml(req);
+
+        const account_pk = s_req.body.account_pk;
+        const group_pk = s_req.body.group_pk;
 
         const ChatMsg_DTO = new ChatMsgDTO();
-        ChatMsg_DTO.content = req.body.content;
+        ChatMsg_DTO.content = s_req.body.content;
 
         if(!ChatMsg_DTO.content){
             return res.status(400).send({
@@ -83,8 +85,10 @@ export class CommentControl {
      * @param res 
      */
     private async ExitChatGroup(req, res) {
-        const account_pk = req.body.account_pk;
-        const group_pk = req.body.group_pk;
+        const s_req = sanitizeHtml(req);
+
+        const account_pk = s_req.body.account_pk;
+        const group_pk = s_req.body.group_pk;
 
         const ExitChatGroup_Result = await this.Chat_service.ExitChatGroup(
             account_pk,

@@ -3,6 +3,7 @@
  */
 
 const express = require('express');
+import sanitizeHtml from 'sanitize-html';
 
 // JWT middleware
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
@@ -73,7 +74,9 @@ export class PostControl {
    * @param post_pk : 
    */
   private async GetSinglePost(req, res) {
-    const post_pk = req.params.post_pk;
+    const s_req = sanitizeHtml(req);
+
+    const post_pk = s_req.params.post_pk;
 
     const Get_SinglePost_Result = await this.post_service.GetSinglePost(
       post_pk
@@ -100,11 +103,12 @@ export class PostControl {
    * @param 
    */
   private async GetPostList(req, res) {
+    const s_req = sanitizeHtml(req);
 
     const GetPostList_Result =  await this.post_service.GetPostList(
-      req.body.offset,
-      req.body.limit,
-      req.body.order_by
+      s_req.body.offset,
+      s_req.body.limit,
+      s_req.body.order_by
     );
 
     if(!GetPostList_Result){
@@ -130,9 +134,11 @@ export class PostControl {
    * @param limit :
    */
   private async GetOwnPost(req, res) {
-    const writer_pk = req.params.witer_pk;
-    const offset = req.body.offset;
-    const limit = req.body.limit;
+    const s_req = sanitizeHtml(req);
+
+    const writer_pk = s_req.params.witer_pk;
+    const offset = s_req.body.offset;
+    const limit = s_req.body.limit;
 
     const Get_OwnPost_Result = await this.post_service.GetOwnPost(
       writer_pk,
@@ -163,7 +169,9 @@ export class PostControl {
    * @param img_dto : ImageDTO(url)
    */
   private async CreatePost(req, res) {
-    const image_req = req.files;
+    const s_req = sanitizeHtml(req);
+
+    const image_req = s_req.files;
     const path = image_req.map(img => img.path);
     const user_pk = res.locals.jwt_payload.pk;
 
@@ -177,8 +185,8 @@ export class PostControl {
     // < Post DTO >
     const post_dto = new PostDTO();
 
-    post_dto.title        = req.body.title;
-    post_dto.text_content = req.body.content; 
+    post_dto.title        = s_req.body.title;
+    post_dto.text_content = s_req.body.content; 
 
     // < Image DTOs >
     const img_dto = [];
@@ -217,7 +225,9 @@ export class PostControl {
    * @param null : 
    */
   private async UpdatePost(req, res) { 
-    const feed_Info = req.body;
+    const s_req = sanitizeHtml(req);
+
+    const feed_Info = s_req.body;
     const user_pk = res.locals.jwt_payload.pk;
 
     const Post_Update_DTO = new PostDTO();
@@ -271,7 +281,9 @@ export class PostControl {
    * @param post_pk :
    */  
   private async DeletePost(req, res) {
-    const feed_Info = req.body;
+    const s_req = sanitizeHtml(req);
+
+    const feed_Info = s_req.body;
     const post_pk = feed_Info.post_pk;
     const user_pk = res.locals.jwt_payload.pk;
 

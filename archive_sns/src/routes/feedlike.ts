@@ -2,6 +2,7 @@
  *  게시물 좋아요 관련 라우트
  */
 const express = require('express');
+import sanitizeHtml from 'sanitize-html';
 
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
@@ -49,7 +50,9 @@ export class FeedLikeControl {
      * @param post_pk : target_pk
      */
     private async CountLike(req, res) {
-        const like_Info = req.body;
+        const s_req = sanitizeHtml(req);
+
+        const like_Info = s_req.body;
         const target_pk = like_Info.post_pk;
 
         const Count_Like = await this.post_like_service.CountLike(
@@ -78,7 +81,9 @@ export class FeedLikeControl {
      * @param limit : 
      */
     private async WhoLike(req, res) {
-        const like_Info = req.body;
+        const s_req = sanitizeHtml(req);
+
+        const like_Info = s_req.body;
         const target_pk = like_Info.post_pk;
         const limit = like_Info.limit;
 
@@ -109,7 +114,9 @@ export class FeedLikeControl {
      * @param post_pk : target_pk
      */
     private async IsLike(req, res) {
-        const liketoggle_Info = req.body;
+        const s_req = sanitizeHtml(req);
+
+        const liketoggle_Info = s_req.body;
         const target_pk = liketoggle_Info.post_pk;
         const user_pk = res.locals.jwt_payload.user_pk;
 
@@ -140,7 +147,9 @@ export class FeedLikeControl {
      * @param Feed_pk : giver
      */
     private async ToggleLike(req, res) {
-        const like_Info = req.body;
+        const s_req = sanitizeHtml(req);
+
+        const like_Info = s_req.body;
         const user_pk = res.locals.jwt_payload.pk;
         const giver = like_Info.Feed_pk;
 

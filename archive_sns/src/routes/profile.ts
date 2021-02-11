@@ -2,6 +2,7 @@
  * 프로필 관련 라우트
  */
 const express = require('express');
+import sanitizeHtml from 'sanitize-html';
 
 import { 
     RefreshTokenGenerator,
@@ -43,7 +44,9 @@ export class ProfileControl {
      * @param email : user_Email
      */
     private async GetAccountByPk (req, res) {
-        const user_Info = req.body;
+        const s_req = sanitizeHtml(req);
+
+        const user_Info = s_req.body;
         const user_Email = user_Info.email;
 
         const Get_Account = await this.account_service.GetAccountByPK(
@@ -73,7 +76,9 @@ export class ProfileControl {
      * AccountDTO(email, password, name, profile_image, status_msg)
      */
     private async UpdateAccount(req, res) {
-        const user_Info = req.body;
+        const s_req = sanitizeHtml(req);
+
+        const user_Info = s_req.body;
         const account_pk = user_Info.account_pk;
 
         const Update_Profile = new AccountDTO();
