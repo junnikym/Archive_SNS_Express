@@ -11,8 +11,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        CommentList: (post_pk, offset, limit, order_by) => {
-            dispatch(commentAct.CommentList(post_pk, offset, 0, order_by));
+        commentList: (post_pk, offset, limit, order_by) => {
+            dispatch(commentAct.commentList(post_pk, offset, limit, order_by));
         }
     };
 };

@@ -25,13 +25,13 @@ export class CommentControl {
         this.router = express.Router();
 
         // < routing >
-        this.router.get(
+        this.router.post(
             "/", 
             async (req, res) => this.GetPostComment(res, req)
         );
 
         this.router.post(
-            '/',
+            '/commentCreate',
             VerifyAccessToken,
             async (req, res) => this.CreateComment(req, res)
         );

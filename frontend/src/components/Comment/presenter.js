@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import { BrowserRouter as Router, Route} from 'react-router-dom';
 
-import getComment from "../getComment";
+import Get_comment from "../Get_comment";
 
 const Comment = props => (
     
-    <article>
+    <div className = "Comment">
 
-        <getComment/>
+        <br/>
+
+        <Get_comment/>
         
         <form
             className = "comment"
@@ -28,9 +29,7 @@ const Comment = props => (
                 />
         </form>
 
-    </article>
-
-    
+    </div>
 
 );
 

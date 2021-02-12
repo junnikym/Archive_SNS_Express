@@ -44,17 +44,10 @@ export class ProfileControl {
      * @param pk
      */
     private async GetAccountByPk (req, res) {
-<<<<<<< HEAD
-        const user_pk = req.params.pk;
-
-        const Get_Account = await this.account_service.GetAccountByPK(
-            user_pk
-=======
         const s_user_Email = sanitizeHtml(req.body.email);
 
         const Get_Account = await this.account_service.GetAccountByPK(
             s_user_Email
->>>>>>> 18dc4e19d9017e3d3811e2f9c0c72ae9808dd1c6
         );
 
         if(!Get_Account){

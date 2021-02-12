@@ -3,6 +3,7 @@
 // --------------------------------------------------
 
 const GET_COMMENT_LIST = "GET_COMMENT_LIST";
+const SAVE_NEW_COMMENT = "SAVE_NEW_COMMENT";
 
 // < Actions Creators >
 // --------------------------------------------------
@@ -10,6 +11,13 @@ const GET_COMMENT_LIST = "GET_COMMENT_LIST";
 function getCommentList(data) {
 	return {
 		type: GET_COMMENT_LIST,
+		data
+	}
+}
+
+function saveNewComment(data) {
+	return {
+		type: SAVE_NEW_COMMENT,
 		data
 	}
 }
@@ -23,7 +31,7 @@ function createComment(comment) {
     return (dispatch, getState) => {
 		const { account : { AccessToken }} = getState();
 		
-		fetch("/comment/", {
+		fetch("/comment/commentCreate", {
 			method: "post",
 			headers: {
 				"Content-Type": "application/json",
@@ -33,7 +41,13 @@ function createComment(comment) {
 				content     : comment
 			})
 		})
-		
+		.then(res => res.json())
+		.then(json => {
+			console.log(json.data)
+			if (json.data) {
+				dispatch(saveNewComment(json.data));
+			}
+		})
 		.catch(err => console.log(err));
     };
     
@@ -42,13 +56,13 @@ function createComment(comment) {
 function commentList(post_pk, offset, limit, order_by) {
 
 	return (dispatch, getState) => {
-		// const { account : { AccessToken }} = getState();
+		const { account : { AccessToken }} = getState();
 		
 		fetch("/comment/", {
-			method: "get",
+			method: "post",
 			headers: {
-				"Content-Type": "application/json"
-				// Authorization: `${AccessToken}`
+				"Content-Type": "application/json",
+				Authorization: `${AccessToken}`
 			},
 			body: JSON.stringify({
                 post_pk : post_pk,
@@ -72,6 +86,7 @@ function commentList(post_pk, offset, limit, order_by) {
 // --------------------------------------------------
 
 const initialState = {
+	comment_list : []
 }
 
 // < Reducer >
@@ -79,6 +94,9 @@ const initialState = {
 
 function reducer(state = initialState, action) {
 	switch(action.type) {
+		case SAVE_NEW_COMMENT:
+			return applySaveNewComment(state, action);
+
 		case GET_COMMENT_LIST:
 			return applyGetCommentList(state, action);
 		default:
@@ -86,7 +104,14 @@ function reducer(state = initialState, action) {
 	}
 }
 
-// < Reducer FunctioPostAct.createPost(title, text, img));
+function applySaveNewComment(state, action) {
+	
+	const {data} = action;
+
+	return {
+		...state
+	}
+}
             
 function applyGetCommentList(state, action) {
 

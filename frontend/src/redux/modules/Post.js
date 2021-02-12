@@ -105,7 +105,6 @@ function applySaveNewPost(state, action) {
 	
 	const { data } = action;
 
-
 	return  {
 		...state,
 		new_post_count : (state.new_post_count+1)

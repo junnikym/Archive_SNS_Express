@@ -1,7 +1,6 @@
 import React, { useState, useEffect }  from "react";
 import PropTypes from "prop-types";
 
-// import PostList from "./presenter";
 import Post_Card, { Post_Card_Img, Post_Card_Img_Mini, Post_Card_Img_Mini_Desc } from "./presenter";
 
 const N_MINI_IMG = 3;
@@ -61,7 +60,6 @@ const Container = (props, context) => {
 			)));
 		}
 	}
-
 	return (
 		<div>
 			{render()}
@@ -70,8 +68,8 @@ const Container = (props, context) => {
 }
 
 Container.propTypes = {
-	postList : PropTypes.func.isRequired,
-	post_list: PropTypes.array.isRequired
+	postList 			: PropTypes.func.isRequired,
+	post_list			: PropTypes.array.isRequired
 };
 
 export default Container;

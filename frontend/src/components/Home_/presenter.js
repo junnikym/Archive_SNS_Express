@@ -7,7 +7,6 @@ import Feed from "../Feed";
 import Post_Card from "../Post_Card";       
 // import User_list from "../User_list";
 
-
 const Home_ = (props, contet) => (
     
         <Router>   
@@ -20,7 +19,6 @@ const Home_ = (props, contet) => (
           <Feed/>
 
           {/* Post 보기 */}
-          {/* <Post/> */}
           <Post_Card/>
 
         </Router>
