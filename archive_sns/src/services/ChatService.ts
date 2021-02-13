@@ -17,7 +17,6 @@ export class ChatService {
 
 	constructor(
 		@InjectRepository() private chat_group_repo: ChatGroupRepo,
-		@InjectRepository() private account_repo: AccountRepo,
 		@InjectRepository() private chat_msg_repo: ChatMsgRepo,
 		@InjectRepository() private chat_notify_repo: ChatNotifyRepo
 	) {}
@@ -33,12 +32,13 @@ export class ChatService {
 		new_chat_msg.group_pk = group_pk;
 
 		const result = await this.chat_msg_repo.save(new_chat_msg);
-		const group = await this.chat_group_repo.getParticipant(result.group_pk);
+		const recivers = await this.chat_group_repo.getRecivers(account_pk, result.group_pk);
 
 		const notify = [];
-		group.participant.map( async elem => {
-			await this.chat_notify_repo.InsertChatNotify(elem.pk, result.pk);
-		});
+		recivers.map( elem => 
+			notify.push(new ChatNotify(elem, result.pk)) );
+
+		await this.chat_notify_repo.save(notify);
 
 		return result;
 	}
@@ -56,7 +56,7 @@ export class ChatService {
 		return await this.chat_group_repo.save(target_group);
 	}
 
-	public async GetChatList(
+	public async GetChatContents(
 		group_pk: string,
 		offset: number, 
 		limit: number,

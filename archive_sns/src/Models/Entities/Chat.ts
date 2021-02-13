@@ -50,6 +50,11 @@ export class ChatMsg {
 @Entity({ name: "chat_notify" })
 export class ChatNotify {
 
+	constructor(listener_pk: string, chat_pk: string) {
+		this.listener_pk = listener_pk;
+		this.chat_pk	 = chat_pk;
+	}
+
 	@PrimaryGeneratedColumn("uuid")
 	pk: string;
 

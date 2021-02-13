@@ -14,13 +14,13 @@ export class ChatControl {
 
     public router;
 
-    private Chat_service : ChatService;
+    private chat_service : ChatService;
 
     constructor(
-        Chat_service : ChatService
+        chat_service : ChatService
     ) {
 
-        this.Chat_service = Chat_service;
+        this.chat_service = chat_service;
 
         this.router = express.Router();
 
@@ -31,8 +31,10 @@ export class ChatControl {
         );
 
         this.router.get(
-            ":/group"
-        )
+            "/:group_pk",
+            VerifyAccessToken,
+            this.GetChatContents
+        );
 
         this.router.delete(
             "/exit", 
@@ -48,7 +50,6 @@ export class ChatControl {
      * @param res 
      */
     private SendMsg = async (res, req) => {
-        console.log("jwt : ", res.locals);
 
         const account_pk = res.locals.jwt_payload.pk;
         const group_pk = req.body.group_pk;
@@ -56,7 +57,7 @@ export class ChatControl {
         const ChatMsg_DTO = new ChatMsgDTO();
         ChatMsg_DTO.content = req.body.content;
 
-        const SendMsg_Result = await this.Chat_service.SendMsg(
+        const SendMsg_Result = await this.chat_service.SendMsg(
             account_pk,
             group_pk,
             ChatMsg_DTO
@@ -78,6 +79,30 @@ export class ChatControl {
         });
     }
 
+    private GetChatContents = async (req, res) => {
+
+        const account_pk = res.locals.jwt_payload.pk;
+        const group_pk = req.params.group_pk;
+
+        const result = await this.chat_service.GetChatContents(group_pk, 0, 10);
+        
+        if(!result){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
+            });
+        };
+
+        return res.status(200).send({
+            status : 200,
+            success : true,
+            message : "success",
+            data : result
+        });
+
+    }
+
     /**
      * ExitChatGroup
      * @param req 
@@ -87,7 +112,7 @@ export class ChatControl {
         const account_pk = req.body.account_pk;
         const group_pk = req.body.group_pk;
 
-        const ExitChatGroup_Result = await this.Chat_service.ExitChatGroup(
+        const ExitChatGroup_Result = await this.chat_service.ExitChatGroup(
             account_pk,
             group_pk
         );

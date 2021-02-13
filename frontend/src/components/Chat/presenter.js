@@ -7,15 +7,29 @@ import {
     Button
 } from 'react-bootstrap';
 
-const Chat = (props, contet) => (
+export const ChatRecivedText = (props, content) => (
+    <div>
+        <p> {props.chat.writer.name} </p>
+        {props.chat.content}
+    </div>
+);
+
+export const ChatMyText = (props, content) => (
+    <div>
+        {props.chat.content}
+    </div>
+);
+
+const Chat = (props, content) => (
 
     <div id = "chat">
 
-    <div className = "chat_load"> 채팅 영역
+        <div className = "chat_load">
+            {props.contents}
+        </div>    
 
-        <div className = "chat_input_box">
-        
         <Form
+            className="chat_input_box"
             onSubmit={props.sendMessage}
             method="post" >
 
@@ -43,9 +57,7 @@ const Chat = (props, contet) => (
             </Button>
 
         </Form>
-        </div>
 
-    </div>
     </div>
 )
 

@@ -22,14 +22,6 @@ export class ChatMsgRepo extends Repository<ChatMsg> {
 
 @EntityRepository(ChatNotify)
 export class ChatNotifyRepo extends Repository<ChatNotify> {
-
-	public async InsertChatNotify( listener_pk: string, chat_pk: string) {
-		const notify = new ChatNotify;
-		notify.listener_pk = listener_pk;
-		notify.chat_pk = chat_pk;
-
-		return this.save(notify);
-	}
 	
 	public async GetChatNotify (
 		account_pk: string

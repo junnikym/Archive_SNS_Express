@@ -8,6 +8,7 @@ const ADD_CHAT_CONTENTS = "ADD_CHAT_CONTENTS";
 // --------------------------------------------------
 
 function AddMessage(data) {
+	
 	return {
 		type: ADD_CHAT_CONTENTS,
 		data
@@ -35,7 +36,7 @@ function sandChatMessage(group_pk, content) {
 		})
 		.then(res => {
 			if(res.status == 200)
-				res.json()
+				return res.json()
 
 			// @TODO : false -> work what
 		})
@@ -44,31 +45,28 @@ function sandChatMessage(group_pk, content) {
 	};
 }
 
-// function getChatContents(group_pk) {
-// 	return (dispatch, getState) => {
+function getChatContents(group_pk) {
+	return (dispatch, getState) => {
 		
-// 		const { account : { AccessToken }} = getState();
+		const { account : { AccessToken }} = getState();
 
-// 		fetch("/chat/login", {
-// 			method: "POST",
-// 			headers: {
-// 				"Content-Type": "application/json",
-// 				Authorization: `${AccessToken}`
-// 			},
-// 			body: JSON.stringify({
-// 				group_pk: group_pk
-// 			})
-// 		})
-// 		.then(res => {
-// 			if(res.status == 200)
-// 				res.json()
+		fetch("/chat/"+group_pk, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `${AccessToken}`
+			}
+		})
+		.then(res => {
+			if(res.status == 200)
+				return res.json()
 
-// 			// @TODO : false -> work what
-// 		})
-// 		.then(json => dispatch(AddMessage(json.data)) )
-// 		.catch(err => console.log(err));
-// 	};
-// }
+			// @TODO : false -> work what
+		})
+		.then(json => dispatch(AddMessage(json.data)) )
+		.catch(err => console.log(err));
+	};
+}
 
 // < Initial State >
 // --------------------------------------------------
@@ -96,10 +94,7 @@ function reducer(state = initialState, action) {
 function applyNewChatContents(state, action) {
 	return {
 		...state,
-		current_chat_contents : [
-			...state.current_chat_contents,
-			action.data
-		]
+		current_chat_contents : state.current_chat_contents.concat(action.data)
 	};
 }
 
@@ -117,7 +112,8 @@ function applyNewChatContents(state, action) {
 // --------------------------------------------------
 
 const actionCreators = {
-	sandChatMessage
+	sandChatMessage,
+	getChatContents
 };
 
 export { actionCreators };
