@@ -26,19 +26,28 @@ export class ChatService {
 		account_pk: string,
 		group_pk: string,
 		chat_msg_dto: ChatMsgDTO
-	) : Promise<ChatMsg> {
+	) : Promise<ChatMsg> 
+	{
 		const new_chat_msg = await chat_msg_dto.toEntity();
 		new_chat_msg.writer_pk = account_pk;
 		new_chat_msg.group_pk = group_pk;
 
-		return await this.chat_msg_repo.save(new_chat_msg);
+		const result = await this.chat_msg_repo.save(new_chat_msg);
+		const group = await this.chat_group_repo.getParticipant(result.group_pk);
+
+		const notify = [];
+		group.participant.map( async elem => {
+			await this.chat_notify_repo.InsertChatNotify(elem.pk, result.pk);
+		});
+
+		return result;
 	}
 
 	public async ExitChatGroup(
 		account_pk: string,
 		group_pk: string,
-	) : Promise<ChatGroup> {
-
+	) : Promise<ChatGroup> 
+	{
 		const target_group = await this.chat_group_repo.findOne({ where: {pk: group_pk} });
 		target_group.participant = target_group.participant.filter( elem => {
 			elem.pk !== account_pk

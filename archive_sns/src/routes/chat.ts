@@ -10,7 +10,7 @@ import { ChatMsgDTO } from '../Models/DTOs/ChatDTO';
 
 import { ChatService } from '../services/ChatService';
 
-export class CommentControl {
+export class ChatControl {
 
     public router;
 
@@ -26,11 +26,17 @@ export class CommentControl {
 
         this.router.post(
             "/sendmsg", 
+            VerifyAccessToken,
             async (req, res) => this.SendMsg(res, req)
         );
 
+        this.router.get(
+            ":/group"
+        )
+
         this.router.delete(
             "/exit", 
+            VerifyAccessToken, 
             async (req, res) => this.ExitChatGroup(res, req)
         );
 
@@ -41,8 +47,10 @@ export class CommentControl {
      * @param req 
      * @param res 
      */
-    private async SendMsg(req, res) {
-        const account_pk = req.body.account_pk;
+    private SendMsg = async (res, req) => {
+        console.log("jwt : ", res.locals);
+
+        const account_pk = res.locals.jwt_payload.pk;
         const group_pk = req.body.group_pk;
 
         const ChatMsg_DTO = new ChatMsgDTO();
@@ -65,7 +73,8 @@ export class CommentControl {
         return res.status(200).send({
             status : 200,
             success : true,
-            message : "success"
+            message : "success",
+            data: SendMsg_Result
         });
     }
 

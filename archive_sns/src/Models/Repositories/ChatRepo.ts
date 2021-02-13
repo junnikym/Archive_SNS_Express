@@ -1,5 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { ChatMsg, ChatNotify } from '../Entities/Chat';
+import { ChatGroup } from '../Entities/Group';
 
 @EntityRepository(ChatMsg)
 export class ChatMsgRepo extends Repository<ChatMsg> {
@@ -17,11 +18,18 @@ export class ChatMsgRepo extends Repository<ChatMsg> {
 				.take(limit)
 				.getMany();
 	}
-
 }
 
 @EntityRepository(ChatNotify)
 export class ChatNotifyRepo extends Repository<ChatNotify> {
+
+	public async InsertChatNotify( listener_pk: string, chat_pk: string) {
+		const notify = new ChatNotify;
+		notify.listener_pk = listener_pk;
+		notify.chat_pk = chat_pk;
+
+		return this.save(notify);
+	}
 	
 	public async GetChatNotify (
 		account_pk: string
