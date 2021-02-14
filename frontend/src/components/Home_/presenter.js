@@ -17,13 +17,13 @@ const Home_ = (props, contet) => (
           </Switch> */}
           
           {/* Post 쓰기 */}
-          {/* <Feed/> */}
+          <Feed/>
 
           {/* Post 보기 */}
-          {/* <Post/> */}
-          {/* <Post_Card/> */}
+          
+          <Post_Card/>
 
-          <Chat/>
+          {/* <Chat/> */}
 
         </Router>
 

@@ -48,17 +48,20 @@ const Container = (props, context) => {
 		}
 		else {
 			console.log(props.post_list);
-
+			
 			return (
-				props.post_list.map(elem => (
-					<Post_Card 
-						Post_pk		= {elem.pk}
-						Post_title 	= {elem.title}
-						Post_img_loader = {() => image_loader(elem)}
-						Post_text	= {elem.text_content}
-						Post_date	= {elem.date} 
-					/>
-			)));
+				<div className = "Post_Card">
+					{ props.post_list.map(elem => 
+						<Post_Card 
+							Post_pk		= {elem.pk}
+							Post_title 	= {elem.title}
+							Post_img_loader = {() => image_loader(elem)}
+							Post_text	= {elem.text_content}
+							Post_date	= {elem.date} 
+						/>
+					)}
+				</div>
+			)
 		}
 	}
 	return (

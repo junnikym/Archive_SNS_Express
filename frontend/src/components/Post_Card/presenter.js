@@ -24,9 +24,9 @@ export const Post_Card_Img_Mini_Desc = props => (
 
 const Post_Card = props => (
     
-    <div className = "Post_Card">
+    
 
-        <Card>
+          <Card>
                 
             <Card.Body>
 
@@ -53,8 +53,6 @@ const Post_Card = props => (
 
             </Card.Footer>
         </Card>
-    
-    </div>
 
 );
 
