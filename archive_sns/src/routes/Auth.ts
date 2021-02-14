@@ -122,6 +122,8 @@ export class AuthControl {
     const s_password: string = sanitizeHtml(req.body.password);
     const s_pw_confirm: string = sanitizeHtml(req.body.pw_confirm);
 
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaa");
+
     // < Wrong Input >
     // --------------------------------------------------
     if(s_password != s_pw_confirm) {

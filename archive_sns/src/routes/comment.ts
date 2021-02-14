@@ -13,7 +13,6 @@ import { PostCommentService } from '../services/CommentService';
 export class CommentControl {
 
     public router;
-
     private post_comment_service : PostCommentService;
 
     constructor(
@@ -26,13 +25,18 @@ export class CommentControl {
 
         // < routing >
         this.router.get(
+            "/test", 
+            async (req, res) => this.TestComment(req, res)
+        );
+
+        this.router.get(
             "/", 
-            async (req, res) => this.GetPostComment(res, req)
+            async (req, res) => this.GetPostComment(req, res)
         );
 
         this.router.post(
-            '/',
-            VerifyAccessToken,
+            '/create',
+            VerifyAccessToken, 
             async (req, res) => this.CreateComment(req, res)
         );
 
@@ -49,6 +53,31 @@ export class CommentControl {
         );
 
     }
+
+    /**
+     * TEST
+     * @param req 
+     * @param res 
+     */
+    private TestComment(req, res) {
+        const form = `
+        <form action='/comment/create' method='post'>
+            <p>
+                <textarea name="user_pk"></textarea>
+            </p>
+            </p>
+                <textarea name="content"></textarea>
+            </p>
+            <p>
+                <input type="submit">
+            </p>
+        </form>
+        `;
+
+        return res.send(form);
+    }
+
+
 
     /**
      * GetPostComment
@@ -90,13 +119,20 @@ export class CommentControl {
     /**
      * CreateComment
      * 
-     * @param user_pk : jwt tokken
-     * @param post_pk : 
-     * @param Create_Comment : CommentDTO(content)
      */
     private async CreateComment(req, res) {
-        const s_post_pk = sanitizeHtml(req.body.post_pk);
+        // const s_post_pk = sanitizeHtml(req.body.post_pk);
+        // const s_user_pk = sanitizeHtml(req.body.user_pk);
+
+        // const data = s_post_pk + s_user_pk;
+
+        // console.log(data);
+        // console.log('123');
+
+        // return res.send(data)
         const user_pk = res.locals.jwt_payload.pk;
+        const s_post_pk = sanitizeHtml(req.body.post_pk);
+
 
         const comment_Info = req.body;
 
@@ -188,8 +224,6 @@ export class CommentControl {
     private async DeleteComment(req, res) {
         const s_comment_pk = sanitizeHtml(req.body.comment_pk);
         const pk = res.locals.jwt_payload.pk;
-
-        const comment_Info = req.body;
 
         const DeleteComment = await this.post_comment_service.DeleteComment(
             pk,
