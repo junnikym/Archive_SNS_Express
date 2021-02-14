@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { propTypes } from "react-bootstrap/esm/Image";
 
 import Comment from "./presenter";
 
@@ -9,7 +8,7 @@ const Container = (props, context) => {
         comment     : '',
     });
 
-    const { comment } = commentInfo
+    const { comment } = commentInfo;
 
     const comment_input_handler = event => {
         const { value, name } = event.target;
@@ -17,27 +16,23 @@ const Container = (props, context) => {
             ...commentInfo,
             [name]: value
         });
-    }
+    };
 
     const submit_handler = event => {
         event.preventDefault();
-        props.createComment(comment);
-
-        console.log(comment);
-    }
+        console.log(props.post_pk);
+        props.createComment(props.post_pk, comment);
+    };
 
     return (
         <Comment
             comment_input_handler       = {comment_input_handler}
             submit_handler              = {submit_handler}
 
-            comment                     = {comment}
-
             commentInfo                 = {commentInfo}
 
         />
     );
 }
-
 
 export default Container;

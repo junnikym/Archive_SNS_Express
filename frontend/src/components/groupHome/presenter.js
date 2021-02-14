@@ -2,31 +2,35 @@ import React from 'react';
 import PropTypes from "prop-types";
 
 const groupHome = (props, content) => (
-    <div>
-
+    <div className = "groupHome">
         <br/>
-        
         <h1> Group Page </h1>
 
-        <input
-            type = "button"
-            name = "그룹찾기"
-            value = "그룹찾기"
-        />
+        <form>
+            <input
+                type = "button"
+                name = "groupFind"
+                value = "Find"
+            />
 
-        <input
-            type = "button"
-            name = "그룹가입하기"
-            value = "그룹가입하기"
-        />
+            &nbsp;
 
-        <input
-            type = "button"
-            name = "가입한 그룹"
-            value = "가입한 그룹"
-        />
+            <input
+                type = "button"
+                name = "groupInvite"
+                value = "Invite"
+            />
 
+            &nbsp;
+            
+            <input
+                type = "button"
+                name = "groupCreate"
+                value = "Create"
+            />
+        </form>
     </div>
+    
 );
 
 export default groupHome;

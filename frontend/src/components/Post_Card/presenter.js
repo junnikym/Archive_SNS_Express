@@ -49,7 +49,7 @@ const Post_Card = props => (
 
             <Card.Footer>
                 
-                <Comment/> 
+                <Comment post_pk={props.Post_pk}/> 
 
             </Card.Footer>
         </Card>

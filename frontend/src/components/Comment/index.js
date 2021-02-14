@@ -3,15 +3,15 @@ import Container from "./container";
 import { actionCreators as commentAct } from "../../redux/modules/comment";
 
 const mapStateToProps = (state, ownProps) => {
-	const { comment: { comment_list } } = state;
+	const {  comment: { comment_list, new_comment_count } } = state;
 
-	return { comment_list };
+	return { comment_list, new_comment_count };
 };
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        createComment: (comment) => {
-            dispatch(commentAct.createComment(comment));
+        createComment: (post_pk, comment) => {
+            dispatch(commentAct.createComment(post_pk, comment));
         },
 
         commentList: (post_pk, offset, limit, order_by) => {

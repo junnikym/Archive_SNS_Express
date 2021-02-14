@@ -10,27 +10,35 @@ import { ChatMsgDTO } from '../Models/DTOs/ChatDTO';
 
 import { ChatService } from '../services/ChatService';
 
-export class CommentControl {
+export class ChatControl {
 
     public router;
 
-    private Chat_service : ChatService;
+    private chat_service : ChatService;
 
     constructor(
-        Chat_service : ChatService
+        chat_service : ChatService
     ) {
 
-        this.Chat_service = Chat_service;
+        this.chat_service = chat_service;
 
         this.router = express.Router();
 
         this.router.post(
             "/sendmsg", 
+            VerifyAccessToken,
             async (req, res) => this.SendMsg(res, req)
+        );
+
+        this.router.get(
+            "/:group_pk",
+            VerifyAccessToken,
+            this.GetChatContents
         );
 
         this.router.delete(
             "/exit", 
+            VerifyAccessToken, 
             async (req, res) => this.ExitChatGroup(res, req)
         );
 
@@ -41,13 +49,13 @@ export class CommentControl {
      * @param req 
      * @param res 
      */
-    private async SendMsg(req, res) {
-        const s_account_pk = sanitizeHtml(req.body.account_pk);
-        const s_group_pk = sanitizeHtml(req.body.group_pk);
-        const s_content: string = sanitizeHtml(req.body.content);
+    private SendMsg = async (res, req) => {
+
+        const account_pk = res.locals.jwt_payload.pk;
+        const group_pk = req.body.group_pk;
 
         const ChatMsg_DTO = new ChatMsgDTO();
-        ChatMsg_DTO.content = s_content;
+        ChatMsg_DTO.content = req.body.content;
 
         if(!ChatMsg_DTO.content){
             return res.status(400).send({
@@ -57,9 +65,9 @@ export class CommentControl {
             })
         }
 
-        const SendMsg_Result = await this.Chat_service.SendMsg(
-            s_account_pk,
-            s_group_pk,
+        const SendMsg_Result = await this.chat_service.SendMsg(
+            account_pk,
+            group_pk,
             ChatMsg_DTO
         );
 
@@ -74,8 +82,33 @@ export class CommentControl {
         return res.status(200).send({
             status : 200,
             success : true,
-            message : "success"
+            message : "success",
+            data: SendMsg_Result
         });
+    }
+
+    private GetChatContents = async (req, res) => {
+
+        const account_pk = res.locals.jwt_payload.pk;
+        const group_pk = req.params.group_pk;
+
+        const result = await this.chat_service.GetChatContents(group_pk, 0, 10);
+        
+        if(!result){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
+            });
+        };
+
+        return res.status(200).send({
+            status : 200,
+            success : true,
+            message : "success",
+            data : result
+        });
+
     }
 
     /**
@@ -87,7 +120,7 @@ export class CommentControl {
         const s_account_pk = sanitizeHtml(req.body.account_pk);
         const s_group_pk = sanitizeHtml(req.body.group_pk);
 
-        const ExitChatGroup_Result = await this.Chat_service.ExitChatGroup(
+        const ExitChatGroup_Result = await this.chat_service.ExitChatGroup(
             s_account_pk,
             s_group_pk
         );

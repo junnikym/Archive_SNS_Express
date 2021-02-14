@@ -25,13 +25,13 @@ export class CommentControl {
         this.router = express.Router();
 
         // < routing >
-        this.router.post(
+        this.router.get(
             "/", 
             async (req, res) => this.GetPostComment(res, req)
         );
 
         this.router.post(
-            '/commentCreate',
+            '/',
             VerifyAccessToken,
             async (req, res) => this.CreateComment(req, res)
         );
@@ -96,9 +96,12 @@ export class CommentControl {
      */
     private async CreateComment(req, res) {
         const s_post_pk = sanitizeHtml(req.body.post_pk);
+
         const user_pk = res.locals.jwt_payload.pk;
 
         const comment_Info = req.body;
+
+        console.log(comment_Info);
 
         const Create_Comment = new CommentDTO();
         Create_Comment.content = comment_Info.content; 

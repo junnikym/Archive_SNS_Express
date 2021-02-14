@@ -26,24 +26,24 @@ function saveNewComment(data) {
 // --------------------------------------------------
 
 
-function createComment(comment) {
+function createComment(post_pk, data) {
 
     return (dispatch, getState) => {
 		const { account : { AccessToken }} = getState();
 		
-		fetch("/comment/commentCreate", {
-			method: "post",
+		fetch("/comment", {
+			method: "POST",
 			headers: {
-				"Content-Type": "application/json",
+				'Accept' : 'application/json',
 				Authorization: `${AccessToken}`
 			},
 			body: JSON.stringify({
-				content     : comment
+				"content" 	: data,
+				"post_pk"	: post_pk
 			})
 		})
-		.then(res => res.json())
+		.then(response => response.json())
 		.then(json => {
-			console.log(json.data)
 			if (json.data) {
 				dispatch(saveNewComment(json.data));
 			}
@@ -59,7 +59,7 @@ function commentList(post_pk, offset, limit, order_by) {
 		const { account : { AccessToken }} = getState();
 		
 		fetch("/comment/", {
-			method: "post",
+			method: "get",
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `${AccessToken}`
@@ -86,6 +86,7 @@ function commentList(post_pk, offset, limit, order_by) {
 // --------------------------------------------------
 
 const initialState = {
+	new_comment_count : 0,
 	comment_list : []
 }
 
@@ -105,11 +106,11 @@ function reducer(state = initialState, action) {
 }
 
 function applySaveNewComment(state, action) {
-	
-	const {data} = action;
+	const { data } =action;
 
 	return {
-		...state
+		...state,
+		new_comment_count : (state.new_comment_count +1)
 	}
 }
             

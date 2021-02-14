@@ -36,8 +36,6 @@ const Comment = props => (
 Comment.propTypes = {
     comment_input_handler   : PropTypes.func.isRequired,
     submit_handler		    : PropTypes.func.isRequired,
-    
-    comment                 : PropTypes.string.isRequired,
 };
 
 export default Comment;

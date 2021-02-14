@@ -1,9 +1,16 @@
-import React from "react";
-import __groupHome__ from "./presenter";
+import React, {useState} from "react";
+import groupHome from "./presenter";
 
 const Container = (props, content) => {
+
+    const [groupInfo, setGroupInfo] = useState({
+        title       : '',
+    });
+
+    const { group } = groupInfo;
+
     return (
-        <__groupHome__/>
+        <groupHome/>
     );
 }
 

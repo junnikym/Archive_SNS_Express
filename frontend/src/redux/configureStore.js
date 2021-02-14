@@ -5,9 +5,8 @@ import { createBrowserHistory } from "history";
 import  { composeWithDevTools } from "redux-devtools-extension";
 import account from "./modules/account";
 import post from './modules/Post';
-import profile from './modules/Profile';
-import Like from './modules/Like';
-import comment from './modules/comment';
+import profile from './modules/Profile'
+import chat from './modules/Chat'
 
 const env = process.env.NODE_ENV;
 
@@ -24,8 +23,7 @@ const reducer = combineReducers({
   account,
   post,
   profile,
-  Like,
-  comment,
+  chat,
   router : connectRouter(history),
 });
 

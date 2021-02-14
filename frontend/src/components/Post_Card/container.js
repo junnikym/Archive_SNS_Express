@@ -52,6 +52,7 @@ const Container = (props, context) => {
 			return (
 				props.post_list.map(elem => (
 					<Post_Card 
+						Post_pk		= {elem.pk}
 						Post_title 	= {elem.title}
 						Post_img_loader = {() => image_loader(elem)}
 						Post_text	= {elem.text_content}

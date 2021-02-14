@@ -16,7 +16,7 @@ const Container = (props, context) => {
 			});
 		}
 		else {
-			props.commentList("post.createAt", 0, 5, "comment.createAt");	
+			props.commentList(0, 0, 5, "comment.createAt");	
 		}
 	}, [props.comment_list]);
 

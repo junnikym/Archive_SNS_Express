@@ -4,13 +4,21 @@ import Container from "./container";
 import { actionCreators as groupAct } from "../../redux/modules/group";
 
 const mapStateToProps = (state, props) => {
+    const{ group: {  } } = state;
+
+    return {  };
     
 };
 
 const mapDispatchToProps = (dispatch, props) =>{
     return {
-
+        groupCreate: (title, member_pk_list) => {
+            dispatch(groupAct.createGroup(title, member_pk_list));
+        },
+        groupInvite: (group_pk, member_pk_list) => {
+            dispatch(groupAct.groupInvite(group_pk, member_pk_list));
+        }
     };
 };
 
-export default connect(null, null)(Container);
+export default connect(mapStateToProps, mapDispatchToProps)(Container);
