@@ -1,14 +1,10 @@
 import React from 'react';
-import PropTypes from "prop-types";
-import { BrowserRouter as Router, Route} from 'react-router-dom';
 
 import Like_button from "../Like"  
 import Comment from "../Comment";
 
 import { 
     Card,
-    Button,
-    Form
 } from 'react-bootstrap';
 
 export const Post_Card_Img = props => (
@@ -34,13 +30,13 @@ const Post_Card = props => (
                 
             <Card.Body>
 
-                {props.Post_img_loader()}
-
                 <Card.Text>
-                    <b> {props.Post_title} </b>
+                    제목 : <b> {props.Post_title} </b>
                     <hr/>
-                        {props.Post_img}
-                        {props.Post_text}
+                    내용 : {props.Post_text} 
+                    <br/>
+                    <br/>
+                    {props.Post_img_loader()}
                 </Card.Text>
 
                 <Like_button/>
@@ -52,16 +48,9 @@ const Post_Card = props => (
             </Card.Body>
 
             <Card.Footer>
-                <Form.Group controlId="Textarea">
-                    <Comment/>
-                </Form.Group>
+                
+                <Comment/> 
 
-                <Button 
-                    className = "button_right"
-                    variant = "primary"
-                    type = "submit" > 
-                        <span>게시하기</span>
-                </Button>
             </Card.Footer>
         </Card>
     

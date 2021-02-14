@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
 import Container from "./container";
+
 import { actionCreators as commentAct } from "../../redux/modules/comment";
 
 const mapStateToProps = (state, ownProps) => {
@@ -10,10 +11,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        createComment: (comment) => {
-            dispatch(commentAct.createComment(comment));
-        },
-
         commentList: (post_pk, offset, limit, order_by) => {
             dispatch(commentAct.commentList(post_pk, offset, limit, order_by));
         }

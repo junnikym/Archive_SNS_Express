@@ -1,6 +1,12 @@
 import bodyParser from "body-parser";
 import express, { Request, Response } from "express";
 
+// security
+import helmet from 'helmet'
+import sanitizeHtml from 'sanitize-html';
+
+const passportRouter = require('./passport/passport');
+
 import { appendFile } from "fs";
 import { db_conn } from "./db_connection";
 import { Connection } from "typeorm";
@@ -78,7 +84,12 @@ export class App {
       const chat_control = new ChatControl(chat_service);
       
 
+      // security
+      this.app.use(helmet());
+
       // routing
+      this.app.use('/auth', passportRouter);
+
       this.app.use('/auth', auth_control.router);
       this.app.use('/comment', comment_control.router);
       this.app.use('/commentlike', comment_like_control.router);
@@ -224,12 +235,16 @@ export class App {
       this.server = createServer(this.app);
       WebSocket(this.server);
 
+      
+
       this.server.listen(port, () => {
         console.log('Conneted ', port, ' port');
       });
+
     }
     catch (error) {
       console.log("error : ", error);
     }
   }
+
 }

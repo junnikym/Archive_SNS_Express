@@ -2,8 +2,6 @@ import React from 'react';
 
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
-
-
 import Feed from "../Feed";
 // import Post from "../Post";
 import Post_Card from "../Post_Card";       
@@ -12,7 +10,6 @@ import Chat from "../Chat";
 
 const Home_ = (props, contet) => (
     
-
         <Router>   
 
           {/* <Switch>
@@ -29,7 +26,6 @@ const Home_ = (props, contet) => (
           <Chat/>
 
         </Router>
-
 
   )
 

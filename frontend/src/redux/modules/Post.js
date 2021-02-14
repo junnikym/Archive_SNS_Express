@@ -33,7 +33,7 @@ function createPost(data) {
 		fetch("/post/create", {
 			method: "post",
 			headers: {
-				Authorization: `${AccessToken}`
+			Authorization: `${AccessToken}`
 			},
 			body: data
 		})
@@ -53,7 +53,7 @@ function postList(offset, limit, order_by) {
 	return (dispatch, getState) => {
 		const { account : { AccessToken }} = getState();
 		
-		fetch("/post", {
+		fetch("/post/", {
 			method: "post",
 			headers: {
 				"Content-Type": "application/json",
@@ -67,6 +67,7 @@ function postList(offset, limit, order_by) {
 		})
 		.then(response => response.json())
 		.then(json => {
+			console.log(json.data)
 			if (json.data) {
 				dispatch(getPostList(json.data));
 			}
@@ -103,7 +104,6 @@ function reducer(state = initialState, action) {
 function applySaveNewPost(state, action) {
 	
 	const { data } = action;
-
 
 	return  {
 		...state,

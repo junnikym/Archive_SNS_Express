@@ -1,8 +1,8 @@
 /**
  *  그룹 관련 라우트
  */
-
 const express = require('express');
+import sanitizeHtml from 'sanitize-html';
 
 // JWT middleware
 import { 
@@ -46,11 +46,21 @@ export class GroupControl {
     }
 
     private async CreateGroup(req, res) {
+        const s_title = sanitizeHtml(req.body.title);
+        const s_member_pk_list = sanitizeHtml(req.body.member_pk_list);
 
         const Group_DTO = new GroupDTO();
-        Group_DTO.title = req.body.title;
+        Group_DTO.title = s_title;
 
-        const member_pk_list: string[] = req.body.member_pk_list;
+        if(!Group_DTO.title){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "no group title"
+            });
+        };
+
+        const member_pk_list: string[] = s_member_pk_list;
 
         const CreateGroup_Result = await this.PostGroup_Service.CreateGroup(
             Group_DTO,
@@ -74,11 +84,10 @@ export class GroupControl {
     }
 
     private async DeleteGroup(req, res) {
-
-        const group_pk: string = req.params.group_pk;
+        const s_group_pk: string = sanitizeHtml(req.params.group_pk);
 
         const DeleteGroup_Result = await this.PostGroup_Service.DeleteGroup(
-            group_pk
+            s_group_pk
         )
         
         if(!DeleteGroup_Result){
@@ -97,12 +106,12 @@ export class GroupControl {
     }
 
     private async Invite(req, res) {
-        const group_pk: string = req.params.group_pk;
-        const member_pk_list: string[] = req.body.member_pk_list;
+        const s_group_pk: string = sanitizeHtml(req.params.group_pk);
+        const s_member_pk_list: string[] = sanitizeHtml(req.body.member_pk_list);
 
         const Invite_Result = await this.PostGroup_Service.Invite(
-            group_pk,
-            member_pk_list
+            s_group_pk,
+            s_member_pk_list
         )
 
         if(!Invite_Result){

@@ -21,8 +21,6 @@ const Container = (props, context) => {
 		}
 		
 	}, [props.new_post_count])
-
-	const { title, content } = PostInfo;
 	
 	const __text_input_handler__ = event => {
 		const { value, name } = event.target;
@@ -56,7 +54,7 @@ const Container = (props, context) => {
 			upload					= {upload}
 			uploader				= {__uploader__}
 
-			post_info = {PostInfo}
+			post_info 				= {PostInfo}
 		/>
 	);
 

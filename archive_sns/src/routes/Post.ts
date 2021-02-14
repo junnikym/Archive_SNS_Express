@@ -3,6 +3,7 @@
  */
 
 const express = require('express');
+import sanitizeHtml from 'sanitize-html';
 
 // JWT middleware
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
@@ -17,6 +18,7 @@ import { ImageDTO } from "../Models/DTOs/ImageDTO";
 
 import { Post } from '../Models/Entities/Post';
 import { Image } from '../Models/Entities/Image';
+import { json } from "body-parser";
 
 export class PostControl {
 
@@ -24,7 +26,7 @@ export class PostControl {
   private post_service : PostService;
 
   constructor(
-    post_service : PostService,
+    post_service : PostService
   ) {
 
     this.post_service = post_service;
@@ -73,10 +75,10 @@ export class PostControl {
    * @param post_pk : 
    */
   private async GetSinglePost(req, res) {
-    const post_pk = req.params.post_pk;
+    const s_post_pk = sanitizeHtml(req.params.post_pk);
 
     const Get_SinglePost_Result = await this.post_service.GetSinglePost(
-      post_pk
+      s_post_pk
     );
     
     if(!Get_SinglePost_Result){
@@ -100,11 +102,14 @@ export class PostControl {
    * @param 
    */
   private async GetPostList(req, res) {
+    const s_offset = sanitizeHtml(req.body.offset);
+    const s_limit = sanitizeHtml(req.body.limit);
+    const s_order_by = sanitizeHtml(req.body.order_by);
 
     const GetPostList_Result =  await this.post_service.GetPostList(
-      req.body.offset,
-      req.body.limit,
-      req.body.order_by
+      s_offset,
+      s_limit,
+      s_order_by
     );
 
     if(!GetPostList_Result){
@@ -130,14 +135,14 @@ export class PostControl {
    * @param limit :
    */
   private async GetOwnPost(req, res) {
-    const writer_pk = req.params.witer_pk;
-    const offset = req.body.offset;
-    const limit = req.body.limit;
+    const s_witer_pk = sanitizeHtml(req.params.witer_pk);
+    const s_offset = sanitizeHtml(req.body.offset);
+    const s_limit = sanitizeHtml(req.body.limit);
 
     const Get_OwnPost_Result = await this.post_service.GetOwnPost(
-      writer_pk,
-      offset,
-      limit
+      s_witer_pk,
+      s_offset,
+      s_limit
     );
 
     if(!Get_OwnPost_Result){
@@ -162,7 +167,11 @@ export class PostControl {
    * @param post_dto : PostDTO(title, text_content)
    * @param img_dto : ImageDTO(url)
    */
+
   private async CreatePost(req, res) {
+    const s_title = sanitizeHtml(req.body.title);
+    const s_content = sanitizeHtml(req.body.content);
+
     const image_req = req.files;
     const path = image_req.map(img => img.path);
     const user_pk = res.locals.jwt_payload.pk;
@@ -177,8 +186,8 @@ export class PostControl {
     // < Post DTO >
     const post_dto = new PostDTO();
 
-    post_dto.title        = req.body.title;
-    post_dto.text_content = req.body.content; 
+    post_dto.title        = s_title;
+    post_dto.text_content = s_content;
 
     // < Image DTOs >
     const img_dto = [];
@@ -217,12 +226,16 @@ export class PostControl {
    * @param null : 
    */
   private async UpdatePost(req, res) { 
+    const s_title = sanitizeHtml(req.body.title);
+    const s_text_content = sanitizeHtml(req.body.text_content);
+
+
     const feed_Info = req.body;
     const user_pk = res.locals.jwt_payload.pk;
 
     const Post_Update_DTO = new PostDTO();
-    Post_Update_DTO.title = feed_Info.title;
-    Post_Update_DTO.text_content = feed_Info.text_content;
+    Post_Update_DTO.title = s_title;
+    Post_Update_DTO.text_content = s_text_content;
 
     let ImgDTO: ImageDTO[];
     
@@ -231,6 +244,14 @@ export class PostControl {
       temp_img_dto.url = feed_Info.url;
 
       ImgDTO.push(temp_img_dto);
+    }
+
+    if(!ImgDTO){
+      return res.status(400).send({
+        status : 400,
+        success : true,
+        message : "image error",
+      })
     }
 
     const Update_Feed = await this.post_service.UpdatePost(
@@ -263,13 +284,13 @@ export class PostControl {
    * @param post_pk :
    */  
   private async DeletePost(req, res) {
-    const feed_Info = req.body;
-    const post_pk = feed_Info.post_pk;
+    const s_post_pk = sanitizeHtml(req.body.post_pk);
+
     const user_pk = res.locals.jwt_payload.pk;
 
     const Delete_Feed = await this.post_service.DeletePost(
       user_pk,
-      post_pk
+      s_post_pk
     );
 
     if(!Delete_Feed){

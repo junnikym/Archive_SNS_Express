@@ -3,6 +3,7 @@ const express = require('express');
 /**
  * Authentification Service / DTO
  */
+import sanitizeHtml from 'sanitize-html';
 
 import { 
   RefreshTokenGenerator,
@@ -117,12 +118,13 @@ export class AuthControl {
    */
   
   private registration = async function(req, res) {
-      
     const user_info = req.body;
+    const s_password: string = sanitizeHtml(req.body.password);
+    const s_pw_confirm: string = sanitizeHtml(req.body.pw_confirm);
 
     // < Wrong Input >
     // --------------------------------------------------
-    if(user_info.password != user_info.pw_confirm) {
+    if(s_password != s_pw_confirm) {
       return res.status(409).send({
         status : 409,
         success : false,
@@ -209,14 +211,13 @@ export class AuthControl {
    */
   
   private delete = async function(req, res) {
-    
+
+    const s_password: string = sanitizeHtml(req.body.password);
     const pk = res.locals.jwt_payload.pk;
-    const user_Info = req.body;
-    const password = user_Info.password;
 
     const Delete_Profile = await this.DeleteProfile.DeleteAccount(
         pk,
-        password
+        s_password
     );
     
     if(!Delete_Profile){
@@ -236,11 +237,12 @@ export class AuthControl {
   }
 
   private short_info = async function(req, res) {
+      const s_pk = sanitizeHtml(req.body.pk);
 
       let result = undefined;
 
-      if(req.body.pk) {
-        result = await this.account_service.GetAccountByPK(req.body.pk);
+      if(s_pk) {
+        result = await this.account_service.GetAccountByPK(s_pk);
       }
 
       if(result == undefined){

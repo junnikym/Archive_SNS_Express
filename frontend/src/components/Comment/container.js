@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
+import { propTypes } from "react-bootstrap/esm/Image";
+
 import Comment from "./presenter";
 
 const Container = (props, context) => {
@@ -32,8 +33,11 @@ const Container = (props, context) => {
 
             comment                     = {comment}
 
+            commentInfo                 = {commentInfo}
+
         />
     );
 }
+
 
 export default Container;
