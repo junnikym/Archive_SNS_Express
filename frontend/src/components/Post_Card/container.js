@@ -2,7 +2,9 @@ import React, { useState, useEffect }  from "react";
 import PropTypes from "prop-types";
 
 // import PostList from "./presenter";
-import Post_Card, { Post_Card_Img } from "./presenter";
+import Post_Card, { Post_Card_Img, Post_Card_Img_Mini, Post_Card_Img_Mini_Desc } from "./presenter";
+
+const N_MINI_IMG = 3;
 
 const Container = (props, context) => {
 	
@@ -23,12 +25,22 @@ const Container = (props, context) => {
 
 	const {loading} = state;
 
-	const image_loader = (elem) => {
-		return (
-			elem.image.map(elem => (
-				<Post_Card_Img img={elem} />
-			))
-		);
+	const image_loader = (props) => {
+		const result = [];
+
+		props.image.map((elem, i) => {
+			if (i == 0) {
+				result.push(<Post_Card_Img img={elem} />)
+			}
+			else if(i < N_MINI_IMG) {
+				result.push(<Post_Card_Img_Mini img={elem} />)
+			}
+			else if(i == N_MINI_IMG) {
+				result.push(<Post_Card_Img_Mini_Desc img={elem} nRestImg={ props.image.length - N_MINI_IMG - 1 } />)
+			}
+		});
+
+		return result;
 	}
 
 	const render = () => {

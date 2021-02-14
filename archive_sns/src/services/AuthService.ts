@@ -13,10 +13,6 @@ export class AuthService {
 		@InjectRepository() private account_repo: AccountRepo
 	) { }
 
-	// private conn = getConnection();
-
-	// private account_repo: AccountRepo = this.conn.getCustomRepository(AccountRepo);
-
 	/**
 	 * Verify that the data passed to DTO and the data which exist in 
 	 * the Database are correct

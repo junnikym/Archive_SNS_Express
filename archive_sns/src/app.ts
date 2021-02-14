@@ -23,6 +23,7 @@ import { CommentLikeControl } from './routes/commentlike';
 import { PostControl } from './routes/Post';
 import { FeedLikeControl } from './routes/feedlike';
 import { ProfileControl } from "./routes/profile";
+import { ChatControl } from "./routes/chat";
 
 // < Services >
 import { AuthService }                          from "./services/AuthService";
@@ -80,6 +81,8 @@ export class App {
       const feed_control = new PostControl(post_service);
       const feed_like_control = new FeedLikeControl(post_like_service);
       const profile_control = new ProfileControl(account_service);
+      const chat_control = new ChatControl(chat_service);
+      
 
       // security
       this.app.use(helmet());
@@ -92,6 +95,7 @@ export class App {
       this.app.use('/commentlike', comment_like_control.router);
       this.app.use('/post', feed_control.router);
       this.app.use('/feedlike', feed_like_control.router);
+      this.app.use('/chat', chat_control.router);
 
       this.app.use("/static", express.static(__dirname + '/..'));
 
@@ -99,11 +103,11 @@ export class App {
        //  T E S T  //  T E S T  //  T E S T  //  T E S T  //
       // ------------------------------------------------ //
 
-      const user_a = "80e309ff-69e9-48e3-9925-b0a8e1d79e41";
-      const user_b = "a5cb7733-b347-43d2-b93f-1b857db8e723";
+      const user_a = "8649610c-f894-4126-913f-40b156aaccbc";
+      const user_b = "a3f83407-6397-4555-bd05-1fc22e474a92";
 
-      const group_a = "93bf1fe4-d7f1-4986-9dd8-e98c13e90f5b";
-      const group_b = "f7e894a8-d269-49f8-8c94-5613c1c1f088";
+      const group_a = "21298f2e-860a-44a5-bc3d-a19a604a5f73";
+      const group_b = "ebe81f38-49a9-41ac-bd6d-7426fb4f159c";
 
       // const image_dto = new ImageDTO;
       // image_dto.url = "asdf";

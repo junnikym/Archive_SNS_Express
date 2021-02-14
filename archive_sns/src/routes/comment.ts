@@ -161,8 +161,8 @@ export class CommentControl {
             });
         };
 
-        return res.status(201).send({
-            status : 201,
+        return res.status(200).send({
+            status : 200,
             success : true,
             message : "Created",
             data : CreateComment
@@ -207,9 +207,9 @@ export class CommentControl {
             });
         };
 
-        return res.status(201).send({
-            status : 201,
-            success : false,
+        return res.status(200).send({
+            status : 200,
+            success : true,
             message : "Created",
             data : UpdateComment
         });

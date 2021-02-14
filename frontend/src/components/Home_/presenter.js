@@ -8,7 +8,7 @@ import Feed from "../Feed";
 // import Post from "../Post";
 import Post_Card from "../Post_Card";       
 // import User_list from "../User_list";
-
+import Chat from "../Chat";
 
 const Home_ = (props, contet) => (
     
@@ -20,11 +20,13 @@ const Home_ = (props, contet) => (
           </Switch> */}
           
           {/* Post 쓰기 */}
-          <Feed/>
+          {/* <Feed/> */}
 
           {/* Post 보기 */}
           {/* <Post/> */}
-          <Post_Card/>
+          {/* <Post_Card/> */}
+
+          <Chat/>
 
         </Router>
 

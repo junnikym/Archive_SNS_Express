@@ -15,6 +15,17 @@ export const Post_Card_Img = props => (
     <img src={"/static/" + props.img.url}/>
 )
 
+export const Post_Card_Img_Mini = props => (
+    <img width="100px" src={"/static/" + props.img.url}/>
+)
+
+export const Post_Card_Img_Mini_Desc = props => (
+    <div>
+        <img width="100px" src={"/static/" + props.img.url}/>
+        <div className="nMore"> {props.nRestImg} </div>
+    </div>
+)
+
 const Post_Card = props => (
     
     <div className = "Post_Card">
