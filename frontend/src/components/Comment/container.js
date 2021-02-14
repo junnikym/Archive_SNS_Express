@@ -9,10 +9,6 @@ const Container = (props, context) => {
         props.commentList(props.post_pk, 0, 5, null);
     }, [])
 
-    useEffect(() => {
-        console.log("loaded");
-    }, [props.comment_list])
-
     const [commentInfo, setCommentInfo] = useState({
         comment     : '',
     });
@@ -33,13 +29,8 @@ const Container = (props, context) => {
     }
 
     const draw_handler = () => {
-        const result = [];
-
-        props.comment_list?.comments.map( elem => {
-            result.push(<CommentView comment={elem}/>)
-        })
-        
-        return result;
+        return props.comment_list?.comments.map( 
+                    elem => <CommentView comment={elem}/>)
     }
 
 

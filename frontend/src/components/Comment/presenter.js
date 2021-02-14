@@ -14,8 +14,6 @@ const Comment = props => (
     <div className = "Comment">
 
         <br/>
-
-        { props.draw_handler() }
         
         <form
             className = "comment"
@@ -34,6 +32,12 @@ const Comment = props => (
                 type = "submit"
                 />
         </form>
+
+        <br/>
+
+        <hr/>
+
+        { props.draw_handler() }
 
     </div>
 

@@ -1,22 +1,15 @@
 // < Actions >
 // --------------------------------------------------
 
-const GET_COMMENT_LIST = "GET_COMMENT_LIST";
 const SAVE_NEW_COMMENT = "SAVE_NEW_COMMENT";
 
 // < Actions Creators >
 // --------------------------------------------------
 
-function getCommentList(data) {
-	return {
-		type: GET_COMMENT_LIST,
-		data
-	}
-}
-
-function saveNewComment(data) {
+function saveNewComment(data, is_created = false) {
 	return {
 		type: SAVE_NEW_COMMENT,
+		is_created: is_created,
 		data
 	}
 }
@@ -28,13 +21,13 @@ function saveNewComment(data) {
 function createComment(post_pk, comment) {
 
     return (dispatch, getState) => {
-		const { account : { AccessToken }} = getState();
+		const { account } = getState();
 		
 		fetch("/comment/commentCreate", {
 			method: "post",
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `${AccessToken}`
+				Authorization: `${account.AccessToken}`
 			},
 			body: JSON.stringify({
 				post_pk		: post_pk,
@@ -44,7 +37,13 @@ function createComment(post_pk, comment) {
 		.then(res => res.json())
 		.then(json => {
 			if (json.data) {
-				dispatch(saveNewComment([json.data]));
+				dispatch(saveNewComment([{
+					...json.data,
+					writer: {
+						pk : account.PK,
+						...account.info
+					}
+				}], true));
 			}
 		})
 		.catch(err => console.log(err));
@@ -85,20 +84,7 @@ function commentList(post_pk, offset, limit, order_by) {
 // --------------------------------------------------
 
 const initialState = {
-	comment_list : [
-		// {
-		// 	post_pk	: "",
-		// 	comments: []
-		// },
-		// {
-		// 	post_pk	: "",
-		// 	comments: []
-		// },
-		// {
-		// 	post_pk	: "",
-		// 	comments: []
-		// }
-	]
+	comment_list : []
 }
 
 // const comments_in_post = {
@@ -113,52 +99,46 @@ function reducer(state = initialState, action) {
 	switch(action.type) {
 		case SAVE_NEW_COMMENT:
 			return applySaveNewComment(state, action);
-
-		case GET_COMMENT_LIST:
-			return applyGetCommentList(state, action);
 		default:
 			return state;
 	}
 }
 
 function applySaveNewComment(state, action) {
-
-	console.log(action.data);
 	
 	const {data} = action;
 	const post_pk = data[0]?.post_pk;
 	const { comment_list } = state;
+	let need_new = true;
 
-	let i = 0;
-	for( i = 0; i < comment_list.length; i++ ) {
-
-		if( comment_list[i].post_pk === post_pk ) {
-			comment_list[i].comments.concat(data);
-			break;
-		}
-		
-	}
-	if(i == comment_list.length) {
-		comment_list.push({
-			post_pk: post_pk,
-			comments: data
-		})
-	}
+	comment_list.map( comment => {
+		if(comment.post_pk === post_pk)
+			need_new = false;
+	});
 
 	return {
 		...state,
-		comment_list
+		comment_list : (
+			need_new
+			? (
+				comment_list.concat([{
+					post_pk: post_pk,
+					comments: data
+				}])
+			)
+			: (
+				comment_list.map( 
+					comment => (comment.post_pk === post_pk)
+					? {...comment, comments: (
+							action.is_created 
+							?data.concat(comment.comments)
+							:comment.comments.concat(data)
+						)} 
+					:  comment
+				)
+			)
+		)
 	}
-}
-            
-function applyGetCommentList(state, action) {
-
-	const { data } = action;
-
-	return {
-		...state,
-		comment_list : data
-	};
 }
 
 // < Exports >
