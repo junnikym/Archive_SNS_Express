@@ -82,7 +82,7 @@ function postList(offset, limit, order_by) {
 
 const initialState = {
 	new_post_count : 0,
-	post_list : []
+	post_list : undefined
 }
 
 // < Reducer >

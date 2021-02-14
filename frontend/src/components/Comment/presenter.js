@@ -1,7 +1,13 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
-import Get_comment from "../Get_comment";
+export const CommentView = props => (
+    <div>
+        작성자 : {props.comment.writer.name} <br/>
+        {props.comment.content}
+        <hr/>
+    </div>
+)
 
 const Comment = props => (
     
@@ -9,7 +15,7 @@ const Comment = props => (
 
         <br/>
 
-        <Get_comment/>
+        { props.draw_handler() }
         
         <form
             className = "comment"

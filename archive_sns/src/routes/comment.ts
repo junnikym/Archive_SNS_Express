@@ -27,7 +27,7 @@ export class CommentControl {
         // < routing >
         this.router.post(
             "/", 
-            async (req, res) => this.GetPostComment(res, req)
+            async (req, res) => this.GetPostComment(req, res)
         );
 
         this.router.post(

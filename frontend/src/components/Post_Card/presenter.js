@@ -24,37 +24,33 @@ export const Post_Card_Img_Mini_Desc = props => (
 
 const Post_Card = props => (
     
-    <div className = "Post_Card">
+    <Card>
+            
+        <Card.Body>
 
-        <Card>
-                
-            <Card.Body>
+            <Card.Text>
+                제목 : <b> {props.Post_title} </b>
+                <hr/>
+                내용 : {props.Post_text} 
+                <br/>
+                <br/>
+                {props.Post_img_loader()}
+            </Card.Text>
 
-                <Card.Text>
-                    제목 : <b> {props.Post_title} </b>
-                    <hr/>
-                    내용 : {props.Post_text} 
-                    <br/>
-                    <br/>
-                    {props.Post_img_loader()}
-                </Card.Text>
+            <Like_button/>
 
-                <Like_button/>
+            <small className="text-muted">
+                Time : {props.Post_date}
+            </small>
 
-                <small className="text-muted">
-                    Time : {props.Post_date}
-                </small>
+        </Card.Body>
 
-            </Card.Body>
+        <Card.Footer>
+            
+            <Comment post_pk={props.Post_pk}/> 
 
-            <Card.Footer>
-                
-                <Comment/> 
-
-            </Card.Footer>
-        </Card>
-    
-    </div>
+        </Card.Footer>
+    </Card>
 
 );
 

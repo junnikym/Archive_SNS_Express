@@ -12,21 +12,21 @@ export const enum PostOrder {
 // < Select List >
 // --------------------------------------------------
 
-const CommonCommentSelect = [
-	"pk",
-	"title",
-	"writer",
-]
+// const CommonCommentSelect = [
+// 	// "pk",
+// 	// "writer",
+// ]
 
-const PostCommentSelect = [
-	...CommonCommentSelect,
-	"post_pk",
-];
+// const PostCommentSelect = [
+// 	"pk"
+// 	// ...CommonCommentSelect,
+// 	// "post",
+// ];
 
-const PostReCommentSelect = [
-	...CommonCommentSelect,
-	"parent_pk",
-]
+// const PostReCommentSelect = [
+// 	...CommonCommentSelect,
+// 	"parent",
+// ]
 
 // < Common Repository > 
 // --------------------------------------------------
@@ -49,10 +49,11 @@ export class PostCommentRepo extends CommonCommentRepo<PostComment> {
 		limit: number, 
 		order_by: string 
 	) {
+		console.log(post_pk);
+
 		return this.createQueryBuilder("comment")
-				.select( PostCommentSelect )
 				.leftJoinAndSelect("comment.writer", "writer")
-				.where("comment.post_pk = :post_pk", { post_pk })
+				.where("comment.post_pk = :post_pk", { post_pk: post_pk })
 				.orderBy(order_by, "DESC")
 				.skip(offset)
 				.take(limit)
@@ -71,7 +72,7 @@ export class PostReCommentRepo extends CommonCommentRepo<PostReComment> {
 		order_by: string 
 	) {
 		return this.createQueryBuilder("comment")
-				.select( PostCommentSelect )
+				// .select( PostCommentSelect )
 				.leftJoinAndSelect("comment.writer", "writer")
 				.where("comment.root_pk = :target_comment_pk", { target_comment_pk })
 				.orderBy(order_by, "DESC")

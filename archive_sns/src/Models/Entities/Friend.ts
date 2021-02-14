@@ -13,7 +13,7 @@ import { Account } from './Account';
  * Friend Entity
  */
 
-@Entity({ name: "firend" })
+@Entity({ name: "friend" })
 export class Friend {
 
 	@PrimaryGeneratedColumn("uuid")
@@ -26,7 +26,7 @@ export class Friend {
 	// --------------------------------------------------
 
 	@IsNotEmpty()
-	@Column({ name: "account_pk", length: 36 })
+	@Column({ name: "account", length: 36 })
 	account_pk: string;
 
 	@ManyToOne((type) => Account, (Account) => Account.pk, {
@@ -40,7 +40,7 @@ export class Friend {
 	// --------------------------------------------------
 
 	@IsNotEmpty()
-	@Column({ name: "friend_pk", length: 36 })
+	@Column({ name: "friend", length: 36 })
 	friend_pk: string;
 
 	@ManyToOne((type) => Account, (Account) => Account.pk, {

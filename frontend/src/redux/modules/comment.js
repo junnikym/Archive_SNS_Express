@@ -1,4 +1,3 @@
-
 // < Actions >
 // --------------------------------------------------
 
@@ -26,7 +25,7 @@ function saveNewComment(data) {
 // --------------------------------------------------
 
 
-function createComment(comment) {
+function createComment(post_pk, comment) {
 
     return (dispatch, getState) => {
 		const { account : { AccessToken }} = getState();
@@ -38,14 +37,14 @@ function createComment(comment) {
 				Authorization: `${AccessToken}`
 			},
 			body: JSON.stringify({
+				post_pk		: post_pk,
 				content     : comment
 			})
 		})
 		.then(res => res.json())
 		.then(json => {
-			console.log(json.data)
 			if (json.data) {
-				dispatch(saveNewComment(json.data));
+				dispatch(saveNewComment([json.data]));
 			}
 		})
 		.catch(err => console.log(err));
@@ -74,7 +73,7 @@ function commentList(post_pk, offset, limit, order_by) {
 		.then(response => response.json())
 		.then(json => {
 			if (json.data) {
-				dispatch(getCommentList(json.data));
+				dispatch(saveNewComment(json.data));
 			}
 		})
 		.catch(err => console.log(err));
@@ -86,8 +85,26 @@ function commentList(post_pk, offset, limit, order_by) {
 // --------------------------------------------------
 
 const initialState = {
-	comment_list : []
+	comment_list : [
+		// {
+		// 	post_pk	: "",
+		// 	comments: []
+		// },
+		// {
+		// 	post_pk	: "",
+		// 	comments: []
+		// },
+		// {
+		// 	post_pk	: "",
+		// 	comments: []
+		// }
+	]
 }
+
+// const comments_in_post = {
+// 	post_pk	: "",
+// 	comments: []
+// }
 
 // < Reducer >
 // --------------------------------------------------
@@ -105,11 +122,32 @@ function reducer(state = initialState, action) {
 }
 
 function applySaveNewComment(state, action) {
+
+	console.log(action.data);
 	
 	const {data} = action;
+	const post_pk = data[0]?.post_pk;
+	const { comment_list } = state;
+
+	let i = 0;
+	for( i = 0; i < comment_list.length; i++ ) {
+
+		if( comment_list[i].post_pk === post_pk ) {
+			comment_list[i].comments.concat(data);
+			break;
+		}
+		
+	}
+	if(i == comment_list.length) {
+		comment_list.push({
+			post_pk: post_pk,
+			comments: data
+		})
+	}
 
 	return {
-		...state
+		...state,
+		comment_list
 	}
 }
             
