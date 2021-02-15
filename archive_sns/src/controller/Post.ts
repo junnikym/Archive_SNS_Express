@@ -33,97 +33,6 @@ export class PostControl {
   constructor( private post_service : PostService ) {
 
   /**
-   * GetSinglePost
-   * 
-   * @param post_pk : 
-   */
-  private async GetSinglePost(req, res) {
-    const s_post_pk = sanitizeHtml(req.params.post_pk);
-
-    const Get_SinglePost_Result = await this.post_service.GetSinglePost(
-      s_post_pk
-    );
-    
-    if(!Get_SinglePost_Result){
-      return res.status(400).send({
-        status : 400,
-        success : false,
-        message : "Bad Request"
-      });
-    };
-    return res.status(200).send({
-      status : 200,
-      success : true,
-      message : "success",
-      data :  Get_SinglePost_Result
-    });
-  }
-
-  /**
-   * GetPostList
-   * 
-   * @param 
-   */
-  private async GetPostList(req, res) {
-    const s_offset = sanitizeHtml(req.body.offset);
-    const s_limit = sanitizeHtml(req.body.limit);
-    const s_order_by = sanitizeHtml(req.body.order_by);
-
-    const GetPostList_Result =  await this.post_service.GetPostList(
-      s_offset,
-      s_limit,
-      s_order_by
-    );
-
-    if(!GetPostList_Result){
-      return res.status(400).send({
-        status : 400,
-        success : false,
-        message : "Bad Request"
-      });
-    };
-    return res.status(200).send({
-      status : 200,
-      success : true,
-      message : "success",
-      data : GetPostList_Result
-    });
-  }
-
-  /**
-   * GetOwnPost
-   * 
-   * @param writer_pk : 
-   * @param offset : 
-   * @param limit :
-   */
-  private async GetOwnPost(req, res) {
-    const s_witer_pk = sanitizeHtml(req.params.witer_pk);
-    const s_offset = sanitizeHtml(req.body.offset);
-    const s_limit = sanitizeHtml(req.body.limit);
-
-    const Get_OwnPost_Result = await this.post_service.GetOwnPost(
-      s_witer_pk,
-      s_offset,
-      s_limit
-    );
-
-    if(!Get_OwnPost_Result){
-      return res.status(400).send({
-        status : 400,
-        success : false,
-        message : "Bad Request"
-      });
-    };
-    return res.status(200).send({
-      status : 200,
-      success : true,
-      message : "success",
-      data : Get_OwnPost_Result
-    });
-  }
-
-  /**
    * CreatePost
    * 
    * @param user_pk : jwt tokken
@@ -266,6 +175,97 @@ export class PostControl {
       status : 200,
       success : true,
       message : "success"
+    });
+  }
+
+  /**
+   * GetSinglePost
+   * 
+   * @param post_pk : 
+   */
+  private async GetSinglePost(req, res) {
+    const s_post_pk = sanitizeHtml(req.params.post_pk);
+
+    const Get_SinglePost_Result = await this.post_service.GetSinglePost(
+      s_post_pk
+    );
+    
+    if(!Get_SinglePost_Result){
+      return res.status(400).send({
+        status : 400,
+        success : false,
+        message : "Bad Request"
+      });
+    };
+    return res.status(200).send({
+      status : 200,
+      success : true,
+      message : "success",
+      data :  Get_SinglePost_Result
+    });
+  }
+
+  /**
+   * GetPostList
+   * 
+   * @param 
+   */
+  private async GetPostList(req, res) {
+    const s_offset = sanitizeHtml(req.body.offset);
+    const s_limit = sanitizeHtml(req.body.limit);
+    const s_order_by = sanitizeHtml(req.body.order_by);
+
+    const GetPostList_Result =  await this.post_service.GetPostList(
+      s_offset,
+      s_limit,
+      s_order_by
+    );
+
+    if(!GetPostList_Result){
+      return res.status(400).send({
+        status : 400,
+        success : false,
+        message : "Bad Request"
+      });
+    };
+    return res.status(200).send({
+      status : 200,
+      success : true,
+      message : "success",
+      data : GetPostList_Result
+    });
+  }
+
+  /**
+   * GetOwnPost
+   * 
+   * @param writer_pk : 
+   * @param offset : 
+   * @param limit :
+   */
+  private async GetOwnPost(req, res) {
+    const s_witer_pk = sanitizeHtml(req.params.witer_pk);
+    const s_offset = sanitizeHtml(req.body.offset);
+    const s_limit = sanitizeHtml(req.body.limit);
+
+    const Get_OwnPost_Result = await this.post_service.GetOwnPost(
+      s_witer_pk,
+      s_offset,
+      s_limit
+    );
+
+    if(!Get_OwnPost_Result){
+      return res.status(400).send({
+        status : 400,
+        success : false,
+        message : "Bad Request"
+      });
+    };
+    return res.status(200).send({
+      status : 200,
+      success : true,
+      message : "success",
+      data : Get_OwnPost_Result
     });
   }
 
