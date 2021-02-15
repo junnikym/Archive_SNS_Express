@@ -1,7 +1,7 @@
 /**
  *  피드 관련 라우트
  */
-// const express = require('express');
+const express = require('express');
 import sanitizeHtml from 'sanitize-html';
 
 // JWT middleware
@@ -12,7 +12,6 @@ import { PostImageMulter } from '../Middleware/Multer';
 import { PostService } from "../services/PostService";
 import { PostDTO } from '../Models/DTOs/PostDTO';
 import { ImageDTO } from "../Models/DTOs/ImageDTO";
-import { Response } from "express";
 import {
   JsonController,
   Get,
@@ -30,7 +29,8 @@ import { OpenAPI, ResponseSchema } from "routing-controllers-openapi";
 
 @JsonController("/post")
 export class PostControl {
-  constructor( post_service : PostService ) {}
+
+  constructor( private post_service : PostService ) {
 
   /**
    * GetSinglePost
@@ -123,96 +123,59 @@ export class PostControl {
     });
   }
 
-  // /**
-  //  * CreatePost
-  //  * 
-  //  * @param user_pk : jwt tokken
-  //  * @param post_dto : PostDTO(title, text_content)
-  //  * @param img_dto : ImageDTO(url)
-  //  */
-  // private async CreatePost(req, res) {
-  //   const s_title = sanitizeHtml(req.body.title);
-  //   const s_content = sanitizeHtml(req.body.content);
-
-  //   const user_pk = res.locals.jwt_payload.pk;
-
-  //   const image_req = req.files;
-  //   const path = image_req.map(img => img.path);
-
-  //   if(image_req === undefined) 
-  //     return res.tatus(400).send({
-	// 			status: 400, 
-	// 			success: false, 
-	// 			message: "not exist image"
-	// 		});
-    
-  //   // < Post DTO >
-  //   const post_dto = new PostDTO();
-
-  //   post_dto.title        = s_title;
-  //   post_dto.text_content = s_content;
-
-  //   // < Image DTOs >
-  //   const img_dto = [];
-    
-  //   path.map(img_path => {
-  //     const new_dto = new ImageDTO;
-  //     new_dto.url = img_path;
-	// 		img_dto.push(new_dto);
-  //   });
-
-  //   // < Generate >
-  //   const result = await this.post_service.CreatePost(user_pk, post_dto, img_dto);
-
-  //   if(!result)
-  //     return res.status(400).send({
-  //       status: 400, 
-  //       success: false, 
-  //       message: "fail to create"
-  //     });
-
-  //   return res.status(200).send({
-  //     status: 200,
-	// 		success: true,
-	// 		message: "success",
-	// 		data: result
-  //   });
-  // }
-
-  @HttpCode(200)
-  @Post()
-  @OpenAPI({
-    summary: "CreatePost",
-    statusCode: "200",
-    security: [{ bearerAuth: [] }],
-  })
-  @UseBefore(VerifyAccessToken)
-  public async CreatePost(
-    @Res() res: Response,
-    @Body() post_dto: PostDTO,
-    @Body() new_dto: ImageDTO
-
-  ) {
-    const { user_pk } = res.locals.jwt_payload.pk;
+  /**
+   * CreatePost
+   * 
+   * @param user_pk : jwt tokken
+   * @param post_dto : PostDTO(title, text_content)
+   * @param img_dto : ImageDTO(url)
+   */
+  private async CreatePost(req, res) {
+    const s_title = sanitizeHtml(req.body.title);
+    const s_content = sanitizeHtml(req.body.content);
 
     const image_req = req.files;
     const path = image_req.map(img => img.path);
+    const user_pk = res.locals.jwt_payload.pk;
 
+    if(image_req === undefined) 
+      return res.tatus(400).send({
+				status: 400, 
+				success: false, 
+				message: "not exist image"
+			});
+    
+    // < Post DTO >
+    const post_dto = new PostDTO();
+
+    post_dto.title        = s_title;
+    post_dto.text_content = s_content;
+
+    // < Image DTOs >
     const img_dto = [];
-
+    
     path.map(img_path => {
       const new_dto = new ImageDTO;
       new_dto.url = img_path;
 			img_dto.push(new_dto);
     });
 
-    const result = await this.post_service.CreatePost(
-      user_pk, 
-      post_dto, 
-      img_dto
-    );
+    // < Generate >
+    const result = await this.post_service.CreatePost(user_pk, post_dto, img_dto);
 
-    return result;
+    if(!result)
+      return res.status(400).send({
+        status: 400, 
+        success: false, 
+        message: "fail to create"
+      });
+
+    return res.status(200).send({
+      status: 200,
+			success: true,
+			message: "success",
+			data: result
+    });
   }
 
   /**
@@ -305,3 +268,5 @@ export class PostControl {
       message : "success"
     });
   }
+
+}
