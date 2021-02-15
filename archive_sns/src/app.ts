@@ -3,8 +3,12 @@ import express, { Request, Response } from "express";
 
 // util
 import helmet from 'helmet'
-import sanitizeHtml from 'sanitize-html';
 import compression from 'compression';
+import { routingControllerOptions } from "./util/RoutingConfig";
+import {
+  useContainer as routingUseContainer,
+  useExpressServer,
+} from "routing-controllers";
 
 const passportRouter = require('./passport/passport');
 
@@ -18,13 +22,13 @@ import { createServer, Server as httpServer } from "http";
 import { CommentRepo } from "./Models/Repositories/CommentRepo";
 
 // < Controls >
-import { AuthControl } from './routes/Auth';
-import { CommentControl } from './routes/comment';
-import { CommentLikeControl } from './routes/commentlike';
-import { PostControl } from './routes/Post';
-import { FeedLikeControl } from './routes/feedlike';
-import { ProfileControl } from "./routes/profile";
-import { ChatControl } from "./routes/chat";
+import { AuthControl } from './controller/Auth';
+import { CommentControl } from './controller/comment';
+import { CommentLikeControl } from './controller/commentlike';
+import { PostControl } from './controller/Post';
+import { FeedLikeControl } from './controller/feedlike';
+import { ProfileControl } from "./controller/profile";
+import { ChatControl } from "./controller/chat";
 
 // < Services >
 import { AuthService }                          from "./services/AuthService";
@@ -42,6 +46,7 @@ export class App {
 
   constructor() {
     this.app = express();
+    this.setMiddlewares();
     this.initDB().then(() => {
 
       // Services
@@ -66,9 +71,7 @@ export class App {
       const profile_control = new ProfileControl(account_service);
       const chat_control = new ChatControl(chat_service);
       
-      // util
-      this.app.use(helmet());
-      this.app.use(compression());
+      
 
       // routing
       this.app.use('/auth', passportRouter);
@@ -90,23 +93,26 @@ export class App {
   private async initDB(): Promise<void> {
     try {
       this.db_conn = await db_conn();
-    } 
-    catch (error) {
+    }catch (error) {
       console.log("didn't connect Database : \n", error);
     }
   }
 
   /**
+   * middleware
+   */
+  private setMiddlewares(): void {
+    this.app.use(bodyParser.json());
+    this.app.use(bodyParser.urlencoded({ extended: false }));
+    this.app.use(helmet());
+    this.app.use(compression());
+  }
+
+  /**
    * Run Express Server
-   * 
-   * @param port Server Port Number
    */
   public async run(port: number) : Promise<void> {
     try {
-      //@TODO : Integrate Routers
-      this.app.use(bodyParser.urlencoded({extended: false}));
-      this.app.use(bodyParser.json());
-
       this.server = createServer(this.app);
       // WebSocket(this.server);
 
@@ -118,5 +124,4 @@ export class App {
       console.log("error : ", error);
     }
   }
-
 }
