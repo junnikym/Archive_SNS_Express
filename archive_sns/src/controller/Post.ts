@@ -1,7 +1,8 @@
 /**
  *  피드 관련 라우트
  */
-const express = require('express');
+// const express = require('express');
+import { Response } from "express";
 import sanitizeHtml from 'sanitize-html';
 
 // JWT middleware
@@ -19,6 +20,7 @@ import {
   Body,
   Post,
   Put,
+  Req,
   UseBefore,
   Res,
   Delete,
@@ -43,11 +45,12 @@ export class PostControl {
     const s_title = sanitizeHtml(req.body.title);
     const s_content = sanitizeHtml(req.body.content);
 
-    const image_req = req.files;
-    const path = image_req.map(img => img.path);
     const user_pk = res.locals.jwt_payload.pk;
 
-    if(image_req === undefined) 
+    const images_data = req.files;
+    const path = images_data.map(img => img.path);
+
+    if(images_data === undefined) 
       return res.tatus(400).send({
 				status: 400, 
 				success: false, 
@@ -70,7 +73,9 @@ export class PostControl {
     });
 
     // < Generate >
-    const result = await this.post_service.CreatePost(user_pk, post_dto, img_dto);
+    const result = await this.post_service.CreatePost(
+      user_pk, post_dto, img_dto
+      );
 
     if(!result)
       return res.status(400).send({
@@ -86,6 +91,40 @@ export class PostControl {
 			data: result
     });
   }
+
+  
+
+  @HttpCode(200)
+  @Post()
+  @OpenAPI({
+    summary: "CreatePost",
+    statusCode: "200",
+    security: [{ bearerAuth: [] }],
+  })
+  @UseBefore(VerifyAccessToken)
+  public async CreatePost(
+    @Body() post_dto: PostDTO,
+    @Res() res: Response,
+  ) {
+    const user_pk = res.locals.jwt_payload.pk;
+
+    const CreatePost_Result = await this.post_service.CreatePost(
+      user_pk, 
+      post_dto, 
+      img_dto
+      );
+
+    if(!CreatePost_Result)
+    return res.status(400).send({
+      status: 400, 
+      success: false, 
+      message: "fail to create"
+    });
+
+    return CreatePost_Result;
+  }
+
+
 
   /**
    * UpdatePost

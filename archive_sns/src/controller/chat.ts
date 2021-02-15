@@ -1,49 +1,30 @@
 /**
  * 채팅 관련 라우트
  */
-
-const express = require('express');
+// const express = require('express');
+import { Response } from "express";
 import sanitizeHtml from 'sanitize-html';
-
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
-
 import { ChatMsgDTO } from '../Models/DTOs/ChatDTO';
-
 import { ChatService } from '../services/ChatService';
 
+import {
+    JsonController,
+    Get,
+    Param,
+    Body,
+    Post,
+    Put,
+    UseBefore,
+    Res,
+    Delete,
+    HttpCode,
+    QueryParams,
+} from "routing-controllers";
+import { OpenAPI, ResponseSchema } from "routing-controllers-openapi";
+
 export class ChatControl {
-
-    public router;
-
-    private chat_service : ChatService;
-
-    constructor(
-        chat_service : ChatService
-    ) {
-
-        this.chat_service = chat_service;
-
-        this.router = express.Router();
-
-        this.router.post(
-            "/sendmsg", 
-            VerifyAccessToken,
-            async (req, res) => this.SendMsg(req, res)
-        );
-
-        this.router.get(
-            "/:group_pk",
-            VerifyAccessToken,
-            async (req, res) => this.GetChatContents(req, res)
-        );
-
-        this.router.delete(
-            "/exit", 
-            VerifyAccessToken, 
-            async (req, res) => this.ExitChatGroup(req, res)
-        );
-
-    }
+    constructor( chat_service : ChatService ) {}
 
     /**
      * SendMsg
@@ -55,7 +36,7 @@ export class ChatControl {
         const account_pk = res.locals.jwt_payload.pk;
         const s_group_pk = sanitizeHtml(req.body.group_pk);
 
-        const ChatMsg_DTO = new ChatMsgDTO();
+        const ChatMsg_DTO = new ChatMsgDTO;
         ChatMsg_DTO.content = sanitizeHtml(req.body.content);
 
         const SendMsg_Result = await this.chat_service.SendMsg(
@@ -79,6 +60,39 @@ export class ChatControl {
             data: SendMsg_Result
         });
     }
+
+
+    // @HttpCode(200)
+    // @Post()
+    // @OpenAPI({
+    //     summary: "SendMsg",
+    //     statusCode: "200",
+    //     security: [{ bearerAuth: [] }],
+    // })
+    // @UseBefore(VerifyAccessToken)
+
+    // public async SendMsg(
+    //     @Body() ChatMsg_DTO: ChatMsgDTO,
+    //     @Res() res: Response,
+    // ) {
+    //     const user_pk = res.locals.jwt_payload.pk;
+
+    //     const CreatePost_Result = await this.post_service.CreatePost(
+    //     user_pk, 
+    //     post_dto, 
+    //     img_dto
+    //     );
+
+    //     if(!CreatePost_Result)
+    //     return res.status(400).send({
+    //     status: 400, 
+    //     success: false, 
+    //     message: "fail to create"
+    //     });
+
+    //     return CreatePost_Result;
+    // }
+
 
     private GetChatContents = async (req, res) => {
 
