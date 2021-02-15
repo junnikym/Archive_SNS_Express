@@ -28,19 +28,19 @@ export class ChatControl {
         this.router.post(
             "/sendmsg", 
             VerifyAccessToken,
-            async (req, res) => this.SendMsg(res, req)
+            async (req, res) => this.SendMsg(req, res)
         );
 
         this.router.get(
             "/:group_pk",
             VerifyAccessToken,
-            this.GetChatContents
+            async (req, res) => this.GetChatContents(req, res)
         );
 
         this.router.delete(
             "/exit", 
             VerifyAccessToken, 
-            async (req, res) => this.ExitChatGroup(res, req)
+            async (req, res) => this.ExitChatGroup(req, res)
         );
 
     }
