@@ -35,4 +35,3 @@ export class PostDTO {
 		this.text_content = text_content;
 	}
 }
-

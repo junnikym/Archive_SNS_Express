@@ -32,68 +32,14 @@ import { OpenAPI, ResponseSchema } from "routing-controllers-openapi";
 @JsonController("/post")
 export class PostControl {
 
-  constructor( private post_service : PostService ) {
+  constructor( private post_service : PostService ) {}
 
   /**
    * CreatePost
-   * 
-   * @param user_pk : jwt tokken
-   * @param post_dto : PostDTO(title, text_content)
-   * @param img_dto : ImageDTO(url)
+   * @param post_dto 
+   * @param req 
+   * @param res 
    */
-  private async CreatePost(req, res) {
-    const s_title = sanitizeHtml(req.body.title);
-    const s_content = sanitizeHtml(req.body.content);
-
-    const user_pk = res.locals.jwt_payload.pk;
-
-    const images_data = req.files;
-    const path = images_data.map(img => img.path);
-
-    if(images_data === undefined) 
-      return res.tatus(400).send({
-				status: 400, 
-				success: false, 
-				message: "not exist image"
-			});
-    
-    // < Post DTO >
-    const post_dto = new PostDTO();
-
-    post_dto.title        = s_title;
-    post_dto.text_content = s_content;
-
-    // < Image DTOs >
-    const img_dto = [];
-    
-    path.map(img_path => {
-      const new_dto = new ImageDTO;
-      new_dto.url = img_path;
-			img_dto.push(new_dto);
-    });
-
-    // < Generate >
-    const result = await this.post_service.CreatePost(
-      user_pk, post_dto, img_dto
-      );
-
-    if(!result)
-      return res.status(400).send({
-        status: 400, 
-        success: false, 
-        message: "fail to create"
-      });
-
-    return res.status(200).send({
-      status: 200,
-			success: true,
-			message: "success",
-			data: result
-    });
-  }
-
-  
-
   @HttpCode(200)
   @Post()
   @OpenAPI({
@@ -104,10 +50,32 @@ export class PostControl {
   @UseBefore(VerifyAccessToken)
   public async CreatePost(
     @Body() post_dto: PostDTO,
+    @Req() req,
     @Res() res: Response,
   ) {
+    const data = post_dto + req + res;
+    console.log(data);
+
     const user_pk = res.locals.jwt_payload.pk;
 
+    const images_data = req.files;
+    const path = images_data.map(img => img.path);
+
+    if(images_data === undefined) 
+      return res.status(400).send({
+				status: 400, 
+				success: false, 
+				message: "not exist image"
+			});
+
+    const img_dto = [];
+  
+    path.map(img_path => {
+      const new_dto = new ImageDTO;
+      new_dto.url = img_path;
+      img_dto.push(new_dto);
+    });
+    
     const CreatePost_Result = await this.post_service.CreatePost(
       user_pk, 
       post_dto, 
@@ -121,31 +89,41 @@ export class PostControl {
       message: "fail to create"
     });
 
+    console.log(CreatePost_Result);
     return CreatePost_Result;
   }
 
-
-
   /**
    * UpdatePost
-   * 
-   * @param user_pk : jwt tokken
-   * @param post_pk : 
-   * @param Post_Update_DTO : PostDTO(title, text_content)
-   * @param ImgDTO : ImageDTO(url)
-   * @param null : 
+   * @param postpk 
+   * @param Post_Update_DTO 
+   * @param req 
+   * @param res 
    */
-  private async UpdatePost(req, res) { 
-    const s_title = sanitizeHtml(req.body.title);
-    const s_text_content = sanitizeHtml(req.body.text_content);
-
+  @HttpCode(200)
+  @Put("/:postpk")
+  @OpenAPI({
+    summary: "UpdatePost",
+    statusCode: "200",
+    responses: {
+      "403": {
+        description: "Forbidden",
+      },
+    },
+    security: [{ bearerAuth: [] }],
+  })
+  @UseBefore(VerifyAccessToken)
+  public async UpdatePost(
+    @Param("postpk") postpk: string,
+    @Body() Post_Update_DTO: PostDTO,
+    @Req() req,
+    @Res() res: Response,
+  ) {
+    const data = postpk + Post_Update_DTO + req + res;
+    console.log(data);
 
     const feed_Info = req.body;
     const user_pk = res.locals.jwt_payload.pk;
-
-    const Post_Update_DTO = new PostDTO();
-    Post_Update_DTO.title = s_title;
-    Post_Update_DTO.text_content = s_text_content;
 
     let ImgDTO: ImageDTO[];
     
@@ -164,148 +142,161 @@ export class PostControl {
       })
     }
 
-    const Update_Feed = await this.post_service.UpdatePost(
+    const UpdatePost_Result = await this.post_service.UpdatePost(
       user_pk,
-      feed_Info.post_pk,
+      postpk,
       Post_Update_DTO,
       ImgDTO,
-      null
+      null  //??
     );
 
-    if(!Update_Feed){
-      return res.status(403).send({
-        status : 403,
-        success : false,
-        message : "Forbidden"
-      });
-    };
-    return res.status(200).send({
-      status : 200,
-      success : true,
-      message : "success",
-      data : Update_Feed
-    });
+    if (!UpdatePost_Result) {
+      return res
+        .status(403)
+        .send({ message: "Post를 수정할 권한이 없습니다." });
+    }
+
+    console.log(UpdatePost_Result);
+    return UpdatePost_Result;
   }
 
   /**
    * DeletePost
-   * 
-   * @param user_pk : jwt tokken
-   * @param post_pk :
-   */  
-  private async DeletePost(req, res) {
-    const s_post_pk = sanitizeHtml(req.body.post_pk);
-
+   * @param postpk 
+   * @param res 
+   */
+  @HttpCode(200)
+  @Delete("/:postpk")
+  @OpenAPI({
+    summary: "DeletePost",
+    statusCode: "200",
+    responses: {
+      "403": {
+        description: "Forbidden",
+      },
+    },
+    security: [{ bearerAuth: [] }],
+  })
+  @UseBefore(VerifyAccessToken)
+  public async DeletePost(
+    @Param("postpk") postpk: string, 
+    @Res() res: Response
+    ) {
+    const data = postpk + res;
+    console.log(data);
     const user_pk = res.locals.jwt_payload.pk;
 
-    const Delete_Feed = await this.post_service.DeletePost(
+    const DeletePost_Result = await this.post_service.DeletePost(
       user_pk,
-      s_post_pk
+      postpk
     );
 
-    if(!Delete_Feed){
-      return res.status(403).send({
-        status : 403,
-        success : false,
-        message : "Forbidden"
-      });
-    };
-    return res.status(200).send({
-      status : 200,
-      success : true,
-      message : "success"
-    });
+    if (!DeletePost_Result) {
+      return res
+      .status(403)
+      .send({ message: "Post를 삭제할 권한이 없습니다." });
+    }
+
+    console.log(DeletePost_Result);
+    return DeletePost_Result;
   }
 
   /**
    * GetSinglePost
-   * 
-   * @param post_pk : 
+   * @param req 
+   * @param res 
    */
-  private async GetSinglePost(req, res) {
-    const s_post_pk = sanitizeHtml(req.params.post_pk);
-
-    const Get_SinglePost_Result = await this.post_service.GetSinglePost(
-      s_post_pk
+  @HttpCode(200)
+  @Get("/:post_pk")
+  @OpenAPI({
+    summary: "GetSinglePost",
+    statusCode: "200",
+    responses: {
+      "204": {
+        description: "No Content",
+      },
+    },
+  })
+  public async GetSinglePost(
+    @Param("post_pk") post_pk,
+    @Res() res: Response,
+  ) {
+    const Get_SinglePost_Result =  await this.post_service.GetSinglePost(
+      post_pk
     );
     
-    if(!Get_SinglePost_Result){
-      return res.status(400).send({
-        status : 400,
-        success : false,
-        message : "Bad Request"
-      });
-    };
-    return res.status(200).send({
-      status : 200,
-      success : true,
-      message : "success",
-      data :  Get_SinglePost_Result
-    });
+    if (!Get_SinglePost_Result) {
+      return res.status(400).send(Get_SinglePost_Result);
+    }
+
+    return Get_SinglePost_Result;
   }
 
   /**
    * GetPostList
-   * 
-   * @param 
+   * @param req 
+   * @param res 
    */
-  private async GetPostList(req, res) {
-    const s_offset = sanitizeHtml(req.body.offset);
-    const s_limit = sanitizeHtml(req.body.limit);
-    const s_order_by = sanitizeHtml(req.body.order_by);
-
+  @HttpCode(200)
+  @Get("")
+  @OpenAPI({
+    summary: "Post 목록 조회",
+    statusCode: "200",
+    responses: {
+      "204": {
+        description: "No Content",
+      },
+    },
+  })
+  public async GetPostList(
+    @Req() req,
+    @Res() res: Response,
+  ) {
     const GetPostList_Result =  await this.post_service.GetPostList(
-      s_offset,
-      s_limit,
-      s_order_by
+      req.body.offset,
+      req.body.limit,
+      req.body.order_by
     );
+    
+    if (GetPostList_Result.length === 0) {
+      return res.status(204).send(GetPostList_Result);
+    }
 
-    if(!GetPostList_Result){
-      return res.status(400).send({
-        status : 400,
-        success : false,
-        message : "Bad Request"
-      });
-    };
-    return res.status(200).send({
-      status : 200,
-      success : true,
-      message : "success",
-      data : GetPostList_Result
-    });
+    return GetPostList_Result;
   }
 
   /**
    * GetOwnPost
-   * 
-   * @param writer_pk : 
-   * @param offset : 
-   * @param limit :
+   * @param witer_pk 
+   * @param req 
+   * @param res 
    */
-  private async GetOwnPost(req, res) {
-    const s_witer_pk = sanitizeHtml(req.params.witer_pk);
-    const s_offset = sanitizeHtml(req.body.offset);
-    const s_limit = sanitizeHtml(req.body.limit);
-
-    const Get_OwnPost_Result = await this.post_service.GetOwnPost(
-      s_witer_pk,
-      s_offset,
-      s_limit
+  @HttpCode(200)
+  @Get("/:witer_pk")
+  @OpenAPI({
+    summary: "GetOwnPost",
+    statusCode: "200",
+    responses: {
+      "204": {
+        description: "No Content",
+      },
+    },
+  })
+  public async GetOwnPost(
+    @Param("witer_pk") witer_pk,
+    @Req() req,
+    @Res() res: Response,
+  ) {
+    const GetPostList_Result =  await this.post_service.GetPostList(
+      witer_pk,
+      req.body.offset,
+      req.body.limit
     );
+    
+    if (GetPostList_Result.length === 0) {
+      return res.status(204).send(GetPostList_Result);
+    }
 
-    if(!Get_OwnPost_Result){
-      return res.status(400).send({
-        status : 400,
-        success : false,
-        message : "Bad Request"
-      });
-    };
-    return res.status(200).send({
-      status : 200,
-      success : true,
-      message : "success",
-      data : Get_OwnPost_Result
-    });
+    return GetPostList_Result;
   }
-
 }
