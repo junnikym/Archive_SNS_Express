@@ -1,10 +1,23 @@
-const express = require('express');
-
+import { Response } from "express";
 /**
  * Authentification Service / DTO
  */
 import sanitizeHtml from 'sanitize-html';
-
+import {
+  JsonController,
+  Get,
+  Param,
+  Body,
+  Post,
+  Put,
+  UseBefore,
+  Req,
+  Res,
+  Delete,
+  HttpCode,
+  QueryParams,
+} from "routing-controllers";
+import { OpenAPI, ResponseSchema } from "routing-controllers-openapi";
 import { 
   RefreshTokenGenerator,
   AccessTokenGenerator,
@@ -23,67 +36,27 @@ import { AuthService } from "../services/AuthService";
 
 export class AuthControl {
 
-  public router;
-
-  private auth_service : AuthService;
-  private account_service : AccountService;
-
   constructor(
-    auth_service : AuthService,
-    account_service : AccountService
-  ) {
+    private auth_service : AuthService,
+    private account_service : AccountService
+  ) {}
 
-    this.auth_service    = auth_service;
-    this.account_service = account_service
+  @HttpCode(200)
+    @Get()
+    @OpenAPI({
+        summary: "login",
+        statusCode: "200",
+        security: [{ bearerAuth: [] }],
+    })
+    @UseBefore(VerifyAccessToken)
+    public async login(
+        @Body() Account_DTO: AccountDTO,
+        @Req() req,
+        @Res() res: Response,
+    ) {
+    Account_DTO.fromJson(req.body);
+    const account = await this.auth_service.ValidateAccount(Account_DTO);
 
-    this.router = express.Router();
-    
-    // < routing >
-    this.router.post(
-      "/login", 
-      async (req, res) => this.login(req, res)
-    );
-
-    this.router.post(
-      '/registration', 
-      async (req, res) => this.registration(req, res)
-    );
-
-    this.router.post(
-      '/account', 
-      VerifyAccessToken, 
-      async (req, res) => this.account(req, res)
-    );
-
-    this.router.delete(
-      '/:usernum', 
-      VerifyAccessToken, 
-      async (req, res) => this.delete(req, res)
-    );
-
-    this.router.post(
-      '/short_info', 
-      async (req, res) => this.short_info(req, res)
-    );
-  }
-
-  /**
-   * Login
-   */
-  
-  private login = async function (req, res) {
-
-    // < Login Account DTO Setting >
-    // --------------------------------------------------
-    const account_dto = new AccountDTO();
-    account_dto.fromJson(req.body);
-
-    // < Validate >
-    // --------------------------------------------------
-    const account = await this.auth_service.ValidateAccount(account_dto);
-
-    // < Fail >
-    // --------------------------------------------------
     if(!account) {
       return res.status(401).send({
         status : 401,
@@ -97,32 +70,33 @@ export class AuthControl {
     const _access_token = await AccessTokenGenerator(account);
     const _refresh_token = await RefreshTokenGenerator(account);
 
-    await this.auth_service.SaveRefreshTokenDirectly(account, _refresh_token);
+    const login = await this.auth_service.SaveRefreshTokenDirectly(
+      account, 
+      _refresh_token
+    );
 
-    // < Success >
-    // --------------------------------------------------
-    return res.status(200).send({
-      status : 200,
-      success : true,
-      message : "success",
-      data : {
-        access_token: _access_token,
-        refresh_token: _refresh_token,
-        pk: account.pk
-      }
-    });
+    if(!login) {
+      return res.status(401).send({
+        status : 400,
+        success : true,
+        message : "account or _refresh_token error",
+      });
+    }
+
+    return {
+      access_token: _access_token,
+      refresh_token: _refresh_token,
+      pk: account.pk
+    };
   }
+
 
   /**
    * Registration Account
    */
-  
   private registration = async function(req, res) {
-    const user_info = req.body;
     const s_password: string = sanitizeHtml(req.body.password);
     const s_pw_confirm: string = sanitizeHtml(req.body.pw_confirm);
-
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaa");
 
     // < Wrong Input >
     // --------------------------------------------------
@@ -171,6 +145,51 @@ export class AuthControl {
     });
   }
 
+  @HttpCode(200)
+    @Post()
+    @OpenAPI({
+        summary: "registration",
+        statusCode: "200",
+        security: [{ bearerAuth: [] }],
+    })
+    @UseBefore(VerifyAccessToken)
+    public async registration(
+        @Body() account_dto: AccountDTO,
+        @Req() req,
+        @Res() res: Response,
+    ) {
+    if(req.body.password != req.body.pw_confirm) {
+      return res.status(409).send({
+        status : 409,
+        success : false,
+        message : "Not match password and password confirm"
+      });
+    }
+
+    account_dto.fromJson(req.body);
+
+    let profile_img = null;
+
+    if(req.body.profile_img_url) {
+      profile_img = new ImageDTO();
+      profile_img.url = req.body.profile_img_url;
+    }
+
+    const account = await this.account_service.CreateAccount(account_dto, profile_img);
+
+    const _access_token = AccessTokenGenerator(account);
+    const _refresh_token = RefreshTokenGenerator(account);
+
+    await this.auth_service.SaveRefreshTokenDirectly(account, _refresh_token);
+
+    // < Success >
+    // --------------------------------------------------
+    return {
+        access_token: _access_token,
+        refresh_token: _refresh_token,
+        pk: account.pk
+    }
+  }
 
   /**
    * Get Account
