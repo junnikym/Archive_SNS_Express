@@ -35,7 +35,6 @@ export class ChatControl {
         security: [{ bearerAuth: [] }],
     })
     @UseBefore(VerifyAccessToken)
-
     public async SendMsg(
         @Body() ChatMsg_DTO: ChatMsgDTO,
         @Req() req,
