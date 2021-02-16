@@ -90,61 +90,6 @@ export class AuthControl {
     };
   }
 
-
-  /**
-   * Registration Account
-   */
-  private registration = async function(req, res) {
-    const s_password: string = sanitizeHtml(req.body.password);
-    const s_pw_confirm: string = sanitizeHtml(req.body.pw_confirm);
-
-    // < Wrong Input >
-    // --------------------------------------------------
-    if(s_password != s_pw_confirm) {
-      return res.status(409).send({
-        status : 409,
-        success : false,
-        message : "Not match password and password confirm"
-      });
-    }
-
-    // < Create Account DTO Setting >
-    // --------------------------------------------------
-    const account_dto = new AccountDTO();
-    account_dto.fromJson(user_info)
-
-    // < Create Image DTO Setting >
-    // --------------------------------------------------
-    let profile_img = null;
-
-    if(user_info.profile_img_url) {
-      profile_img = new ImageDTO();
-      profile_img.url = user_info.profile_img_url;
-    }
-
-    // < Save & Generate Token >
-    // --------------------------------------------------
-    const account = await this.account_service.CreateAccount(account_dto, profile_img);
-
-    const _access_token = AccessTokenGenerator(account);
-    const _refresh_token = RefreshTokenGenerator(account);
-
-    await this.auth_service.SaveRefreshTokenDirectly(account, _refresh_token);
-
-    // < Success >
-    // --------------------------------------------------
-    return res.status(200).send({
-      status : 200,
-      success : true,
-      message : "success",
-      data : {
-        access_token: _access_token,
-        refresh_token: _refresh_token,
-        pk: account.pk
-      }
-    });
-  }
-
   @HttpCode(200)
     @Post()
     @OpenAPI({
@@ -175,7 +120,7 @@ export class AuthControl {
       profile_img.url = req.body.profile_img_url;
     }
 
-    const account = await this.account_service.CreateAccount(account_dto, profile_img);
+    const account = await this.account_service.CreateAccount(account_dto);
 
     const _access_token = AccessTokenGenerator(account);
     const _refresh_token = RefreshTokenGenerator(account);
@@ -191,95 +136,101 @@ export class AuthControl {
     }
   }
 
-  /**
-   * Get Account
-   */
+  @HttpCode(200)
+    @Post('/account')
+    @OpenAPI({
+        summary: "account",
+        statusCode: "200",
+        security: [{ bearerAuth: [] }],
+    })
+    @UseBefore(VerifyAccessToken)
+    public async account(
+      @Res() res: Response
+      ) {
+      const user_pk = res.locals.jwt_payload.pk;
+      const token = res.locals.token;
 
-  private account = async (req, res) => {
-    const pk = res.locals.jwt_payload.pk;
-    const token = res.locals.token;
-
-    const account = await this.auth_service.ValidateRefreshToken(pk, token);
-
-    // < Fail >
-    // --------------------------------------------------
-    if(!account) {
-      return res.status(401).send({
-        status : 401,
-        success : true,
-        message : "Fail : Not match Account and Refresh Token",
-      });
-    }
-
-    // < Success // Generate Token >
-    // --------------------------------------------------
-    const result = AccessTokenGenerator(account);
-
-    return res.status(200).send({
-      status : 200,
-      success : true,
-      message : "success",
-      data : {
-        access_token  : result,
-        refresh_token : token,
-      }
-    });
-  }
-
-
-  /**
-   * 프로필 삭제
-   */
-  
-  private delete = async function(req, res) {
-
-    const s_password: string = sanitizeHtml(req.body.password);
-    const pk = res.locals.jwt_payload.pk;
-
-    const Delete_Profile = await this.DeleteProfile.DeleteAccount(
-        pk,
-        s_password
-    );
-    
-    if(!Delete_Profile){
-        return res.status(403).send({
-            status : 403,
-            success : true,
-            message : "Forbidden"
+      if(!user_pk || !token){
+        return res.status(400).send({
+        status: 400, 
+        success: false, 
+        message: "error user_pk or token"
         });
-    }
-    
-    return res.status(200).send({
-        status : 200,
-        success : true,
-        message : "success"
-    });
-
-  }
-
-  private short_info = async function(req, res) {
-      const s_pk = sanitizeHtml(req.body.pk);
-
-      let result = undefined;
-
-      if(s_pk) {
-        result = await this.account_service.GetAccountByPK(s_pk);
       }
 
-      if(result == undefined){
-          return res.status(404).send({
-              status : 404,
-              success : false,
-              message : "Not Found"
+      const ValidateRefreshToken_Result = await this.auth_service.ValidateRefreshToken(
+        user_pk, 
+        token
+      );
+
+
+      if(!ValidateRefreshToken_Result){
+          return res.status(400).send({
+          status: 400, 
+          success: false, 
+          message: "fail to ValidateRefreshToken_Result"
           });
       }
 
-      return res.status(200).send({
-          status : 200,
-          success : true,
-          message : "success",
-          data: result
-      });  
+      return ValidateRefreshToken_Result;
+    }
+
+  @HttpCode(200)
+  @Delete()
+  @OpenAPI({
+      summary: "delete",
+      statusCode: "200",
+      security: [{ bearerAuth: [] }],
+  })
+  @UseBefore(VerifyAccessToken)
+  public async delete(
+      @Req() req,
+      @Res() res: Response
+      ) {
+      const user_pk = res.locals.jwt_payload.pk;
+
+      const DeleteProfile_Result = await this.account_service.DeleteAccount(
+        user_pk,
+        req.body.password
+      );
+
+      if(!DeleteProfile_Result){
+          return res.status(400).send({
+          status: 400, 
+          success: false, 
+          message: "fail to DeleteProfile"
+          });
+      }
+
+      return DeleteProfile_Result;
   }
 
+  @HttpCode(200)
+  @Get('/shortinfo')
+  @OpenAPI({
+      summary: "short_info",
+      statusCode: "200",
+      security: [{ bearerAuth: [] }],
+  })
+  @UseBefore(VerifyAccessToken)
+  public async short_info(
+    @Req() req,
+    @Res() res: Response
+    ) {
+    let result = undefined;
+
+    if(req.body.pk) {
+      result = await this.account_service.GetAccountByPK(req.body.pk);
+    }
+    
+    if(result == undefined){
+      return res.status(404).send({
+          status : 404,
+          success : false,
+          message : "Not Found"
+      });
+    }
+
+    return result;
+  }
 }
