@@ -45,6 +45,14 @@ export class GroupControl {
         @Req() req,
         @Res() res: Response,
     ) {
+        if(!Group_DTO.title){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "no Group_DTO title"
+            });
+        }
+
         const CreateGroup_Result = await this.Chat_GroupService.CreateGroup(
             Group_DTO,
             req.body.member_pk_list

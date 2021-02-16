@@ -1,58 +1,32 @@
 /**
  * 댓글 관련 라우트 생성,삭제,수정
  */
+import { Response } from "express";
+import {
+    JsonController,
+    Get,
+    Param,
+    Body,
+    Post,
+    Put,
+    UseBefore,
+    Req,
+    Res,
+    Delete,
+    HttpCode,
+    QueryParams,
+} from "routing-controllers";
+import { OpenAPI, ResponseSchema } from "routing-controllers-openapi";
+
 const express = require('express');
 import sanitizeHtml from 'sanitize-html';
-
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
-
 import { CommentDTO } from '../Models/DTOs/CommentDTO';
-
 import { PostCommentService } from '../services/CommentService';
 
 export class CommentControl {
 
-    public router;
-    private post_comment_service : PostCommentService;
-
-    constructor(
-        post_comment_service : PostCommentService
-    ) {
-
-        this.post_comment_service = post_comment_service;
-
-        this.router = express.Router();
-
-        // < routing >
-        this.router.get(
-            "/test", 
-            async (req, res) => this.TestComment(req, res)
-        );
-
-        this.router.get(
-            "/", 
-            async (req, res) => this.GetPostComment(req, res)
-        );
-
-        this.router.post(
-            '/create',
-            VerifyAccessToken, 
-            async (req, res) => this.CreateComment(req, res)
-        );
-
-        this.router.put(
-            '/:commentpk', 
-            VerifyAccessToken, 
-            async (req, res) => this.UpdateComment(req, res)
-        );
-
-        this.router.delete(
-            '/:commentpk', 
-            VerifyAccessToken, 
-            async (req, res) => this.DeleteComment(req, res)
-        );
-
-    }
+    constructor( private post_comment_service : PostCommentService ) {}
 
     /**
      * TEST
@@ -73,73 +47,55 @@ export class CommentControl {
             </p>
         </form>
         `;
-
         return res.send(form);
     }
 
-
-
-    /**
-     * GetPostComment
-     * 
-     * @param post_pk : 
-     * @param offset : 
-     * @param limit : 
-     * @param order_by : 
-     */
-    private async GetPostComment(req, res) {
-        const s_post_pk = sanitizeHtml(req.body.post_pk);
-        const s_offset = sanitizeHtml(req.body.offset);
-        const s_limit = sanitizeHtml(req.body.limit);
-        const s_order_by = sanitizeHtml(req.body.order_by);
-
+    @HttpCode(200)
+    @Get()
+    @OpenAPI({
+        summary: "GetPostComment",
+        statusCode: "200",
+        security: [{ bearerAuth: [] }],
+    })
+    @UseBefore(VerifyAccessToken)
+    public async GetPostComment(
+        @Req() req,
+        @Res() res: Response
+    ) {
+        
         const GetPostComment = await this.post_comment_service.GetPostComment(
-            s_post_pk,
-            s_offset,
-            s_limit,
-            s_order_by
+            req.body.post_pk,
+            req.body.offset,
+            req.body.limit,
+            req.body.order_by
         );
 
-        if(!GetPostComment){
-            return res.status(400).send({
-                status : 400,
-                success : false,
-                message : "Bad Request"
-            });
-        };
-
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "success",
-            data : GetPostComment
+        if(!GetPostComment)
+        return res.status(400).send({
+        status: 400, 
+        success: false, 
+        message: "fail to GetPostComment"
         });
+
+        return GetPostComment;
     }
 
-    /**
-     * CreateComment
-     * 
-     */
-    private async CreateComment(req, res) {
-        // const s_post_pk = sanitizeHtml(req.body.post_pk);
-        // const s_user_pk = sanitizeHtml(req.body.user_pk);
-
-        // const data = s_post_pk + s_user_pk;
-
-        // console.log(data);
-        // console.log('123');
-
-        // return res.send(data)
+    @HttpCode(200)
+    @Get()
+    @OpenAPI({
+        summary: "CreateComment",
+        statusCode: "200",
+        security: [{ bearerAuth: [] }],
+    })
+    @UseBefore(VerifyAccessToken)
+    public async CreateComment(
+        @Body() Comment_DTO: CommentDTO,
+        @Req() req,
+        @Res() res: Response
+    ) {
         const user_pk = res.locals.jwt_payload.pk;
-        const s_post_pk = sanitizeHtml(req.body.post_pk);
 
-
-        const comment_Info = req.body;
-
-        const Create_Comment = new CommentDTO();
-        Create_Comment.content = comment_Info.content; 
-
-        if(!Create_Comment.content){
+        if(!Comment_DTO.content){
             return res.status(400).send({
                 status : 400,
                 success : false,
@@ -147,13 +103,13 @@ export class CommentControl {
             });
         }
 
-        const CreateComment = await this.post_comment_service.CreateComment(
+        const CreateComment_Result = await this.post_comment_service.CreateComment(
             user_pk,
-            s_post_pk,
-            Create_Comment
+            req.body.post_pk,
+            Comment_DTO
         )
 
-        if(!CreateComment){
+        if(!CreateComment_Result){
             return res.status(400).send({
                 status : 400,
                 success : false,
@@ -161,88 +117,74 @@ export class CommentControl {
             });
         };
 
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "Created",
-            data : CreateComment
-        });
+        return CreateComment_Result;
     }
 
-    /**
-     * UpdateComment
-     * 
-     * @param pk : jwt tokken
-     * @param comment_pk :
-     * @param Update_Comment : CommentDTO(content)
-     */
-    private async UpdateComment(req, res) {
-        const s_comment_pk = sanitizeHtml(req.body.comment_pk);
-        const pk = res.locals.jwt_payload.pk;
-
-        const comment_Info = req.body;
-
-        const Update_Comment = new CommentDTO();
-        Update_Comment.content = comment_Info.content;
-
-        if(!Update_Comment.content){
+    @HttpCode(200)
+    @Put()
+    @OpenAPI({
+        summary: "UpdateComment",
+        statusCode: "200",
+        security: [{ bearerAuth: [] }],
+    })
+    @UseBefore(VerifyAccessToken)
+    public async UpdateComment(
+        @Body() Comment_DTO: CommentDTO,
+        @Req() req,
+        @Res() res: Response
+    ) {
+        if(!Comment_DTO.content){
             return res.status(400).send({
                 status : 400,
                 success : false,
-                message : "need Comment Content"
+                message : "no Comment_DTO Content"
             });
         }
 
-        const UpdateComment = await this.post_comment_service.UpdateComment(
-            pk,
-            s_comment_pk,
-            Update_Comment
-        )
-        
-        if(!UpdateComment){
-            return res.status(403).send({
-                status : 403,
-                success : false,
-                message : "Forbidden"
-            });
-        };
+        const user_pk = res.locals.jwt_payload.pk;
 
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "Created",
-            data : UpdateComment
+        const UpdateComment_Result = await this.post_comment_service.UpdateComment(
+            user_pk,
+            req.body.comment_pk,
+            Comment_DTO
+        )
+
+        if(!UpdateComment_Result)
+        return res.status(400).send({
+        status: 400, 
+        success: false, 
+        message: "fail to UpdateComment"
         });
+
+        return UpdateComment_Result;
     }
 
-    /**
-     * DeleteComment
-     * 
-     * @param pk : jwt tokken
-     * @param comment_pk : 
-     */
-    private async DeleteComment(req, res) {
-        const s_comment_pk = sanitizeHtml(req.body.comment_pk);
-        const pk = res.locals.jwt_payload.pk;
+    @HttpCode(200)
+    @Delete()
+    @OpenAPI({
+        summary: "DeleteComment",
+        statusCode: "200",
+        security: [{ bearerAuth: [] }],
+    })
+    @UseBefore(VerifyAccessToken)
+    public async DeleteComment(
+        @Req() req,
+        @Res() res: Response
+    ) {
+        const user_pk = res.locals.jwt_payload.pk;
 
-        const DeleteComment = await this.post_comment_service.DeleteComment(
-            pk,
-            s_comment_pk
+        const DeleteComment_Result = await this.post_comment_service.DeleteComment(
+            user_pk,
+            req.body.comment_pk
         )
-        
-        if(!DeleteComment){
-            return res.status(400).send({
-                status : 400,
-                success : false,
-                message : "Bad Request"
-            });
-        };
 
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "success"
+        if(!DeleteComment_Result)
+        return res.status(400).send({
+        status: 400, 
+        success: false, 
+        message: "fail to DeleteComment"
         });
-    }
 
+        return DeleteComment_Result;
+    }
 }

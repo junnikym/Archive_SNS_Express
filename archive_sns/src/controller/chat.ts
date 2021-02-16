@@ -1,7 +1,6 @@
 /**
  * 채팅 관련 라우트
  */
-// const express = require('express');
 import { Response } from "express";
 import sanitizeHtml from 'sanitize-html';
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
@@ -40,6 +39,14 @@ export class ChatControl {
         @Req() req,
         @Res() res: Response,
     ) {
+        if(!ChatMsg_DTO.content){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "no ChatMsg_DTO Content"
+            });
+        }
+
         const SendMsg_Result = await this.chat_service.SendMsg(
             res.locals.jwt_payload.pk, 
             req.body.group_pk, 
