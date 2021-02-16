@@ -16,6 +16,7 @@ import {
     Post,
     Put,
     UseBefore,
+    Req,
     Res,
     Delete,
     HttpCode,
@@ -24,127 +25,96 @@ import {
 import { OpenAPI, ResponseSchema } from "routing-controllers-openapi";
 
 export class ChatControl {
-    constructor( chat_service : ChatService ) {}
+    constructor( private chat_service : ChatService ) {}
 
-    /**
-     * SendMsg
-     * @param req 
-     * @param res 
-     */
-    private SendMsg = async (res, req) => {
+    @HttpCode(200)
+    @Post()
+    @OpenAPI({
+        summary: "SendMsg",
+        statusCode: "200",
+        security: [{ bearerAuth: [] }],
+    })
+    @UseBefore(VerifyAccessToken)
 
-        const account_pk = res.locals.jwt_payload.pk;
-        const s_group_pk = sanitizeHtml(req.body.group_pk);
-
-        const ChatMsg_DTO = new ChatMsgDTO;
-        ChatMsg_DTO.content = sanitizeHtml(req.body.content);
-
+    public async SendMsg(
+        @Body() ChatMsg_DTO: ChatMsgDTO,
+        @Req() req,
+        @Res() res: Response,
+    ) {
         const SendMsg_Result = await this.chat_service.SendMsg(
-            account_pk,
-            s_group_pk,
+            res.locals.jwt_payload.pk, 
+            req.body.group_pk, 
             ChatMsg_DTO
         );
 
-        if(!SendMsg_Result){
-            return res.status(400).send({
-                status : 400,
-                success : false,
-                message : "Bad Request"
-            });
-        };
-
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "success",
-            data: SendMsg_Result
-        });
-    }
-
-
-    // @HttpCode(200)
-    // @Post()
-    // @OpenAPI({
-    //     summary: "SendMsg",
-    //     statusCode: "200",
-    //     security: [{ bearerAuth: [] }],
-    // })
-    // @UseBefore(VerifyAccessToken)
-
-    // public async SendMsg(
-    //     @Body() ChatMsg_DTO: ChatMsgDTO,
-    //     @Res() res: Response,
-    // ) {
-    //     const user_pk = res.locals.jwt_payload.pk;
-
-    //     const CreatePost_Result = await this.post_service.CreatePost(
-    //     user_pk, 
-    //     post_dto, 
-    //     img_dto
-    //     );
-
-    //     if(!CreatePost_Result)
-    //     return res.status(400).send({
-    //     status: 400, 
-    //     success: false, 
-    //     message: "fail to create"
-    //     });
-
-    //     return CreatePost_Result;
-    // }
-
-
-    private GetChatContents = async (req, res) => {
-
-        const account_pk = res.locals.jwt_payload.pk;
-        const s_group_pk = sanitizeHtml(req.params.group_pk);
-
-        const result = await this.chat_service.GetChatContents(s_group_pk, 0, 10);
-        
-        if(!result){
-            return res.status(400).send({
-                status : 400,
-                success : false,
-                message : "Bad Request"
-            });
-        };
-
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "success",
-            data : result
+        if(!SendMsg_Result)
+        return res.status(400).send({
+        status: 400, 
+        success: false, 
+        message: "fail to SendMsg"
         });
 
+        return SendMsg_Result;
     }
 
-    /**
-     * ExitChatGroup
-     * @param req 
-     * @param res 
-     */
-    private async ExitChatGroup(req, res) {
-        const s_account_pk = sanitizeHtml(req.body.account_pk);
-        const s_group_pk = sanitizeHtml(req.body.group_pk);
+    @HttpCode(200)
+    @Get('/:group_pk')
+    @OpenAPI({
+        summary: "GetChatContents",
+        statusCode: "200",
+        security: [{ bearerAuth: [] }],
+    })
+    @UseBefore(VerifyAccessToken)
+    public async GetChatContents(
+        @Param("group_pk") group_pk: string,
+        @Res() res: Response
+        ) {
+        const user_pk = res.locals.jwt_payload.pk;
+
+        const GetChatContents_Result = await this.chat_service.GetChatContents(
+            group_pk, 
+            0, 
+            10
+        );
+
+        if(!GetChatContents_Result){
+            return res.status(400).send({
+            status: 400, 
+            success: false, 
+            message: "fail to GetChatContents"
+            });
+        }
+
+        return GetChatContents_Result;
+    }
+
+    @HttpCode(200)
+    @Delete()
+    @OpenAPI({
+        summary: "GetChatContents",
+        statusCode: "200",
+        security: [{ bearerAuth: [] }],
+    })
+    @UseBefore(VerifyAccessToken)
+    public async ExitChatGroup(
+        @Req() req,
+        @Res() res: Response
+        ) {
+        const user_pk = res.locals.jwt_payload.pk;
 
         const ExitChatGroup_Result = await this.chat_service.ExitChatGroup(
-            s_account_pk,
-            s_group_pk
+            req.body.account_pk,
+            req.body.group_pk
         );
 
         if(!ExitChatGroup_Result){
             return res.status(400).send({
-                status : 400,
-                success : false,
-                message : "Bad Request"
+            status: 400, 
+            success: false, 
+            message: "fail to ExitChatGroup"
             });
-        };
+        }
 
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "success"
-        });
+        return ExitChatGroup_Result;
     }
-
 }
