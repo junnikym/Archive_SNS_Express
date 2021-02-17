@@ -1,7 +1,6 @@
 /**
  *  friend 관련 라우트
  */
-const express = require('express');
 import { Response } from "express";
 import {
     JsonController,

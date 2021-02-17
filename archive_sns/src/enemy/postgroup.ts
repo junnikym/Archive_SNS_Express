@@ -1,7 +1,22 @@
 /**
  *  그룹 관련 라우트
  */
-const express = require('express');
+import { Response } from "express";
+import {
+    JsonController,
+    Get,
+    Param,
+    Body,
+    Post,
+    Put,
+    UseBefore,
+    Req,
+    Res,
+    Delete,
+    HttpCode,
+    QueryParams,
+} from "routing-controllers";
+import { OpenAPI, ResponseSchema } from "routing-controllers-openapi";
 import sanitizeHtml from 'sanitize-html';
 
 // JWT middleware
@@ -15,42 +30,29 @@ import { PostGroupService } from "../services/GroupService";
 
 import { GroupDTO } from '../Models/DTOs/GroupDTO';
 
+@JsonController("/postgroup")
 export class GroupControl {
 
-    public router;
-    private PostGroup_Service : PostGroupService;
+    constructor( private PostGroup_Service : PostGroupService ) {}
 
-    constructor(
-        PostGroup_Service : PostGroupService
+    @HttpCode(200)
+    @Post()
+    @OpenAPI({
+        summary: "CreateGroup",
+        statusCode: "200",
+        responses: {
+            "403": {
+                description: "Forbidden",
+            },
+        },
+        security: [{ bearerAuth: [] }],
+    })
+    @UseBefore(VerifyAccessToken)
+    public async CreateGroup(
+        @Body() Group_DTO: GroupDTO,
+        @Req() req,
+        @Res() res: Response
     ) {
-
-        this.PostGroup_Service = PostGroup_Service;
-
-        this.router = express.Router();
-
-        this.router.post(
-            '/', 
-            async (req, res) => this.CreateGroup(req, res)
-        );
-
-        this.router.delete(
-            '/:group_pk', 
-            async (req, res) => this.DeleteGroup(req, res)
-        );
-
-        this.router.get(
-            '/invite/:group_pk', 
-            async (req, res) => this.Invite(req, res)
-        );
-
-    }
-
-    private async CreateGroup(req, res) {
-        const s_title = sanitizeHtml(req.body.title);
-        const s_member_pk_list = sanitizeHtml(req.body.member_pk_list);
-
-        const Group_DTO = new GroupDTO();
-        Group_DTO.title = s_title;
 
         if(!Group_DTO.title){
             return res.status(400).send({
@@ -60,13 +62,11 @@ export class GroupControl {
             });
         };
 
-        const member_pk_list: string[] = s_member_pk_list;
-
         const CreateGroup_Result = await this.PostGroup_Service.CreateGroup(
             Group_DTO,
-            member_pk_list
+            req.body.member_pk_list
         )
-        
+
         if(!CreateGroup_Result){
             return res.status(400).send({
                 status : 400,
@@ -75,21 +75,32 @@ export class GroupControl {
             });
         };
 
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "success",
-            data :  CreateGroup_Result
-        });
+        return CreateGroup_Result;
     }
 
-    private async DeleteGroup(req, res) {
-        const s_group_pk: string = sanitizeHtml(req.params.group_pk);
+    @HttpCode(200)
+    @Delete('/:group_pk')
+    @OpenAPI({
+        summary: "DeleteGroup",
+        statusCode: "200",
+        responses: {
+            "403": {
+                description: "Forbidden",
+            },
+        },
+        security: [{ bearerAuth: [] }],
+    })
+    @UseBefore(VerifyAccessToken)
+    public async DeleteGroup(
+        @Param('group_pk') group_pk: string,
+        @Req() req,
+        @Res() res: Response
+    ) {
 
         const DeleteGroup_Result = await this.PostGroup_Service.DeleteGroup(
-            s_group_pk
+            group_pk
         )
-        
+
         if(!DeleteGroup_Result){
             return res.status(400).send({
                 status : 400,
@@ -98,20 +109,30 @@ export class GroupControl {
             });
         };
 
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "success"
-        });
+        return DeleteGroup_Result;
     }
 
-    private async Invite(req, res) {
-        const s_group_pk: string = sanitizeHtml(req.params.group_pk);
-        const s_member_pk_list: string[] = sanitizeHtml(req.body.member_pk_list);
+    @HttpCode(200)
+    @Get()
+    @OpenAPI({
+        summary: "Invite",
+        statusCode: "200",
+        responses: {
+            "403": {
+                description: "Forbidden",
+            },
+        },
+        security: [{ bearerAuth: [] }],
+    })
+    @UseBefore(VerifyAccessToken)
+    public async Invite(
+        @Req() req,
+        @Res() res: Response
+    ) {
 
         const Invite_Result = await this.PostGroup_Service.Invite(
-            s_group_pk,
-            s_member_pk_list
+            req.body.group_pk,
+            req.body.member_pk_list
         )
 
         if(!Invite_Result){
@@ -122,12 +143,6 @@ export class GroupControl {
             });
         };
 
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "success",
-            data : Invite_Result
-        });
+        return Invite_Result;
     }
-
 }
