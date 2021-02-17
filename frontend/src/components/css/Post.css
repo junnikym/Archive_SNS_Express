@@ -21,7 +21,6 @@
     /* grid-template-columns: repeat(4, 1fr); */
     grid-column-gap: 1.5rem;
     grid-row-gap: 2rem;
-    box-shadow: 0px 1px 5px 2px var(--shadowColor);
 }
 
 img {
@@ -30,4 +29,12 @@ img {
 
 .groupHome{
     text-align: center;
+}
+
+.card{
+    box-shadow: 0px 1px 5px 2px var(--shadowColor);
+}
+
+.delete_from{
+    float: right;
 }

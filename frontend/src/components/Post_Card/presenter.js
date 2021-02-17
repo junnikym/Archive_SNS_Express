@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types";
 
 import Like_button from "../Like"  
 import Comment from "../Comment";
@@ -24,14 +25,19 @@ export const Post_Card_Img_Mini_Desc = props => (
 
 const Post_Card = props => (
     
-    
-
-          <Card>
-                
+        <Card className = "card">            
             <Card.Body>
 
                 <Card.Text>
                     제목 : <b> {props.Post_title} </b>
+
+                    <button
+                        onClick = {props.delete_handler}
+                        data-msg = {props.Post_pk}
+                        type = "submit">
+                        <span>delete</span>
+                    </button>
+
                     <hr/>
                     내용 : {props.Post_text} 
                     <br/>
@@ -50,6 +56,7 @@ const Post_Card = props => (
             <Card.Footer>
                 
                 <Comment post_pk={props.Post_pk}/> 
+                post_pk : {props.Post_pk}
 
             </Card.Footer>
         </Card>

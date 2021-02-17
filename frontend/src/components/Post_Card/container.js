@@ -11,6 +11,11 @@ const Container = (props, context) => {
 		loading : true,
 	});
 
+	const delete_handler = (props) => {
+		console.log();
+		props.deletePost(props.pk);
+	};
+
 	useEffect(() => {
 		if(props.post_list.length != 0) {
 			setState({
@@ -57,13 +62,14 @@ const Container = (props, context) => {
 							Post_title 	= {elem.title}
 							Post_img_loader = {() => image_loader(elem)}
 							Post_text	= {elem.text_content}
-							Post_date	= {elem.date} 
+							delete_handler	= {() => props.deletePost(elem.pk)}
 						/>
 					)}
 				</div>
 			)
 		}
 	}
+
 	return (
 		<div>
 			{render()}
@@ -73,7 +79,7 @@ const Container = (props, context) => {
 
 Container.propTypes = {
 	postList 			: PropTypes.func.isRequired,
-	post_list			: PropTypes.array.isRequired
+	post_list			: PropTypes.array.isRequired,
 };
 
 export default Container;

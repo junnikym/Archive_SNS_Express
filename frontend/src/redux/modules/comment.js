@@ -25,7 +25,6 @@ function saveNewComment(data) {
 // < API Actions >
 // --------------------------------------------------
 
-
 function createComment(post_pk, data) {
 
     return (dispatch, getState) => {
@@ -34,12 +33,12 @@ function createComment(post_pk, data) {
 		fetch("/comment", {
 			method: "POST",
 			headers: {
-				'Accept' : 'application/json',
+				"Content-Type": "application/json",
 				Authorization: `${AccessToken}`
 			},
 			body: JSON.stringify({
-				"content" 	: data,
-				"post_pk"	: post_pk
+				content : data,
+				post_pk	: post_pk
 			})
 		})
 		.then(response => response.json())

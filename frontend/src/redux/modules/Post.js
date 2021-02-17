@@ -2,6 +2,7 @@
 // < Actions >
 // --------------------------------------------------
 
+const DELETE_POST = "DELETE_POST";
 const GET_POST_LIST = "GET_POST_LIST";
 const SAVE_NEW_POST = "SAVE_NEW_POST";
 
@@ -12,6 +13,13 @@ function getPostList(data) {
 	return {
 		type: GET_POST_LIST,
 		data
+	}
+}
+
+function deletePostFromList(pk) {
+	return {
+		type: DELETE_POST,
+		pk
 	}
 }
 
@@ -41,6 +49,30 @@ function createPost(data) {
 		.then(json => {
 			if(json.data) {
 				dispatch(saveNewPost(json.data));
+			}
+		})
+		.catch(err => console.log(err));
+    };
+    
+};
+
+function deletePost( post_pk ) {
+
+    return (dispatch, getState) => {
+		const { account : { AccessToken }} = getState();
+		
+		fetch("/post/" + post_pk, {
+			method: "delete",
+			headers: {
+			"Content-Type": "application/json",
+			Authorization: `${AccessToken}`
+			
+			}
+		})
+		.then(res => {
+			console.log("redux run")
+			if(res.status == 200) {
+				dispatch(deletePostFromList(post_pk));
 			}
 		})
 		.catch(err => console.log(err));
@@ -95,6 +127,9 @@ function reducer(state = initialState, action) {
 
 		case GET_POST_LIST:
 			return applyGetPostList(state, action);
+
+		case DELETE_POST:
+			return applyDeletePost(state, action);
 		
 		default:
 			return state;
@@ -121,12 +156,25 @@ function applyGetPostList(state, action) {
 	};
 }
 
+function applyDeletePost(state, action) {
+	const { pk } = action;
+	const { post_list } = state;
+
+	post_list.splice(post_list.filter((elem) => elem.pk == pk), 1)
+
+	return {
+		...state,
+		post_list : post_list
+	}
+}
+
 // < Exports >
 // --------------------------------------------------
 
 const actionCreators = {
 	createPost,
-	postList
+	postList,
+	deletePost
 };
 
 export { actionCreators };
