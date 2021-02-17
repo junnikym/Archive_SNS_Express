@@ -1,39 +1,51 @@
+import { isObject } from "class-validator";
 import { Server, Socket } from "socket.io";
 
-export function SocketIO(server) {
-	const io = new Server(server, {path:'/socket.io'});
+import jwt from "jsonwebtoken";
+import { env } from "./env";
 
-	io.on('connection', (socket) => {
+export class SocketIO {
 
-		const req = socket.request;
-		const ip = req.headers['x-forwarrded-for'] || req.connection.remoteAddress;
+	public io;
+	public socket;
 
-		socket.on('disconnect', () => {
-			console.log('클라이언트 접속 해제', ip, socket.id);
-			clearInterval(socket.interval);
-		});
+	public async connect(server) {
+		this.io = new Server(server);
 
-		socket.on('error', (error) => {
-			console.log(error);
-			socket.on('reply', (data) => {
-				console.log(data);
+		this.io.on('connection', async (socket) => {
+			
+			this.socket = socket;
+
+			const req = socket.request;
+			const ip = req.headers['x-forwarrded-for'] || req.connection.remoteAddress;
+
+			socket.on('login_report', (token) => {
+				const decrypted_token = 
+					jwt.verify(token, env.jwt.secret_access_key);
+
+				console.log("decrypted token : ", decrypted_token);
+				
+				socket.join(decrypted_token.pk, function() {
+					this.io.to(decrypted_token.pk).emit('login_report_success', decrypted_token.pk);
+				});
 			});
+
+			socket.on('disconnect', () => {
+				console.log('클라이언트 접속 해제', ip, socket.id);
+				clearInterval(socket.interval);
+			});
+
+			socket.interval = setInterval(()=> {
+				socket.emit('news','Hello Socket.IO', ip, socket.id);
+			},3000);
+	
+			socket.on('error', (error) => {
+				console.log(error);
+				socket.on('reply', (data) => {
+					console.log(data);
+				});
+			});
+
 		});
-
-		// // 3초 마다 news 이벤트를 발생시킨다.
-		// socket.interval = setInterval(()=> {
-		// 	socket.emit('news','Hello Socket.IO');
-		// },3000);
-
-		// const chat = new Chat(socket_io, socket);
-
-		// socket.on(
-		// 	"SendChat",
-		// 	(message) => {
-		// 		console.log(message);
-		// 		io.emit("RecevieChat", message);
-		// });
-	});
+	}
 }
-
-// socket.on('RecevieChat', res=>console.log(res));

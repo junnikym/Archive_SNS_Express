@@ -58,7 +58,7 @@ export class ChatNotify {
 	@PrimaryGeneratedColumn("uuid")
 	pk: string;
 
-	@Column({ name: "listener_pk", length: 36 })
+	@Column({ name: "listener", length: 36 })
 	listener_pk: string;
 
 	@ManyToOne( (type) => Account, (Account) => Account.pk )

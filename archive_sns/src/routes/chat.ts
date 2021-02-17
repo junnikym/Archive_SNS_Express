@@ -3,6 +3,8 @@
  */
 const express = require('express');
 import sanitizeHtml from 'sanitize-html';
+import jwt from "jsonwebtoken";
+import { env } from "../env";
 
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
@@ -27,7 +29,7 @@ export class ChatControl {
         this.router.post(
             "/sendmsg", 
             VerifyAccessToken,
-            async (req, res) => this.SendMsg(res, req)
+            async (req, res) => this.SendMsg(req, res)
         );
 
         this.router.get(
@@ -39,7 +41,7 @@ export class ChatControl {
         this.router.delete(
             "/exit", 
             VerifyAccessToken, 
-            async (req, res) => this.ExitChatGroup(res, req)
+            async (req, res) => this.ExitChatGroup(req, res)
         );
 
     }
@@ -79,11 +81,19 @@ export class ChatControl {
             });
         };
 
+        const ws = req.app.get('socket_io');
+        console.log(ws.socket.rooms);
+
+        SendMsg_Result.notify.map( elem => {
+            ws.io.to(elem.listener_pk)
+                .emit('chat_notify', elem);
+        });
+
         return res.status(200).send({
             status : 200,
             success : true,
             message : "success",
-            data: SendMsg_Result
+            data: SendMsg_Result.chat
         });
     }
 
