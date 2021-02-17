@@ -10,6 +10,7 @@ import chat from './modules/Chat'
 import profile from './modules/Profile';
 import Like from './modules/Like';
 import comment from './modules/comment';
+import notify from './modules/notify';
 
 const env = process.env.NODE_ENV;
 
@@ -29,6 +30,7 @@ const reducer = combineReducers({
   chat,
   Like,
   comment,
+  notify,
   router : connectRouter(history),
 });
 
