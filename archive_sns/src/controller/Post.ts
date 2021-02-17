@@ -34,12 +34,6 @@ export class PostControl {
 
   constructor( private post_service : PostService ) {}
 
-  /**
-   * CreatePost
-   * @param post_dto 
-   * @param req 
-   * @param res 
-   */
   @HttpCode(200)
   @Post()
   @OpenAPI({

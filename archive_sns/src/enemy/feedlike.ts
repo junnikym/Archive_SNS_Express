@@ -3,6 +3,21 @@
  */
 const express = require('express');
 import { Response } from "express";
+import {
+    JsonController,
+    Get,
+    Param,
+    Body,
+    Post,
+    Put,
+    Req,
+    UseBefore,
+    Res,
+    Delete,
+    HttpCode,
+    QueryParams,
+} from "routing-controllers";
+import { OpenAPI, ResponseSchema } from "routing-controllers-openapi";
 
 import sanitizeHtml from 'sanitize-html';
 
@@ -10,156 +25,149 @@ import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
 import { PostLikeService } from '../services/LikeService';
 
+@JsonController("/feedlike")
 export class FeedLikeControl {
 
-    public router;
+    constructor(private post_like_service: PostLikeService) {}
 
-    private post_like_service: PostLikeService;
-
-    constructor(
-        post_like_service: PostLikeService
+    @HttpCode(200)
+    @Get()
+    @OpenAPI({
+        summary: "CountLike",
+        statusCode: "200",
+        responses: {
+            "403": {
+                description: "Forbidden",
+            },
+        },
+        security: [{ bearerAuth: [] }],
+    })
+    @UseBefore(VerifyAccessToken)
+    public async CountLike(
+        @Req() req,
+        @Res() res: Response
     ) {
-        this.post_like_service = post_like_service;
 
-        this.router = express.Router();
+    const CountLike_Result = await this.post_like_service.CountLike(
+        req.body.post_pk
+    );
 
-        this.router.get(
-            '/count',
-            async (req, res) => this.CountLike(req, res)
-        );
+    if(!CountLike_Result){
+        return res.status(400).send({
+            status : 400,
+            success : false,
+            message : "Bad Request"
+        });
+    };
 
-        this.router.get(
-            '/userlist/:feedNum', 
-            async (req, res) => this.WhoLike(req, res)
-        );
-
-        this.router.get(
-            '/list/:feedNum', 
-            VerifyAccessToken,
-            async (req, res) => this.IsLike(req, res)
-        );
-
-        this.router.post(
-            '/:feedNum', 
-            async (req, res) => this.ToggleLike(req, res)
-        );
-
+    return CountLike_Result;
     }
 
-    /**
-     * CountLike
-     * 
-     * @param post_pk : target_pk
-     */
-    private async CountLike(req, res) {
-        const s_target_pk = sanitizeHtml(req.body.post_pk);
+    @HttpCode(200)
+    @Get('/:post_pk')
+    @OpenAPI({
+        summary: "WhoLike",
+        statusCode: "200",
+        responses: {
+            "403": {
+                description: "Forbidden",
+            },
+        },
+        security: [{ bearerAuth: [] }],
+    })
+    @UseBefore(VerifyAccessToken)
+    public async WhoLike(
+        @Param('post_pk') post_pk: string,
+        @Req() req,
+        @Res() res: Response
+    ) {
 
-        const Count_Like = await this.post_like_service.CountLike(
-            s_target_pk
-        );
+    const WhoLike_Result = await this.post_like_service.WhoLike(
+        post_pk,
+        req.body.limit
+    );
 
-        if(!Count_Like){
-            return res.status(400).send({
-                status : 400,
-                success : false,
-                message : "Bad Request"
-            });
-        };
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "success",
-            data : Count_Like
-        });  
+    if(!WhoLike_Result){
+        return res.status(400).send({
+            status : 400,
+            success : false,
+            message : "Bad Request"
+        });
+    };
+
+    return WhoLike_Result;
     }
 
-    /**
-     * WhoLike
-     * 
-     * @param post_pk : target_pk
-     * @param limit : 
-     */
-    private async WhoLike(req, res) {
-        const s_target_pk = sanitizeHtml(req.body.post_pk);
-        const s_limit = sanitizeHtml(req.body.limit);
+    @HttpCode(200)
+    @Get('/islike/:post_pk')
+    @OpenAPI({
+        summary: "IsLike",
+        statusCode: "200",
+        responses: {
+            "403": {
+                description: "Forbidden",
+            },
+        },
+        security: [{ bearerAuth: [] }],
+    })
+    @UseBefore(VerifyAccessToken)
+    public async IsLike(
+        @Req() req,
+        @Res() res: Response
+    ) {
+    const user_pk = res.locals.jwt_payload.user_pk;
 
-        const Who_Like = await this.post_like_service.WhoLike(
-            s_target_pk,
-            s_limit
-        );
-        
-        if(!Who_Like){
-            return res.status(400).send({
-                status : 400,
-                success : false,
-                message : "Bad Request"
-            });
-        };
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "success",
-            data : Who_Like
-        });  
+    const IsLike_Result = await this.post_like_service.IsLike(
+        user_pk,
+        req.body.post_pk
+    );
+
+    if(!IsLike_Result){
+        return res.status(400).send({
+            status : 400,
+            success : false,
+            message : "Bad Request"
+        });
+    };
+
+    return IsLike_Result;
     }
 
-    /**
-     * IsLike
-     * 
-     * @param user_pk : jwt tokken
-     * @param post_pk : target_pk
-     */
-    private async IsLike(req, res) {
-        const s_target_pk = sanitizeHtml(req.body.post_pk);
-        const user_pk = res.locals.jwt_payload.user_pk;
+    
 
-        const Like_toggle = await this.post_like_service.IsLike(
-            user_pk,
-            s_target_pk
-        );
+    @HttpCode(200)
+    @Get('/togglelike')
+    @OpenAPI({
+        summary: "ToggleLike",
+        statusCode: "200",
+        responses: {
+            "403": {
+                description: "Forbidden",
+            },
+        },
+        security: [{ bearerAuth: [] }],
+    })
+    @UseBefore(VerifyAccessToken)
+    public async ToggleLike(
+        @Req() req,
+        @Res() res: Response
+    ) {
+    const user_pk = res.locals.jwt_payload.user_pk;
 
-        if(!Like_toggle){
-            return res.status(400).send({
-                status : 400,
-                success : false,
-                message : "Forbidden"
-            });
-        };
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "success",
-            data : Like_toggle
-        });  
-    }
+    const ToggleLike_Result = await this.post_like_service.ToggleLike(
+        user_pk,
+        req.body.feed_pk
+    );
 
-    /**
-     * ToggleLike
-     * 
-     * @param user_pk : jwt tokken
-     * @param Feed_pk : giver
-     */
-    private async ToggleLike(req, res) {
-        const s_giver = sanitizeHtml(req.body.Feed_pk);
-        const user_pk = res.locals.jwt_payload.pk;
+    if(!ToggleLike_Result){
+        return res.status(400).send({
+            status : 400,
+            success : false,
+            message : "Bad Request"
+        });
+    };
 
-        const PostLike = await this.post_like_service.ToggleLike(
-            user_pk,
-            s_giver
-        );
-
-        if(!PostLike){
-            return res.status(400).send({
-                status : 400,
-                success : false,
-                message : "Bad Request"
-            });
-        };
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "success"
-        });  
+    return ToggleLike_Result;
     }
 
 }
