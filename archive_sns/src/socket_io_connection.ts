@@ -19,15 +19,17 @@ export class SocketIO {
 			const req = socket.request;
 			const ip = req.headers['x-forwarrded-for'] || req.connection.remoteAddress;
 
+			console.log('클라이언트 접속', ip, socket.id);
+			console.log("login : ", socket.rooms);
+
 			socket.on('login_report', (token) => {
 				const decrypted_token = 
 					jwt.verify(token, env.jwt.secret_access_key);
-
-				console.log("decrypted token : ", decrypted_token);
 				
 				socket.join(decrypted_token.pk, function() {
 					this.io.to(decrypted_token.pk).emit('login_report_success', decrypted_token.pk);
 				});
+				console.log("login : ", socket.rooms);
 			});
 
 			socket.on('disconnect', () => {
