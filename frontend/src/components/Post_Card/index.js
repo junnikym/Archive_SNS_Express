@@ -1,12 +1,12 @@
 import { connect } from "react-redux";
 import Container from "./container";
-
 import { actionCreators as PostAct } from "../../redux/modules/Post";
 
 const mapStateToProps = (state, ownProps) => {
 	const { post: { post_list } } = state;
+    const { account: { info } } = state;
 
-	return { post_list };
+	return { post_list, info };
 };
 
 const mapDispatchToProps = (dispatch, props) => {

@@ -11,12 +11,13 @@ const Container = (props, context) => {
 		loading : true,
 	});
 
-	const delete_handler = (props) => {
-		console.log();
-		props.deletePost(props.pk);
-	};
+	// const delete_handler = (props) => {
+	// 	console.log();
+	// 	props.deletePost(props.pk);
+	// };
 
 	useEffect(() => {
+
 		if(props.post_list != undefined) {
 			setState({
 				loading: false,
@@ -58,6 +59,7 @@ const Container = (props, context) => {
 				<div className = "Post_Card">
 					{ props.post_list.map(elem => 
 						<Post_Card 
+							user_info 	= {elem.writer.name}
 							Post_pk		= {elem.pk}
 							Post_title 	= {elem.title}
 							Post_img_loader = {() => image_loader(elem)}

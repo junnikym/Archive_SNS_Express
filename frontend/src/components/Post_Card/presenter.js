@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import { Route, Switch, Link } from "react-router-dom";
 
 import Like_button from "../Like"  
 import Comment from "../Comment";
@@ -36,6 +37,9 @@ const Post_Card = props => (
                         type = "submit">
                         <span>delete</span>
                     </button>
+
+                    <Link to = "/Profile/pk" className = "imgUser"></Link>
+                    {props.user_info}
 
                     <hr/>
                     내용 : {props.Post_text} 

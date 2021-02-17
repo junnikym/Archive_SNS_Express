@@ -104,7 +104,7 @@ function getInfo(pk) {
 		})
 		.catch(err => console.log(err));
 	};
-}
+};
 
 // < Initial State >
 // --------------------------------------------------
