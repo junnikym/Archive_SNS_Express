@@ -1,7 +1,23 @@
 /**
  *  게시물 좋아요 관련 라우트
  */
-const express = require('express');
+import { Response } from "express";
+import {
+    JsonController,
+    Get,
+    Param,
+    Body,
+    Post,
+    Put,
+    UseBefore,
+    Req,
+    Res,
+    Delete,
+    HttpCode,
+    QueryParams,
+} from "routing-controllers";
+import { OpenAPI, ResponseSchema } from "routing-controllers-openapi";
+
 import sanitizeHtml from 'sanitize-html';
 
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
@@ -10,33 +26,7 @@ import { CommentLikeService } from "../services/LikeService";
 
 export class CommentLikeControl {
 
-    public router;
-
-    private comment_like_service: CommentLikeService;
-
-    constructor(
-        commend_like_service: CommentLikeService
-    ) {
-        this.comment_like_service = commend_like_service;
-
-        this.router = express.Router();
-
-        this.router.get(
-            '/count',
-            async (req, res) => this.CountLike(req, res)
-        );
-
-        this.router.get(
-            '/userlist/:feedNum', 
-            async (req, res) => this.WhoLike(req, res)
-        );
-
-        this.router.post(
-            '/:commentNum', 
-            VerifyAccessToken, 
-            async (req, res) => this.ToggleLike(req, res)
-        );
-    }
+    constructor(private comment_like_service: CommentLikeService) {}
 
     /**
      * 좋아요 수 보기
