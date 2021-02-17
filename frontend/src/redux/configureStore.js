@@ -3,10 +3,13 @@ import thunk from "redux-thunk";
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from "history";
 import  { composeWithDevTools } from "redux-devtools-extension";
+
 import account from "./modules/account";
 import post from './modules/Post';
+import chat from './modules/Chat'
 import profile from './modules/Profile';
-import chat from './modules/Chat';
+import Like from './modules/Like';
+// import chat from './modules/Chat';
 import comment from './modules/comment';
 
 const env = process.env.NODE_ENV;
@@ -23,9 +26,10 @@ if (env === "development") {
 const reducer = combineReducers({
   account,
   post,
-  comment,
   profile,
-  chat,
+  // chat,
+  Like,
+  comment,
   router : connectRouter(history),
 });
 

@@ -2,7 +2,7 @@
 // < Actions >
 // --------------------------------------------------
 
-const DELETE_POST = "DELETE_POST";
+const DELETE_POST   = "DELETE_POST";
 const GET_POST_LIST = "GET_POST_LIST";
 const SAVE_NEW_POST = "SAVE_NEW_POST";
 
@@ -66,11 +66,9 @@ function deletePost( post_pk ) {
 			headers: {
 			"Content-Type": "application/json",
 			Authorization: `${AccessToken}`
-			
 			}
 		})
 		.then(res => {
-			console.log("redux run")
 			if(res.status == 200) {
 				dispatch(deletePostFromList(post_pk));
 			}
@@ -114,7 +112,7 @@ function postList(offset, limit, order_by) {
 
 const initialState = {
 	new_post_count : 0,
-	post_list : []
+	post_list : undefined
 }
 
 // < Reducer >

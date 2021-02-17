@@ -17,6 +17,10 @@ const mapDispatchToProps = (dispatch, props) => {
         Profile: (pk) => {
             dispatch(ProfileAct.Profile(pk));
         },
+
+        Unsubscribe : (pk) => {
+            dispatch(ProfileAct.Unsubscribe(pk));
+        }
     };
 };
 

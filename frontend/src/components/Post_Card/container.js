@@ -17,13 +17,13 @@ const Container = (props, context) => {
 	};
 
 	useEffect(() => {
-		if(props.post_list.length != 0) {
+		if(props.post_list != undefined) {
 			setState({
 				loading: false,
 			});
 		}
 		else {
-			props.postList(0, 5, "post.createAt");	
+			props.postList(0, 5, "post.createAt");
 		}
 	}, [props.post_list]);
 

@@ -49,10 +49,10 @@ export class ChatControl {
      * @param req 
      * @param res 
      */
-    private SendMsg = async (res, req) => {
-
-        const account_pk = res.locals.jwt_payload.pk;
-        const group_pk = req.body.group_pk;
+    private async SendMsg(req, res) {
+        const s_account_pk = sanitizeHtml(res.locals.jwt_payload.pk);
+        const s_group_pk = sanitizeHtml(req.body.group_pk);
+        const s_content: string = sanitizeHtml(req.body.content);
 
         const ChatMsg_DTO = new ChatMsgDTO();
         ChatMsg_DTO.content = req.body.content;
@@ -66,8 +66,8 @@ export class ChatControl {
         }
 
         const SendMsg_Result = await this.chat_service.SendMsg(
-            account_pk,
-            group_pk,
+            s_account_pk,
+            s_group_pk,
             ChatMsg_DTO
         );
 

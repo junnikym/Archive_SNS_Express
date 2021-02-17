@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-import Comment from "./presenter";
+import Comment, { CommentView } from "./presenter";
 
 const Container = (props, context) => {
+
+    useEffect(() => {
+        props.commentList(props.post_pk, 0, 5, null);
+    }, [])
 
     const [commentInfo, setCommentInfo] = useState({
         comment     : '',
@@ -20,15 +24,27 @@ const Container = (props, context) => {
 
     const submit_handler = event => {
         event.preventDefault();
-        console.log(props.post_pk);
         props.createComment(props.post_pk, comment);
-    };
+    }
+
+    const draw_handler = () => {
+        return props.comment_list?.comments.map( 
+                    elem => <CommentView 
+                        comment={elem}
+                        delete_handler = {() => props.deleteComment(elem.pk)}
+                            />
+        )
+    }
+
 
     return (
+        
+
         <Comment
             comment_input_handler       = {comment_input_handler}
             submit_handler              = {submit_handler}
-
+            draw_handler                = {draw_handler}
+            comment                     = {comment}
             commentInfo                 = {commentInfo}
 
         />

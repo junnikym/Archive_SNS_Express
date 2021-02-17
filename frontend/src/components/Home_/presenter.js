@@ -20,7 +20,7 @@ const Home_ = (props, contet) => (
           <Feed/>
 
           {/* Post 보기 */}
-          
+          {/* <Post/> */}
           <Post_Card/>
 
           {/* <Chat/> */}

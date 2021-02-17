@@ -1,15 +1,25 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
-import Get_comment from "../Get_comment";
+export const CommentView = props => (
+    <div>
+        작성자 : {props.comment.writer.name} <br/>
+        {props.comment.content}
+        <button
+                        onClick = {props.delete_handler}
+                        type = "submit">
+                        <span>delete</span>
+                    </button>
+        <hr/>
+        
+    </div>
+)
 
 const Comment = props => (
     
     <div className = "Comment">
 
         <br/>
-
-        <Get_comment/>
         
         <form
             className = "comment"
@@ -28,6 +38,12 @@ const Comment = props => (
                 type = "submit"
                 />
         </form>
+
+        <br/>
+
+        <hr/>
+
+        { props.draw_handler() }
 
     </div>
 

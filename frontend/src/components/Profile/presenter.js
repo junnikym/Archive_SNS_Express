@@ -10,6 +10,12 @@ const Profile = (props, context) => (
         Name : {props.info?.name}   <br/>
 
         Status_msg : {props.info?.status_msg}
+
+        <button
+            onClick = {props.delete_handler}
+            type = "submit">
+                <span>Unsubscribe</span>
+        </button>
         
     </div>
 

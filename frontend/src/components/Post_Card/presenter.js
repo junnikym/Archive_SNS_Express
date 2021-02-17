@@ -33,7 +33,6 @@ const Post_Card = props => (
 
                     <button
                         onClick = {props.delete_handler}
-                        data-msg = {props.Post_pk}
                         type = "submit">
                         <span>delete</span>
                     </button>
@@ -45,13 +44,11 @@ const Post_Card = props => (
                     {props.Post_img_loader()}
                 </Card.Text>
 
-                <Like_button/>
+            <small className="text-muted">
+                Time : {props.Post_date}
+            </small>
 
-                <small className="text-muted">
-                    Time : {props.Post_date}
-                </small>
-
-            </Card.Body>
+        </Card.Body>
 
             <Card.Footer>
                 

@@ -16,6 +16,7 @@ const Container = (props, context) => {
     return (
         <Profile
             info = {props.profile_info}
+            Unsubscribe = {() => props.Unsubscribe(props.match.params.pk)}
         />
     );
 }
