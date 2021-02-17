@@ -34,6 +34,7 @@ import { ImageDTO } from '../Models/DTOs/ImageDTO';
 import { AccountService } from '../services/AccountService';
 import { AuthService } from "../services/AuthService";
 
+@JsonController("/auth")
 export class AuthControl {
 
   constructor(

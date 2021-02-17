@@ -24,6 +24,7 @@ import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 import { CommentDTO } from '../Models/DTOs/CommentDTO';
 import { PostCommentService } from '../services/CommentService';
 
+@JsonController("/comment")
 export class CommentControl {
 
     constructor( private post_comment_service : PostCommentService ) {}

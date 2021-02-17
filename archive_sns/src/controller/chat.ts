@@ -23,6 +23,7 @@ import {
 } from "routing-controllers";
 import { OpenAPI, ResponseSchema } from "routing-controllers-openapi";
 
+@JsonController("/chat")
 export class ChatControl {
     constructor( private chat_service : ChatService ) {}
 

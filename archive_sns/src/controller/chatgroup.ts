@@ -28,6 +28,7 @@ import { OpenAPI, ResponseSchema } from "routing-controllers-openapi";
 import { ChatGroupService } from "../services/GroupService";
 import { GroupDTO } from '../Models/DTOs/GroupDTO';
 
+@JsonController("/chatgroup")
 export class GroupControl {
 
     constructor( private Chat_GroupService : ChatGroupService ) {}

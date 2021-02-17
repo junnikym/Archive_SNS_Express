@@ -2,6 +2,8 @@
  *  게시물 좋아요 관련 라우트
  */
 const express = require('express');
+import { Response } from "express";
+
 import sanitizeHtml from 'sanitize-html';
 
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
