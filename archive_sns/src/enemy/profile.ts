@@ -1,8 +1,22 @@
 /**
  * 프로필 관련 라우트
  */
-const express = require('express');
-import sanitizeHtml from 'sanitize-html';
+import { Response } from "express";
+import {
+    JsonController,
+    Get,
+    Param,
+    Body,
+    Post,
+    Put,
+    UseBefore,
+    Req,
+    Res,
+    Delete,
+    HttpCode,
+    QueryParams,
+} from "routing-controllers";
+import { OpenAPI, ResponseSchema } from "routing-controllers-openapi";import sanitizeHtml from 'sanitize-html';
 
 import { 
     RefreshTokenGenerator,
@@ -14,98 +28,74 @@ import { AccountService } from '../services/AccountService';
 import { Account } from '../Models/Entities/Account';
 import { AccountDTO } from '../Models/DTOs/AccountDTO';
 
+@JsonController("/profile")
 export class ProfileControl {
+    constructor( private account_service : AccountService ) {}
 
-    public router
-
-    private account_service : AccountService;
-
-    constructor(
-        account_service : AccountService
+    @HttpCode(200)
+    @Get()
+    @OpenAPI({
+        summary: "GetAccountByPk",
+        statusCode: "200",
+        responses: {
+            "403": {
+                description: "Forbidden",
+            },
+        },
+        security: [{ bearerAuth: [] }],
+    })
+    @UseBefore(VerifyAccessToken)
+    public async GetAccountByPk(
+        @Req() req,
+        @Res() res: Response
     ) {
-        this.account_service = account_service;
-
-        this.router = express.Router();
-
-        this.router.get(
-            '/',
-            async (req, res) => this.GetAccountByPk(req, res)
+        const GetAccount_Result = await this.account_service.GetAccountByPK(
+            req.body.email
         );
 
-        this.router.put(
-            '/:usernum',
-            async (req, res) => this.UpdateAccount(req, res)
-        );
-    }
-
-    /**
-     * GetAccountByPK
-     * 
-     * @param email : user_Email
-     */
-    private async GetAccountByPk (req, res) {
-        const s_user_Email = sanitizeHtml(req.body.email);
-
-        const Get_Account = await this.account_service.GetAccountByPK(
-            s_user_Email
-        );
-
-        if(!Get_Account){
+        if(!GetAccount_Result){
             return res.status(400).send({
                 status : 400,
                 success : false,
                 message : "Bad Request"
             });
         };
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "success",
-            data : Get_Account
-        });
+
+        return GetAccount_Result;
     }
 
-    /**
-     * UpdateAccount
-     * 
-     * @param account_pk : 
-     * @param Update_Profile : 
-     * AccountDTO(email, password, name, profile_image, status_msg)
-     */
-    private async UpdateAccount(req, res) {
-        const s_email = sanitizeHtml(req.body.email);
-        const s_password = sanitizeHtml(req.body.password);
-        const s_name = sanitizeHtml(req.body.name);
-        const s_profile_image = sanitizeHtml(req.body.profile_image);
-        const s_status_msg = sanitizeHtml(req.body.status_msg);
-
-        const s_account_pk = sanitizeHtml(req.body.account_pk);
-
-        const Update_Profile = new AccountDTO();
-        Update_Profile.email = s_email;
-        Update_Profile.password = s_password;
-        Update_Profile.name = s_name;
-        Update_Profile.profile_image = s_profile_image;
-        Update_Profile.status_msg = s_status_msg;
-
+    @HttpCode(200)
+    @Put()
+    @OpenAPI({
+        summary: "UpdateAccount",
+        statusCode: "200",
+        responses: {
+            "403": {
+                description: "Forbidden",
+            },
+        },
+        security: [{ bearerAuth: [] }],
+    })
+    @UseBefore(VerifyAccessToken)
+    public async UpdateAccount(
+        @Body() Account_DTO: AccountDTO,
+        @Req() req,
+        @Res() res: Response
+    ) {
         const Update_Profile_result = await this.account_service.UpdateAccount(
-            s_account_pk,
-            Update_Profile
+            req.body.account_pk,
+            Account_DTO
         );
 
         if(!Update_Profile_result){
-            return res.status(403).send({
+            return res.status(400).send({
                 status : 400,
                 success : false,
                 message : "Bad Request"
             });
         };
-        return res.status(200).send({
-            status : 200,
-            success : true,
-            message : "success",
-            data : Update_Profile_result
-        });
+
+        return Update_Profile_result;
     }
 
 }
