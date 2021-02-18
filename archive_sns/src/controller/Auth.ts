@@ -94,12 +94,12 @@ export class AuthControl {
   @HttpCode(200)
     @Post()
     @OpenAPI({
-        summary: "registration",
+        summary: "registration/CreateAccount",
         statusCode: "200",
         security: [{ bearerAuth: [] }],
     })
     @UseBefore(VerifyAccessToken)
-    public async registration(
+    public async CreateAccount(
         @Body() account_dto: AccountDTO,
         @Req() req,
         @Res() res: Response,
@@ -121,19 +121,19 @@ export class AuthControl {
       profile_img.url = req.body.profile_img_url;
     }
 
-    const account = await this.account_service.CreateAccount(account_dto);
+    const CreateAccount_Result = await this.account_service.CreateAccount(account_dto);
 
-    const _access_token = AccessTokenGenerator(account);
-    const _refresh_token = RefreshTokenGenerator(account);
+    const _access_token = AccessTokenGenerator(CreateAccount_Result);
+    const _refresh_token = RefreshTokenGenerator(CreateAccount_Result);
 
-    await this.auth_service.SaveRefreshTokenDirectly(account, _refresh_token);
+    await this.auth_service.SaveRefreshTokenDirectly(CreateAccount_Result, _refresh_token);
 
     // < Success >
     // --------------------------------------------------
     return {
         access_token: _access_token,
         refresh_token: _refresh_token,
-        pk: account.pk
+        pk: CreateAccount_Result.pk
     }
   }
 
@@ -145,7 +145,7 @@ export class AuthControl {
         security: [{ bearerAuth: [] }],
     })
     @UseBefore(VerifyAccessToken)
-    public async account(
+    public async ValidateRefreshToken(
       @Res() res: Response
       ) {
       const user_pk = res.locals.jwt_payload.pk;

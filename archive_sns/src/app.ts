@@ -10,7 +10,7 @@ import {
   useExpressServer,
 } from "routing-controllers";
 
-const passportRouter = require('./passport/passport');
+const OAuthRouter = require('./OAuth/OAuth');
 
 import { appendFile } from "fs";
 import { db_conn } from "./db_connection";
@@ -74,6 +74,9 @@ export class App {
         // run
         this.server.listen(port, () => {
           console.log('Conneted ', port, ' port');
+
+        // OAuth
+        this.app.use('/auth', OAuthRouter);
         });
       });
     }
