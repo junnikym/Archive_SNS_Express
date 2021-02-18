@@ -1,6 +1,6 @@
 import Container from "typedi";
 import { createConnection, ConnectionOptions, useContainer, Connection } from "typeorm";
-import { env } from "./env";
+import { env } from "../env";
 
 /**
  * DB Connection Setting

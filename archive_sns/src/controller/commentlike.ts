@@ -22,7 +22,7 @@ import sanitizeHtml from 'sanitize-html';
 
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
-import { CommentLikeService } from "../services/LikeService";
+import { CommentLikeService } from "../Services/LikeService";
 
 @JsonController("/commentlike")
 export class CommentLikeControl {

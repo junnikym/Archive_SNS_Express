@@ -24,7 +24,7 @@ import {
     VerifyAccessToken 
 } from "../Middleware/JWT_Auth";
 
-import { AccountService } from '../services/AccountService';
+import { AccountService } from '../Services/AccountService';
 import { Account } from '../Models/Entities/Account';
 import { AccountDTO } from '../Models/DTOs/AccountDTO';
 

@@ -23,7 +23,7 @@ import sanitizeHtml from 'sanitize-html';
 
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
-import { PostLikeService } from '../services/LikeService';
+import { PostLikeService } from '../Services/LikeService';
 
 @JsonController("/feedlike")
 export class FeedLikeControl {

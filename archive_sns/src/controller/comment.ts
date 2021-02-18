@@ -22,7 +22,7 @@ const express = require('express');
 import sanitizeHtml from 'sanitize-html';
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 import { CommentDTO } from '../Models/DTOs/CommentDTO';
-import { PostCommentService } from '../services/CommentService';
+import { PostCommentService } from '../Services/CommentService';
 
 @JsonController("/comment")
 export class CommentControl {

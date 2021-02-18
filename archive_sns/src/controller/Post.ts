@@ -10,7 +10,7 @@ import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
 // Multer middleware
 import { PostImageMulter } from '../Middleware/Multer';
-import { PostService } from "../services/PostService";
+import { PostService } from "../Services/PostService";
 import { PostDTO } from '../Models/DTOs/PostDTO';
 import { ImageDTO } from "../Models/DTOs/ImageDTO";
 import {

@@ -31,8 +31,8 @@ import {
 
 import { ImageDTO } from '../Models/DTOs/ImageDTO';
 
-import { AccountService } from '../services/AccountService';
-import { AuthService } from "../services/AuthService";
+import { AccountService } from '../Services/AccountService';
+import { AuthService } from "../Services/AuthService";
 
 @JsonController("/auth")
 export class AuthControl {

@@ -5,7 +5,7 @@ import { Response } from "express";
 import sanitizeHtml from 'sanitize-html';
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 import { ChatMsgDTO } from '../Models/DTOs/ChatDTO';
-import { ChatService } from '../services/ChatService';
+import { ChatService } from '../Services/ChatService';
 
 import {
     JsonController,

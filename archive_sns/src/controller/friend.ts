@@ -23,7 +23,7 @@ import sanitizeHtml from 'sanitize-html';
 // JWT middleware
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 
-import { FriendService } from "../services/FriendService";
+import { FriendService } from "../Services/FriendService";
 
 import { PostDTO } from '../Models/DTOs/PostDTO';
 import { ImageDTO } from "../Models/DTOs/ImageDTO";

@@ -2,7 +2,7 @@ import { isObject } from "class-validator";
 import { Server, Socket } from "socket.io";
 
 import jwt from "jsonwebtoken";
-import { env } from "./env";
+import { env } from "../env";
 
 export class SocketIO {
 
