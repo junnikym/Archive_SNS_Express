@@ -11,11 +11,6 @@ const Container = (props, context) => {
 		loading : true,
 	});
 
-	// const delete_handler = (props) => {
-	// 	console.log();
-	// 	props.deletePost(props.pk);
-	// };
-
 	useEffect(() => {
 
 		if(props.post_list != undefined) {

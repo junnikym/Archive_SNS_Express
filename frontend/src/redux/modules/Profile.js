@@ -1,5 +1,6 @@
 const PASS_DATA		   = "PASS_DATA";
 const UNSUBSCRIBE_DATA = "UNSUBSCRIBE_DATA";
+const EDIT_PROFILE_DATA	   = "EDIT_PROFILE_DATA";
 
 function passData(data) {
 	return {
@@ -13,6 +14,41 @@ function unsubscribeData(data) {
 		type : UNSUBSCRIBE_DATA,
 		data
 	}
+}
+
+function editProfileData(data) {
+	return {
+		type : EDIT_PROFILE_DATA,
+		data
+	}
+}
+
+function editProfile (user_pk, email, password, name, image, msg) {
+	return (dispatch, getState) => {
+		const { account : { token }} = getState();
+
+		fetch("/profile/" + user_pk, {
+			method: "put",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `JWT ${token}`
+			},
+			body: JSON.stringify({
+				"email" : email,
+				"password" : password,
+				"name" : name,
+				"image" : image,
+				"msg" : msg
+			})
+		})
+		.then(response =>  response.json())
+		.then(json => {
+			if (json.data) {
+				dispatch(editProfileData(json.data));
+			}
+		})
+		.catch(err => console.log(err));
+	};
 }
 
 function Unsubscribe(user_pk, password) {
@@ -68,9 +104,22 @@ function reducer(state = initialState, action) {
 
 		case UNSUBSCRIBE_DATA:
 			return applyUnsubscribe(state, action);
+
+		case EDIT_PROFILE_DATA:
+			return applyeditProfileData(state, action);
 			
 		default:
 			return state;
+	}
+}
+
+function applyeditProfileData (state, action) {
+	const {data} = action;
+
+	return {
+		...state,
+		profile_info: data
+		
 	}
 }
 
@@ -90,7 +139,8 @@ function applyUnsubscribe(state, action) {
 
 const actionCreators = {
 	Profile,
-	Unsubscribe
+	Unsubscribe,
+	editProfile
 };
 
 export { actionCreators };

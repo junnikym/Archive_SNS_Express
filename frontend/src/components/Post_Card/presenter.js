@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from "prop-types";
 import { Route, Switch, Link } from "react-router-dom";
 
+import styled  from 'styled-components';
+
 import Like_button from "../Like"  
 import Comment from "../Comment";
 
@@ -26,7 +28,8 @@ export const Post_Card_Img_Mini_Desc = props => (
 
 const Post_Card = props => (
     
-        <Card className = "card">            
+        <Card className = "card">     
+
             <Card.Body>
 
                 <Card.Text>
