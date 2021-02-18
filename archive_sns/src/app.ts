@@ -10,11 +10,7 @@ import {
   useExpressServer,
 } from "routing-controllers";
 
-<<<<<<< HEAD
 const OAuthRouter = require('./OAuth/OAuth');
-=======
-// const passportRouter = require('./Middleware/passport/Passport');
->>>>>>> c355973947f70ebc06b38f96833bff92baaa21d4
 
 import { appendFile } from "fs";
 import { db_conn } from "./Utils/DB_Connection";
