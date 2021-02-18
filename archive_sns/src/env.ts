@@ -29,8 +29,8 @@ export const env = {
 	which_env: process.env.NODE_ENV || "development",
 
 	app: {
-		port			 : Number(process.env.PORT) || 8000,
-		apiPrefix: process.env.API_PREFIX || "/api",
+		port			: Number(process.env.PORT) || 8000,
+		apiPrefix		: process.env.API_PREFIX || "/api",
 	},
 
 	database: {
@@ -46,5 +46,9 @@ export const env = {
 	jwt: {
 		secret_access_key : process.env.JWT_SECRET_ACCESS_KEY,
 		secret_refresh_key : process.env.JWT_SECRET_REFRESH_KEY,
-	}
+	},
+
+	swagger: {
+		route: process.env.SWAGGER_ROUTE,
+	},
 };

@@ -25,7 +25,7 @@ import {
     QueryParams,
 } from "routing-controllers";
 import { OpenAPI, ResponseSchema } from "routing-controllers-openapi";
-import { ChatGroupService } from "../services/GroupService";
+import { ChatGroupService } from "../Services/GroupService";
 import { GroupDTO } from '../Models/DTOs/GroupDTO';
 
 @JsonController("/chatgroup")

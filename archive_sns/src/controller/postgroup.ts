@@ -26,7 +26,7 @@ import {
     VerifyAccessToken 
 } from "../Middleware/JWT_Auth";
 
-import { PostGroupService } from "../services/GroupService";
+import { PostGroupService } from "../Services/GroupService";
 
 import { GroupDTO } from '../Models/DTOs/GroupDTO';
 

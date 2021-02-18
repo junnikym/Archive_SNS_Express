@@ -4,21 +4,22 @@ import express, { Request, Response } from "express";
 // util
 import helmet from 'helmet'
 import compression from 'compression';
-import { routingControllerOptions } from "./util/RoutingConfig";
+import { routingControllerOptions } from "./Utils/RoutingConfig";
 import {
   useContainer as routingUseContainer,
   useExpressServer,
 } from "routing-controllers";
 
-const passportRouter = require('./passport/passport');
+// const passportRouter = require('./Middleware/passport/Passport');
 
 import { appendFile } from "fs";
-import { db_conn } from "./db_connection";
+import { db_conn } from "./Utils/DB_Connection";
 import { Connection } from "typeorm";
 import Container from "typedi";
 
 import { createServer, Server as httpServer } from "http";
-import { SocketIO } from "./socket_io_connection";
+import { SocketIO } from "./Utils/SocketIO_Connection";
+import { initSwagger } from './Utils/Swagger';
 
 export class App {
   private app: express.Application;
@@ -61,6 +62,7 @@ export class App {
     try {
       routingUseContainer(Container);
       useExpressServer(this.app, routingControllerOptions);
+      initSwagger(this.app);
 
       this.initDB().then(() => {
         // server init
