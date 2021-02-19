@@ -43,19 +43,18 @@ export class AuthControl {
   ) {}
 
   @HttpCode(200)
-    @Get()
-    @OpenAPI({
-        summary: "login",
-        statusCode: "200",
-        security: [{ bearerAuth: [] }],
-    })
-    @UseBefore(VerifyAccessToken)
-    public async login(
-        @Body() Account_DTO: AccountDTO,
-        @Req() req,
-        @Res() res: Response,
-    ) {
-    Account_DTO.fromJson(req.body);
+  @Post('/login')
+  @OpenAPI({
+      summary: "login",
+      statusCode: "200",
+  })
+  public async login(
+    @Body() Account_DTO: AccountDTO,
+    // @Req() req,
+    @Res() res: Response,
+  ) {
+
+    // Account_DTO.fromJson(req.body);
     const account = await this.auth_service.ValidateAccount(Account_DTO);
 
     if(!account) {
@@ -78,32 +77,33 @@ export class AuthControl {
 
     if(!login) {
       return res.status(401).send({
-        status : 400,
+        status : 401,
         success : true,
         message : "account or _refresh_token error",
       });
     }
 
     return {
-      access_token: _access_token,
-      refresh_token: _refresh_token,
-      pk: account.pk
+      data: {
+        access_token: _access_token,
+        refresh_token: _refresh_token,
+        pk: account.pk
+      }
     };
   }
 
   @HttpCode(200)
-    @Post()
-    @OpenAPI({
-        summary: "registration",
-        statusCode: "200",
-        security: [{ bearerAuth: [] }],
-    })
-    @UseBefore(VerifyAccessToken)
-    public async registration(
-        @Body() account_dto: AccountDTO,
-        @Req() req,
-        @Res() res: Response,
-    ) {
+  @Post('registration')
+  @OpenAPI({
+      summary: "registration",
+      statusCode: "200",
+      security: [{ bearerAuth: [] }],
+  })
+  public async registration(
+      @Body() account_dto: AccountDTO,
+      @Req() req,
+      @Res() res: Response,
+  ) {
     if(req.body.password != req.body.pw_confirm) {
       return res.status(409).send({
         status : 409,
@@ -131,10 +131,12 @@ export class AuthControl {
     // < Success >
     // --------------------------------------------------
     return {
+      data: {
         access_token: _access_token,
         refresh_token: _refresh_token,
         pk: account.pk
-    }
+      }
+    };
   }
 
   @HttpCode(200)
@@ -144,7 +146,6 @@ export class AuthControl {
         statusCode: "200",
         security: [{ bearerAuth: [] }],
     })
-    @UseBefore(VerifyAccessToken)
     public async account(
       @Res() res: Response
       ) {
@@ -163,7 +164,6 @@ export class AuthControl {
         user_pk, 
         token
       );
-
 
       if(!ValidateRefreshToken_Result){
           return res.status(400).send({

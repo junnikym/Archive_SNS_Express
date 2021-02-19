@@ -9,8 +9,8 @@ export const VerifyAccessToken = (
 	next: NextFunction,
 ) => {
 	try {
-		res.locals.jwt_payload = "test";
-			// jwt.verify(req.headers.authorization, env.jwt.secret_access_key);
+		res.locals.jwt_payload =
+			jwt.verify(req.headers.authorization, env.jwt.secret_access_key);
 	} 
 	catch(error) {
 		
