@@ -1,12 +1,9 @@
 const express = require('express')
 const router = express.Router()
-
 const parseurl = require('parseurl')
 const session = require('express-session')
-
 const passport = require('passport');
 var GoogleStrategy = require( 'passport-google-oauth20' ).Strategy
-
 //세션
 router.use(session({
     secret: 'bshjsalgu',
@@ -24,11 +21,12 @@ passport.deserializeUser(function(obj, done) {
     done(null, obj);
 });
 
-
+const googleCredentials = require('../../config/google.json')
+console.log(googleCredentials);
 passport.use(new GoogleStrategy({
-    clientID: '246734913456-einsa1t8j3nckmntjidq86cg1vj596dq.apps.googleusercontent.com',
-    clientSecret: 'wehE8TZxNfBvWghLXgYqpne0',
-    callbackURL: 'http://localhost:8000/auth/google/callback'
+    clientID: googleCredentials.web.client_id,
+    clientSecret: googleCredentials.web.client_secret,
+    callbackURL: googleCredentials.web.redirect_uris
 }, function(accessToken, refreshToken, profile, done) {
     process.nextTick(function() {
         const user = profile;

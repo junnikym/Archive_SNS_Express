@@ -41,7 +41,7 @@ export class PostControl {
     statusCode: "200",
     security: [{ bearerAuth: [] }],
   })
-  @UseBefore(VerifyAccessToken)
+  @UseBefore()
   public async CreatePost(
     @Body() post_dto: PostDTO,
     @Req() req,
