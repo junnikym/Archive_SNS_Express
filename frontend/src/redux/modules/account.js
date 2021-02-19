@@ -42,10 +42,7 @@ function defaultLogin(email, password) {
 			headers: {
 				"Content-Type": "application/json"
 			},
-			body: JSON.stringify({
-				"email" 	: email,
-				"password"	: password
-			})
+			body: "{\"email\":\"test_1@test\",\"password\":\"test\",\"name\":\"string\"}"
 		})
 		.then(response => response.json())
 		.then(json => {
@@ -61,7 +58,7 @@ function defaultLogin(email, password) {
 function createAccount(email, pw, confirm_pw, img, alias) {
 	return dispatch => {
 
-		fetch("/auth/registration", {
+		fetch("/auth", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"

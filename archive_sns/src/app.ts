@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 import bodyParser from "body-parser";
 import express, { Request, Response } from "express";
 
@@ -29,6 +31,7 @@ export class App {
 
   constructor() {
     this.app = express();
+    this.initDB();
     this.setMiddlewares();
   }
 
@@ -61,18 +64,18 @@ export class App {
   public async run(port: number) : Promise<void> {
     try {
       routingUseContainer(Container);
-      useExpressServer(this.app, routingControllerOptions);
+      this.app = useExpressServer(this.app, routingControllerOptions);
       initSwagger(this.app);
 
-      this.initDB().then(() => {
-        // server init
-        this.server = createServer(this.app);
+      // server init
+      this.server = createServer(this.app);
 
-        // socket io
-        this.socket_io = new SocketIO;
-        this.app.set('socket_io', this.socket_io);
-        this.socket_io.connect(this.server);
+      // socket io
+      this.socket_io = new SocketIO;
+      this.app.set('socket_io', this.socket_io);
+      this.socket_io.connect(this.server);
 
+<<<<<<< HEAD
         // run
         this.server.listen(port, () => {
           console.log('Conneted ', port, ' port');
@@ -80,10 +83,15 @@ export class App {
         // OAuth
         this.app.use('/auth', OAuthRouter);
         });
+=======
+      // run
+      this.server.listen(port, () => {
+        console.log('Conneted ', port, ' port');
+>>>>>>> ed44c9e57cebde71088946b6081e8eaa9f3f37e0
       });
     }
     catch (error) {
-      console.log("error : ", error);
+      console.log("server error : ", error);
     }
   }
 }

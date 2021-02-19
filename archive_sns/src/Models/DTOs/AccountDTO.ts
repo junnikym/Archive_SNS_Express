@@ -34,7 +34,7 @@ export class AccountDTO {
 	public password: string;
 
 	@Length(MIN_NAME_LEN, MAX_NAME_LEN)
-	public name: string;
+	public name: string | null;
 	
 	public profile_image: Image | null;
 

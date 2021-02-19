@@ -29,28 +29,6 @@ export class CommentControl {
 
     constructor( private post_comment_service : PostCommentService ) {}
 
-    /**
-     * TEST
-     * @param req 
-     * @param res 
-     */
-    private TestComment(req, res) {
-        const form = `
-        <form action='/comment/create' method='post'>
-            <p>
-                <textarea name="user_pk"></textarea>
-            </p>
-            </p>
-                <textarea name="content"></textarea>
-            </p>
-            <p>
-                <input type="submit">
-            </p>
-        </form>
-        `;
-        return res.send(form);
-    }
-
     @HttpCode(200)
     @Get()
     @OpenAPI({
@@ -82,7 +60,7 @@ export class CommentControl {
     }
 
     @HttpCode(200)
-    @Get()
+    @Post()
     @OpenAPI({
         summary: "CreateComment",
         statusCode: "200",

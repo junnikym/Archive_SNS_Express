@@ -136,7 +136,7 @@ export class FeedLikeControl {
     
 
     @HttpCode(200)
-    @Get('/togglelike')
+    @Post('/togglelike')
     @OpenAPI({
         summary: "ToggleLike",
         statusCode: "200",

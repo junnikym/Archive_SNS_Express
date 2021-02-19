@@ -30,7 +30,7 @@ export const env = {
 
 	app: {
 		port			: Number(process.env.PORT) || 8000,
-		apiPrefix		: process.env.API_PREFIX || "/api",
+		// apiPrefix		: process.env.API_PREFIX || "/api",
 	},
 
 	database: {
