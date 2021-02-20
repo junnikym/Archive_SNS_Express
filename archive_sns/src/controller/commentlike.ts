@@ -41,14 +41,12 @@ export class CommentLikeControl {
         },
         security: [{ bearerAuth: [] }],
     })
-    @UseBefore(VerifyAccessToken)
     public async CountLike(
         @Param("comment_pk") comment_pk: string, 
         @Res() res: Response
     ) {
-        const CountLike_Result = await this.comment_like_service.CountLike(
-            comment_pk
-        );
+        const CountLike_Result = 
+            await this.comment_like_service.CountLike(comment_pk);
 
         if(!CountLike_Result){
             return res.status(400).send({
@@ -75,12 +73,12 @@ export class CommentLikeControl {
     })
     @UseBefore(VerifyAccessToken)
     public async WhoLike(
-        @Req() req,
+        @Body() body,
         @Res() res: Response
     ) {
         const Who_Like = await this.comment_like_service.WhoLike(
-            req.body.comment_pk,
-            req.body.limit
+            body.comment_pk,
+            body.limit
         );
 
         if(!Who_Like){
@@ -89,7 +87,7 @@ export class CommentLikeControl {
                 success : false,
                 message : "Bad Request"
             });
-        };
+        }
 
         return Who_Like;
     }
@@ -108,14 +106,14 @@ export class CommentLikeControl {
     })
     @UseBefore(VerifyAccessToken)
     public async ToggleLike(
-        @Req() req,
+        @Body() body,
         @Res() res: Response
     ) {
         const user_pk = res.locals.jwt_payload.pk;
 
         const Who_Like = await this.comment_like_service.WhoLike(
             user_pk,
-            req.body.comment_pk
+            body.comment_pk
         );
 
         if(!Who_Like){

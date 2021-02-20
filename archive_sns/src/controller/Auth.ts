@@ -50,11 +50,9 @@ export class AuthControl {
   })
   public async login(
     @Body() Account_DTO: AccountDTO,
-    // @Req() req,
     @Res() res: Response,
   ) {
 
-    // Account_DTO.fromJson(req.body);
     const account = await this.auth_service.ValidateAccount(Account_DTO);
 
     if(!account) {
@@ -93,7 +91,7 @@ export class AuthControl {
   }
 
   @HttpCode(200)
-  @Post('registration')
+  @Post('/registration')
   @OpenAPI({
       summary: "registration",
       statusCode: "200",
@@ -101,25 +99,15 @@ export class AuthControl {
   })
   public async registration(
       @Body() account_dto: AccountDTO,
-      @Req() req,
       @Res() res: Response,
   ) {
-    if(req.body.password != req.body.pw_confirm) {
-      return res.status(409).send({
-        status : 409,
-        success : false,
-        message : "Not match password and password confirm"
-      });
-    }
-
-    account_dto.fromJson(req.body);
-
     let profile_img = null;
 
-    if(req.body.profile_img_url) {
-      profile_img = new ImageDTO();
-      profile_img.url = req.body.profile_img_url;
-    }
+    // @TODO : Profile Img
+    // if(req.body.prfoile_img_url) {
+    //   profile_img = new ImageDTO();
+    //   profile_img.url = req.body.profile_img_url;
+    // }
 
     const CreateAccount_Result = await this.account_service.CreateAccount(account_dto);
 
@@ -185,53 +173,25 @@ export class AuthControl {
   })
   @UseBefore(VerifyAccessToken)
   public async delete(
-      @Req() req,
-      @Res() res: Response
-      ) {
-      const user_pk = res.locals.jwt_payload.pk;
-
-      const DeleteProfile_Result = await this.account_service.DeleteAccount(
-        user_pk,
-        req.body.password
-      );
-
-      if(!DeleteProfile_Result){
-          return res.status(400).send({
-          status: 400, 
-          success: false, 
-          message: "fail to DeleteProfile"
-          });
-      }
-
-      return DeleteProfile_Result;
-  }
-
-  @HttpCode(200)
-  @Get('/shortinfo')
-  @OpenAPI({
-      summary: "short_info",
-      statusCode: "200",
-      security: [{ bearerAuth: [] }],
-  })
-  @UseBefore(VerifyAccessToken)
-  public async short_info(
-    @Req() req,
+    @Body() body,
     @Res() res: Response
-    ) {
-    let result = undefined;
+  ) {
+    const user_pk = res.locals.jwt_payload.pk;
 
-    if(req.body.pk) {
-      result = await this.account_service.GetAccountByPK(req.body.pk);
-    }
-    
-    if(result == undefined){
-      return res.status(404).send({
-          status : 404,
-          success : false,
-          message : "Not Found"
-      });
+    const DeleteProfile_Result = await this.account_service.DeleteAccount(
+      user_pk,
+      body.password
+    );
+
+    if(!DeleteProfile_Result){
+        return res.status(400).send({
+        status: 400, 
+        success: false, 
+        message: "fail to DeleteProfile"
+        });
     }
 
-    return result;
+    return DeleteProfile_Result;
   }
+
 }

@@ -43,28 +43,18 @@ export class GroupControl {
     @UseBefore(VerifyAccessToken)
     public async CreateGroup(
         @Body() Group_DTO: GroupDTO,
-        @Req() req,
         @Res() res: Response,
     ) {
-        if(!Group_DTO.title){
-            return res.status(400).send({
-                status : 400,
-                success : false,
-                message : "no Group_DTO title"
-            });
-        }
 
-        const CreateGroup_Result = await this.Chat_GroupService.CreateGroup(
-            Group_DTO,
-            req.body.member_pk_list
-        );
+        const CreateGroup_Result = 
+            await this.Chat_GroupService.CreateGroup(Group_DTO);
 
         if(!CreateGroup_Result)
-        return res.status(400).send({
-        status: 400, 
-        success: false, 
-        message: "fail to CreateGroup"
-        });
+            return res.status(400).send({
+                status: 400, 
+                success: false, 
+                message: "fail to CreateGroup"
+            });
 
         return CreateGroup_Result;
     }
@@ -84,15 +74,17 @@ export class GroupControl {
         const user_pk = res.locals.jwt_payload.pk;
 
         const DeleteGroup_Result = await this.Chat_GroupService.DeleteGroup(
+            user_pk,
             group_pk
         )
         
+        // @TODO : Status
         if(!DeleteGroup_Result)
-        return res.status(400).send({
-        status: 400, 
-        success: false, 
-        message: "fail to CreateGroup"
-        });
+            return res.status(400).send({
+                status: 400, 
+                success: false, 
+                message: "fail to Delete Group"
+            });
 
         return DeleteGroup_Result;
     }
@@ -106,23 +98,19 @@ export class GroupControl {
     })
     @UseBefore(VerifyAccessToken)
     public async Invite(
-        @Req() req,
+        @Body() Group_DTO: GroupDTO,
         @Res() res: Response
     ) {
-        const group_pk: string = req.body.group_pk;
-        const member_pk_list: string[]= req.body.member_pk_list;
 
-        const Invite_Result = await this.Chat_GroupService.Invite(
-            group_pk,
-            member_pk_list
-        )
+        const Invite_Result = 
+            await this.Chat_GroupService.Invite( Group_DTO );
         
         if(!Invite_Result)
-        return res.status(400).send({
-        status: 400, 
-        success: false, 
-        message: "fail to DeleteGroup"
-        });
+            return res.status(400).send({
+                status: 400, 
+                success: false, 
+                message: "fail to DeleteGroup"
+            });
 
         return Invite_Result;
     }

@@ -35,9 +35,10 @@ abstract class GroupService<
 	 */
 	public async CreateGroup(
 		group_dto: GroupDTO,
-		member_pk_list: string[],
 	) : Promise<EntType> 
 	{
+		const { member_pk_list } = group_dto;
+
 		if(member_pk_list.length < this.n_min_early_member)
 			return undefined;
 
@@ -55,6 +56,7 @@ abstract class GroupService<
 	}
 
 	public async DeleteGroup(
+		admin_pk: string,
 		group_pk: string
 	): Promise<boolean> 
 	{
@@ -71,9 +73,12 @@ abstract class GroupService<
 	}
 
 	public async Invite(
-		group_pk: string,
-		member_pk_list: string[]
+		group_dto: GroupDTO
 	) {
+		const {group_pk, member_pk_list} = group_dto;
+
+		if(!group_pk) return undefined;
+
 		if(member_pk_list.length < this.n_min_early_member)
 			return undefined;
 		

@@ -50,15 +50,14 @@ export class ChatControl {
 
         const SendMsg_Result = await this.chat_service.SendMsg(
             res.locals.jwt_payload.pk, 
-            req.body.group_pk, 
             ChatMsg_DTO
         );
 
         if(!SendMsg_Result)
         return res.status(400).send({
-        status: 400, 
-        success: false, 
-        message: "fail to SendMsg"
+            status: 400, 
+            success: false, 
+            message: "fail to SendMsg"
         });
 
         const ws = req.app.get('socket_io');
@@ -75,7 +74,7 @@ export class ChatControl {
     @HttpCode(200)
     @Get('/:group_pk')
     @OpenAPI({
-        summary: "GetChatContents",
+        summary: "Get Chat Contents",
         statusCode: "200",
         security: [{ bearerAuth: [] }],
     })
@@ -84,9 +83,12 @@ export class ChatControl {
         @Param("group_pk") group_pk: string,
         @Res() res: Response
         ) {
+
+        // @TODO : Service Motify
         const user_pk = res.locals.jwt_payload.pk;
 
         const GetChatContents_Result = await this.chat_service.GetChatContents(
+            // user_pk,
             group_pk, 
             0, 
             10
@@ -94,9 +96,9 @@ export class ChatControl {
 
         if(!GetChatContents_Result){
             return res.status(400).send({
-            status: 400, 
-            success: false, 
-            message: "fail to GetChatContents"
+                status: 400, 
+                success: false, 
+                message: "fail to GetChatContents"
             });
         }
 
@@ -112,14 +114,16 @@ export class ChatControl {
     })
     @UseBefore(VerifyAccessToken)
     public async ExitChatGroup(
-        @Req() req,
+        @Body() body,
         @Res() res: Response
         ) {
+        // @TODO : Service Motify
         const user_pk = res.locals.jwt_payload.pk;
 
         const ExitChatGroup_Result = await this.chat_service.ExitChatGroup(
-            req.body.account_pk,
-            req.body.group_pk
+            //user_pk,
+            body.account_pk,
+            body.group_pk
         );
 
         if(!ExitChatGroup_Result){

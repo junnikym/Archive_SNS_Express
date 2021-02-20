@@ -1,8 +1,15 @@
-import { IsNotEmpty, Length, IsEmail } from "class-validator";
+import { IsNotEmpty, Length, IsEmail, IsString, IsEmpty, IsOptional } from "class-validator";
 import { Comment, PostComment, PostReComment } from '../Entities/Comment';
 
 export class CommentDTO {
+
+	@IsOptional()
+	@IsString()
+	@Length(36)
+	public comment_pk:string;
+	
 	@IsNotEmpty()
+	@IsString()
 	public content:string
 
 	public toEntity(): Comment{
@@ -25,4 +32,22 @@ export class CommentDTO {
 		
 		this.content = content;
 	}
+}
+
+export class PostCommentDTO extends CommentDTO {
+
+	@IsEmpty()
+	@Length(36)
+	@IsString()
+	public post_pk
+
+	public toEntity(): PostComment {
+		const new_ent:PostComment = 
+			super.toEntity() as PostComment;
+
+		new_ent.post_pk = this.post_pk;
+
+		return new_ent;
+	}
+
 }

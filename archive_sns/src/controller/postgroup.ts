@@ -50,22 +50,12 @@ export class GroupControl {
     @UseBefore(VerifyAccessToken)
     public async CreateGroup(
         @Body() Group_DTO: GroupDTO,
-        @Req() req,
         @Res() res: Response
     ) {
 
-        if(!Group_DTO.title){
-            return res.status(400).send({
-                status : 400,
-                success : false,
-                message : "no group title"
-            });
-        };
-
         const CreateGroup_Result = await this.PostGroup_Service.CreateGroup(
-            Group_DTO,
-            req.body.member_pk_list
-        )
+            Group_DTO
+        );
 
         if(!CreateGroup_Result){
             return res.status(400).send({
@@ -93,11 +83,12 @@ export class GroupControl {
     @UseBefore(VerifyAccessToken)
     public async DeleteGroup(
         @Param('group_pk') group_pk: string,
-        @Req() req,
         @Res() res: Response
     ) {
+        const user_pk = res.locals.jwt_payload.pk;
 
         const DeleteGroup_Result = await this.PostGroup_Service.DeleteGroup(
+            user_pk,
             group_pk
         )
 
@@ -126,14 +117,12 @@ export class GroupControl {
     })
     @UseBefore(VerifyAccessToken)
     public async Invite(
-        @Req() req,
+        @Body() Group_DTO: GroupDTO,
         @Res() res: Response
     ) {
 
-        const Invite_Result = await this.PostGroup_Service.Invite(
-            req.body.group_pk,
-            req.body.member_pk_list
-        )
+        const Invite_Result = 
+            await this.PostGroup_Service.Invite(Group_DTO);
 
         if(!Invite_Result){
             return res.status(400).send({

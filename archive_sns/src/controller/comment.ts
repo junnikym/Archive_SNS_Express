@@ -21,7 +21,7 @@ import { OpenAPI, ResponseSchema } from "routing-controllers-openapi";
 const express = require('express');
 import sanitizeHtml from 'sanitize-html';
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
-import { CommentDTO } from '../Models/DTOs/CommentDTO';
+import { CommentDTO, PostCommentDTO } from '../Models/DTOs/CommentDTO';
 import { PostCommentService } from '../Services/CommentService';
 
 @JsonController("/comment")
@@ -38,23 +38,23 @@ export class CommentControl {
     })
     @UseBefore(VerifyAccessToken)
     public async GetPostComment(
-        @Req() req,
+        @Body() body,
         @Res() res: Response
     ) {
         
         const GetPostComment = await this.post_comment_service.GetPostComment(
-            req.body.post_pk,
-            req.body.offset,
-            req.body.limit,
-            req.body.order_by
+            body.post_pk,
+            body.offset,
+            body.limit,
+            body.order_by
         );
 
         if(!GetPostComment)
-        return res.status(400).send({
-        status: 400, 
-        success: false, 
-        message: "fail to GetPostComment"
-        });
+            return res.status(400).send({
+                status: 400, 
+                success: false, 
+                message: "fail to GetPostComment"
+            });
 
         return GetPostComment;
     }
@@ -68,24 +68,14 @@ export class CommentControl {
     })
     @UseBefore(VerifyAccessToken)
     public async CreateComment(
-        @Body() Comment_DTO: CommentDTO,
-        @Req() req,
+        @Body() PostComment_DTO: PostCommentDTO,
         @Res() res: Response
     ) {
         const user_pk = res.locals.jwt_payload.pk;
 
-        if(!Comment_DTO.content){
-            return res.status(400).send({
-                status : 400,
-                success : false,
-                message : "need Comment Content"
-            });
-        }
-
         const CreateComment_Result = await this.post_comment_service.CreateComment(
             user_pk,
-            req.body.post_pk,
-            Comment_DTO
+            PostComment_DTO
         )
 
         if(!CreateComment_Result){
@@ -109,31 +99,22 @@ export class CommentControl {
     @UseBefore(VerifyAccessToken)
     public async UpdateComment(
         @Body() Comment_DTO: CommentDTO,
-        @Req() req,
         @Res() res: Response
     ) {
-        if(!Comment_DTO.content){
-            return res.status(400).send({
-                status : 400,
-                success : false,
-                message : "no Comment_DTO Content"
-            });
-        }
 
         const user_pk = res.locals.jwt_payload.pk;
 
         const UpdateComment_Result = await this.post_comment_service.UpdateComment(
             user_pk,
-            req.body.comment_pk,
             Comment_DTO
         )
 
         if(!UpdateComment_Result)
-        return res.status(400).send({
-        status: 400, 
-        success: false, 
-        message: "fail to UpdateComment"
-        });
+            return res.status(400).send({
+                status: 400, 
+                success: false, 
+                message: "fail to UpdateComment"
+            });
 
         return UpdateComment_Result;
     }
@@ -147,22 +128,21 @@ export class CommentControl {
     })
     @UseBefore(VerifyAccessToken)
     public async DeleteComment(
-        @Req() req,
+        @Body() body,
         @Res() res: Response
     ) {
         const user_pk = res.locals.jwt_payload.pk;
 
         const DeleteComment_Result = await this.post_comment_service.DeleteComment(
-            user_pk,
-            req.body.comment_pk
+            user_pk, body.comment_pk
         )
 
         if(!DeleteComment_Result)
-        return res.status(400).send({
-        status: 400, 
-        success: false, 
-        message: "fail to DeleteComment"
-        });
+            return res.status(400).send({
+                status: 400, 
+                success: false, 
+                message: "fail to DeleteComment"
+            });
 
         return DeleteComment_Result;
     }
