@@ -9,24 +9,24 @@ import Post_Card from "../Post_Card";
 import Chat from "../Chat";
 
 const Home_ = (props, contet) => (
+
+  <Router>   
+
+    {/* <Switch>
+      <Route exact path ="/" component = {} />
+    </Switch> */}
     
-        <Router>   
+    {/* Post 쓰기 */}
+    <Feed/>
 
-          {/* <Switch>
-            <Route exact path ="/" component = {} />
-          </Switch> */}
-          
-          {/* Post 쓰기 */}
-          <Feed/>
+    {/* Post 보기 */}
+    {/* <Post/> */}
+    <Post_Card/>
 
-          {/* Post 보기 */}
-          {/* <Post/> */}
-          <Post_Card/>
+    <Chat/>
 
-          {/* <Chat/> */}
-
-        </Router>
-
-  )
+  </Router>
+  
+)
 
 export default Home_;

@@ -11,7 +11,9 @@
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
       "esModuleInterop": true,
-      "sourceMap": true
+      "sourceMap": false,
+      "allowJs": true,
+      "skipLibCheck": true
    },
    "include": [
       "src/**/*"

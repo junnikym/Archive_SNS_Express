@@ -22,6 +22,16 @@ export class ChatMsgRepo extends Repository<ChatMsg> {
 
 @EntityRepository(ChatNotify)
 export class ChatNotifyRepo extends Repository<ChatNotify> {
+
+	public async CreateNew(entities: ChatNotify[]) {
+		const result = await this.save(entities);
+		return this.createQueryBuilder("chat_notify")
+			.leftJoinAndSelect("chat_notify.chat", "chat")
+			// .leftJoinAndSelect("chat_notify.chat.writer", "writer")
+			.leftJoinAndSelect("chat_notify.listener", "listener")
+			.where("chat_notify.pk IN (:...pks)", { pks: result.map(e=>e.pk) })
+			.getMany();
+	}
 	
 	public async GetChatNotify (
 		account_pk: string

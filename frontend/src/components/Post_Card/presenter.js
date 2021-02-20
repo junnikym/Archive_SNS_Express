@@ -55,6 +55,8 @@ const Post_Card = props => (
                 Time : {props.Post_date}
             </small>
 
+            <Like_button/>
+
         </Card.Body>
 
             <Card.Footer>

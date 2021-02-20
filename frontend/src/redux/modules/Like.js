@@ -1,15 +1,16 @@
-function feed_Like() {
+function feed_Like(post_pk) {
     console.log("run");
 
     return (dispatch, getState) => {
         const { account : { token }} = getState();
 
-        fetch("feedlike/count/", {
-            method: "get",
+        fetch("/feedlike/" + post_pk, {
+            method: "post",
             headers: {
 				Authorization: `JWT ${token}`
             },
         })
+        .then(console.log(post_pk))
             
         .catch(err => console.log(err));
     };

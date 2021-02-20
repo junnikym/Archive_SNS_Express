@@ -4,7 +4,7 @@ import { getConnection } from "typeorm";
 
 import { PostComment, PostReComment } from '../Models/Entities/Comment';
 import { PostCommentRepo, PostReCommentRepo } from '../Models/Repositories/CommentRepo';
-import { CommentDTO } from '../Models/DTOs/CommentDTO';
+import { CommentDTO, PostCommentDTO } from '../Models/DTOs/CommentDTO';
 
 enum SortBy {
 	Date = 0
@@ -31,7 +31,6 @@ class CommentService<
 	 */
 	public async UpdateComment(
 		writer_pk : string,
-		comment_pk: string,
 		comment_dto : CommentDTO,
 	) : Promise<EntType> 
 	{
@@ -40,7 +39,7 @@ class CommentService<
 
 		const target = {
 			entity: await this.comment_repo.findOne(
-				{ where: {pk: comment_pk}}
+				{ where: {pk: comment_dto.comment_pk}}
 			)
 		}
 		
@@ -95,14 +94,12 @@ export class PostCommentService extends CommentService< PostCommentRepo, PostCom
 	 */
 	public async CreateComment(
 		writer_pk : string,
-		post_pk : string,
-		comment_dto : CommentDTO
+		comment_dto : PostCommentDTO
 	) : Promise<PostComment> {
 		const comment_ent : PostComment = 
 			comment_dto.toEntity() as PostComment;
 		
 		comment_ent.writer_pk 	= writer_pk;
-		comment_ent.post_pk 	= post_pk;
 		
 		return await this.comment_repo.save(comment_ent);
 	}

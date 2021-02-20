@@ -22,8 +22,8 @@ const mapDispatchToProps = (dispatch, props) => {
             dispatch(ProfileAct.Unsubscribe(pk));
         },
 
-        editProfile: (pk, email, password, name, image, status_msg) => {
-            dispatch(ProfileAct.editProfile(pk, email, password, name, image, status_msg));
+        editProfile: (email, password, name, image, status_msg) => {
+            dispatch(ProfileAct.editProfile(email, password, name, image, status_msg));
         }
     };
 };

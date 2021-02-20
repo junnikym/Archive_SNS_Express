@@ -49,10 +49,9 @@ const Navigation = (props, context) => (
                 <div className = "View_more_btn"></div>
             </button>
                 <div className = "dropdown-content">
-                    <a>시발</a>
-                    <a>시발</a>
+                    <a> <Link to = "/groupHome">group</Link></a>
                     <hr/>
-                    <a onClick={props.logout}>로그아웃</a>
+                    <a onClick={props.logout}>Logout</a>
                 </div>
                 </div>
             

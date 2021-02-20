@@ -1,4 +1,4 @@
-import { IsNotEmpty, Length, IsEmail } from "class-validator";
+import { IsNotEmpty, Length, IsEmail, IsString, IsOptional } from "class-validator";
 import { Account } from "../Entities/Account";
 import { Image } from "../Entities/Image";
 import { profile } from 'console';
@@ -27,17 +27,22 @@ export class AccountVO {
 export class AccountDTO {
 
 	@Length(MIN_EMAIL_LEN, MAX_EMAIL_LEN)
-	@IsEmail()
+	// @IsEmail()
 	public email: string;
 
 	@Length(MIN_PW_LEN, MAX_PW_LEN)
+	@IsString()
 	public password: string;
 
 	@Length(MIN_NAME_LEN, MAX_NAME_LEN)
-	public name: string;
+	@IsOptional()
+	@IsString()
+	public name: string | null;
 	
 	public profile_image: Image | null;
 
+	@IsOptional()
+	@IsString()
 	public status_msg: string | null;
 
 	public toEntity(): Account {

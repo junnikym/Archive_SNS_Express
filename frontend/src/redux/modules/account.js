@@ -1,3 +1,4 @@
+import ws from "../../shared/socket_io";
 
 // < Actions >
 // --------------------------------------------------
@@ -34,20 +35,19 @@ function passData(data) {
 
 function defaultLogin(email, password) {
 	return (dispatch, getState) => {
+		const { socket } = getState();
 
 		fetch("/auth/login", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
 			},
-			body: JSON.stringify({
-				"email" 	: email,
-				"password"	: password
-			})
+			body: "{\"email\":\"test_1@test\",\"password\":\"test\",\"name\":\"string\"}"
 		})
 		.then(response => response.json())
 		.then(json => {
 			if (json.data) {
+				ws.socket.emit('login_report', json.data.access_token);
 				dispatch(saveToken(json.data));
 			}
 		})
@@ -58,7 +58,7 @@ function defaultLogin(email, password) {
 function createAccount(email, pw, confirm_pw, img, alias) {
 	return dispatch => {
 
-		fetch("/auth/registration", {
+		fetch("/auth", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"

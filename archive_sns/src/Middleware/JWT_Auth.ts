@@ -9,7 +9,7 @@ export const VerifyAccessToken = (
 	next: NextFunction,
 ) => {
 	try {
-		res.locals.jwt_payload = 
+		res.locals.jwt_payload =
 			jwt.verify(req.headers.authorization, env.jwt.secret_access_key);
 	} 
 	catch(error) {

@@ -1,6 +1,6 @@
 import Container from "typedi";
 import { createConnection, ConnectionOptions, useContainer, Connection } from "typeorm";
-import { env } from "./env";
+import { env } from "../env";
 
 /**
  * DB Connection Setting
@@ -16,7 +16,7 @@ export async function db_conn(): Promise<Connection> {
 			database: env.database.name,
 			logging: env.database.logging,
 			entities: [
-				__dirname + "/Models/Entities/*{.ts,.js}"
+				__dirname + "/../Models/Entities/**/*{.ts,.js}"
 			]
 		};
 

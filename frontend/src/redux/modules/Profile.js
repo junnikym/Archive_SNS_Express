@@ -23,11 +23,11 @@ function editProfileData(data) {
 	}
 }
 
-function editProfile (user_pk, email, password, name, image, msg) {
+function editProfile (email, password, name, image, msg) {
 	return (dispatch, getState) => {
 		const { account : { token }} = getState();
 
-		fetch("/profile/" + user_pk, {
+		fetch("/profile/" + email, {
 			method: "put",
 			headers: {
 				"Content-Type": "application/json",
