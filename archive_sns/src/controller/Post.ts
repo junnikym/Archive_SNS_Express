@@ -35,35 +35,23 @@ export class PostControl {
   constructor( private post_service : PostService ) {}
 
   @HttpCode(200)
-  @Post()
+  @Post("/create")
   @OpenAPI({
     summary: "CreatePost",
     statusCode: "200",
     security: [{ bearerAuth: [] }],
   })
-  @UseBefore()
+  @UseBefore(PostImageMulter.array('image', 30))
+  @UseBefore(VerifyAccessToken)
   public async CreatePost(
     @Body() post_dto: PostDTO,
     @Req() req,
     @Res() res: Response,
   ) {
-    const data = post_dto + req + res;
-    console.log(data);
-
     const user_pk = res.locals.jwt_payload.pk;
-
-    const images_data = req.files;
-    const path = images_data.map(img => img.path);
-
-    if(images_data === undefined) 
-      return res.status(400).send({
-				status: 400, 
-				success: false, 
-				message: "not exist image"
-			});
+    const path = req.files.map(img => img.path);
 
     const img_dto = [];
-  
     path.map(img_path => {
       const new_dto = new ImageDTO;
       new_dto.url = img_path;
@@ -74,26 +62,18 @@ export class PostControl {
       user_pk, 
       post_dto, 
       img_dto
-      );
+    );
 
     if(!CreatePost_Result)
-    return res.status(400).send({
-      status: 400, 
-      success: false, 
-      message: "fail to create"
-    });
+      return res.status(400).send({
+        status: 400, 
+        success: false, 
+        message: "fail to create"
+      });
 
-    console.log(CreatePost_Result);
-    return CreatePost_Result;
+    return {data : CreatePost_Result};
   }
 
-  /**
-   * UpdatePost
-   * @param postpk 
-   * @param Post_Update_DTO 
-   * @param req 
-   * @param res 
-   */
   @HttpCode(200)
   @Put("/:postpk")
   @OpenAPI({
@@ -226,13 +206,8 @@ export class PostControl {
     return Get_SinglePost_Result;
   }
 
-  /**
-   * GetPostList
-   * @param req 
-   * @param res 
-   */
   @HttpCode(200)
-  @Get("")
+  @Post()
   @OpenAPI({
     summary: "Post 목록 조회",
     statusCode: "200",
@@ -243,28 +218,22 @@ export class PostControl {
     },
   })
   public async GetPostList(
-    @Req() req,
+    @Body() body,
     @Res() res: Response,
   ) {
-    const GetPostList_Result =  await this.post_service.GetPostList(
-      req.body.offset,
-      req.body.limit,
-      req.body.order_by
+    const GetPostList_Result = await this.post_service.GetPostList(
+      body.offset,
+      body.limit,
+      body.order_by
     );
     
     if (GetPostList_Result.length === 0) {
       return res.status(204).send(GetPostList_Result);
     }
 
-    return GetPostList_Result;
+    return {data : GetPostList_Result};
   }
 
-  /**
-   * GetOwnPost
-   * @param witer_pk 
-   * @param req 
-   * @param res 
-   */
   @HttpCode(200)
   @Get("/:witer_pk")
   @OpenAPI({
@@ -287,9 +256,9 @@ export class PostControl {
       req.body.limit
     );
     
-    if (GetPostList_Result.length === 0) {
-      return res.status(204).send(GetPostList_Result);
-    }
+    // if(GetPostList_Result.length === 0) {
+      // return res.status(204).send(GetPostList_Result);
+    // }
 
     return GetPostList_Result;
   }

@@ -26,8 +26,8 @@ const Container = (props, context) => {
         );
 	};
 
-    const DrawChatContents = (contents) => {
-        return contents.map(elem => {
+    const DrawChatContents = () => {
+        return props.current_chat_contents.map(elem => {
             if(elem.writer_pk == props.my_pk) 
                 return (<ChatMyText chat = {elem}/>);
 
@@ -40,7 +40,7 @@ const Container = (props, context) => {
             sendMessage = {__send_message__}
             textInputHandler = {__text_input_handler__}
             msgInput = {chatInput.msgInput} 
-            contents = {DrawChatContents(props.current_chat_contents)}
+            contents = {DrawChatContents()}
         />
     );
 }

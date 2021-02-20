@@ -27,7 +27,7 @@ export class AccountVO {
 export class AccountDTO {
 
 	@Length(MIN_EMAIL_LEN, MAX_EMAIL_LEN)
-	@IsEmail()
+	// @IsEmail()
 	public email: string;
 
 	@Length(MIN_PW_LEN, MAX_PW_LEN)

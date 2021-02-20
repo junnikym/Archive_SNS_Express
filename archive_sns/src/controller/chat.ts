@@ -28,7 +28,7 @@ export class ChatControl {
     constructor( private chat_service : ChatService ) {}
 
     @HttpCode(200)
-    @Post()
+    @Post("/sendmsg")
     @OpenAPI({
         summary: "SendMsg",
         statusCode: "200",
@@ -68,7 +68,7 @@ export class ChatControl {
                 .emit('chat_notify', elem);
         });
 
-        return SendMsg_Result.chat;
+        return {data: SendMsg_Result.chat};
     }
 
     @HttpCode(200)
@@ -102,7 +102,7 @@ export class ChatControl {
             });
         }
 
-        return GetChatContents_Result;
+        return {data: GetChatContents_Result};
     }
 
     @HttpCode(200)
@@ -134,6 +134,6 @@ export class ChatControl {
             });
         }
 
-        return ExitChatGroup_Result;
+        return {data: ExitChatGroup_Result};
     }
 }
