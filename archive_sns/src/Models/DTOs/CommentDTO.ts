@@ -6,11 +6,11 @@ export class CommentDTO {
 	@IsOptional()
 	@IsString()
 	@Length(36)
-	public comment_pk:string;
+	public comment_pk: string;
 	
 	@IsNotEmpty()
 	@IsString()
-	public content:string
+	public content: string
 
 	public toEntity(): Comment{
 		const { content } = this;
@@ -42,7 +42,7 @@ export class PostCommentDTO extends CommentDTO {
 	public post_pk
 
 	public toEntity(): PostComment {
-		const new_ent:PostComment = 
+		const new_ent: PostComment = 
 			super.toEntity() as PostComment;
 
 		new_ent.post_pk = this.post_pk;

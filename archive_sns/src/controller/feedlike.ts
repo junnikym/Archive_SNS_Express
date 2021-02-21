@@ -1,7 +1,6 @@
 /**
  *  게시물 좋아요 관련 라우트
  */
-const express = require('express');
 import { Response } from "express";
 import {
     JsonController,
@@ -18,11 +17,8 @@ import {
     QueryParams,
 } from "routing-controllers";
 import { OpenAPI, ResponseSchema } from "routing-controllers-openapi";
-
 import sanitizeHtml from 'sanitize-html';
-
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
-
 import { PostLikeService } from '../Services/LikeService';
 
 @JsonController("/feedlike")
@@ -36,21 +32,20 @@ export class FeedLikeControl {
         summary: "CountLike",
         statusCode: "200",
         responses: {
-            "403": {
-                description: "Forbidden",
+            "400": {
+                description: "Bad Request~",
             },
         },
         security: [{ bearerAuth: [] }],
     })
-    @UseBefore(VerifyAccessToken)
+    @UseBefore()
     public async CountLike(
-        @Req() req,
+        @Body() body,
         @Res() res: Response
     ) {
 
-    const CountLike_Result = await this.post_like_service.CountLike(
-        req.body.post_pk
-    );
+    const CountLike_Result = 
+        await this.post_like_service.CountLike( body.post_pk );
 
     if(!CountLike_Result){
         return res.status(400).send({
@@ -69,22 +64,22 @@ export class FeedLikeControl {
         summary: "WhoLike",
         statusCode: "200",
         responses: {
-            "403": {
-                description: "Forbidden",
+            "400": {
+                description: "Bad Request",
             },
         },
         security: [{ bearerAuth: [] }],
     })
-    @UseBefore(VerifyAccessToken)
+    @UseBefore()
     public async WhoLike(
         @Param('post_pk') post_pk: string,
-        @Req() req,
+        @Body() body,
         @Res() res: Response
     ) {
 
     const WhoLike_Result = await this.post_like_service.WhoLike(
         post_pk,
-        req.body.limit
+        body.limit
     );
 
     if(!WhoLike_Result){
@@ -104,22 +99,22 @@ export class FeedLikeControl {
         summary: "IsLike",
         statusCode: "200",
         responses: {
-            "403": {
-                description: "Forbidden",
+            "400": {
+                description: "Bad Request",
             },
         },
         security: [{ bearerAuth: [] }],
     })
     @UseBefore(VerifyAccessToken)
     public async IsLike(
-        @Req() req,
+        @Param('post_pk') post_pk: string,
         @Res() res: Response
     ) {
     const user_pk = res.locals.jwt_payload.user_pk;
 
     const IsLike_Result = await this.post_like_service.IsLike(
         user_pk,
-        req.body.post_pk
+        post_pk
     );
 
     if(!IsLike_Result){
@@ -136,7 +131,7 @@ export class FeedLikeControl {
     
 
     @HttpCode(200)
-    @Post('/togglelike')
+    @Post('/togglelike/:feed_pk')
     @OpenAPI({
         summary: "ToggleLike",
         statusCode: "200",
@@ -149,14 +144,14 @@ export class FeedLikeControl {
     })
     @UseBefore(VerifyAccessToken)
     public async ToggleLike(
-        @Req() req,
+        @Param('feed_pk') feed_pk,
         @Res() res: Response
     ) {
     const user_pk = res.locals.jwt_payload.user_pk;
 
     const ToggleLike_Result = await this.post_like_service.ToggleLike(
         user_pk,
-        req.body.feed_pk
+        feed_pk
     );
 
     if(!ToggleLike_Result){
