@@ -61,7 +61,7 @@ export class ProfileControl {
             });
         };
 
-        return GetAccount_Result;
+        return { data : GetAccount_Result };
     }
 
     @HttpCode(200)
@@ -95,7 +95,7 @@ export class ProfileControl {
             });
         };
 
-        return Update_Profile_result;
+        return { data : Update_Profile_result };
     }
 
 }

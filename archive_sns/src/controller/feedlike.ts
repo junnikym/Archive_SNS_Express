@@ -55,7 +55,7 @@ export class FeedLikeControl {
         });
     };
 
-    return CountLike_Result;
+    return { data : CountLike_Result };
     }
 
     @HttpCode(200)
@@ -90,7 +90,7 @@ export class FeedLikeControl {
         });
     };
 
-    return WhoLike_Result;
+    return { data : WhoLike_Result };
     }
 
     @HttpCode(200)
@@ -125,7 +125,7 @@ export class FeedLikeControl {
         });
     };
 
-    return IsLike_Result;
+    return { data : IsLike_Result };
     }
 
     
@@ -162,7 +162,7 @@ export class FeedLikeControl {
         });
     };
 
-    return ToggleLike_Result;
+    return { data : ToggleLike_Result };
     }
 
 }

@@ -71,7 +71,7 @@ export class PostControl {
         message: "fail to create"
       });
 
-    return {data : CreatePost_Result};
+    return { data : CreatePost_Result };
   }
 
   @HttpCode(200)
@@ -131,7 +131,7 @@ export class PostControl {
     }
 
     console.log(UpdatePost_Result);
-    return UpdatePost_Result;
+    return { data : UpdatePost_Result };
   }
 
   /**
@@ -172,7 +172,7 @@ export class PostControl {
     }
 
     console.log(DeletePost_Result);
-    return DeletePost_Result;
+    return { data : DeletePost_Result };
   }
 
   /**
@@ -203,7 +203,7 @@ export class PostControl {
       return res.status(400).send(Get_SinglePost_Result);
     }
 
-    return Get_SinglePost_Result;
+    return { data : Get_SinglePost_Result };
   }
 
   @HttpCode(200)
@@ -231,7 +231,7 @@ export class PostControl {
       return res.status(204).send(GetPostList_Result);
     }
 
-    return {data : GetPostList_Result};
+    return { data : GetPostList_Result };
   }
 
   @HttpCode(200)
@@ -260,6 +260,6 @@ export class PostControl {
       // return res.status(204).send(GetPostList_Result);
     // }
 
-    return GetPostList_Result;
+    return { data : GetPostList_Result };
   }
 }

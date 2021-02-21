@@ -56,7 +56,7 @@ export class CommentControl {
                 message: "fail to GetPostComment"
             });
 
-        return GetPostComment;
+        return { data : GetPostComment };
     }
 
     @HttpCode(200)
@@ -86,7 +86,7 @@ export class CommentControl {
             });
         };
 
-        return CreateComment_Result;
+        return { data : CreateComment_Result};
     }
 
     @HttpCode(200)
@@ -116,7 +116,7 @@ export class CommentControl {
                 message: "fail to UpdateComment"
             });
 
-        return UpdateComment_Result;
+        return { data : UpdateComment_Result };
     }
 
     @HttpCode(200)
@@ -144,6 +144,6 @@ export class CommentControl {
                 message: "fail to DeleteComment"
             });
 
-        return DeleteComment_Result;
+        return { data : DeleteComment_Result };
     }
 }

@@ -191,7 +191,7 @@ export class AuthControl {
         });
     }
 
-    return { data : DeleteProfile_Result};
+    return { data : DeleteProfile_Result };
   }
 
 }

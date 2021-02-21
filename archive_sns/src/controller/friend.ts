@@ -17,18 +17,12 @@ import {
     QueryParams,
 } from "routing-controllers";
 import { OpenAPI, ResponseSchema } from "routing-controllers-openapi";
-
 import sanitizeHtml from 'sanitize-html';
-
 // JWT middleware
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
-
 import { FriendService } from "../Services/FriendService";
-
 import { PostDTO } from '../Models/DTOs/PostDTO';
 import { ImageDTO } from "../Models/DTOs/ImageDTO";
-
-// import { Post } from '../Models/Entities/Post';
 import { FriendDTO } from "../Models/DTOs/FriendDTO";
 
 @JsonController("/friend")
@@ -72,7 +66,7 @@ export class FriendControl {
         });
     };
 
-    return AddFriend_Result;
+    return { data : AddFriend_Result };
 }
 
 @HttpCode(200)
@@ -105,7 +99,7 @@ export class FriendControl {
         });
     };
 
-    return GetFriendList_Result;
+    return { data : GetFriendList_Result };
 }
 
 @HttpCode(200)
@@ -138,7 +132,7 @@ export class FriendControl {
         });
     };
 
-    return GetSendList_Result;
+    return { data : GetSendList_Result };
 }
 
 @HttpCode(200)
@@ -171,7 +165,7 @@ export class FriendControl {
         });
     };
 
-    return GetReceiveList_Result;
+    return { data : GetReceiveList_Result };
 }
 
 @HttpCode(200)
@@ -205,7 +199,7 @@ export class FriendControl {
         });
     };
 
-    return AcceptFriend_Result;
+    return { data : AcceptFriend_Result };
 }
 
 @HttpCode(200)
@@ -239,7 +233,7 @@ export class FriendControl {
         });
     };
 
-    return RejectFriend_Result;
+    return { data : RejectFriend_Result };
 }
 
 @HttpCode(200)
@@ -273,7 +267,7 @@ export class FriendControl {
         });
     };
 
-    return DeleteFriend_Result;
+    return { data : DeleteFriend_Result };
 }
 
 }
