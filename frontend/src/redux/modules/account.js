@@ -42,7 +42,10 @@ function defaultLogin(email, password) {
 			headers: {
 				"Content-Type": "application/json"
 			},
-			body: "{\"email\":\"test_1@test\",\"password\":\"test\",\"name\":\"string\"}"
+			body: JSON.stringify({
+				"email" 	: email,
+				"password"	: password
+			})
 		})
 		.then(response => response.json())
 		.then(json => {
