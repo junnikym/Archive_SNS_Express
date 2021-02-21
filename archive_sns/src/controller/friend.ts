@@ -252,14 +252,14 @@ export class FriendControl {
     })
     @UseBefore(VerifyAccessToken)
     public async DeleteFriend(
-        @Req() req,
+        @Body() body,
         @Res() res: Response
     ) {
         const user_pk = res.locals.jwt_payload.user_pk;
 
         const DeleteFriend_Result = await this.FriendService.DeleteFriend(
             user_pk,
-            req.body.request_pk
+            body.request_pk
         );
 
         if(!DeleteFriend_Result){
