@@ -18,7 +18,6 @@ import {
 } from "routing-controllers";
 import { OpenAPI, ResponseSchema } from "routing-controllers-openapi";
 
-const express = require('express');
 import sanitizeHtml from 'sanitize-html';
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 import { CommentDTO, PostCommentDTO } from '../Models/DTOs/CommentDTO';

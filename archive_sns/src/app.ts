@@ -12,7 +12,7 @@ import {
   useExpressServer,
 } from "routing-controllers";
 
-// const passportRouter = require('./passport/passport');
+const passportRouter = require('./passport/passport');
 
 import { appendFile } from "fs";
 import { db_conn } from "./Utils/DB_Connection";
@@ -78,6 +78,8 @@ export class App {
       // run
       this.server.listen(port, () => {
         console.log('Conneted ', port, ' port');
+
+      this.app.use('/auth', passportRouter);
       });
     }
     catch (error) {
