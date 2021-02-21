@@ -1,0 +1,65 @@
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 3;
+        transform: none;
+    }
+}
+
+#chat_button{
+    position: relative;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: var(--mainTransition);
+    transform: translateX(100%);
+}
+
+#close{
+    background-image: url(/src/icon/clear.svg);
+    background-size: 100% 100%;
+    width: 25px; height: 25px;
+    float: right;
+}
+
+#chat{
+    animation: fadeIn 1.5s ease-in-out;
+    height: 350px;
+    width: 300px;
+    border: 1px solid rgba(192, 192, 192, 0.493);
+    box-shadow: 0px 2px 2px 0px var(--mainGrey);
+    z-index: 1;
+    /* overflow: scroll; */
+    overflow-x: hidden;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    padding: 10px;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
+
+.me{
+    width: 90%;
+    margin: auto;
+    background-color: lemonchiffon;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.other{
+    width: 90%;
+    margin: auto;
+    background-color: white;
+    border-radius: 5px;
+    margin-top: 10px;
+    
+}
+
+.chat_load{
+    height: 180px;
+    width: 300px;
+}

@@ -7,8 +7,8 @@ const Container = (props, context) => {
 	const [upload, setUpload] = useState(-1);
 
 	const PostInfoInit = {
-		title		: '',
-		content		: '',
+		title				: '',
+		text_content		: '',
 	};
     const [PostInfo, setPostInfo] = useState(PostInfoInit);
 

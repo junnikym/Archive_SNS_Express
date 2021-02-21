@@ -23,6 +23,7 @@ App.propTypes = {
 const PrivateRoutes = props => (
 
   <Route>
+    
       <Navigation />
       <Switch>
             {/* Profiles */}

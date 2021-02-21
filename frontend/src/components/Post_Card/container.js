@@ -19,7 +19,7 @@ const Container = (props, context) => {
 			});
 		}
 		else {
-			props.postList(0, 5, "post.createAt");
+			props.postList(0, 99, "post.createAt");
 		}
 	}, [props.post_list]);
 

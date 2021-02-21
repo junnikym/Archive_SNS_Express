@@ -1,0 +1,63 @@
+@import url(../css/buttons.css);
+
+.Navbar{
+    position: sticky;
+    top: 0;
+    width: 100%;
+}
+
+.footer {
+    position: relative;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;    
+}
+
+.nav_btns{
+    float: left;
+    z-index: 1;
+    width: 100%;
+    align-items: center;
+}
+
+/* Dropdown button */
+
+.dropbtn {
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    border-radius: 15px;
+    text-align: center;
+    min-width: 0px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    border-radius: 15px;
+    text-decoration: none;
+    display: block;
+}
+.dropdown-content a:hover {
+    background-color: #dfdfdf
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+
+/* Dropdown button End */

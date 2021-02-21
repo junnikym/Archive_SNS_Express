@@ -23,6 +23,29 @@ function editProfileData(data) {
 	}
 }
 
+function Profile(pk) {
+	return dispatch => {
+		fetch("/auth/short_info", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				"pk": pk
+			})
+		})
+		.then(response => response.json())
+		.then(json => {
+
+
+			if (json.data) {
+				dispatch(passData(json.data));
+			}
+		})
+		.catch(err => console.log(err));
+	};
+};
+
 function editProfile (email, password, name, image, msg) {
 	return (dispatch, getState) => {
 		const { account : { token }} = getState();
@@ -72,26 +95,6 @@ function Unsubscribe(user_pk, password) {
     };
     
 };
-
-function Profile(pk){
-	return (dispatch, getState) => {
-		const { account : { token }} = getState();
-
-		fetch("/profile/"+pk, {
-			method: "GET",
-			headers: {
-                "Content-Type": "application/json",
-				Authorization: `JWT ${token}`
-			},
-		})
-		.then(res=>res.json())
-		.then(json=>{
-			if(json.data) {
-				dispatch(passData(json.data));
-			}
-		})
-	};
-;}
 
 const initialState = {
 };

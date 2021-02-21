@@ -58,7 +58,7 @@ function defaultLogin(email, password) {
 function createAccount(email, pw, confirm_pw, img, alias) {
 	return dispatch => {
 
-		fetch("/auth", {
+		fetch("/auth/registration", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"

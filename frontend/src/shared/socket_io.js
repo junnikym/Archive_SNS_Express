@@ -1,4 +1,3 @@
-
 import SocketIO from "socket.io-client";
 
 const ws = { socket: undefined };
