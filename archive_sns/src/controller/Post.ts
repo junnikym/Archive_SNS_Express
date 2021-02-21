@@ -1,7 +1,6 @@
 /**
  *  피드 관련 라우트
  */
-// const express = require('express');
 import { Response } from "express";
 import sanitizeHtml from 'sanitize-html';
 
@@ -75,7 +74,7 @@ export class PostControl {
   }
 
   @HttpCode(200)
-  @Put("/:postpk")
+  @Put("/:post_pk")
   @OpenAPI({
     summary: "UpdatePost",
     statusCode: "200",
@@ -88,22 +87,19 @@ export class PostControl {
   })
   @UseBefore(VerifyAccessToken)
   public async UpdatePost(
-    @Param("postpk") postpk: string,
+    @Param("post_pk") post_pk: string,
     @Body() Post_Update_DTO: PostDTO,
-    @Req() req,
+    @Body() body,
     @Res() res: Response,
   ) {
-    const data = postpk + Post_Update_DTO + req + res;
-    console.log(data);
-
-    const feed_Info = req.body;
     const user_pk = res.locals.jwt_payload.pk;
+    const del_img_list = body.del_img_list
 
     let ImgDTO: ImageDTO[];
     
-    for(let i = 0; i < feed_Info.url.Length; i++) {
+    for(let i = 0; i < body.url.Length; i++) {
       const temp_img_dto = new ImageDTO;
-      temp_img_dto.url = feed_Info.url;
+      temp_img_dto.url = body.url;
 
       ImgDTO.push(temp_img_dto);
     }
@@ -118,10 +114,10 @@ export class PostControl {
 
     const UpdatePost_Result = await this.post_service.UpdatePost(
       user_pk,
-      postpk,
+      post_pk,
       Post_Update_DTO,
       ImgDTO,
-      null  //??
+      del_img_list
     );
 
     if (!UpdatePost_Result) {
@@ -130,17 +126,11 @@ export class PostControl {
         .send({ message: "Post를 수정할 권한이 없습니다." });
     }
 
-    console.log(UpdatePost_Result);
     return { data : UpdatePost_Result };
   }
 
-  /**
-   * DeletePost
-   * @param postpk 
-   * @param res 
-   */
   @HttpCode(200)
-  @Delete("/:postpk")
+  @Delete("/:post_pk")
   @OpenAPI({
     summary: "DeletePost",
     statusCode: "200",
@@ -153,33 +143,27 @@ export class PostControl {
   })
   @UseBefore(VerifyAccessToken)
   public async DeletePost(
-    @Param("postpk") postpk: string, 
+    @Param("post_pk") post_pk: string, 
     @Res() res: Response
     ) {
-    const data = postpk + res;
-    console.log(data);
     const user_pk = res.locals.jwt_payload.pk;
 
     const DeletePost_Result = await this.post_service.DeletePost(
       user_pk,
-      postpk
+      post_pk
     );
 
-    if (!DeletePost_Result) {
-      return res
-      .status(403)
-      .send({ message: "Post를 삭제할 권한이 없습니다." });
-    }
+    if(!DeletePost_Result){
+      return res.status(400).send({
+          status : 400,
+          success : false,
+          message : "Bad Request"
+      });
+    };
 
-    console.log(DeletePost_Result);
     return { data : DeletePost_Result };
   }
-
-  /**
-   * GetSinglePost
-   * @param req 
-   * @param res 
-   */
+  
   @HttpCode(200)
   @Get("/:post_pk")
   @OpenAPI({
@@ -199,15 +183,19 @@ export class PostControl {
       post_pk
     );
     
-    if (!Get_SinglePost_Result) {
-      return res.status(400).send(Get_SinglePost_Result);
-    }
+    if(!Get_SinglePost_Result){
+      return res.status(400).send({
+          status : 400,
+          success : false,
+          message : "Bad Request"
+      });
+    };
 
     return { data : Get_SinglePost_Result };
   }
 
   @HttpCode(200)
-  @Post()
+  @Get()
   @OpenAPI({
     summary: "Post 목록 조회",
     statusCode: "200",
@@ -228,8 +216,16 @@ export class PostControl {
     );
     
     if (GetPostList_Result.length === 0) {
-      return res.status(204).send(GetPostList_Result);
+      return res.status(204).send('no post list');
     }
+
+    if(!GetPostList_Result){
+      return res.status(400).send({
+          status : 400,
+          success : false,
+          message : "Bad Request"
+      });
+    };
 
     return { data : GetPostList_Result };
   }
@@ -247,18 +243,26 @@ export class PostControl {
   })
   public async GetOwnPost(
     @Param("witer_pk") witer_pk,
-    @Req() req,
+    @Body() body,
     @Res() res: Response,
   ) {
-    const GetPostList_Result =  await this.post_service.GetPostList(
+    const GetPostList_Result =  await this.post_service.GetOwnPost(
       witer_pk,
-      req.body.offset,
-      req.body.limit
+      body.offset,
+      body.limit
     );
     
-    // if(GetPostList_Result.length === 0) {
-      // return res.status(204).send(GetPostList_Result);
-    // }
+    if(GetPostList_Result.length === 0) {
+      return res.status(204).send('no post');
+    }
+
+    if(!GetPostList_Result){
+      return res.status(400).send({
+          status : 400,
+          success : false,
+          message : "Bad Request"
+      });
+    };
 
     return { data : GetPostList_Result };
   }

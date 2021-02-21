@@ -78,7 +78,7 @@ export class PostService {
 		return await this.post_repo.GetPost(offset, limit, order_by);
 	}
 
-	public async GetOwnPost( //내가쓴글
+	public async GetOwnPost( 
 		writer_pk: string,
 		offset	 : number,
 		limit	 : number,
