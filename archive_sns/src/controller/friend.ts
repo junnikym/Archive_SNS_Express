@@ -70,7 +70,7 @@ export class FriendControl {
 }
 
 @HttpCode(200)
-    @Get('/friendlist/:account_pk')
+    @Get('/friendlist')
     @OpenAPI({
         summary: "GetFriendList",
         statusCode: "200",
@@ -83,27 +83,27 @@ export class FriendControl {
     })
     @UseBefore(VerifyAccessToken)
     public async GetFriendList(
-        @Param('account_pk') account_pk,
         @Res() res: Response
     ) {
-    
-    const GetFriendList_Result = await this.FriendService.GetFriendList(
-        account_pk
-    );
+        const user_pk = res.locals.jwt_payload.user_pk;
 
-    if(!GetFriendList_Result){
-        return res.status(400).send({
-            status : 400,
-            success : false,
-            message : "Bad Request"
-        });
-    };
+        const GetFriendList_Result = await this.FriendService.GetFriendList(
+            user_pk
+        );
 
-    return { data : GetFriendList_Result };
-}
+        if(!GetFriendList_Result){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
+            });
+        };
+
+        return { data : GetFriendList_Result };
+    }
 
 @HttpCode(200)
-    @Get('/sendlist/:account_pk')
+    @Get('/sendlist')
     @OpenAPI({
         summary: "GetSendList",
         statusCode: "200",
@@ -116,27 +116,27 @@ export class FriendControl {
     })
     @UseBefore(VerifyAccessToken)
     public async GetSendList(
-        @Param('account_pk') account_pk,
         @Res() res: Response
     ) {
-    
-    const GetSendList_Result = await this.FriendService.GetSendList(
-        account_pk
-    );
+        const user_pk = res.locals.jwt_payload.user_pk;
 
-    if(!GetSendList_Result){
-        return res.status(400).send({
-            status : 400,
-            success : false,
-            message : "Bad Request"
-        });
-    };
+        const GetSendList_Result = await this.FriendService.GetSendList(
+            user_pk
+        );
 
-    return { data : GetSendList_Result };
-}
+        if(!GetSendList_Result){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
+            });
+        };
+
+        return { data : GetSendList_Result };
+    }
 
 @HttpCode(200)
-    @Get('/receivelist/:account_pk')
+    @Get('/receivelist')
     @OpenAPI({
         summary: "GetReceiveList",
         statusCode: "200",
@@ -149,27 +149,27 @@ export class FriendControl {
     })
     @UseBefore(VerifyAccessToken)
     public async GetReceiveList(
-        @Param('account_pk') account_pk,
         @Res() res: Response
     ) {
-    
-    const GetReceiveList_Result = await this.FriendService.GetReceiveList(
-        account_pk
-    );
+        const user_pk = res.locals.jwt_payload.user_pk;
 
-    if(!GetReceiveList_Result){
-        return res.status(400).send({
-            status : 400,
-            success : false,
-            message : "Bad Request"
-        });
-    };
+        const GetReceiveList_Result = await this.FriendService.GetReceiveList(
+            user_pk
+        );
 
-    return { data : GetReceiveList_Result };
-}
+        if(!GetReceiveList_Result){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
+            });
+        };
+
+        return { data : GetReceiveList_Result };
+    }
 
 @HttpCode(200)
-    @Get('/accept')
+    @Post('/accept')
     @OpenAPI({
         summary: "AcceptFriend",
         statusCode: "200",
@@ -182,28 +182,29 @@ export class FriendControl {
     })
     @UseBefore(VerifyAccessToken)
     public async AcceptFriend(
-        @Req() req,
+        @Body() body,
         @Res() res: Response
     ) {
-    
-    const AcceptFriend_Result = await this.FriendService.AcceptFriend(
-        req.body.account_pk,
-        req.body.request_pk
-    );
+        const user_pk = res.locals.jwt_payload.user_pk;
 
-    if(!AcceptFriend_Result){
-        return res.status(400).send({
-            status : 400,
-            success : false,
-            message : "Bad Request"
-        });
-    };
+        const AcceptFriend_Result = await this.FriendService.AcceptFriend(
+            user_pk,
+            body.request_pk
+        );
 
-    return { data : AcceptFriend_Result };
-}
+        if(!AcceptFriend_Result){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
+            });
+        };
+
+        return { data : AcceptFriend_Result };
+    }
 
 @HttpCode(200)
-    @Get('/reject')
+    @Post('/reject')
     @OpenAPI({
         summary: "RejectFriend",
         statusCode: "200",
@@ -216,28 +217,29 @@ export class FriendControl {
     })
     @UseBefore(VerifyAccessToken)
     public async RejectFriend(
-        @Req() req,
+        @Body() body,
         @Res() res: Response
     ) {
-    
-    const RejectFriend_Result = await this.FriendService.RejectFriend(
-        req.body.account_pk,
-        req.body.request_pk
-    );
+        const user_pk = res.locals.jwt_payload.user_pk;
 
-    if(!RejectFriend_Result){
-        return res.status(400).send({
-            status : 400,
-            success : false,
-            message : "Bad Request"
-        });
-    };
+        const RejectFriend_Result = await this.FriendService.RejectFriend(
+            user_pk,
+            body.request_pk
+        );
 
-    return { data : RejectFriend_Result };
-}
+        if(!RejectFriend_Result){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
+            });
+        };
+
+        return { data : RejectFriend_Result };
+    }
 
 @HttpCode(200)
-    @Get('/delete')
+    @Delete('/delete')
     @OpenAPI({
         summary: "DeleteFriend",
         statusCode: "200",
@@ -253,21 +255,21 @@ export class FriendControl {
         @Req() req,
         @Res() res: Response
     ) {
-    
-    const DeleteFriend_Result = await this.FriendService.DeleteFriend(
-        req.body.account_pk,
-        req.body.request_pk
-    );
+        const user_pk = res.locals.jwt_payload.user_pk;
 
-    if(!DeleteFriend_Result){
-        return res.status(400).send({
-            status : 400,
-            success : false,
-            message : "Bad Request"
-        });
-    };
+        const DeleteFriend_Result = await this.FriendService.DeleteFriend(
+            user_pk,
+            req.body.request_pk
+        );
 
-    return { data : DeleteFriend_Result };
-}
+        if(!DeleteFriend_Result){
+            return res.status(400).send({
+                status : 400,
+                success : false,
+                message : "Bad Request"
+            });
+        };
 
+        return { data : DeleteFriend_Result };
+    }
 }
