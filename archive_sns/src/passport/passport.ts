@@ -21,15 +21,11 @@ passport.use(new GoogleStrategy({
     clientID: googleCredentials.web.client_id,
     clientSecret: googleCredentials.web.client_secret,
     callbackURL: googleCredentials.web.redirect_uris
-}, 
-function(accessToken, refreshToken, profile, done) {
-    console.log('GoogleStrategy', accessToken, refreshToken, profile);
-
-    // process.nextTick(function() {
-    //     const user = profile;
-    //     return done(null, user);
-    // });
-}
+    }, 
+    function(accessToken, refreshToken, profile, cb) {
+        console.log(accessToken, refreshToken, profile);
+        return cb(null, profile);
+    }
 ));
 
 // //사용자가 인증 성공을 성공 할 경우
@@ -49,26 +45,34 @@ router.get('/google',
 
 router.get('/google/callback',
 	passport.authenticate('google', {
-        failureRedirect: '/auth/fail', 
-        successRedirect: '/auth/success'
+        failureRedirect: '/auth/login', 
+        successRedirect: '/auth/'
     })
 );
 
 /**
  * test
  */
-router.get('/', (req, res) => { 
+const authenticateUser = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        next();
+    } else {
+        res.status(301).redirect('/auth/login');
+    }
+};
+
+router.get('/', authenticateUser,(req, res) => { 
+    const googleid = req.user.id;
+    const googlename = req.user.displayName;
+    const content = 'login success<br>' + googleid + '<br>' + googlename;
+
+    console.log(req.user);
+
+    res.send(content);
+});
+
+router.get('/login', (req, res) => { 
     const content = '<a href = "/auth/google">google login</a>'
-    res.send(content);
-});
-
-router.get('/success', (req, res) => { 
-    const content = 'success'
-    res.send(content);
-});
-
-router.get('/fail', (req, res) => { 
-    const content = 'fail'
     res.send(content);
 });
 
