@@ -35,7 +35,7 @@ export class CommentDTO {
 }
 
 export class PostCommentDTO extends CommentDTO {
-
+	
 	@IsEmpty()
 	@Length(36)
 	@IsString()

@@ -79,7 +79,6 @@ export class PostReCommentRepo extends CommonCommentRepo<PostReComment> {
 				.skip(offset)
 				.take(limit)
 				.getMany();
-
 	}
 
 }
