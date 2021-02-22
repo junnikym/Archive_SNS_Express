@@ -14,6 +14,17 @@ router.use(session({
 router.use(passport.initialize());
 router.use(passport.session());
 
+//사용자가 인증 성공을 성공 할 경우
+passport.serializeUser(function(user, done) {
+    console.log("google login success");
+    done(null, user); // user객체가 deserializeUser로 전달됨.
+});
+
+//이후 사용자의 요청시 호출
+passport.deserializeUser(function(obj, done) {
+    done(null, obj); // 여기의 user가 req.user가 됨
+});
+
 //google 로그인 정보 json
 const googleCredentials = require('../../config/google.json')
 
@@ -22,21 +33,13 @@ passport.use(new GoogleStrategy({
     clientSecret: googleCredentials.web.client_secret,
     callbackURL: googleCredentials.web.redirect_uris
     }, 
-    function(accessToken, refreshToken, profile, cb) {
+    function(accessToken, refreshToken, profile, done) {
         console.log(accessToken, refreshToken, profile);
-        return cb(null, profile);
+        const user = profile;
+
+        return done(null, user);
     }
 ));
-
-// //사용자가 인증 성공을 성공 할 경우
-// passport.serializeUser(function(user, done) {
-//     done(null, user); // user객체가 deserializeUser로 전달됨.
-// });
-
-// //이후 사용자의 요청시 호출
-// passport.deserializeUser(function(obj, done) {
-//     done(null, obj); // 여기의 user가 req.user가 됨
-// });
 
 router.get('/google',
     passport.authenticate('google', { 
@@ -53,6 +56,8 @@ router.get('/google/callback',
 /**
  * test
  */
+
+// 로그인 안되어있으면 튕구기
 const authenticateUser = (req, res, next) => {
     if (req.isAuthenticated()) {
         next();
