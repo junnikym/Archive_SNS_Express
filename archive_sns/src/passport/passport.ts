@@ -2,17 +2,18 @@ import express from 'express';
 import parseurl from 'parseurl';
 import session from 'express-session';
 import passport from 'passport';
+
 const GoogleStrategy = require( 'passport-google-oauth20' ).Strategy
 
 export function googlelogin() {
     //세션
-    router.use(session({
+    session({
         secret: 'bshjsalgu',
         resave: false,
         saveUninitialized: true
-    }))
-    router.use(passport.initialize());
-    router.use(passport.session());
+    })
+    passport.initialize();
+    passport.session();
 
     //사용자가 인증 성공을 성공 할 경우
     passport.serializeUser(function(user, done) {
@@ -40,7 +41,9 @@ export function googlelogin() {
             return done(null, user);
         }
     ));
+}
 
+///////////////////////////////////////////////////////////////
     router.get('/google',
         passport.authenticate('google', { 
             scope: ['profile'] 
