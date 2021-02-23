@@ -42,7 +42,10 @@ function defaultLogin(email, password) {
 			headers: {
 				"Content-Type": "application/json"
 			},
-			body: "{\"email\":\"test_1@test\",\"password\":\"test\",\"name\":\"string\"}"
+			body: JSON.stringify({
+				"email" 	: email,
+				"password"	: password
+			})
 		})
 		.then(response => response.json())
 		.then(json => {
@@ -55,20 +58,12 @@ function defaultLogin(email, password) {
 	};
 }
 
-function createAccount(email, pw, confirm_pw, img, alias) {
+function createAccount(data) {
 	return dispatch => {
 
-		fetch("/auth", {
+		fetch("/auth/registration", {
 			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				"name"		: alias,
-				"email"		: email,
-				"password"	: pw,
-				"pw_confirm": confirm_pw,
-			})
+			body: data
 		})
 		.then(response =>  response.json())
 		.then(json => {

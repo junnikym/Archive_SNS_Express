@@ -33,6 +33,7 @@ import { ImageDTO } from '../Models/DTOs/ImageDTO';
 
 import { AccountService } from '../Services/AccountService';
 import { AuthService } from "../Services/AuthService";
+import { ProfileImageMulter } from "../Middleware/Multer";
 
 @JsonController("/auth")
 export class AuthControl {
@@ -92,6 +93,7 @@ export class AuthControl {
 
   @HttpCode(200)
   @Post('/registration')
+  @UseBefore(ProfileImageMulter.single('image'))
   @OpenAPI({
       summary: "registration",
       statusCode: "200",
@@ -99,17 +101,18 @@ export class AuthControl {
   })
   public async registration(
       @Body() account_dto: AccountDTO,
+      @Req() req,
       @Res() res: Response,
   ) {
     let profile_img = null;
 
-    // @TODO : Profile Img
-    // if(req.body.prfoile_img_url) {
-    //   profile_img = new ImageDTO();
-    //   profile_img.url = req.body.profile_img_url;
-    // }
+    if(req.file.prfoile_img_url) {
+      profile_img = new ImageDTO();
+      profile_img.url = req.body.profile_img_url;
+    }
 
-    const CreateAccount_Result = await this.account_service.CreateAccount(account_dto);
+    const CreateAccount_Result = 
+      await this.account_service.CreateAccount(account_dto, profile_img);
 
     const _access_token = AccessTokenGenerator(CreateAccount_Result);
     const _refresh_token = RefreshTokenGenerator(CreateAccount_Result);

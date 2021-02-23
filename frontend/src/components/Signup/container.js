@@ -10,13 +10,16 @@ const Container = (props, context) => {
 
 	const [account, setAccount] = useState({
 		email		: '',
-		pw			: '',
+		password	: '',
 		confirm_pw	: '',
-		profile_img : '',
-		alias		: '',
+		name		: '',
+		status_msg	: ''
 	});
 
-	const { email, pw, confirm_pw, profile_img, alias } = account;
+	const [base64, setBase64] = useState("");
+	const [imgFile, setImgFile] = useState(null);
+
+	const { email, password, confirm_pw, name } = account;
 	const { stage } = page;
 
 	const __step_stage__ = () => {
@@ -34,29 +37,49 @@ const Container = (props, context) => {
 	};
 
 	const __img_input_handler__ = event => {
-		setAccount({
-			...account,
-			profile_img : event.target.files[0]
-		})
+		
+		const reader = new FileReader();
+		const file = event.target.files[0];
+		
+		reader.onloadend = () => {
+			if (file && reader.result) 
+				setBase64(reader.result.toString());
+
+			console.log(base64);
+		}
+
+		if(file) {
+			reader.readAsDataURL(file);
+			setImgFile(file);
+		}
+		
 	};
 
 	const __submit_handler__ = event => {
 		event.preventDefault();
-		props.createAccount(email, pw, confirm_pw, profile_img, alias);
+
+		const data = new FormData();
+
+		data.append('image', imgFile)
+		Object.keys(account).map( elem => {
+			data.append( elem, account[elem] );
+		});
+
+		props.createAccount(data);
 	};
 
 	return (
 		<Signup
 			email_val		= {email}
-			pw_val			= {pw}
+			pw_val			= {password}
 			confirm_pw_val	= {confirm_pw}
-			profile_img_val = {profile_img}
-			alias_val		= {alias}
+			alias_val		= {name}
 			current_stage 	= {stage}
+			img_preview		= { base64 }
 
 			step_stage 			= {__step_stage__}
 			text_input_handler 	= {__text_input_handler__}
-			img_input_handler 	= {__img_input_handler__}
+			img_input_handler	= { __img_input_handler__ }
 			submit_handler 		= {__submit_handler__} />
 	);
 

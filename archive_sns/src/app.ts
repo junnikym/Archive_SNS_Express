@@ -79,7 +79,7 @@ export class App {
       this.server.listen(port, () => {
         console.log('Conneted ', port, ' port');
 
-      this.app.use('/auth', passportRouter);
+        this.app.use('/auth', passportRouter);
       });
     }
     catch (error) {
