@@ -32,11 +32,10 @@ passport.use(new GoogleStrategy({
     clientSecret: googleCredentials.web.client_secret,
     callbackURL: googleCredentials.web.redirect_uris
     }, 
-    function(accessToken, refreshToken, profile, done) {
-        const user = profile;
-        console.log(accessToken);
-        console.log(refreshToken);
-
+    function(accessToken, refreshToken, profile, email, done) {
+        const user = profile + email;
+        console.log('accessToken : ', accessToken);
+        console.log(email);
         console.log(user);
 
         return done(null, user);
@@ -45,7 +44,7 @@ passport.use(new GoogleStrategy({
 
 router.get('/google',
     passport.authenticate('google', { 
-        scope: ['profile'] 
+        scope: ['profile', 'email'] 
     }));
 
 router.get('/google/callback',
@@ -70,8 +69,9 @@ const authenticateUser = (req, res, next) => {
 
 router.get('/', authenticateUser,(req, res) => { 
     const googleid = req.user.id;
+    const googleemail = req.user.emails;
     const googlename = req.user.displayName;
-    const content = 'login success<br>' + googleid + '<br>' + googlename;
+    const content = 'login success<br>'+ googleemail + '<br>' + googleid + '<br>' + googlename;
     res.send(content);
 });
 
