@@ -85,7 +85,7 @@ function createAccount(email, pw, confirm_pw, img, alias) {
 
 function getInfo(pk) {
 	return dispatch => {
-		fetch("/profile", {
+		fetch("/Profile", {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json"

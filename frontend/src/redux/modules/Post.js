@@ -84,8 +84,8 @@ function postList(offset, limit, order_by) {
 	return (dispatch, getState) => {
 		const { account : { AccessToken }} = getState();
 		
-		fetch("/post/", {
-			method: "post",
+		fetch("/post", {
+			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `${AccessToken}`
