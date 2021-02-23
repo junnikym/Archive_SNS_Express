@@ -56,7 +56,7 @@ export class CommentLikeControl {
             });
         };
 
-        return CountLike_Result;
+        return { data : CountLike_Result };
     }
 
     @HttpCode(200)
@@ -89,7 +89,7 @@ export class CommentLikeControl {
             });
         }
 
-        return Who_Like;
+        return { data : Who_Like };
     }
 
     @HttpCode(200)
@@ -124,6 +124,6 @@ export class CommentLikeControl {
             });
         };
 
-        return Who_Like;
+        return { data : Who_Like };
     }
 }

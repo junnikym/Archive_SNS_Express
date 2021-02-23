@@ -56,7 +56,7 @@ export class GroupControl {
                 message: "fail to CreateGroup"
             });
 
-        return CreateGroup_Result;
+        return { data : CreateGroup_Result };
     }
 
     @HttpCode(200)
@@ -86,7 +86,7 @@ export class GroupControl {
                 message: "fail to Delete Group"
             });
 
-        return DeleteGroup_Result;
+        return { data : DeleteGroup_Result };
     }
 
     @HttpCode(200)
@@ -112,6 +112,6 @@ export class GroupControl {
                 message: "fail to DeleteGroup"
             });
 
-        return Invite_Result;
+        return { data : Invite_Result };
     }
 }

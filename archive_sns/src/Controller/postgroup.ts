@@ -18,16 +18,13 @@ import {
 } from "routing-controllers";
 import { OpenAPI, ResponseSchema } from "routing-controllers-openapi";
 import sanitizeHtml from 'sanitize-html';
-
 // JWT middleware
 import { 
     RefreshTokenGenerator,
     AccessTokenGenerator,
     VerifyAccessToken 
 } from "../Middleware/JWT_Auth";
-
 import { PostGroupService } from "../Services/GroupService";
-
 import { GroupDTO } from '../Models/DTOs/GroupDTO';
 
 @JsonController("/postgroup")
@@ -65,7 +62,7 @@ export class GroupControl {
             });
         };
 
-        return CreateGroup_Result;
+        return { data : CreateGroup_Result };
     }
 
     @HttpCode(200)
@@ -100,7 +97,7 @@ export class GroupControl {
             });
         };
 
-        return DeleteGroup_Result;
+        return { data : DeleteGroup_Result };
     }
 
     @HttpCode(200)
@@ -132,6 +129,6 @@ export class GroupControl {
             });
         };
 
-        return Invite_Result;
+        return { data : Invite_Result };
     }
 }

@@ -44,13 +44,13 @@ export class ProfileControl {
         },
         security: [{ bearerAuth: [] }],
     })
-    @UseBefore(VerifyAccessToken)
+    @UseBefore()
     public async GetAccountByPk(
-        @Req() req,
+        @Body() body,
         @Res() res: Response
     ) {
         const GetAccount_Result = await this.account_service.GetAccountByPK(
-            req.body.email
+            body.email
         );
 
         if(!GetAccount_Result){
@@ -61,7 +61,7 @@ export class ProfileControl {
             });
         };
 
-        return GetAccount_Result;
+        return { data : GetAccount_Result };
     }
 
     @HttpCode(200)
@@ -79,11 +79,12 @@ export class ProfileControl {
     @UseBefore(VerifyAccessToken)
     public async UpdateAccount(
         @Body() Account_DTO: AccountDTO,
-        @Req() req,
         @Res() res: Response
     ) {
+        const user_pk = res.locals.jwt_payload.pk;
+
         const Update_Profile_result = await this.account_service.UpdateAccount(
-            req.body.account_pk,
+            user_pk,
             Account_DTO
         );
 
@@ -95,7 +96,7 @@ export class ProfileControl {
             });
         };
 
-        return Update_Profile_result;
+        return { data : Update_Profile_result };
     }
 
 }

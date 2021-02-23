@@ -12,7 +12,7 @@ import {
   useExpressServer,
 } from "routing-controllers";
 
-// const passportRouter = require('./passport/passport');
+const passportRouter = require('./Utils/passport');
 
 import { appendFile } from "fs";
 import { db_conn } from "./Utils/DB_Connection";
@@ -35,7 +35,6 @@ export class App {
     this.setMiddlewares();
   }
 
-  // this.app.use("/static", express.static(__dirname + '/..'));
 
   /**
    * DB Initializer
@@ -66,6 +65,8 @@ export class App {
       routingUseContainer(Container);
       this.app = useExpressServer(this.app, routingControllerOptions);
       initSwagger(this.app);
+      
+      this.app.use("/static", express.static(__dirname + '/..'));
 
       // server init
       this.server = createServer(this.app);
@@ -78,7 +79,11 @@ export class App {
       // run
       this.server.listen(port, () => {
         console.log('Conneted ', port, ' port');
+
+      this.app.use('/auth', passportRouter);
       });
+
+
     }
     catch (error) {
       console.log("server error : ", error);

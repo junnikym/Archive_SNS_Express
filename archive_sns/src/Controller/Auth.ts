@@ -161,7 +161,7 @@ export class AuthControl {
           });
       }
 
-      return ValidateRefreshToken_Result;
+      return { data: ValidateRefreshToken_Result };
     }
 
   @HttpCode(200)
@@ -191,7 +191,7 @@ export class AuthControl {
         });
     }
 
-    return DeleteProfile_Result;
+    return { data : DeleteProfile_Result };
   }
 
 }

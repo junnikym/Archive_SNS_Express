@@ -68,7 +68,7 @@ export class ChatControl {
                 .emit('chat_notify', elem);
         });
 
-        return {data: SendMsg_Result.chat};
+        return { data: SendMsg_Result.chat };
     }
 
     @HttpCode(200)
@@ -102,7 +102,7 @@ export class ChatControl {
             });
         }
 
-        return {data: GetChatContents_Result};
+        return { data: GetChatContents_Result };
     }
 
     @HttpCode(200)
@@ -134,6 +134,6 @@ export class ChatControl {
             });
         }
 
-        return {data: ExitChatGroup_Result};
+        return { data: ExitChatGroup_Result };
     }
 }
