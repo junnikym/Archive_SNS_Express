@@ -141,7 +141,7 @@ export class PostControl {
     },
     security: [{ bearerAuth: [] }],
   })
-  @UseBefore(VerifyAccessToken)
+  // @UseBefore(VerifyAccessToken)
   public async DeletePost(
     @Param("post_pk") post_pk: string, 
     @Res() res: Response
@@ -195,7 +195,7 @@ export class PostControl {
   }
 
   @HttpCode(200)
-  @Get()
+  @Post()
   @OpenAPI({
     summary: "Post 목록 조회",
     statusCode: "200",

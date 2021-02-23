@@ -32,13 +32,14 @@ passport.use(new GoogleStrategy({
     clientSecret: googleCredentials.web.client_secret,
     callbackURL: googleCredentials.web.redirect_uris
     }, 
-    function(accessToken, refreshToken, profile, email, done) {
-        const user = profile + email;
-        console.log('accessToken : ', accessToken);
-        console.log(email);
-        console.log(user);
+    function(accessToken, refreshToken, email, done) {
+        
+        // console.log('accessToken : ', accessToken);
+        // console.log('email : ', email);
+        // console.log('done : ', done);
 
-        return done(null, user);
+
+        return done(null, email);
     }
 ));
 
@@ -68,10 +69,17 @@ const authenticateUser = (req, res, next) => {
 };
 
 router.get('/', authenticateUser,(req, res) => { 
+    const googleemail = req.user._json.email;
     const googleid = req.user.id;
-    const googleemail = req.user.emails;
     const googlename = req.user.displayName;
-    const content = 'login success<br>'+ googleemail + '<br>' + googleid + '<br>' + googlename;
+
+    console.log(req.user);
+
+    const content = 'login success<br>'+ 
+    googleemail + '<br>' + 
+    googleid + '<br>' + 
+    googlename;
+
     res.send(content);
 });
 
