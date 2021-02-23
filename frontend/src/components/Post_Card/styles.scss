@@ -1,18 +1,19 @@
+
 .Feed{
+    animation: fadeIn 0.5s ease-in-out;
     width: 90vw;
-    padding: 1%;
+    padding: 15px;
     margin: 5% auto;
     max-width: 500px;
     min-width: 100px;
     box-shadow: 0px 2px 2px 0px var(--mainGrey);
     display: grid;
-    border: 1px solid rgb(228, 228, 228);
-    border-radius: 5px;
+    border-radius: 20px;
     background-color: var(--mainWhite);
-    box-shadow: 0px 1px 5px 2px var(--shadowColor);
 }
 
 .Post_Card{
+    animation: fadeIn 1s ease-in-out;
     width: 90vw;
     margin: 0 auto;
     max-width: 1170px;
@@ -27,12 +28,26 @@ img {
     width: 100%;
 }
 
-.groupHome{
+header{
+    background-color: white;
+    border-radius: 40px 40px 0 0;
+    padding: 5%;
+}
+
+footer{
+    background-color: white;
+}
+
+card{
+    border-radius: 40px;
+    box-shadow: 0px 2px 2px 0px var(--mainGrey);
+    font-family: 'Noto Sans KR', sans-serif;
+    align-items: center;
     text-align: center;
 }
 
-.card{
-    box-shadow: 0px 1px 5px 2px var(--shadowColor);
+.groupHome{
+    text-align: center;
 }
 
 .delete_from{

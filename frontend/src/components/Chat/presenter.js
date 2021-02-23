@@ -1,4 +1,5 @@
 import React from 'react';
+import './styles.css'
 
 import { BrowserRouter as Router, Route} from 'react-router-dom'; 
 
@@ -22,7 +23,9 @@ export const ChatMyText = (props, content) => (
 
 const Chat = (props, content) => (
 
-    <div id = "chat">
+        <div id = "chat"> 
+            <div id = "close">
+                </div>   
 
         <div className = "chat_load">
             {props.contents}
@@ -35,8 +38,6 @@ const Chat = (props, content) => (
 
             <hr/>
             <Form.Group controlId="Textarea">
-                
-                <Form.Label>@사용자</Form.Label>
 
                 <Form.Control  
                     type="text"
@@ -58,7 +59,8 @@ const Chat = (props, content) => (
 
         </Form>
 
-    </div>
+        </div>
+
 )
 
 export default Chat;

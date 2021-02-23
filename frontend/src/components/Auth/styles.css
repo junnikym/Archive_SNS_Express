@@ -1,0 +1,39 @@
+
+
+.Main_form{
+    margin: 50px 200px 250px 200px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.Main_form > h1 {
+    display: none;
+    text-align: center;
+    background: linear-gradient(-135deg, #E4A972, #9500ff) fixed;
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.left_form{
+    position: relative;
+    float: left;
+    padding: 150px 0px;
+    width: 50%;
+    height: 405px;
+    border-radius: 50px 0 0 50px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.466);
+    color: white;
+    background: linear-gradient(-135deg, #E4A972, #5c009e) fixed;
+}
+
+.right_form{
+    position: relative;
+    float: right;
+    align-items: center;
+    padding: 3%;
+    width: 50%;
+    height: 405px;
+    border-radius: 0 50px 50px 0;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.466);
+    background-color: white;
+}

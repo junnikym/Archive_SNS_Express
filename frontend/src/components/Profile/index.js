@@ -20,6 +20,10 @@ const mapDispatchToProps = (dispatch, props) => {
 
         Unsubscribe : (pk) => {
             dispatch(ProfileAct.Unsubscribe(pk));
+        },
+
+        editProfile: (email, password, name, image, status_msg) => {
+            dispatch(ProfileAct.editProfile(email, password, name, image, status_msg));
         }
     };
 };

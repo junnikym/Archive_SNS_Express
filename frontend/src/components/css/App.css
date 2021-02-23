@@ -1,16 +1,31 @@
-@import url(Navbar.css);
-@import url(Login.css);
-@import url(chat.css);
-@import url(buttons.css);
-@import url(Profile.css);
-@import url(Post.css);
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
 
 @media screen and (max-width: 1000px) { 
     #Over_size { display: none; } 
 }
 
 @media screen and (max-width: 700px) { 
-    #Over_size-small { display: none; } 
+    #Over_size-small { display: none; }
+}
+
+@media screen and (max-width: 1000px) {
+
+    /* *{
+        animation: fadeIn 1s ease-in-out;
+    } */
+
+    #Over_size-form { display: none; }
+
+    #Over_size-none { 
+        border-radius: 20px;
+        float: none;
+        width: auto;
+        margin: 100px 5% 10px 5%;
+        }
+    
+    #Over_size-on {
+        display: block;
+    }
 }
 
 :root {
@@ -29,6 +44,24 @@
     margin: 1vw auto;
     
 }
+
+.main{
+    background-color: rgb(250, 250, 250);
+}
+
+*{
+    -webkit-overflow-scrolling : touch;
+    font-family: 'Staatliches', cursive;
+}
+
+#root{
+    background: linear-gradient(-135deg, #e4a97283, #9941d886) fixed;
+}
+
+html{
+    background: linear-gradient(-135deg, #E4A972, #9941D8) fixed;
+}
+
 
 
 

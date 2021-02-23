@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import { BrowserRouter as Router, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import './styles.css'
 
 import { 
     Form,
@@ -10,48 +11,67 @@ import {
 import ImageUploader from '../ImageUploader';
 
 const Feed = (props) => (
-    
-    <div className = "Feed">
 
-        <Form
-            onSubmit={props.submit_handler}
-            method="post" >
+    <div>
 
-            <Form.Label>포스트 쓰기</Form.Label>
+        <div id ="feed_banner">
+            <center>
+            <Link to = "/Profile/pk">
+                <div className="imgUser"></div>
+            </Link>
+                <br/>
+                <h3>NAME : {props.info?.name}</h3>
+                    <br/>
 
-            <Form.Group controlId="Textarea">
-                <Form.Control  
-                    type="text"
-                    name="title"
-                    placeholder="제목" 
-                    value={props.post_info.title}
-                    onChange={props.text_input_handler} />
-            </Form.Group>
+            <h5><b>Hey Folks</b></h5>
+            <h1><b>What's Up</b></h1>
 
-            <Form.Group controlId="Textarea">
-                <Form.Control  
-                    type="text"
-                    name="content"
-                    placeholder="내용" 
-                    value={props.post_info.content}
-                    onChange={props.text_input_handler} />
-            </Form.Group>
+            </center>
+        </div>    
 
-            <ImageUploader 
-                upload = {props.upload}
-                uploader = {props.uploader}
-                post_info = {props.post_info}
-            />
+        <div className = "Feed">
 
-            <Button 
-                className = "button_right"
-                variant = "primary"
-                type = "submit" > 
-                    <span>게시하기</span>
-            </Button>
+                <form
+                    onSubmit={props.submit_handler}
+                    method="post" >
 
-        </Form>
-    
+                    <Form.Group controlId="Textarea">
+                        <input
+                            className = "input"
+                            type="text"
+                            name="title"
+                            placeholder="Hey dude, write down a nice title!" 
+                            value={props.post_info.title}
+                            onChange={props.text_input_handler} />
+                    </Form.Group>
+
+                    <Form.Group controlId="Textarea">
+                        <input 
+                            className = "input" 
+                            type="text"
+                            name="content"
+                            placeholder="Fill it up with cool content!" 
+                            value={props.post_info.content}
+                            onChange={props.text_input_handler} />
+                    </Form.Group>
+
+                    <ImageUploader 
+                        upload = {props.upload}
+                        uploader = {props.uploader}
+                        post_info = {props.post_info}
+                    />
+
+                    <Button 
+                        className = "submit_btn"
+                        variant = "primary"
+                        type = "submit" > 
+                            <span>Post!</span>
+                    </Button>
+
+                </form>
+            
+        </div>
+        
     </div>
 );
 

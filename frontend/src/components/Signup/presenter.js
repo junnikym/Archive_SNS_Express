@@ -58,7 +58,7 @@ const Signup = (props, context) => (
 		</Form.Group>
 
 		<Button
-			className = "button_right"
+			className = "login_btn"
 			variant="primary" 
 			type="submit"
 			value="Continue"
