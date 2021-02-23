@@ -36,7 +36,7 @@ const Post_Card = props => (
                     <button
                         className = "button"
                         onClick = {props.delete_handler}
-                        type = "submit">
+                        type = "click">
                         <div  className = "delete_btn"></div>
                     </button>
                     <Link to = "/Profile/pk" className = "imgUser"></Link>
@@ -54,7 +54,7 @@ const Post_Card = props => (
                 </text>
 
             <small className="text-muted">
-                Time : {props.Post_date}
+                Time : {props.Post_time}
             </small>
 
             <hr/>

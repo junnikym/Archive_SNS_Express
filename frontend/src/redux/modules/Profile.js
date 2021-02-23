@@ -1,6 +1,6 @@
-const PASS_DATA		   = "PASS_DATA";
-const UNSUBSCRIBE_DATA = "UNSUBSCRIBE_DATA";
-const EDIT_PROFILE_DATA	   = "EDIT_PROFILE_DATA";
+const PASS_DATA			    = "PASS_DATA";
+const UNSUBSCRIBE_DATA  	= "UNSUBSCRIBE_DATA";
+const EDIT_PROFILE_DATA	    = "EDIT_PROFILE_DATA";
 
 function passData(data) {
 	return {
@@ -25,8 +25,8 @@ function editProfileData(data) {
 
 function Profile(pk) {
 	return dispatch => {
-		fetch("/auth/short_info", {
-			method: "POST",
+		fetch("/Profile", {
+			method: "get",
 			headers: {
 				"Content-Type": "application/json"
 			},
@@ -36,8 +36,6 @@ function Profile(pk) {
 		})
 		.then(response => response.json())
 		.then(json => {
-
-
 			if (json.data) {
 				dispatch(passData(json.data));
 			}

@@ -39,7 +39,7 @@ const Container = (props, context) => {
 
     return (
         <Profile
-            info = {props.profile_info}
+            info = {props.profile}
             Unsubscribe = {() => props.Unsubscribe(props.match.params.pk)}
 
             email_val           = {email}

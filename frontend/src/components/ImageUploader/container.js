@@ -31,10 +31,8 @@ const Container = (props, context) => {
 					...base64,
 					reader.result.toString()
 				]);
-
 				setImgVal("");
 			}
-
 		}
 
 		if(file) {

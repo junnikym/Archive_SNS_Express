@@ -31,7 +31,7 @@ const Feed = (props) => (
 
         <div className = "Feed">
 
-                <form
+                <Form
                     onSubmit={props.submit_handler}
                     method="post" >
 
@@ -68,7 +68,7 @@ const Feed = (props) => (
                             <span>Post!</span>
                     </Button>
 
-                </form>
+                </Form>
             
         </div>
         

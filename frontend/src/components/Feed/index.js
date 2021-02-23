@@ -12,7 +12,6 @@ const mapDispatchToProps = (dispatch, props) => {
     return {
         createPost: (title, text_content, img) => {
             dispatch(PostAct.createPost(title, text_content, img));
-            
         },
 
         postList: (offset, limit, order_by) => {

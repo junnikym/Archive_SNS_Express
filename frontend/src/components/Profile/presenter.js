@@ -5,12 +5,14 @@ import './styles.scss'
 const Profile = (props, context) => (
 
     <div className = "Profile">
+
+        <h1>Profile</h1>
     
         Email : {props.info?.email} <br/>
 
         Name : {props.info?.name}   <br/>
 
-        Status_msg : {props.info?.status_msg}
+        Status_msg : {props.info?.status_msg} 
 
         <hr/>
 
@@ -78,7 +80,7 @@ const Profile = (props, context) => (
         </button>
 
         <button
-            onClick = {props.delete_handler}
+            onClick = {props.Unsubscribe}
             type = "submit">
                 <span>Unsubscribe</span>
         </button>
