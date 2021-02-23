@@ -141,7 +141,7 @@ export class PostControl {
     },
     security: [{ bearerAuth: [] }],
   })
-  @UseBefore(VerifyAccessToken)
+  // @UseBefore(VerifyAccessToken)
   public async DeletePost(
     @Param("post_pk") post_pk: string, 
     @Res() res: Response
