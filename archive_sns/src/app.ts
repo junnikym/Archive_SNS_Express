@@ -12,7 +12,7 @@ import {
   useExpressServer,
 } from "routing-controllers";
 
-const passportRouter = require('./passport/passport');
+const passportRouter = require('./Utils/passport');
 
 import { appendFile } from "fs";
 import { db_conn } from "./Utils/DB_Connection";
