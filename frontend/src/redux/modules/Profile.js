@@ -1,10 +1,10 @@
-const PASS_DATA			    = "PASS_DATA";
+const GET_PROFILE_DATA		= "GET_PROFILE_DATA";
 const UNSUBSCRIBE_DATA  	= "UNSUBSCRIBE_DATA";
 const EDIT_PROFILE_DATA	    = "EDIT_PROFILE_DATA";
 
-function passData(data) {
+function getProfileData(data) {
 	return {
-		type: PASS_DATA,
+		type: GET_PROFILE_DATA,
 		data
 	};
 }
@@ -23,12 +23,13 @@ function editProfileData(data) {
 	}
 }
 
-function Profile(pk) {
-	return dispatch => {
-		fetch("/Profile", {
+function getProfile(pk) {
+	return (dispatch) => {
+
+		fetch("/Profile" + pk, {
 			method: "get",
 			headers: {
-				"Content-Type": "application/json"
+				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
 				"pk": pk
@@ -37,7 +38,8 @@ function Profile(pk) {
 		.then(response => response.json())
 		.then(json => {
 			if (json.data) {
-				dispatch(passData(json.data));
+				dispatch(getProfileData(json.data));
+				console.log("Profile redux run",getProfileData);
 			}
 		})
 		.catch(err => console.log(err));
@@ -46,13 +48,13 @@ function Profile(pk) {
 
 function editProfile (email, password, name, image, msg) {
 	return (dispatch, getState) => {
-		const { account : { token }} = getState();
+		const { account : { AccessToken }} = getState();
 
-		fetch("/profile/" + email, {
+		fetch("/profile/", {
 			method: "put",
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `JWT ${token}`
+				Authorization: `${AccessToken}`
 			},
 			body: JSON.stringify({
 				"email" : email,
@@ -95,13 +97,14 @@ function Unsubscribe(user_pk, password) {
 };
 
 const initialState = {
+	getProfile : []
 };
 
 function reducer(state = initialState, action) {
 	
 	switch(action.type) {
-		case PASS_DATA:
-			return applyData(state, action);
+		case GET_PROFILE_DATA:
+			return applyGetProfileData(state, action);
 
 		case UNSUBSCRIBE_DATA:
 			return applyUnsubscribe(state, action);
@@ -119,17 +122,16 @@ function applyeditProfileData (state, action) {
 
 	return {
 		...state,
-		profile_info: data
-		
-	}
-}
+		profile_data: data
+	};
+};
 
-function applyData(state, action) {
+function applyGetProfileData(state, action) {
 	const {data} = action;
 
 	return {
 		...state,
-		profile_info: data
+		profile_data: data
 	};
 }
 
@@ -139,7 +141,7 @@ function applyUnsubscribe(state, action) {
 }
 
 const actionCreators = {
-	Profile,
+	getProfile,
 	Unsubscribe,
 	editProfile
 };

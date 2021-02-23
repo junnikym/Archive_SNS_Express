@@ -105,8 +105,7 @@ function postList(offset, limit, order_by) {
 		})
 		.catch(err => console.log(err));
     };
-
-}
+};
 
 // < Initial State >
 // --------------------------------------------------

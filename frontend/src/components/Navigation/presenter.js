@@ -21,6 +21,8 @@ const Navigation = (props, context) => (
         <div className = "nav_btns">
                 
             <Link to = "/Profile/pk" className = "imgUser"></Link>
+
+            Name :{props.info?.name}
                 &nbsp;
 
             <Link to className = "button">

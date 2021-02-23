@@ -2,20 +2,18 @@ import { connect } from "react-redux";
 import Container from "./container";
 
 import { actionCreators as ProfileAct } from "../../redux/modules/Profile";
-import { actionCreators as accountAct } from "../../redux/modules/account";
-
 
 const mapStateToProps = (state, ownPorps) => {
-    const { profile: { profile_info } }= state;
+    const { profile: { profile_data } }= state;
 
-	return { profile_info };
+	return { profile_data };
 };
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
 
-        Profile: (pk) => {
-            dispatch(ProfileAct.Profile(pk));
+        getProfile: (pk) => {
+            dispatch(ProfileAct.getProfile(pk));
         },
 
         Unsubscribe : (pk) => {

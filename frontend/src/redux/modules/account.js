@@ -83,32 +83,6 @@ function createAccount(email, pw, confirm_pw, img, alias) {
 	};
 }
 
-function getInfo(pk) {
-	return dispatch => {
-		fetch("/Profile", {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				"pk": pk
-			})
-		})
-		.then(response => response.json())
-		.then(json => {
-			if (json.status != 200) {
-				console.log("this is bad status result");
-				dispatch(logout());
-			}
-
-			if (json.data) {
-				dispatch(passData(json.data));
-			}
-		})
-		.catch(err => console.log(err));
-	};
-};
-
 // < Initial State >
 // --------------------------------------------------
 
@@ -185,7 +159,6 @@ const actionCreators = {
 	defaultLogin,
 	createAccount,
 	logout,
-	getInfo
 };
 
 export { actionCreators };
