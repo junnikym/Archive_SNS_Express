@@ -16,13 +16,12 @@ router.use(passport.session());
 
 //사용자가 인증 성공을 성공 할 경우
 passport.serializeUser(function(user, done) {
-    console.log("google login success");
     done(null, user); // user객체가 deserializeUser로 전달됨.
 });
 
 //이후 사용자의 요청시 호출
-passport.deserializeUser(function(obj, done) {
-    done(null, obj); // 여기의 user가 req.user가 됨
+passport.deserializeUser(function(user, done) {
+    done(null, user); // 여기의 user가 req.user가 됨
 });
 
 //google 로그인 정보 json
@@ -34,8 +33,11 @@ passport.use(new GoogleStrategy({
     callbackURL: googleCredentials.web.redirect_uris
     }, 
     function(accessToken, refreshToken, profile, done) {
-        console.log(accessToken, refreshToken, profile);
         const user = profile;
+        console.log(accessToken);
+        console.log(refreshToken);
+
+        console.log(user);
 
         return done(null, user);
     }
@@ -57,7 +59,7 @@ router.get('/google/callback',
  * test
  */
 
-// 로그인 안되어있으면 튕구기
+// 로그인 안되어있으면 튕구기 미들웨어
 const authenticateUser = (req, res, next) => {
     if (req.isAuthenticated()) {
         next();
@@ -70,9 +72,6 @@ router.get('/', authenticateUser,(req, res) => {
     const googleid = req.user.id;
     const googlename = req.user.displayName;
     const content = 'login success<br>' + googleid + '<br>' + googlename;
-
-    console.log(req.user);
-
     res.send(content);
 });
 
