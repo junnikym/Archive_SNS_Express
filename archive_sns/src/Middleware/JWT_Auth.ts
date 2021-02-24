@@ -82,3 +82,17 @@ export const RefreshTokenGenerator = (account: Account) => {
 		}
 	);
 }
+
+export const GoogleAccessTokenGenerator = (id, name, email) => {
+	return jwt.sign(
+		{ 
+			id: id,
+			name: name, 
+			email: email, 
+		},
+		env.jwt.secret_access_key,
+		{
+			expiresIn: "30m",
+		},
+	);
+}
