@@ -36,7 +36,7 @@ export class ProfileControl {
     constructor( private account_service : AccountService ) {}
 
     @HttpCode(200)
-    @Get()
+    @Get('/:account_pk')
     @OpenAPI({
         summary: "GetAccountByPk",
         statusCode: "200",
@@ -49,11 +49,11 @@ export class ProfileControl {
     })
     @UseBefore()
     public async GetAccountByPk(
-        @Body() body,
+        @Param('account_pk') account_pk,
         @Res() res: Response
     ) {
         const GetAccount_Result = await this.account_service.GetAccountByPK(
-            body.email
+            account_pk
         );
 
         if(!GetAccount_Result){

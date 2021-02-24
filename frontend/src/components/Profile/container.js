@@ -28,34 +28,26 @@ const Container = (props, context) => {
         props.editProfile(email, password, name, image, msg);
     };
 
-    useEffect(()=>{
-        props.Profile(props.match.params.pk);
-    },[])
-
-
-    const [state, setState] = useState({
-        loading : true
-    });
-
     return (
         <Profile
-            info = {props.profile_info}
-            Unsubscribe = {() => props.Unsubscribe(props.match.params.pk)}
+        data = {props.getProfile}
+        Unsubscribe = {() => props.Unsubscribe(props.match.params.pk)}
 
-            email_val           = {email}
-            password_val        = {password}
-            name_val            = {name}
-            img_val             = {image}
-            msg_val             = {msg}
+        email_val           = {email}
+        password_val        = {password}
+        name_val            = {name}
+        img_val             = {image}
+        msg_val             = {msg}
 
-            text_input_handler  = {__text_input_handler__}
-            submit_handler      = {__submit_handler__}
-        />
-    );
+        text_input_handler  = {__text_input_handler__}
+        submit_handler      = {__submit_handler__}
+    />
+    )
 }
 
 Container.propTypes = {
     editProfile : PropTypes.func.isRequired,
+    getProfile     : PropTypes.array.isRequired,
 }
 
 export default Container;

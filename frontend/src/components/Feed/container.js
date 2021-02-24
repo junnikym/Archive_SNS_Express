@@ -8,8 +8,9 @@ const Container = (props, context) => {
 
 	const PostInfoInit = {
 		title				: '',
-		text_content		: '',
+		content				: '',
 	};
+
     const [PostInfo, setPostInfo] = useState(PostInfoInit);
 
 	useEffect(() => {
@@ -32,6 +33,8 @@ const Container = (props, context) => {
 
 	const __submit_handler__ = event => {
 		event.preventDefault(); 
+		console.log("run")
+		console.log(PostInfo);
 		setUpload(props.new_post_count + 1);
 	};
 

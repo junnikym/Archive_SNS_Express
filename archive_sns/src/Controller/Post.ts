@@ -141,12 +141,16 @@ export class PostControl {
     },
     security: [{ bearerAuth: [] }],
   })
-  @UseBefore(VerifyAccessToken)
+  // @UseBefore(VerifyAccessToken)
   public async DeletePost(
     @Param("post_pk") post_pk: string, 
     @Res() res: Response
     ) {
+
     const user_pk = res.locals.jwt_payload.pk;
+
+    console.log("run : ", post_pk);
+    console.log("run : ", user_pk);
 
     const DeletePost_Result = await this.post_service.DeletePost(
       user_pk,
@@ -195,7 +199,7 @@ export class PostControl {
   }
 
   @HttpCode(200)
-  @Get()
+  @Post()
   @OpenAPI({
     summary: "Post 목록 조회",
     statusCode: "200",

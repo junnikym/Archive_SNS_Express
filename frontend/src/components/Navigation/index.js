@@ -1,11 +1,12 @@
 import { connect } from "react-redux";
 import Container from "./container";
 import { actionCreators as accountAct } from "../../redux/modules/account";
+import { actionCreators as ProfileAct } from "../../redux/modules/Profile";
 
 const mapStateToProps = (state, ownProps) => {
-	const { account: { info, PK, isLoggedIn } } = state;
+	const { account: { PK, isLoggedIn } } = state;
 
-	return { info, PK, isLoggedIn };
+	return { PK, isLoggedIn };
 };
 
 const mapDispatchToProps = (dispatch, props) => {
@@ -13,10 +14,6 @@ const mapDispatchToProps = (dispatch, props) => {
 		logout: () => {
 			dispatch(accountAct.logout());
 		},
-
-		getInfo: (pk) => {
-			dispatch(accountAct.getInfo(pk));
-		}
 	};
 };
 

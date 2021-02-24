@@ -35,7 +35,6 @@ export class App {
     this.setMiddlewares();
   }
 
-  // this.app.use("/static", express.static(__dirname + '/..'));
 
   /**
    * DB Initializer
@@ -66,6 +65,8 @@ export class App {
       routingUseContainer(Container);
       this.app = useExpressServer(this.app, routingControllerOptions);
       initSwagger(this.app);
+      
+      this.app.use("/static", express.static(__dirname + '/..'));
 
       // server init
       this.server = createServer(this.app);
@@ -81,6 +82,8 @@ export class App {
 
         this.app.use('/auth', passportRouter);
       });
+
+
     }
     catch (error) {
       console.log("server error : ", error);

@@ -31,7 +31,7 @@ function createComment(post_pk, comment) {
     return (dispatch, getState) => {
 		const { account } = getState();
 		
-		fetch("/comment", {
+		fetch("/comment/", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

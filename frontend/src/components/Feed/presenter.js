@@ -16,9 +16,9 @@ const Feed = (props) => (
 
         <div id ="feed_banner">
             <center>
-            <Link to = "/Profile/pk">
+            <a><Link to = "/Profile/pk">
                 <div className="imgUser"></div>
-            </Link>
+            </Link></a>
                 <br/>
                 <h3>NAME : {props.info?.name}</h3>
                     <br/>
@@ -31,7 +31,7 @@ const Feed = (props) => (
 
         <div className = "Feed">
 
-                <form
+                <Form
                     onSubmit={props.submit_handler}
                     method="post" >
 
@@ -68,7 +68,7 @@ const Feed = (props) => (
                             <span>Post!</span>
                     </Button>
 
-                </form>
+                </Form>
             
         </div>
         
