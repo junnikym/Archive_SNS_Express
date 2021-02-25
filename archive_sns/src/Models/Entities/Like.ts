@@ -6,7 +6,6 @@ import {
 	CreateDateColumn,
 	ManyToOne
 } from 'typeorm';
-
 import { Account } from './Account';
 import { Comment } from './Comment';
 import { Post } from './Post';
