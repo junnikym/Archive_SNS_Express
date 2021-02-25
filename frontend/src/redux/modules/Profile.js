@@ -24,16 +24,15 @@ function editProfileData(data) {
 }
 
 function getProfile(pk) {
-	return (dispatch) => {
+	return (dispatch, getState) => {
+		const { account : { AccessToken }} = getState();
 
-		fetch("/Profile" + pk, {
-			method: "get",
+		fetch("/Profile/" + pk , {
+			method: "GET",
 			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				"pk": pk
-			})
+				"Accept": "application/json",
+				Authorization: `${AccessToken}`
+			}
 		})
 		.then(response => response.json())
 		.then(json => {
@@ -97,7 +96,8 @@ function Unsubscribe(user_pk, password) {
 };
 
 const initialState = {
-	getProfile : []
+	isLoggedIn: localStorage.getItem("AccessToken") ? true : false,
+	profile_data : undefined
 };
 
 function reducer(state = initialState, action) {

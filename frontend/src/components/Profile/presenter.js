@@ -6,9 +6,13 @@ const Profile = (props, context) => (
 
     <div className = "Profile">
 
+        <button onClick = {props.Profile}>
+            Profile run
+        </button>
+
         <h1>Profile</h1>
 
-        Profile : {props.profile_data}      <br/>
+        Profile : {props.data}      <br/>
     
         Email : {props.info?.email} <br/>
 
@@ -100,6 +104,7 @@ Profile.propTypes = {
     image_val           : PropTypes.string.isRequired,
     msg_val             : PropTypes.string.isRequired,
 
+    Profile            : PropTypes.func.isRequired,
     text_input_handler	: PropTypes.func.isRequired,
 	img_input_handler	: PropTypes.func.isRequired,
 	submit_handler		: PropTypes.func.isRequired,

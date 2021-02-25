@@ -30,7 +30,19 @@ const Signup = (props, context) => (
 					value={props.email_val}
 					onChange={props.text_input_handler} 
 					className={formStyles.textInput}
-					/>
+					/>{
+						// email ? (
+						// 	isValidEmail ? (
+						// 		<span style = {{color = "blue"}}>
+						// 			This is the Usuable, Email
+						// 		</span>
+						// 	) : (
+						// 		<span style = {{color = "red"}}>
+						// 			This is the Unusuable, Email
+						// 		</span>
+						// 	) 
+						// ): null 
+					}
 			</Form.Group>
 	
 		<Form.Group controlId="Password">

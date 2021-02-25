@@ -30,24 +30,25 @@ const Container = (props, context) => {
 
     return (
         <Profile
-        data = {props.getProfile}
-        Unsubscribe = {() => props.Unsubscribe(props.match.params.pk)}
-
-        email_val           = {email}
-        password_val        = {password}
-        name_val            = {name}
-        img_val             = {image}
-        msg_val             = {msg}
-
-        text_input_handler  = {__text_input_handler__}
-        submit_handler      = {__submit_handler__}
-    />
+            data = {() => props.getProfile(props.match.params.pk)}
+            Unsubscribe = {() => props.Unsubscribe(props.match.params.pk)}
+            
+            email_val           = {email}
+            password_val        = {password}
+            name_val            = {name}
+            img_val             = {image}
+            msg_val             = {msg}
+            
+            Profile             = {() => props.getProfile(localStorage.getItem("PK"))}
+            text_input_handler  = {__text_input_handler__}
+            submit_handler      = {__submit_handler__}
+        />
     )
 }
 
 Container.propTypes = {
-    editProfile : PropTypes.func.isRequired,
+    editProfile    : PropTypes.func.isRequired,
     getProfile     : PropTypes.array.isRequired,
-}
+};
 
 export default Container;
