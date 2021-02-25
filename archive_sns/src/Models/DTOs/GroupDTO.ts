@@ -9,11 +9,11 @@ export class GroupDTO {
 	@IsString()
 	public group_pk: string;
 
-	@IsEmpty()
+	@IsNotEmpty()
 	@IsString()
 	public title:string;
 
-	@IsEmpty()
+	@IsNotEmpty()
 	@IsArray()
 	public member_pk_list: string[];
 

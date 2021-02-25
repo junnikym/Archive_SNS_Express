@@ -37,10 +37,10 @@ export class CommentDTO {
 
 export class PostCommentDTO extends CommentDTO {
 	
-	@IsEmpty()
+	@IsNotEmpty()
 	@Length(36)
 	@IsString()
-	public post_pk
+	public post_pk;
 
 	public toEntity(): PostComment {
 		const new_ent: PostComment = 

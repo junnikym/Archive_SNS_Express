@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { Route, Switch, Link } from "react-router-dom";
 
 import './styles.scss'
-import styled  from 'styled-components';
 
 import Like_button from "../Like"  
 import Comment from "../Comment";

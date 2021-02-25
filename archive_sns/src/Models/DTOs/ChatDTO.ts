@@ -1,4 +1,4 @@
-import { IsEmpty, Length, IsNotEmpty, IsString } from "class-validator";
+import { Length, IsNotEmpty, IsString } from "class-validator";
 import { ChatMsg } from '../Entities/Chat';
 import sanitizeHtml from 'sanitize-html';
 
