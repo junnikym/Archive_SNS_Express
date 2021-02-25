@@ -78,7 +78,7 @@ function Unsubscribe(user_pk, password) {
 	return (dispatch, getState) => {
 		const { account : { AccessToken }} = getState();
 		
-		fetch("/Auth/" + user_pk, {
+		fetch("/Auth" + user_pk, {
 			method: "delete",
 			headers: {
 			"Content-Type": "application/json",

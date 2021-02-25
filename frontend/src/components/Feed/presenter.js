@@ -49,9 +49,9 @@ const Feed = (props) => (
                         <input 
                             className = "input" 
                             type="text"
-                            name="content"
+                            name="text_content"
                             placeholder="Fill it up with cool content!" 
-                            value={props.post_info.content}
+                            value={props.post_info.text_content}
                             onChange={props.text_input_handler} />
                     </Form.Group>
 

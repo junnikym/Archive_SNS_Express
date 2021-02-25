@@ -8,7 +8,7 @@ const Container = (props, context) => {
 
 	const PostInfoInit = {
 		title				: '',
-		content				: '',
+		text_content		: '',
 	};
 
     const [PostInfo, setPostInfo] = useState(PostInfoInit);
@@ -33,7 +33,7 @@ const Container = (props, context) => {
 
 	const __submit_handler__ = event => {
 		event.preventDefault(); 
-		console.log("run")
+		console.log("Post create run")
 		console.log(PostInfo);
 		setUpload(props.new_post_count + 1);
 	};
