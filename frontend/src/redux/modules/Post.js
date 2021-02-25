@@ -42,7 +42,7 @@ function createPost(data) {
 		fetch("/post/create", {
 			method: "post",
 			headers: {
-			Authorization: `${AccessToken}`
+				Authorization: `${AccessToken}`
 			},
 			body: data
 		})

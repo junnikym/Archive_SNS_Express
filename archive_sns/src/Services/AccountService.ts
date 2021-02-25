@@ -6,14 +6,16 @@ import { Account } from '../Models/Entities/Account';
 import { AccountRepo } from '../Models/Repositories/AccountRepo';
 import { AccountDTO } from '../Models/DTOs/AccountDTO';
 
-import { Image } from '../Models/Entities/Image';
+import { Image, ProfileImage } from '../Models/Entities/Image';
 import { ImageDTO } from '../Models/DTOs/ImageDTO';
+import { ProfileImageRepo } from "../Models/Repositories/ImageRepo";
 
 @Service()
 export class AccountService {
 	
 	constructor(
 		@InjectRepository() private account_repo: AccountRepo,
+		@InjectRepository() private profile_img_repo: ProfileImageRepo
 	) { }
 
 	/**
@@ -23,10 +25,18 @@ export class AccountService {
 	 * @param image_dto : Create Image DTO or NULL
 	 */
 	public async CreateAccount(
-		account_dto: AccountDTO
+		account_dto: AccountDTO,
+		image_dto: ImageDTO | null
 	): Promise<Account> 
 	{
 		const account_ent = account_dto.toEntity();
+
+		if(image_dto) {
+			const profile_img_ent = image_dto.toEntity() as ProfileImage;
+
+			account_ent.profile_image_pk = 
+				(await this.profile_img_repo.UploadNewImage(profile_img_ent)).pk;
+		}
 
 		return await this.account_repo.save(account_ent);
 	}
@@ -40,6 +50,7 @@ export class AccountService {
 	public async UpdateAccount(
 		account_pk: string,
 		account_dto: AccountDTO,
+		image_dto: ImageDTO | null
 	): Promise<Account> 
 	{
 		const target = { 
@@ -48,6 +59,14 @@ export class AccountService {
 
 		if (target.entity?.pk === account_pk) {
 			account_dto.updateEntity(target);
+			
+			if(image_dto) {
+				const profile_img_ent = image_dto.toEntity() as ProfileImage;
+
+				target.entity.profile_image_pk = 
+					(await this.profile_img_repo.UploadNewImage(profile_img_ent)).pk;
+			}
+
 			return await this.account_repo.save(target.entity);
 		}
 

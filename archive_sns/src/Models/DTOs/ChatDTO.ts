@@ -1,5 +1,6 @@
-import { IsEmpty, Length, IsNotEmpty, IsString } from "class-validator";
+import { Length, IsNotEmpty, IsString } from "class-validator";
 import { ChatMsg } from '../Entities/Chat';
+import sanitizeHtml from 'sanitize-html';
 
 export class ChatMsgDTO {
 
@@ -16,8 +17,8 @@ export class ChatMsgDTO {
 		const { content, group_pk } = this;
 
 		const chat_msg_ent = new ChatMsg;
-		chat_msg_ent.content = content;
-		chat_msg_ent.group_pk = group_pk;
+		chat_msg_ent.content = sanitizeHtml(content);
+		chat_msg_ent.group_pk = sanitizeHtml(group_pk);
 
 		return chat_msg_ent;
 	}

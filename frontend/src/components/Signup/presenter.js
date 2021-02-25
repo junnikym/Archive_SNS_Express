@@ -21,7 +21,7 @@ const Signup = (props, context) => (
 			{ props.current_stage === 1 && (
 
 				<div>
-					<Form.Group controlId="formBasicEmail">
+			<Form.Group controlId="formBasicEmail">
 			<Form.Label>Email address</Form.Label>
 				<Form.Control 
 					type="email" 
@@ -49,7 +49,7 @@ const Signup = (props, context) => (
 			<Form.Label>Password</Form.Label>
 				<Form.Control 
 					type="password" 
-					name="pw" 
+					name="password" 
 					placeholder="password" 
 					value={props.pw_val}
 					onChange={props.text_input_handler}
@@ -85,22 +85,35 @@ const Signup = (props, context) => (
 			--------------------------------------------------*/}
 			{ props.current_stage === 2 && (
 				<div>
-					<input
-						type="file"
-						name="profile_img"
-						placeholder="Profile Image"
-						// placeholder={context.t("Email")}
-						// className={formStyles.imgInput}
-						onChange={props.img_input_hander} />
-			
-					<input
-						type="text"
-						name="alias"
-						placeholder="Alias"
-						// placeholder={context.t("Alias")}
-						// className={formStyles.textInput}
-						value={props.alias_val}
-						onChange={props.text_input_handler} />
+					<Form.File 
+						id="formcheck-api-regular"
+						className="ImgUploaderFrom">
+
+						<div className="ImgPreview">
+							test:
+							<img src={props.img_preview} />
+						</div>
+
+						<Form.File.Input
+							type="file"
+							// accept='image/jpg, impge/png, image/jpeg, image/gif'
+							name="img" 
+							value={props.img_value}
+							onChange={props.img_input_handler} />
+
+					</Form.File>
+
+					<Form.Group controlId="Password">
+						<Form.Label>Alias</Form.Label>
+							<Form.Control 
+								type="text" 
+								name="name" 
+								placeholder="Alias" 
+								value={props.alias_val}
+								onChange={props.text_input_handler}
+								className={formStyles.textInput}
+								/>
+					</Form.Group>
 
 					<input
 						type="submit"

@@ -17,6 +17,7 @@ const Container = (props, context) => {
 			setBase64([]);
 			setImgFile([]);
 		}
+		
 	}, [props.upload])
 
 	const __img_change_handler__ = (event) => {

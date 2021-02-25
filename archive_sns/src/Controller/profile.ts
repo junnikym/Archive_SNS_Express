@@ -28,6 +28,9 @@ import { AccountService } from '../Services/AccountService';
 import { Account } from '../Models/Entities/Account';
 import { AccountDTO } from '../Models/DTOs/AccountDTO';
 
+import { ImageDTO } from '../Models/DTOs/ImageDTO';
+import { ProfileImageMulter } from "../Middleware/Multer";
+
 @JsonController("/profile")
 export class ProfileControl {
     constructor( private account_service : AccountService ) {}
@@ -77,15 +80,24 @@ export class ProfileControl {
         security: [{ bearerAuth: [] }],
     })
     @UseBefore(VerifyAccessToken)
+    @UseBefore(ProfileImageMulter.single('image'))
     public async UpdateAccount(
         @Body() Account_DTO: AccountDTO,
+        @Req() req,
         @Res() res: Response
     ) {
         const user_pk = res.locals.jwt_payload.pk;
+        let profile_img = null;
+
+        if(req.file.prfoile_img_url) {
+            profile_img = new ImageDTO();
+            profile_img.url = req.body.profile_img_url;
+          }
 
         const Update_Profile_result = await this.account_service.UpdateAccount(
             user_pk,
-            Account_DTO
+            Account_DTO,
+            profile_img
         );
 
         if(!Update_Profile_result){
