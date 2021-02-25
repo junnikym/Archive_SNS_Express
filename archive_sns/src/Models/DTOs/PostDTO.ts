@@ -1,6 +1,7 @@
 import { IsNotEmpty, Length, IsEmail } from "class-validator";
 import { PostImage } from "../Entities/Image";
 import { Post } from "../Entities/Post";
+import sanitizeHtml from 'sanitize-html';
 
 export class PostDTO {
 
@@ -12,8 +13,8 @@ export class PostDTO {
 		const { title, text_content } = this;
 		const newPost = new Post();
 		
-		newPost.title = title;
-		newPost.text_content = text_content;
+		newPost.title = sanitizeHtml(title);
+		newPost.text_content = sanitizeHtml(text_content);
 
 		return newPost;
 	}
@@ -22,16 +23,16 @@ export class PostDTO {
 		const { title, text_content } = this;
 
 		if( title )
-			target.entity.title = title;
+			target.entity.title = sanitizeHtml(title);
 
 		if( text_content )
-			target.entity.text_content = text_content;
+			target.entity.text_content = sanitizeHtml(text_content);
 	}
 
 	public fromJson(json) {
 		const { title, text_content } = json
 
-		this.title = title;
-		this.text_content = text_content;
+		this.title = sanitizeHtml(title);
+		this.text_content = sanitizeHtml(text_content);
 	}
 }

@@ -1,5 +1,6 @@
 import { IsNotEmpty, Length, IsEmail, IsEmpty, IsString, IsArray, IsOptional } from "class-validator";
 import { Group } from '../Entities/Group';
+import sanitizeHtml from 'sanitize-html';
 
 export class GroupDTO {
 	
@@ -20,7 +21,7 @@ export class GroupDTO {
 		const { title } = this;
 
 		const new_group = new Group();
-		new_group.title = title;
+		new_group.title = sanitizeHtml(title);
 		
 		return new_group;
 	}

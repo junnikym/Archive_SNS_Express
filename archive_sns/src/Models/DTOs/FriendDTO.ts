@@ -3,6 +3,7 @@ import { Account } from "../Entities/Account";
 import { Image } from "../Entities/Image";
 import { profile } from 'console';
 import { Friend } from '../Entities/Friend';
+import sanitizeHtml from 'sanitize-html';
 
 /**
  * Length constants
@@ -29,8 +30,8 @@ export class FriendDTO {
 		const {account_pk, friend_pk} = this;
 		
 		const new_friend = new Friend();
-		new_friend.account_pk = account_pk;
-		new_friend.friend_pk = friend_pk;
+		new_friend.account_pk = sanitizeHtml(account_pk);
+		new_friend.friend_pk = sanitizeHtml(friend_pk);
 
 		return new_friend;
 	}

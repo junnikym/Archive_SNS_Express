@@ -2,6 +2,7 @@ import { IsNotEmpty, Length, IsEmail, IsString, IsOptional } from "class-validat
 import { Account } from "../Entities/Account";
 import { Image } from "../Entities/Image";
 import { profile } from 'console';
+import sanitizeHtml from 'sanitize-html';
 
 /**
  * Length constants
@@ -55,11 +56,11 @@ export class AccountDTO {
 		} = this;
 
 		const new_account = new Account();
-		new_account.name = name;
-		new_account.email = email;
-		new_account.password = password;
-		new_account.profile_image = profile_image;
-		new_account.status_msg = status_msg;
+		new_account.name = sanitizeHtml(name);
+		new_account.email = sanitizeHtml(email);
+		new_account.password = sanitizeHtml(password);
+		new_account.profile_image = sanitizeHtml(profile_image);
+		new_account.status_msg = sanitizeHtml(status_msg);
 
 		return new_account;
 	}
@@ -73,16 +74,16 @@ export class AccountDTO {
 		} = this;
 
 		if(password) 
-			target.entity.password = password;
+			target.entity.password = sanitizeHtml(password);
 		
 		if(name) 
-			target.entity.name = name;
+			target.entity.name = sanitizeHtml(name);
 		
 		if(profile_image)
-			target.entity.profile_image = profile_image;
+			target.entity.profile_image = sanitizeHtml(profile_image);
 
 		if(status_msg)
-			target.entity.status_msg = target.entity.status_msg;
+			target.entity.status_msg = sanitizeHtml(target.entity.status_msg);
 	}
 
 	public fromJson(json) {
@@ -94,11 +95,11 @@ export class AccountDTO {
 			status_msg
 		} = json
 
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.profile_image = profile_image;
-		this.status_msg = status_msg;
+		this.name = sanitizeHtml(name);
+		this.email = sanitizeHtml(email);
+		this.password = sanitizeHtml(password);
+		this.profile_image = sanitizeHtml(profile_image);
+		this.status_msg = sanitizeHtml(status_msg);
 	}
 }
 

@@ -5,6 +5,10 @@ const session = require('express-session')
 const passport = require('passport');
 const GoogleStrategy = require( 'passport-google-oauth20' ).Strategy
 
+import { 
+    GoogleAccessTokenGenerator 
+} from "../Middleware/JWT_Auth";
+
 //세션
 router.use(session({
     secret: 'bshjsalgu',
@@ -32,12 +36,14 @@ passport.use(new GoogleStrategy({
     clientSecret: googleCredentials.web.client_secret,
     callbackURL: googleCredentials.web.redirect_uris
     }, 
-    function(accessToken, refreshToken, email, done) {
-        
-        // console.log('accessToken : ', accessToken);
-        // console.log('email : ', email);
-        // console.log('done : ', done);
+    async (accessToken, refreshToken, email, done) => {
+        const google_access_token = await GoogleAccessTokenGenerator(
+            email.id,
+            email._json.email, 
+            email.displayName
+        );
 
+        console.log('google_access_token :', google_access_token);
 
         return done(null, email);
     }
@@ -68,12 +74,14 @@ const authenticateUser = (req, res, next) => {
     }
 };
 
-router.get('/', authenticateUser,(req, res) => { 
-    const googleemail = req.user._json.email;
-    const googleid = req.user.id;
-    const googlename = req.user.displayName;
+router.get(
+    '/', 
+    authenticateUser,
+    async (req, res) => { 
 
-    console.log(req.user);
+    const googleid = req.user.id;
+    const googleemail = req.user._json.email;
+    const googlename = req.user.displayName;
 
     const content = 'login success<br>'+ 
     googleemail + '<br>' + 

@@ -1,5 +1,6 @@
 import { IsNotEmpty, Length, IsEmail } from "class-validator";
 import { Image, PostImage } from "../Entities/Image";
+import sanitizeHtml from 'sanitize-html';
 
 export class ImageDTO {
 	@IsNotEmpty()
@@ -9,7 +10,7 @@ export class ImageDTO {
 		const { url } = this;
 
 		const newImage = new Image;
-		newImage.url = url;
+		newImage.url = sanitizeHtml(url);
 
 		return newImage;
 	}
@@ -17,12 +18,12 @@ export class ImageDTO {
 	public updateEntity(target) {
 		const { url } = this;
 
-		target.entity.url = url;
+		target.entity.url = sanitizeHtml(url);
 	}
 
 	public fromJson(json) {
 		const { url } = json
 
-		this.url = url;
+		this.url = sanitizeHtml(url);
 	}
 }
