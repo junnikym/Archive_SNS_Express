@@ -17,6 +17,12 @@ export class GroupDTO {
 	@IsArray()
 	public member_pk_list: string[];
 
+	@IsOptional()
+	public highest_rank: number;
+
+	@IsOptional()
+	public lowest_rank: number;
+
 	public toEntity(): Group{
 		const { title } = this;
 

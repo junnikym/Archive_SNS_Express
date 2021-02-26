@@ -49,8 +49,10 @@ export class GroupControl {
         @Body() Group_DTO: GroupDTO,
         @Res() res: Response
     ) {
+        const user_pk = res.locals.jwt_payload.pk;
 
         const CreateGroup_Result = await this.PostGroup_Service.CreateGroup(
+            user_pk,
             Group_DTO
         );
 

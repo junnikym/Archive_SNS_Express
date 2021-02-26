@@ -61,7 +61,6 @@ export class ChatControl {
         });
 
         const ws = req.app.get('socket_io');
-        console.log(ws.socket.rooms);
 
         SendMsg_Result.notify.map( elem => {
             ws.io.to(elem.listener_pk)
@@ -83,12 +82,11 @@ export class ChatControl {
         @Param("group_pk") group_pk: string,
         @Res() res: Response
         ) {
-
-        // @TODO : Service Motify
+            
         const user_pk = res.locals.jwt_payload.pk;
 
         const GetChatContents_Result = await this.chat_service.GetChatContents(
-            // user_pk,
+            user_pk,
             group_pk, 
             0, 
             10
@@ -117,12 +115,10 @@ export class ChatControl {
         @Body() body,
         @Res() res: Response
         ) {
-        // @TODO : Service Motify
         const user_pk = res.locals.jwt_payload.pk;
 
         const ExitChatGroup_Result = await this.chat_service.ExitChatGroup(
-            //user_pk,
-            body.account_pk,
+            user_pk,
             body.group_pk
         );
 

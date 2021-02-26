@@ -60,11 +60,14 @@ export class ChatService {
 	}
 
 	public async GetChatContents(
+		acocunt_pk: string,
 		group_pk: string,
 		offset: number, 
 		limit: number,
 	): Promise<ChatMsg[]> 
 	{
+		// @TODO : check is in account_pk in group 
+
 		return await this.chat_msg_repo.GetChatMsg(group_pk, offset, limit);
 	}
 
