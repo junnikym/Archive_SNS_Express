@@ -9,7 +9,7 @@ import Footer from "../Footer";
 import Home from "../Home_";
 import Profile from "../Profile";
 
-import groupHome from "../groupHome";
+import GroupHome from "../GroupHome";
 
 const App = props => [
   props.isLoggedIn ? <PrivateRoutes key={1} /> : <PublicRoutes key={1} />,
@@ -30,7 +30,7 @@ const PrivateRoutes = props => (
             <Route exact path ="/Profile/:pk" component = {Profile} />
 
             {/* groupHome */}
-            <Route exact path = "/groupHome" component = {groupHome} />
+            <Route exact path = "/GroupHome" component = {GroupHome} />
 
             {/* Post */}
             <Route exact path = "/" component = {Home} />

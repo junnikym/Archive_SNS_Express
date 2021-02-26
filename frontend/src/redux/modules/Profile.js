@@ -23,33 +23,27 @@ function editProfileData(data) {
 	}
 }
 
-function getProfile(pk) {
+function getProfile() {
 	return (dispatch, getState) => {
-		const { account : { AccessToken }} = getState();
+		const { account : { PK }} = getState();
 
-		fetch("/Profile/" + pk , {
+		fetch("/profile/%22" + PK +"%22" , {
 			method: "GET",
 			headers: {
-				"Accept": "application/json",
-				Authorization: `${AccessToken}`
+				"Content-Type": "application/json"
 			}
 		})
 		.then(response => response.json())
-		.then(json => {
-			if (json.data) {
-				dispatch(getProfileData(json.data));
-				console.log("Profile redux run",getProfileData);
-			}
-		})
+		.then(json => dispatch(getProfileData(json.data)))
 		.catch(err => console.log(err));
 	};
 };
 
-function editProfile (email, password, name, image, msg) {
+function editProfile (email, password, name, status_msg) {
 	return (dispatch, getState) => {
 		const { account : { AccessToken }} = getState();
 
-		fetch("/profile/", {
+		fetch("/profile", {
 			method: "put",
 			headers: {
 				"Content-Type": "application/json",
@@ -59,8 +53,7 @@ function editProfile (email, password, name, image, msg) {
 				"email" : email,
 				"password" : password,
 				"name" : name,
-				"image" : image,
-				"msg" : msg
+				"status_msg" : status_msg
 			})
 		})
 		.then(response =>  response.json())
@@ -78,10 +71,9 @@ function Unsubscribe(user_pk, password) {
 	return (dispatch, getState) => {
 		const { account : { AccessToken }} = getState();
 		
-		fetch("/Auth" + user_pk, {
+		fetch("/Auth" , {
 			method: "delete",
 			headers: {
-			"Content-Type": "application/json",
 			Authorization: `${AccessToken}`
 			}
 		})
@@ -96,7 +88,6 @@ function Unsubscribe(user_pk, password) {
 };
 
 const initialState = {
-	isLoggedIn: localStorage.getItem("AccessToken") ? true : false,
 	profile_data : undefined
 };
 

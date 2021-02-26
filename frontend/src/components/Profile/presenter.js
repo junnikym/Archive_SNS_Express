@@ -6,19 +6,13 @@ const Profile = (props, context) => (
 
     <div className = "Profile">
 
-        <button onClick = {props.Profile}>
-            Profile run
-        </button>
-
         <h1>Profile</h1>
-
-        Profile : {props.data}      <br/>
     
-        Email : {props.info?.email} <br/>
+        Email : {props.email} <br/>
 
-        Name : {props.info?.name}   <br/>
+        Name : {props.name}   <br/>
 
-        Status_msg : {props.info?.status_msg}
+        Status_msg : {props.msg}
 
         {props.Profile?.email}
 

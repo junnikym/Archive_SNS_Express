@@ -9,9 +9,9 @@ import post from './modules/Post';
 import chat from './modules/Chat'
 import profile from './modules/Profile';
 import Like from './modules/Like';
-// import chat from './modules/Chat';
 import comment from './modules/comment';
 import notify from './modules/notify';
+import group from './modules/group'
 
 const env = process.env.NODE_ENV;
 
@@ -32,6 +32,7 @@ const reducer = combineReducers({
   Like,
   comment,
   notify,
+  group,
   router : connectRouter(history),
 });
 

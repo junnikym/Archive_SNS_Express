@@ -5,10 +5,8 @@ import Like from "./presenter";
 const Container = (props, context) => {
 
     const __cilckLike__ = event => {
-        
         event.preventDefault();
-    
-        props.feed_Like();
+        props.isLike();
     };
 
     return (

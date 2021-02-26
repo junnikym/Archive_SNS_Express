@@ -45,7 +45,10 @@ const Container = (props, context) => {
 
 	const render = () => {
 		if(loading) {
-			return ( <p>loading...</p> )
+			return ( <div className="loader_Text">
+				<b>Loading...</b>
+				<div className = "loader"></div>
+				</div> )
 		}
 		else {
 			console.log(props.post_list);

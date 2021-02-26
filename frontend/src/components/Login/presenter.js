@@ -52,6 +52,12 @@ const Login = (props, context) => (
 				type="submit">
 					Login		
 			</Button>
+
+			<button 
+				className = "google_btn"
+				onClick = "">
+				<text>Continue with Google</text>
+			</button>
 		</Form>
 
 );

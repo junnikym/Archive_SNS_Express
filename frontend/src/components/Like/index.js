@@ -12,8 +12,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        feed_Like: (post_pk) => {
-            dispatch(LikeAct.feed_Like( post_pk ));
+        isLike: (post_pk) => {
+            dispatch(LikeAct.isLike( post_pk ));
+            console.log("isLike run", post_pk);
             
         }
     };

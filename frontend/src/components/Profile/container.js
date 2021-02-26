@@ -28,22 +28,63 @@ const Container = (props, context) => {
         props.editProfile(email, password, name, image, msg);
     };
 
-    return (
-        <Profile
-            data = {() => props.getProfile(props.match.params.pk)}
-            Unsubscribe = {() => props.Unsubscribe(props.match.params.pk)}
-            
-            email_val           = {email}
-            password_val        = {password}
-            name_val            = {name}
-            img_val             = {image}
-            msg_val             = {msg}
-            
-            Profile             = {() => props.getProfile(localStorage.getItem("PK"))}
-            text_input_handler  = {__text_input_handler__}
-            submit_handler      = {__submit_handler__}
-        />
-    )
+    const [state, setState] = useState({
+		loading : true,
+	});
+
+    useEffect(() => {
+
+		if(props.profile_data != undefined) {
+			setState({
+				loading: false,
+			});
+		}
+		else {
+			props.getProfile(localStorage.getItem("PK"));
+		}
+	}, [props.profile_data]);
+
+	const {loading} = state;
+
+    
+const render = () => {
+    if(loading) {
+        return ( <div className="loader_Text">
+            <b>Loading...</b>
+            <div className = "loader"></div>
+            </div> )
+    }
+    else {
+
+        return (
+            <div>
+                <Profile
+                    Unsubscribe = {() => props.Unsubscribe(props.match.params.pk)}
+
+                    email               = {props.profile_data.email}
+                    name                = {props.profile_data.name}
+                    msg                 = {props.profile_data.status_msg}
+                    
+                    email_val           = {email}
+                    password_val        = {password}
+                    name_val            = {name}
+                    img_val             = {image}
+                    msg_val             = {msg}
+                    
+                    text_input_handler  = {__text_input_handler__}
+                    submit_handler      = {__submit_handler__}
+                />
+            )}
+            </div>
+        )
+    }
+}
+
+return (
+    <div>
+        {render()}
+    </div>
+);
 }
 
 Container.propTypes = {
