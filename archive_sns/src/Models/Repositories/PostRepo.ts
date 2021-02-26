@@ -1,7 +1,8 @@
 import { EntityRepository, Repository } from "typeorm";
 import { Post } from '../Entities/Post';
 
-const OrderCodes = require('../../../shared/PostOrderCodes.json').post;
+// @TODO : 
+// const OrderCodes = require('../../../shared/PostOrderCodes.json').post;
 
 const ShortInfoSelect = [
 	"post.pk",
@@ -24,7 +25,7 @@ export class PostRepo extends Repository<Post> {
 
 		let order_by_query = "";
 		switch(order_by) {
-			case OrderCodes.latest:
+			case 1:
 			default:
 				order_by_query = "post.createAt";
 		}

@@ -117,9 +117,9 @@ export class ChatGroupService extends GroupService< ChatGroupRepo, ChatGroup > {
 	constructor(
 		@InjectRepository() group_repo : ChatGroupRepo,
 		@InjectRepository() account_repo : AccountRepo,
-		@InjectRepository() GroupParticipantRepo: GroupParticipantRepo
+		@InjectRepository() group_participant_repo: GroupParticipantRepo
 	) {
-		super(group_repo, account_repo, GroupParticipantRepo);
+		super(group_repo, account_repo, group_participant_repo);
 		this.n_min_early_member = 2;
 	}
 
@@ -130,9 +130,13 @@ export class PostGroupService extends GroupService< PostGroupRepo, PostGroup > {
 	constructor(
 		@InjectRepository() group_repo : PostGroupRepo,
 		@InjectRepository() account_repo : AccountRepo,
-		@InjectRepository() GroupParticipantRepo: GroupParticipantRepo
+		@InjectRepository() group_participant_repo: GroupParticipantRepo
 	) {
-		super(group_repo, account_repo, GroupParticipantRepo);
+		super(group_repo, account_repo, group_participant_repo);
+	}
+
+	public async searchGroup(query: string) {
+		return this.group_repo.searchGroup(query);
 	}
 
 }

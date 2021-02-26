@@ -23,6 +23,12 @@ class GroupRepo<T extends (ChatGroup | PostGroup)> extends Repository<T> {
 	// public async deleteGroup(admin_pk, group_pk) {
 		
 	// }
+
+	public async searchGroup( query: string ) : Promise<Group[]> {
+		return this.createQueryBuilder("group")
+			.where("group.title like :query", { query:`%${query}%` })
+			.getMany();
+	}
 }
 
 @EntityRepository(ChatGroup)

@@ -133,4 +133,24 @@ export class GroupControl {
 
         return { data : Invite_Result };
     }
+
+    @HttpCode(200)
+    @Get("/:query")
+    @OpenAPI({
+        summary: "group search",
+        statusCode: "200",
+        responses: {
+            "403": {
+                description: "Forbidden",
+            },
+        },
+        security: [{ bearerAuth: [] }],
+    })
+    @UseBefore(VerifyAccessToken)
+    public async Search(
+        @Param('query') query: string,
+        @Res() res: Response
+    ) {
+        return { data : this.PostGroup_Service.searchGroup(query) };
+    }
 }
