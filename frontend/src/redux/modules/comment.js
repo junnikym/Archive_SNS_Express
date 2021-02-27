@@ -15,7 +15,14 @@ function saveNewComment(data, is_created = false) {
 	}
 }
 
-function deleteCommentFromList(pk){
+// function getCommentList(data) {
+// 	return {
+// 		type: GET_POST_LIST,
+// 		data
+// 	}
+// }
+
+function deleteCommentList(pk){
 	return {
 		type: DELETE_COMMENT,
 		pk
@@ -59,20 +66,25 @@ function createComment(post_pk, comment) {
     
 };
 
-function deleteComment( comment_pk ) {
+function deleteComment( user_pk, comment_pk ) {
 	return (dispatch, getState ) => {
 		const { account : { AccessToken }} = getState();
 
-		fetch("/comment/" + comment_pk, {
+		fetch("/comment", {
 			method: "delete",
 			headers: {
 			"Content-Type": "application/json",
 			Authorization: `${AccessToken}`	
-			}
+			},
+			body: JSON.stringify({
+				user_pk 	: user_pk,
+				comment_pk 	: comment_pk
+			})
 		})
-		.then(res => {
-			if(res.status == 200) {
-				dispatch(deleteCommentFromList(comment_pk));
+		.then(response => response.json())
+		.then(json => {
+			if(json.data) {
+				dispatch(deleteCommentList(json.data));
 			}
 		})
 		.catch(err => console.log(err));
@@ -131,7 +143,7 @@ function reducer(state = initialState, action) {
 			return applySaveNewComment(state, action);
 	
 		case DELETE_COMMENT:
-			return applyDeleteComment(state, action);
+			return applyDeleteCommentList(state, action);
 
 		default:
 			return state;
@@ -175,7 +187,11 @@ function applySaveNewComment(state, action) {
 	}
 }
 
-function applyDeleteComment(state, action) {
+function applyCommentList(state, action) {
+
+}
+
+function applyDeleteCommentList(state, action) {
 	const { pk } = action;
 	const { comment_list } = state;
 

@@ -11,19 +11,19 @@ const mapStateToProps = (state, ownPorps) => {
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-
         getProfile: (pk) => {
             dispatch(ProfileAct.getProfile(pk));
+            console.log("profile index :",pk);
         },
 
         Unsubscribe : (pk) => {
             dispatch(ProfileAct.Unsubscribe(pk));
         },
 
-        editProfile: (email, password, name, image, status_msg) => {
-            dispatch(ProfileAct.editProfile(email, password, name, image, status_msg));
+        editProfile: (email, password, name, status_msg) => {
+            dispatch(ProfileAct.editProfile(email, password, name, status_msg));
         }
-    };
+    }
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Container);

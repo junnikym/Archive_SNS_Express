@@ -1,0 +1,23 @@
+.comment{
+    
+}
+
+.Post_buttons{
+    padding-right: 10px;
+}
+
+hr{
+    width: 60%;
+}
+
+.comment_input{
+    width: 80%;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    outline: none;
+}
+
+.commentView{
+    text-align: center;
+}

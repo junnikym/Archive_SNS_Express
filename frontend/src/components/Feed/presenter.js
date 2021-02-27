@@ -13,22 +13,19 @@ import ImageUploader from '../ImageUploader';
 const Feed = (props) => (
 
     <div>
-
-        <div id ="feed_banner">
+        <div className ="feed_banner" id = "Over_size-on">
             <center>
             <a><Link to = "/Profile/pk">
                 <div className="imgUser"></div>
             </Link></a>
                 <br/>
-                <h3>NAME : {props.info?.name}</h3>
-                    <br/>
 
             <h5><b>Hey Folks</b></h5>
             <h1><b>What's Up</b></h1>
 
             </center>
         </div>    
-
+        <center id = "Over_size"><h1><b>What are you doing?</b></h1></center>
         <div className = "Feed">
 
                 <Form
@@ -49,9 +46,9 @@ const Feed = (props) => (
                         <input 
                             className = "input" 
                             type="text"
-                            name="content"
+                            name="text_content"
                             placeholder="Fill it up with cool content!" 
-                            value={props.post_info.content}
+                            value={props.post_info.text_content}
                             onChange={props.text_input_handler} />
                     </Form.Group>
 

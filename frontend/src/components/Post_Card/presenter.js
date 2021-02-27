@@ -26,46 +26,49 @@ const Post_Card = props => (
     
         <card> 
             <header>
-            <h5>
-                    <b> {props.Post_title} </b>
+
+                <div className = "img_aside">
+                    <Link to = "/Profile/pk">
+                        <div className = "imgUser"></div>
+                    </Link>
+                </div>
+
+                <div className = "Post_user_info">
+                    <h5>
+                        <span>{props.user_info}</span>
                     </h5>
-                    {props.user_info}    
+                </div>
+
                     <br/>
-                    
+                
+            </header>    
+
+            <body>
+                <br/>
+                <text>
+                    <center>
+                        <span><b>{props.Post_title}</b></span> <br/>
+                        <span>{props.Post_text} </span>
+                        {props.Post_img_loader()}<br/>
+                        <span>{props.Post_time}</span>
+                    </center>
+                </text>
+                <br/>
+
+                <div className = "Post_buttons">
                     <button
                         className = "button"
                         onClick = {props.delete_handler}
                         type = "click">
                         <div  className = "delete_btn"></div>
                     </button>
-                    <Link to = "/Profile/pk" className = "imgUser"></Link>
-            </header>    
-
-            <body>
-                <text>
-                
-                <br/><br/>
-                    <hr/>
-                    내용 : {props.Post_text} 
-                    <br/>
-                    <br/>
-                    {props.Post_img_loader()}
-                </text>
-
-            <small className="text-muted">
-                Time : {props.Post_time}
-            </small>
-
-            <hr/>
-
-            <Like_button/>
+                    <Like_button/>
+                </div>
+            <br/>
         </body>
 
             <footer>
-                
-                <Comment post_pk={props.Post_pk}/> 
-                post_pk : {props.Post_pk}
-
+                <Comment post_pk={props.Post_pk}/>
             </footer>
         </card>
 

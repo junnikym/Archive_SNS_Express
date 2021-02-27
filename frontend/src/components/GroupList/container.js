@@ -1,7 +1,6 @@
 import React, { useState, useEffect }  from "react";
 import PropTypes from "prop-types";
-
-import groupHome from "./presenter";
+import GroupList from "./presenter";
 
 const Container = (props, content) => {
 
@@ -17,18 +16,23 @@ const Container = (props, content) => {
         else {
             props.groupList();
         }
-    }, [props.group_List]);
+    }, [props.group_list]);
 
     const {loading} = state;
 
     const render = () => {
         if(loading) {
-            return ( <p>loading...</p> )
+            return ( 
+            <div className="loader_Text">
+                <b>Loading...</b>
+                    <div className = "loader"></div>
+            </div> )
         }
         else {
             return (
                 <div>
-                    // 그룹 리스트 들어올 자리
+                    <GroupList
+                    />
                 </div>
             )
         }
@@ -39,5 +43,10 @@ const Container = (props, content) => {
         </div>
     )
 }
+
+Container.propTypes = {
+	groupList 			: PropTypes.func.isRequired,
+	group_list			: PropTypes.array.isRequired,
+};
 
 export default Container;

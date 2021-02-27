@@ -13,10 +13,6 @@ const mapDispatchToProps = (dispatch, props) =>{
         groupList: () => {
             dispatch(groupAct.groupList());
         },
-
-        groupCreate: (title, member_pk_list) => {
-            dispatch(groupAct.createGroup(title, member_pk_list));
-        },
         
         groupInvite: (group_pk, member_pk_list) => {
             dispatch(groupAct.groupInvite(group_pk, member_pk_list));

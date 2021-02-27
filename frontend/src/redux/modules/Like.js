@@ -1,17 +1,16 @@
-function feed_Like(post_pk) {
-    console.log("run");
+function isLike(post_pk) {
+    console.log("isLike redux run");
 
     return (dispatch, getState) => {
         const { account : { token }} = getState();
 
-        fetch("/feedlike/" + post_pk, {
-            method: "post",
+        fetch("feedlike/islike/" + post_pk, {
+            method: "get",
             headers: {
 				Authorization: `JWT ${token}`
             },
         })
         .then(console.log(post_pk))
-            
         .catch(err => console.log(err));
     };
 }
@@ -25,7 +24,7 @@ function reducer(state = null, action) {
 }
 
 const actionCreators = {
-	feed_Like,
+	isLike,
 };
 
 export { actionCreators };

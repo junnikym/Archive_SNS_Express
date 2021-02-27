@@ -17,7 +17,7 @@ const mapDispatchToProps = (dispatch, props) => {
 
         deletePost : ( post_pk ) => {
             dispatch(PostAct.deletePost( post_pk ));
-            console.log("deletePost index run")
+            console.log("deletePost index run :", post_pk)
         }
     };
 };

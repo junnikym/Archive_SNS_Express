@@ -7,14 +7,12 @@ const Profile = (props, context) => (
     <div className = "Profile">
 
         <h1>Profile</h1>
-
-        Profile : {props.profile_data}      <br/>
     
-        Email : {props.info?.email} <br/>
+        Email : {props.email} <br/>
 
-        Name : {props.info?.name}   <br/>
+        Name : {props.name}   <br/>
 
-        Status_msg : {props.info?.status_msg}
+        Status_msg : {props.msg}
 
         {props.Profile?.email}
 
@@ -100,6 +98,7 @@ Profile.propTypes = {
     image_val           : PropTypes.string.isRequired,
     msg_val             : PropTypes.string.isRequired,
 
+    Profile            : PropTypes.func.isRequired,
     text_input_handler	: PropTypes.func.isRequired,
 	img_input_handler	: PropTypes.func.isRequired,
 	submit_handler		: PropTypes.func.isRequired,
