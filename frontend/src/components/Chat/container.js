@@ -4,7 +4,7 @@ import Chat, {ChatRecivedText, ChatMyText} from "./presenter";
 const Container = (props, context) => {
 
     useEffect(() => {
-        props.getChatContents("6b3f76f9-d076-4aef-ab67-8e26509c10ce");
+        props.getChatContents("76407e7e-9676-41bd-9539-275ac8a8b6b6");
     }, []);
 
     const [chatInput, setChatInput] = useState({ msgInput: "" });
@@ -21,7 +21,7 @@ const Container = (props, context) => {
     const __send_message__ = event => {
 		event.preventDefault(); 
 		props.sandChatMessage(
-            "6b3f76f9-d076-4aef-ab67-8e26509c10ce",
+            "681b1a60-fc35-42f7-9e4a-0a08fbfc044e",
             chatInput.msgInput
         );
 	};

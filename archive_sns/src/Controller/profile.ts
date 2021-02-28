@@ -79,20 +79,22 @@ export class ProfileControl {
         },
         security: [{ bearerAuth: [] }],
     })
-    @UseBefore(VerifyAccessToken)
+    // @UseBefore(VerifyAccessToken)
     @UseBefore(ProfileImageMulter.single('image'))
     public async UpdateAccount(
         @Body() Account_DTO: AccountDTO,
         @Req() req,
         @Res() res: Response
     ) {
-        const user_pk = res.locals.jwt_payload.pk;
+        // const user_pk = res.locals.jwt_payload.pk;
+        const user_pk = '111111-111111-111111-111111-111111-111111';
+
         let profile_img = null;
 
         if(req.file.prfoile_img_url) {
             profile_img = new ImageDTO();
             profile_img.url = req.body.profile_img_url;
-          }
+        }
 
         const Update_Profile_result = await this.account_service.UpdateAccount(
             user_pk,

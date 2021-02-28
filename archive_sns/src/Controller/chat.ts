@@ -40,25 +40,19 @@ export class ChatControl {
         @Req() req,
         @Res() res: Response,
     ) {
-        if(!ChatMsg_DTO.content){
-            return res.status(400).send({
-                status : 400,
-                success : false,
-                message : "no ChatMsg_DTO Content"
-            });
-        }
+        const user_pk = res.locals.jwt_payload.pk
 
         const SendMsg_Result = await this.chat_service.SendMsg(
-            res.locals.jwt_payload.pk, 
+            user_pk, 
             ChatMsg_DTO
         );
 
         if(!SendMsg_Result)
-        return res.status(400).send({
-            status: 400, 
-            success: false, 
-            message: "fail to SendMsg"
-        });
+            return res.status(400).send({
+                status: 400, 
+                success: false, 
+                message: "fail to SendMsg"
+            });
 
         const ws = req.app.get('socket_io');
         console.log(ws.socket.rooms);

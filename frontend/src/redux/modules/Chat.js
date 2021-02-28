@@ -50,7 +50,7 @@ function getChatContents(group_pk) {
 		
 		const { account : { AccessToken }} = getState();
 
-		fetch("/chat/"+group_pk, {
+		fetch("/chat/" + group_pk, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
