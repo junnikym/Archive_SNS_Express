@@ -1,9 +1,8 @@
 import { EntityRepository, Repository } from "typeorm";
 import { Post } from '../Entities/Post';
 
-export const enum PostOrder {
-	latest = "post.createAt",
-}
+// @TODO : 
+// const OrderCodes = require('../../../shared/PostOrderCodes.json').post;
 
 const ShortInfoSelect = [
 	"post.pk",
@@ -20,17 +19,22 @@ export class PostRepo extends Repository<Post> {
 	 * 
 	 * @param offset 
 	 * @param limit 
-	 * @param order_by
+	 * @param order_by : order result by ~/shared/OrderCodes.json
 	 */
-	public async GetPost( offset: number, limit: number, order_by: PostOrder ) {
-		
-		// @TODO : FIX IT -> order by part
+	public async GetPost( offset: number, limit: number, order_by: number ) {
+
+		let order_by_query = "";
+		switch(order_by) {
+			case 1:
+			default:
+				order_by_query = "post.createAt";
+		}
 
 		return this.createQueryBuilder("post")
 			.select(ShortInfoSelect)
 			.leftJoinAndSelect("post.writer", "writer")
 			.leftJoinAndSelect("post.image", "image")
-			// .orderBy(order_by, "DESC")
+			.orderBy(order_by_query, "DESC")
 			.skip(offset)
 			.take(limit)
 			.getMany();

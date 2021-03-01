@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
-import { ChatGroupRepo, PostGroupRepo } from '../Models/Repositories/GroupRepo';
+import { ChatGroupRepo, PostGroupRepo, GroupParticipantRepo } from '../Models/Repositories/GroupRepo';
 import { AccountRepo } from '../Models/Repositories/AccountRepo';
 
 import { ChatGroup, Group, PostGroup } from '../Models/Entities/Group';
@@ -16,24 +16,29 @@ abstract class GroupService<
 
 	protected group_repo;
 	protected account_repo;
+	protected group_participant_repo;
 
 	protected n_min_early_member = 1;
 
 	constructor(
 		group_repo: RepoType,
 		account_repo: AccountRepo,
+		group_participant_repo: GroupParticipantRepo
 	) {
 		this.group_repo = group_repo;
 		this.account_repo = account_repo;
+		this.group_participant_repo = GroupParticipantRepo;
 	}
 
 	/**
 	 * Create Group
 	 * 
+	 * @param creater_account_pk : creater's account pk
 	 * @param group_dto : group dto
 	 * @param member_pk_list : participant's pk 
 	 */
 	public async CreateGroup(
+		creater_account_pk: string,
 		group_dto: GroupDTO,
 	) : Promise<EntType> 
 	{
@@ -42,17 +47,22 @@ abstract class GroupService<
 		if(member_pk_list.length < this.n_min_early_member)
 			return undefined;
 
-		const participant: Account[] = 
-			await this.account_repo.FindByPKs(member_pk_list);
+		// < Check is Account exist >
+		const account = await this.account_repo.FindByPKs(member_pk_list);
+		if( !account ) 
+			return undefined;
 
-		if(participant) {
-			const new_group = group_dto.toEntity() as EntType;
-			new_group.participant = participant;
+		const new_group = group_dto.toEntity() as EntType;
 
-			return await this.group_repo.save(new_group);
-		}
+		const result = await this.group_repo.save(new_group);
 
-		return undefined;
+		this.group_participant_repo.newParticipant(
+			group_dto.member_pk_list,
+			result.pk,
+			group_dto?.lowest_rank 
+		);
+
+		return result;
 	}
 
 	public async DeleteGroup(
@@ -64,12 +74,13 @@ abstract class GroupService<
 			where: {pk: group_pk}
 		});
 
-		// @TODO : Check -> is it Admin ( if not returning false )
+		// < Check is PK admin's PK >
+		this.group_participant_repo.findMany({
+			where: {participant_pk: admin_pk, group_pk}
+		});
 		
 		await this.group_repo.delete(target);
 		return true;
-
-		// return false;
 	}
 
 	public async Invite(
@@ -82,20 +93,22 @@ abstract class GroupService<
 		if(member_pk_list.length < this.n_min_early_member)
 			return undefined;
 		
-		const target_group = await this.group_repo.findOne({ 
-			where: {pk: group_pk}
-		});
+		// < Check is Group exist >
+		const group = await this.group_repo.findOne({ where: {pk: group_pk} });
+		if( !group )
+			return undefined;
 
-		const participant: Account[] = 
-			await this.account_repo.FindByPKs(member_pk_list);
+		// < Check is Account exist >
+		const account = await this.account_repo.FindByPKs(member_pk_list);
+		if( !account ) 
+			return undefined;
 
-		if(participant) {
-			target_group.participant = participant;
+		await this.group_participant_repo.newParticipant(
+			member_pk_list,
+			group_pk
+		);
 
-			return await this.group_repo.save(target_group);
-		}
-
-		return undefined;
+		return group;
 	}
 }
 
@@ -103,9 +116,10 @@ export class ChatGroupService extends GroupService< ChatGroupRepo, ChatGroup > {
 
 	constructor(
 		@InjectRepository() group_repo : ChatGroupRepo,
-		@InjectRepository() account_repo : AccountRepo
+		@InjectRepository() account_repo : AccountRepo,
+		@InjectRepository() group_participant_repo: GroupParticipantRepo
 	) {
-		super(group_repo, account_repo);
+		super(group_repo, account_repo, group_participant_repo);
 		this.n_min_early_member = 2;
 	}
 
@@ -115,9 +129,14 @@ export class PostGroupService extends GroupService< PostGroupRepo, PostGroup > {
 
 	constructor(
 		@InjectRepository() group_repo : PostGroupRepo,
-		@InjectRepository() account_repo : AccountRepo
+		@InjectRepository() account_repo : AccountRepo,
+		@InjectRepository() group_participant_repo: GroupParticipantRepo
 	) {
-		super(group_repo, account_repo);
+		super(group_repo, account_repo, group_participant_repo);
+	}
+
+	public async searchGroup(query: string) {
+		return this.group_repo.searchGroup(query);
 	}
 
 }

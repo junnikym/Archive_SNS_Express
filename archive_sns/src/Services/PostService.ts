@@ -3,7 +3,7 @@ import { InjectRepository } from "typeorm-typedi-extensions";
 import { getConnection } from "typeorm";
 
 import { Post } from '../Models/Entities/Post';
-import { PostRepo, PostOrder } from '../Models/Repositories/PostRepo';
+import { PostRepo } from '../Models/Repositories/PostRepo';
 import { PostDTO } from '../Models/DTOs/PostDTO';
 
 import { Account } from '../Models/Entities/Account';
@@ -72,7 +72,7 @@ export class PostService {
 	public async GetPostList(
 		offset 	: number,
 		limit 	: number,
-		order_by: PostOrder
+		order_by: number
 	): Promise<Post[]> 
 	{
 		return await this.post_repo.GetPost(offset, limit, order_by);

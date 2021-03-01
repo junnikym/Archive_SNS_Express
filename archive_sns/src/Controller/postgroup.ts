@@ -49,8 +49,10 @@ export class GroupControl {
         @Body() Group_DTO: GroupDTO,
         @Res() res: Response
     ) {
+        const user_pk = res.locals.jwt_payload.pk;
 
         const CreateGroup_Result = await this.PostGroup_Service.CreateGroup(
+            user_pk,
             Group_DTO
         );
 
@@ -130,5 +132,25 @@ export class GroupControl {
         };
 
         return { data : Invite_Result };
+    }
+
+    @HttpCode(200)
+    @Get("/:query")
+    @OpenAPI({
+        summary: "group search",
+        statusCode: "200",
+        responses: {
+            "403": {
+                description: "Forbidden",
+            },
+        },
+        security: [{ bearerAuth: [] }],
+    })
+    @UseBefore(VerifyAccessToken)
+    public async Search(
+        @Param('query') query: string,
+        @Res() res: Response
+    ) {
+        return { data : this.PostGroup_Service.searchGroup(query) };
     }
 }

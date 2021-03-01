@@ -3,6 +3,7 @@ import {
 	PrimaryGeneratedColumn,
 	Column,
 	OneToOne,
+	OneToMany,
 	JoinColumn,
 	ManyToOne,
 	ManyToMany,
@@ -10,7 +11,7 @@ import {
 } from "typeorm";
 import { IsNotEmpty } from "class-validator";
 import { Image } from "./Image";
-import { Group } from './Group';
+import { Group, GroupParticipant } from './Group';
 
 /**
  * Account Entity
@@ -41,8 +42,12 @@ export class Account {
 	@JoinColumn({ name: "profile_image" })
 	profile_image: Image | null;
 
-	@ManyToMany(type => Group, group => group.participant)
-	own_group: Group[];
+	@OneToMany(
+		type => GroupParticipant, 
+		group_participant => group_participant.participant,
+		{ cascade: true }
+	)
+	own_group: GroupParticipant[];
 
 	@Column({ name: "status_msg", nullable: true })
 	status_msg: string;

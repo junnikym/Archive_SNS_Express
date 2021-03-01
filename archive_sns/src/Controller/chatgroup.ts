@@ -45,9 +45,13 @@ export class GroupControl {
         @Body() Group_DTO: GroupDTO,
         @Res() res: Response,
     ) {
+        const user_pk = res.locals.jwt_payload.pk;
 
         const CreateGroup_Result = 
-            await this.Chat_GroupService.CreateGroup(Group_DTO);
+            await this.Chat_GroupService.CreateGroup(
+                user_pk,
+                Group_DTO
+            );
 
         if(!CreateGroup_Result)
             return res.status(400).send({
@@ -55,7 +59,7 @@ export class GroupControl {
                 success: false, 
                 message: "fail to CreateGroup"
             });
-
+        
         return { data : CreateGroup_Result };
     }
 
@@ -78,7 +82,6 @@ export class GroupControl {
             group_pk
         )
         
-        // @TODO : Status
         if(!DeleteGroup_Result)
             return res.status(400).send({
                 status: 400, 
