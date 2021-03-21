@@ -58,9 +58,9 @@ export class ChatControl {
         console.log(ws.socket.rooms);
 
         SendMsg_Result.notify.map( elem => {
-            ws.io.to(elem.listener_pk)
-                .emit('chat_notify', elem);
+            ws.io.to(elem.listener_pk).emit('chat_notify', elem);
         });
+         //io.to(방의 아이디).emit('이벤트명', 데이터);
 
         return { data: SendMsg_Result.chat };
     }
