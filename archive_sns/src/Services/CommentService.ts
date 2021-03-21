@@ -2,8 +2,8 @@ import { Service } from "typedi";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { getConnection } from "typeorm";
 
-import { PostComment, PostReComment } from '../Models/Entities/Comment';
-import { PostCommentRepo, PostReCommentRepo } from '../Models/Repositories/CommentRepo';
+import { PostComment, PostReComment, CommentNotify } from '../Models/Entities/Comment';
+import { PostCommentRepo, PostReCommentRepo, CommentNotifyRepo } from '../Models/Repositories/CommentRepo';
 import { CommentDTO, PostCommentDTO } from '../Models/DTOs/CommentDTO';
 
 enum SortBy {
@@ -17,7 +17,8 @@ class CommentService<
 	protected comment_repo;
 
 	constructor(
-		comment_repo: RepoType
+		comment_repo: RepoType,
+
 	) {
 		this.comment_repo = comment_repo;
 	}
@@ -80,7 +81,9 @@ class CommentService<
 export class PostCommentService extends CommentService< PostCommentRepo, PostComment> {
 
 	constructor(
-		@InjectRepository() comment_repo : PostCommentRepo
+		@InjectRepository() comment_repo : PostCommentRepo,
+		@InjectRepository() private comment_notify_repo: CommentNotifyRepo
+
 	) {
 		super(comment_repo);
 	}
@@ -112,6 +115,27 @@ export class PostCommentService extends CommentService< PostCommentRepo, PostCom
 	) {
 		return await this.comment_repo
 			.GetComment(post_pk, offset, limit, order_by);
+	}
+
+	public async GetCommentNotify(
+		account_pk: string
+	): Promise<CommentNotify[]>
+	{
+		return await this.comment_notify_repo.GetCommentNotify(account_pk);
+	}
+
+	public async CheckCommentNotify(
+		account_pk: string,
+		notify_pk: string
+	): Promise<boolean>
+	{
+		const result = 
+			await this.comment_notify_repo.CheckCommentNotify(account_pk, notify_pk);
+
+		if(result) 
+			return true;
+
+		return false;
 	}
 
 }

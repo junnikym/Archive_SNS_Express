@@ -71,5 +71,4 @@ export class ChatNotify {
 	@ManyToOne( (type) => ChatMsg, (chat_msg) => chat_msg.pk )
 	@JoinColumn({ name: "chat" })
 	chat: ChatMsg;
-
 }

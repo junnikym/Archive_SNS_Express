@@ -15,6 +15,7 @@ import { Post } from './Post';
 @Entity({ name: "comment" })
 @TableInheritance({ column: { type: "varchar", name: "type" } })
 export class Comment {
+	
 	@PrimaryGeneratedColumn("uuid")
 	pk: string;
 
@@ -81,4 +82,30 @@ export class PostReComment extends Comment {
 	@JoinColumn({ name: "root" })
 	root: Comment;
 
+}
+
+@Entity({ name: "comment_notify" })
+export class CommentNotify {
+
+	constructor(listener_pk: string, comment_pk: string) {
+		this.listener_pk = listener_pk;
+		this.comment_pk	 = comment_pk;
+	}
+
+	@PrimaryGeneratedColumn("uuid")
+	pk: string;
+
+	@Column({ name: "listener", length: 36 })
+	listener_pk: string;
+
+	@ManyToOne( (type) => Account, (Account) => Account.pk )
+	@JoinColumn({ name: "listener" })
+	listener: Account;
+
+	@Column({ name: "comment", length: 36 })
+	comment_pk: string;
+
+	@ManyToOne( (type) => Comment, (_comment) => _comment.pk )
+	@JoinColumn({ name: "comment" })
+	comment: Comment;
 }

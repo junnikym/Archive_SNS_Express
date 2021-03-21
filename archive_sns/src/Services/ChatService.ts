@@ -88,4 +88,5 @@ export class ChatService {
 
 		return false;
 	}
+	
 }

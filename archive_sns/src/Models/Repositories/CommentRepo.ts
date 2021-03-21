@@ -3,7 +3,7 @@ import {
 	EntityRepository, Repository, TransactionManager
 } from "typeorm";
 
-import { Comment, PostComment, PostReComment } from '../Entities/Comment';
+import { Comment, PostComment, PostReComment, CommentNotify } from '../Entities/Comment';
 
 export const enum PostOrder {
 	latest = "post.createAt",
@@ -79,6 +79,47 @@ export class PostReCommentRepo extends CommonCommentRepo<PostReComment> {
 				.skip(offset)
 				.take(limit)
 				.getMany();
+	}
+
+}
+
+@EntityRepository(CommentNotify)
+export class CommentNotifyRepo extends Repository<CommentNotify> {
+
+	public async CreateNew(entities: CommentNotify[]) {
+
+		const result = await this.save(entities);
+
+		return this.createQueryBuilder("comment_notify")
+			.leftJoinAndSelect("comment_notify.comment", "comment")
+			.leftJoinAndSelect("comment_notify.listener", "listener")
+			.where("comment_notify.pk IN (:...pks)", { pks: result.map(e=>e.pk) })
+			.getMany();
+	}
+	
+	public async GetCommentNotify (
+		account_pk: string
+	) {
+		return this.createQueryBuilder("comment_notify")
+				.leftJoinAndSelect("comment_notify.comment", "comment")
+				.where("comment_notify.listener_pk = :account_pk", {account_pk})
+				.orderBy("comment.createdAt", "DESC")
+				.getMany();
+	}
+
+	public async CheckCommentNotify(
+		account_pk: string,
+		notify_pk: string
+	) {
+		const target_notify = await this.createQueryBuilder("comment_notify")
+				.leftJoinAndSelect("comment_notify.comment", "comment")
+				.where("comment_notify.pk = :notify_pk", {notify_pk})
+				.getOne();
+
+		return await this.createQueryBuilder("comment_notify").delete()
+				.where("comment_notify.listener_pk = :account_pk", {account_pk})
+				.where("comment_notify.comment.pk = :pk", {group_pk: target_notify.comment.pk})
+				.execute();
 	}
 
 }
