@@ -38,17 +38,6 @@ export class SocketIO {
 				clearInterval(socket.interval);
 			});
 
-			
-			socket.on('send notice', function(){
-
-				socket.notice = "알림이 도착했다.";
-				const msg = socket.notice
-
-				console.log(socket.id);
-
-				this.io.socket.emit('notice', msg);
-			});
-
 			socket.interval = setInterval(()=> {
 				socket.emit('news','Hello Socket.IO', ip, socket.id);
 			},3000);

@@ -49,8 +49,6 @@ export class PostCommentRepo extends CommonCommentRepo<PostComment> {
 		limit: number, 
 		order_by: string 
 	) {
-		console.log(post_pk);
-
 		return this.createQueryBuilder("comment")
 				.leftJoinAndSelect("comment.writer", "writer")
 				.where("comment.post_pk = :post_pk", { post_pk: post_pk })

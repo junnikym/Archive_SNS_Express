@@ -34,11 +34,14 @@ export class ChatService {
 		const recivers = 
 			await this.chat_group_repo.getRecivers(account_pk, chat_result.group_pk);
 
+
 		const notify = [];
+
 		recivers.map( elem => 
 			notify.push(new ChatNotify(elem, chat_result.pk)) );
 
 		const notify_result = await this.chat_notify_repo.CreateNew(notify);
+
 
 		return {
 			chat: chat_result,
@@ -68,6 +71,9 @@ export class ChatService {
 		return await this.chat_msg_repo.GetChatMsg(group_pk, offset, limit);
 	}
 
+	/*
+		Notify
+	 */
 	public async GetChatNotify(
 		account_pk: string
 	): Promise<ChatNotify[]>

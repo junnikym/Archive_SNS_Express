@@ -8,7 +8,7 @@ class GroupRepo<T extends (ChatGroup | PostGroup)> extends Repository<T> {
 	 * @param sender_pk 
 	 * @param group_pk 
 	 */
-	public async getRecivers(sender_pk:string, group_pk: string) {
+	public async getRecivers(sender_pk: string, group_pk: string) {
 
 		const query_result = await this.createQueryBuilder("group")
 				.leftJoinAndSelect("group.participant", "participant")
