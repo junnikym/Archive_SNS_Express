@@ -23,10 +23,10 @@ export class ChatService {
 
 	public async SendMsg(
 		account_pk: string,
-		chat_msg_dto: ChatMsgDTO
+		chatmsg_dto: ChatMsgDTO
 	) : Promise<{chat: ChatMsg, notify: any[]}> 
 	{
-		const new_chat_msg = await chat_msg_dto.toEntity();
+		const new_chat_msg = await chatmsg_dto.toEntity();
 		new_chat_msg.writer_pk = account_pk;
 
 		const chat_result = await this.chat_msg_repo.save(new_chat_msg);
