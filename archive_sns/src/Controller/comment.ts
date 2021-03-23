@@ -93,9 +93,8 @@ export class CommentControl {
         CreateComment_Result.notify.map( elem => {
             ws.io.to(elem.listener_pk).emit('comment_notify', elem);
         });
-         //io.to(방의 아이디).emit('이벤트명', 데이터);
         
-        return { data : CreateComment_Result.comment };
+        return { data : CreateComment_Result };
     }
 
     @HttpCode(200)

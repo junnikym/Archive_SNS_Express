@@ -52,3 +52,26 @@ export class Friend {
 
 }
 
+@Entity({ name: "friend_notify" })
+export class FriendNotify {
+
+	constructor(listener_pk: string, friendship: number) {
+		this.listener_pk = listener_pk;
+		this.friendship	 = friendship;
+	}
+
+	@PrimaryGeneratedColumn("uuid")
+	pk: string;
+
+	@Column({ name: "listener", length: 36 })
+	listener_pk: string;
+
+	@ManyToOne( (type) => Account, (Account) => Account.pk )
+	@JoinColumn({ name: "listener" })
+	listener: Account;
+
+	@Column({ name: "friendship", length: 4 })
+	friendship: number;
+
+}
+

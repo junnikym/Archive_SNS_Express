@@ -1,7 +1,7 @@
 /**
  *  friend 관련 라우트
  */
-import { Response } from "express";
+import { Request, Response } from "express";
 import {
     JsonController,
     Get,
@@ -17,7 +17,6 @@ import {
     QueryParams,
 } from "routing-controllers";
 import { OpenAPI, ResponseSchema } from "routing-controllers-openapi";
-import sanitizeHtml from 'sanitize-html';
 // JWT middleware
 import { VerifyAccessToken } from "../Middleware/JWT_Auth";
 import { FriendService } from "../Services/FriendService";
@@ -44,6 +43,7 @@ export class FriendControl {
     @UseBefore(VerifyAccessToken)
     public async AddFriend(
         @Body() Friend_DTO: FriendDTO,
+        @Req() req: Request,
         @Res() res: Response
     ) {
     if(!Friend_DTO.account_pk || !Friend_DTO.friend_pk){
@@ -55,7 +55,8 @@ export class FriendControl {
     }
 
     const AddFriend_Result = await this.FriendService.AddFriend(
-        Friend_DTO
+        Friend_DTO,
+        req.body.listener_pk
     );
 
     if(!AddFriend_Result){
@@ -65,6 +66,13 @@ export class FriendControl {
             message : "Bad Request"
         });
     };
+
+    const ws = req.app.get('socket_io');
+        console.log(ws.socket.rooms);
+
+    AddFriend_Result.notify.map( elem => {
+        ws.io.to(elem.listener_pk).emit('friend_notify', elem);
+    });
 
     return { data : AddFriend_Result };
 }

@@ -62,7 +62,7 @@ export class ChatControl {
         });
          //io.to(방의 아이디).emit('이벤트명', 데이터);
 
-        return { data: SendMsg_Result.chat };
+        return { data: SendMsg_Result };
     }
 
     @HttpCode(200)
