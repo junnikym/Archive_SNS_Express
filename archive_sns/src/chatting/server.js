@@ -27,19 +27,9 @@ io.on('connection', function(socket){
 	socket.on('send message', function(content){
 		const msg = socket.name +' : ' + content;
 		console.log(msg);
-
-
 		io.emit('receive message', msg);
 	});
 
-	//알림
-	socket.on('send notice', function(){
-		socket.notice = "알림이 도착했다.";
-		const msg = socket.notice
-
-		console.log(socket.id);
-		this.io.socket.emit('notice', msg);
-	});
 	
 });
 

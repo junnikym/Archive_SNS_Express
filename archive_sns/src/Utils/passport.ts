@@ -14,13 +14,20 @@ router.use(session({
     secret: 'bshjsalgu',
     resave: false,
     saveUninitialized: true
-}))
+}));
+
 router.use(passport.initialize());
 router.use(passport.session());
 
-//사용자가 인증 성공을 성공 할 경우
-passport.serializeUser(function(user, done) {
-    done(null, user); // user객체가 deserializeUser로 전달됨.
+//사용자가 인증을 성공 할 경우
+passport.serializeUser(
+    async (user, done) => {
+        const google_access_token = await GoogleAccessTokenGenerator(
+            user.id,
+            user.json.email, 
+            user.displayName
+        );
+    done(null, user.json.email); // user객체가 deserializeUser로 전달됨.
 });
 
 //이후 사용자의 요청시 호출
@@ -36,16 +43,10 @@ passport.use(new GoogleStrategy({
     clientSecret: googleCredentials.web.client_secret,
     callbackURL: googleCredentials.web.redirect_uris
     }, 
-    async (accessToken, refreshToken, email, done) => {
-        const google_access_token = await GoogleAccessTokenGenerator(
-            email.id,
-            email._json.email, 
-            email.displayName
-        );
+    async ( user, done ) => {
+        console.log('userData :', user);
 
-        console.log('google_access_token :', google_access_token);
-
-        return done(null, email);
+        return done(null, user);
     }
 ));
 
@@ -61,10 +62,6 @@ router.get('/google/callback',
     })
 );
 
-/**
- * test
- */
-
 // 로그인 안되어있으면 튕구기 미들웨어
 const authenticateUser = (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -74,13 +71,17 @@ const authenticateUser = (req, res, next) => {
     }
 };
 
+
+/**
+ * test
+ */
 router.get(
     '/', 
     authenticateUser,
     async (req, res) => { 
 
     const googleid = req.user.id;
-    const googleemail = req.user._json.email;
+    const googleemail = req.user.json.email;
     const googlename = req.user.displayName;
 
     const content = 'login success<br>'+ 

@@ -70,7 +70,7 @@ export class FriendNotify {
 	@JoinColumn({ name: "listener" })
 	listener: Account;
 
-	@Column({ name: "friendship", length: 4 })
+	@Column({ name: "friendship" })
 	friendship: number;
 
 }

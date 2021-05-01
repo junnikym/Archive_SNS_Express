@@ -17,6 +17,7 @@ export class ChatMsgDTO {
 		const { content, group_pk } = this;
 
 		const chat_msg_ent = new ChatMsg;
+		
 		chat_msg_ent.content = sanitizeHtml(content);
 		chat_msg_ent.group_pk = sanitizeHtml(group_pk);
 
