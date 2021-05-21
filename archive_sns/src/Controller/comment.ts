@@ -1,7 +1,7 @@
 /**
  * 댓글 관련 라우트 생성,삭제,수정
  */
-import { Response } from "express";
+import { Request, Response } from "express";
 import {
     JsonController,
     Get,
@@ -68,13 +68,15 @@ export class CommentControl {
     @UseBefore(VerifyAccessToken)
     public async CreateComment(
         @Body() PostComment_DTO: PostCommentDTO,
-        @Res() res: Response
+        @Res() res: Response,
+        @Req() req: Request
     ) {
         const user_pk = res.locals.jwt_payload.pk;
 
         const CreateComment_Result = await this.post_comment_service.CreateComment(
             user_pk,
-            PostComment_DTO
+            PostComment_DTO,
+            req.body.group_pk
         )
 
         if(!CreateComment_Result){
@@ -85,7 +87,14 @@ export class CommentControl {
             });
         };
 
-        return { data : CreateComment_Result};
+        const ws = req.app.get('socket_io');
+        console.log(ws.socket.rooms);
+
+        CreateComment_Result.notify.map( elem => {
+            ws.io.to(elem.listener_pk).emit('comment_notify', elem);
+        });
+        
+        return { data : CreateComment_Result };
     }
 
     @HttpCode(200)

@@ -2,7 +2,7 @@ import {
 	EntityRepository, Repository
 } from "typeorm";
 
-import { Friend } from '../Entities/Friend';
+import { Friend, FriendNotify } from '../Entities/Friend';
 
 @EntityRepository(Friend)
 export class FriendRepo extends Repository<Friend> {
@@ -35,6 +35,22 @@ export class FriendRepo extends Repository<Friend> {
 			.andWhere("friend.accept =: value", { value: false })
 			.getMany();
 
+	}
+
+}
+
+@EntityRepository(FriendNotify)
+export class FriendNotifyRepo extends Repository<FriendNotify> {
+
+	public async CreateNew(entities: FriendNotify) {
+		
+		const result = await this.save(entities);
+
+		return this.createQueryBuilder("friend_notify")
+			.leftJoinAndSelect("friend_notify.friendship", "friendship")
+			.leftJoinAndSelect("friend_notify.listener", "listener")
+			.where("friend_notify.pk IN (:pks)", { pks: result + ".pk" })
+			.getMany();
 	}
 
 }

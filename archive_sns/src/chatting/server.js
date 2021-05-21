@@ -24,11 +24,12 @@ io.on('connection', function(socket){
 	});
 	
 	// 메세지를 보냈을 때 - 3 
-	socket.on('send message', function(name){
-		const msg = socket.name +' : ' + name;
+	socket.on('send message', function(content){
+		const msg = socket.name +' : ' + content;
 		console.log(msg);
 		io.emit('receive message', msg);
 	});
+
 	
 });
 

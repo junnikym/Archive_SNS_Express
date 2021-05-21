@@ -23,10 +23,10 @@ export class ChatService {
 
 	public async SendMsg(
 		account_pk: string,
-		chat_msg_dto: ChatMsgDTO
+		chatmsg_dto: ChatMsgDTO
 	) : Promise<{chat: ChatMsg, notify: any[]}> 
 	{
-		const new_chat_msg = await chat_msg_dto.toEntity();
+		const new_chat_msg = await chatmsg_dto.toEntity();
 		new_chat_msg.writer_pk = account_pk;
 
 		const chat_result = await this.chat_msg_repo.save(new_chat_msg);
@@ -35,6 +35,7 @@ export class ChatService {
 			await this.chat_group_repo.getRecivers(account_pk, chat_result.group_pk);
 
 		const notify = [];
+
 		recivers.map( elem => 
 			notify.push(new ChatNotify(elem, chat_result.pk)) );
 
@@ -71,6 +72,9 @@ export class ChatService {
 		return await this.chat_msg_repo.GetChatMsg(group_pk, offset, limit);
 	}
 
+	/*
+		Notify
+	 */
 	public async GetChatNotify(
 		account_pk: string
 	): Promise<ChatNotify[]>
@@ -91,4 +95,5 @@ export class ChatService {
 
 		return false;
 	}
+	
 }

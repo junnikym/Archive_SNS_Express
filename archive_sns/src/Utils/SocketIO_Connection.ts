@@ -19,17 +19,22 @@ export class SocketIO {
 			const req = socket.request;
 			const ip = req.headers['x-forwarrded-for'] || req.connection.remoteAddress;
 
+			console.log('클라이언트 접속 ( ip, socket.id ) :', ip, socket.id);
+			console.log("login ( socket.rooms ) :", socket.rooms);
+
 			socket.on('login_report', (token) => {
 				const decrypted_token = 
 					jwt.verify(token, env.jwt.secret_access_key);
 				
 				socket.join(decrypted_token.pk, function() {
 					this.io.to(decrypted_token.pk).emit('login_report_success', decrypted_token.pk);
+					//io.to(방의 아이디).emit('이벤트명', 데이터);
 				});
+				console.log("login2 ( socket.rooms ) :", socket.rooms);
 			});
 
 			socket.on('disconnect', () => {
-				console.log('클라이언트 접속 해제', ip, socket.id);
+				console.log('클라이언트 접속 해제( ip, socket.id ) :', ip, socket.id);
 				clearInterval(socket.interval);
 			});
 

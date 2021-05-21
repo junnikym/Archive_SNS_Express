@@ -2,15 +2,17 @@ import { Service } from "typedi";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { getConnection } from "typeorm";
 
-import { FriendRepo } from "../Models/Repositories/FriendRepo";
+import { FriendRepo, FriendNotifyRepo } from "../Models/Repositories/FriendRepo";
 import { FriendDTO } from '../Models/DTOs/FriendDTO';
-import { Friend } from '../Models/Entities/Friend';
+import { Friend, FriendNotify } from '../Models/Entities/Friend';
 
 @Service()
 export class FriendService {
 
 	constructor (
-		@InjectRepository() private friend_repo: FriendRepo
+		@InjectRepository() private friend_repo: FriendRepo,
+		@InjectRepository() private friend_notify_repo: FriendNotifyRepo
+
 	) { }
 
 	/**
@@ -19,10 +21,21 @@ export class FriendService {
 	 * @param friend_dto : Friend DTO
 	 */
 	public async AddFriend(
-		friend_dto: FriendDTO
-	): Promise<Friend> 
+		friend_dto: FriendDTO,
+		listener_pk: string
+	): Promise<{AddFriend: Friend, notify: FriendNotify[]}> 
 	{
-		return await this.friend_repo.save( friend_dto.toEntity() );
+
+		const AddFriend_Result = await this.friend_repo.save(friend_dto.toEntity());
+
+		const notify = new FriendNotify(listener_pk, 1);
+
+		const Notify_Result = await this.friend_notify_repo.CreateNew(notify);
+		
+		return {
+			AddFriend: AddFriend_Result,
+			notify: Notify_Result
+		}
 	}
 
 	/**
